@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Maven__org_kuali_rice_rice-web_war_2_2_1-SNAPSHOT">
+    <output-path>$PROJECT_DIR$/out/artifacts/Maven__org_kuali_rice_rice_web_war_2_2_1_SNAPSHOT</output-path>
+    <root id="root">
+      <element id="library" level="project" name="Maven: org.kuali.rice:rice-web:war:2.2.1-SNAPSHOT" />
+    </root>
+  </artifact>
+</component>

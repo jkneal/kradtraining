@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <bean id="Krtrain-BookEntryViewMenu" parent="Uif-FormView" p:headerText="Book Entry Menu">
+        <property name="items">
+            <list>
+                <ref bean="Krtrain-BookEntryPage1"/>
+                <ref bean="Krtrain-BookEntryPage2"/>
+            </list>
+        </property>
+        <property name="navigation">
+            <ref bean="Krtrain-BookEntryMenuNavigation"/>
+        </property>
+        <property name="formClass" value="org.kuali.rice.krtrain.book.BookEntryForm"/>
+        <property name="additionalCssFiles">
+            <value>@{#ConfigProperties['application.url']}/css/krad-training.css
+            </value>
+        </property>
+        <property name="additionalScriptFiles">
+            <value>@{#ConfigProperties['application.url']}/js/krad-training.js
+            </value>
+        </property>
+        <property name="applicationHeader">
+            <bean parent="Uif-HeaderBase" p:template="/WEB-INF/templates/ftl/applicationHeader.ftl"
+                  p:templateName="appheader"/>
+        </property>
+        <property name="applicationFooter">
+            <bean parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
+                  p:templateName="appfooter"/>
+        </property>
+        <property name="defaultBindingObjectPath" value="book"/>
+    </bean>
+
+    <bean id="Krtrain-BookEntryPage1" parent="Uif-Page">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="titleLbl" parent="Uif-Label" p:labelText="Book Title"
+                                  p:labelForComponentId="title"/>
+
+                            <bean id="title" parent="Uif-InputField" p:propertyName="title"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="typeCode" parent="Uif-InputField" p:propertyName="typeCode"
+                      p:label="Book Type" p:shortLabel="Bk Typ"
+                      p:propertyNamesForAdditionalDisplay="bookType.description" p:uppercaseValue="true">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krtrain.book.BookType"
+                              p:fieldConversions="typeCode:typeCode"/>
+                    </property>
+
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.krtrain.book.BookType"
+                              p:inquiryParameters="typeCode:typeCode" p:enableDirectInquiry="true"/>
+                    </property>
+
+                    <property name="attributeQuery">
+                        <bean parent="Uif-AttributeQueryConfig"
+                              p:dataObjectClassName="org.kuali.rice.krtrain.book.BookType"
+                              p:queryFieldMapping="typeCode:typeCode"
+                              p:returnFieldMapping="description:bookType.description"/>
+                    </property>
+                </bean>
+
+                <bean id="isbn" parent="Uif-InputField-LabelTop" p:propertyName="isbn"
+                      p:label="ISBN" p:instructionalText="Please enter the [b]newest ISBN[/b] number available"/>
+
+                <bean id="publisher" parent="Uif-InputField-LabelRight" p:propertyName="publisher"
+                      p:label="Publisher"/>
+
+                <bean parent="Uif-DataField" p:propertyName="entryDate" p:bindingInfo.bindToForm="true"
+                      p:label="Entry Date"
+                      p:defaultValue="01/03/2013"/>
+
+                <bean parent="Uif-InputField" p:propertyName="bindingType" p:label="Binding Type"
+                      p:defaultValueFinderClass="org.kuali.rice.krtrain.finders.DefaultBindingTypeValueFinder"/>
+
+                <bean parent="Uif-InputField" p:bindingInfo.bindingObjectPath="book.author"
+                      p:propertyName="authorName" p:label="Author Name" p:additionalHiddenPropertyNames="authorId">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krtrain.book.Author"
+                              p:fieldConversions="authorId:authorId,authorName:authorName,email:email"
+                              p:lookupParameters="email:email" p:readOnlySearchFields="email"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField"
+                      p:bindingInfo.bindByNamePrefix="author" p:propertyName="email" p:label="Author Email"/>
+
+                <bean parent="Uif-InputField" p:bindingInfo.bindingObjectPath="book.ratings"
+                      p:bindingInfo.bindToMap="true" p:propertyName="NYTIMES"
+                      p:label="[link=http://www.nytimes.com]New York Times[/link] Rating"/>
+
+                <bean parent="Uif-InputField" p:bindingInfo.bindingObjectPath="book.ratings"
+                      p:bindingInfo.bindToMap="true" p:propertyName="AMAZON"
+                      p:label="[link=amazon.com]Amazon[/link] Rating"/>
+
+                <bean parent="Uif-InputField" p:propertyName="edition" p:label="Edition" p:readOnly="true"
+                      p:propertyEditorClass="org.kuali.rice.krtrain.editors.EditionPropertyEditor"/>
+
+                <bean parent="Uif-InputField" p:propertyName="coverArt" p:label="Cover" p:readOnly="true"
+                      p:readOnlyDisplaySuffixPropertyName="coverArtist"/>
+
+                <bean parent="Uif-InputField" p:propertyName="author.numberWrittenBooks" p:label="Written Books"
+                      p:readOnly="true"
+                      p:readOnlyDisplayReplacement="@{book.author.numberWrittenBooks} (@{book.author.numberPublishedBooks} published)"/>
+
+                <bean parent="Uif-InputField" p:propertyName="wearAndTear" p:label="Wear and Tear" p:readOnly="true"
+                      p:readOnlyListDisplayType="OL"/>
+
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherCode" p:label="Publisher Code"
+                      p:minLength="1" p:maxLength="4" p:constraintText="#xxx format"
+                      p:propertyNamesForAdditionalDisplay="pubCode.name">
+                    <property name="control">
+                        <bean parent="Uif-SmallTextControl"/>
+                    </property>
+
+                    <property name="attributeQuery">
+                        <bean parent="Uif-AttributeQueryConfig"
+                              p:queryMethodArgumentFieldList="publisherCode" p:returnFieldMapping="name:pubCode.name"
+                              p:queryMethodInvokerConfig.staticMethod="org.kuali.rice.krtrain.util.QueryUtils.retrievePublisherCode"/>
+                    </property>
+
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:sourcePropertyName="code"
+                              p:suggestQuery.dataObjectClassName="org.kuali.rice.krtrain.book.PublisherCode"/>
+                    </property>
+                </bean>
+
+                <bean id="publisherGroup" parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherAddress"
+                                  p:label="Publisher Address">
+                                <property name="control">
+                                    <bean parent="Uif-MediumTextControl" p:watermarkText="street # name"/>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherState"
+                                  p:label="Publisher State">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="2"/>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="publicationDate"
+                                  p:label="Publisher Date">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="shortSummary" p:label="Short Summary">
+                    <property name="control">
+                        <bean parent="Uif-SmallTextAreaControl"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="longSummary" p:label="Long Summary">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="8" p:cols="80" p:textExpand="true"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="coverImage" p:label="Cover Image">
+                    <property name="control">
+                        <bean parent="Uif-FileControl"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="fiction" p:label="Fiction?">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="availableFormats" p:label="Available Formats">
+                    <property name="control">
+                        <bean parent="Uif-VerticalCheckboxesControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="P" p:value="Printed"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="K" p:value="Kindle"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="A" p:value="AudioBook"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="averageReview" p:label="Average Review">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="[color=yellow]1 Star[/color]"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="[color=green]2 Star[/color]"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="3" p:value="[color=blue]3 Star[/color]"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="4" p:value="[color=orange]5 Star[/color]"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="5" p:value="[color=red]5 Star[/color]"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="languages" p:label="Languages">
+                    <property name="control">
+                        <bean parent="Uif-MultiSelectControl"/>
+                    </property>
+                    <property name="optionsFinderClass" value="org.kuali.rice.krtrain.finders.BookLanguageOptions"/>
+                </bean>
+
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveBook" p:actionLabel="Save Book"
+                      p:preSubmitCall="return promptBeforeSave();" p:loadingMessageText="Saving Book..."
+                      p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP"/>
+
+                <bean parent="Uif-ActionLink" p:methodToCall="viewRatings" p:actionLabel="View More Ratings"/>
+
+                <bean parent="Uif-ActionImage" p:methodToCall="viewAuthorBooks">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image"
+                              p:source="@{#ConfigProperties['application.url']}/images/book.png"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="viewPublisher"
+                      p:actionLabel="Publisher Summary" p:actionParameters="format:summary"
+                      p:refreshId="publisherGroup"
+                      p:successCallback="alert('publisher information retrieved');"/>
+
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="viewPublisher"
+                      p:refreshId="publisherGroup"
+                      p:actionLabel="Publisher Details" p:actionParameters="format:detail"/>
+
+                <bean parent="Uif-PrimaryActionButton-Small" p:actionScript="clearForm();" p:actionLabel="Clear Form"/>
+
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel"
+                      p:performDirtyValidation="true"/>
+
+                <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['application.url']}/images/publisher.png"
+                      p:altText="publisher logo" p:captionHeaderText="Publisher Logo"
+                      p:cutlineText="logo created by [i]entangled publishing[/i], [id=copyrightImage]2013">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>border-photo</value>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-Message">
+                    <property name="messageText">
+                      <value>
+                        [b]Copyright Information[/b] &lt;br&gt;
+                        United States of America: US copyright law can be found in various pieces of legislation dealing &lt;br&gt;
+                        with copyright and responsibility for the administrative aspects of copyright law rests with &lt;br&gt;
+                        the United States Copyright Office, whose website can be found at: [link=http://www.copyright.gov/]http://www.copyright.gov/[/link].
+                      </value>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>message-copyright</value>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-Message" p:messageText="There are @{book.numberPublisherBooks} books from this publisher.">
+                      <property name="cssClasses">
+                          <list merge="true">
+                              <value>message-highlight</value>
+                          </list>
+                      </property>
+                </bean>
+
+                <bean parent="Uif-Message"
+                      p:messageText="[css=message-caps]This entry[/css] is made by [0] to be valid for [1] days.">
+                    <property name="inlineComponents">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="preparerSignature"
+                                  p:fieldLabel.render="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="numberValidDays" p:fieldLabel.render="false">
+                                <property name="control">
+                                    <bean parent="Uif-SpinnerControl" p:size="2"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HeaderTwo" p:headerText="Publisher Information">
+                    <property name="rightGroup">
+                        <bean parent="Uif-HeaderRightGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-Link" p:linkText="List of Publishers" p:target="_blank"
+                                          p:href="http://en.wikipedia.org/wiki/List_of_English-language_book_publishing_companies"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HeaderThree" p:headerText="Author Information">
+                    <property name="lowerGroup">
+                        <bean parent="Uif-HeaderLowerGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-InputField" p:propertyName="author.numberWrittenBooks" p:label="Written Books"
+                                          p:readOnly="true"
+                                          p:readOnlyDisplayReplacement="@{book.author.numberWrittenBooks} (@{book.author.numberPublishedBooks} published)"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="copyrightImage" parent="Uif-Image"
+          p:source="@{#ConfigProperties['application.url']}/images/copyright.png"/>
+
+    <bean id="Krtrain-BookEntryPage2" parent="Uif-Page">
+    </bean>
+
+    <bean id="Krtrain-BookEntryMenuNavigation" parent="Uif-MenuNavigationGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderTwo" p:headerText="Navigation"/>
+                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage1"
+                      p:actionLabel="Book Indexing"/>
+                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage2"
+                      p:actionLabel="Book Content"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Krtrain-BookEntryViewTabs" parent="Krtrain-BookEntryViewMenu" p:headerText="Book Entry Tabs">
+        <property name="navigation">
+            <ref bean="Krtrain-BookEntryTabNavigation"/>
+        </property>
+    </bean>
+
+    <bean id="Krtrain-BookEntryTabNavigation" parent="Uif-TabNavigationGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage1"
+                      p:actionLabel="Book Indexing"/>
+                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage2"
+                      p:actionLabel="Book Content"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>                    

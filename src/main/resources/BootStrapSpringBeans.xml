@@ -1,0 +1,70 @@
+<!-- ~ Copyright 2006-2012 The Kuali Foundation ~ ~ Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); ~ you may not use this file 
+	except in compliance with the License. ~ You may obtain a copy of the License 
+	at ~ ~ http://www.opensource.org/licenses/ecl2.php ~ ~ Unless required by 
+	applicable law or agreed to in writing, software ~ distributed under the 
+	License is distributed on an "AS IS" BASIS, ~ WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. ~ See the License for the specific 
+	language governing permissions and ~ limitations under the License. -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<!-- Kuali Rice ArcheType Help This is the bootstrap Spring file loads the 
+		Kuali Rice Configuration such as transaction managers, datasources and the 
+		Rice Configurer. Project Spring Beans can be placed at the end of this file. 
+		Also notice this Spring file loads the internal BootStrapConfig.xml file. 
+		Properties in this file can be referenced in this file using Spring's property 
+		replacement mechanism. -->
+		
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" value="#{bootstrapConfig.getProperties()}" />
+	</bean>
+		
+    <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
+		<property name="configLocations">
+			<list>
+				<value>classpath:BootStrapConfig.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="configProperties" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="bootstrapConfig" />
+		<property name="targetMethod" value="getProperties" />
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
+		<property name="arguments">
+			<list>
+				<ref bean="bootstrapConfig" />
+			</list>
+		</property>
+	</bean>
+
+	<import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
+	<import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml" />
+	<import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml" />
+
+	<bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
+		<property name="dataSource" ref="riceDataSource${connection.pool.impl}" />
+		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
+		<property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
+		<property name="userTransaction" ref="jtaUserTransaction" />
+	</bean>
+
+	<bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer" />
+	<bean id="kradConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer" />
+	<bean id="kimConfigurer" class="org.kuali.rice.kim.config.KIMConfigurer" />
+	<bean id="kenConfigurer" class="org.kuali.rice.ken.impl.config.KENConfigurer" />
+	<bean id="coreServiceConfigurer" class="org.kuali.rice.coreservice.impl.config.CoreServiceConfigurer" />
+	<bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer" />
+	<bean id="locationConfigurer" class="org.kuali.rice.location.impl.config.LocationConfigurer" />
+	
+	<import resource="classpath:KradTrainingModuleBeans.xml"/>
+
+</beans>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="Book" parent="Book-parentBean"/>
+    <bean id="Book-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.rice.krtrain.book.Book"/>
+        <property name="objectLabel" value="Book"/>
+        <property name="attributes">
+            <list>
+                <ref bean="Book-id"/>
+                <ref bean="Book-title"/>
+                <ref bean="Book-typeCode"/>
+                <ref bean="Book-isbn"/>
+                <ref bean="Book-publisher"/>
+                <ref bean="Book-publicationDate"/>
+                <ref bean="Book-price"/>
+            </list>
+        </property>
+        <property name="titleAttribute" value="title"/>
+    </bean>
+
+    <bean id="Book-id" parent="Book-id-parentBean"/>
+    <bean id="Book-id-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+        <property name="name" value="id"/>
+        <property name="label" value="Book ID"/>
+        <property name="shortLabel" value="ID"/>
+        <property name="maxLength" value="14"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="Book-title" parent="Book-title-parentBean"/>
+    <bean id="Book-title-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="title"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Book Title"/>
+        <property name="shortLabel" value="Title"/>
+        <property name="maxLength" value="100"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="50"/>
+        </property>
+        <property name="required" value="true"/>
+    </bean>
+
+    <bean id="Book-typeCode" parent="Book-typeCode-parentBean"/>
+    <bean id="Book-typeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="typeCode"/>
+        <property name="label" value="Book Type"/>
+        <property name="shortLabel" value="Type"/>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder"
+                  p:businessObjectClass="org.kuali.rice.krtrain.book.BookType" p:keyAttributeName="typeCode"
+                  p:labelAttributeName="name"/>
+        </property>
+    </bean>
+
+    <bean id="Book-isbn" parent="Book-isbn-parentBean"/>
+    <bean id="Book-isbn-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="isbn"/>
+        <property name="label" value="ISBN"/>
+        <property name="shortLabel" value="ISBN"/>
+        <property name="maxLength" value="24"/>
+        <property name="validCharactersConstraint">
+            <bean parent="ValidCharactersConstraint" p:messageKey="error.invalidISBN"
+                  p:value="^(97(8|9))?\d{9}(\d|X)$"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="24"/>
+        </property>
+    </bean>
+
+    <bean id="Book-publisher" parent="Book-publisher-parentBean"/>
+    <bean id="Book-publisher-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="publisher"/>
+        <property name="label" value="Publisher"/>
+        <property name="shortLabel" value="Publisher"/>
+        <property name="maxLength" value="100"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="50"/>
+        </property>
+    </bean>
+
+    <bean id="Book-publicationDate" parent="Book-publicationDate-parentBean"/>
+    <bean id="Book-publicationDate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="publicationDate"/>
+        <property name="label" value="Publication Date"/>
+        <property name="shortLabel" value="Pub Date"/>
+        <property name="validCharactersConstraint">
+            <bean parent="DatePatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DateControl"/>
+        </property>
+    </bean>
+
+    <bean id="Book-price" parent="Book-price-parentBean"/>
+    <bean id="Book-price-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="price"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Price"/>
+        <property name="shortLabel" value="Price"/>
+        <property name="maxLength" value="10"/>
+        <property name="required" value="false"/>
+        <property name="validCharactersConstraint">
+            <bean parent="FloatingPointPatternConstraint" p:allowNegative="false"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CurrencyTextControl"/>
+        </property>
+    </bean>
+
+</beans>

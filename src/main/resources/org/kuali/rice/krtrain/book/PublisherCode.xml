@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="PublisherCode" parent="PublisherCode-parentBean"/>
+    <bean id="PublisherCode-parentBean" parent="DataObjectEntry" abstract="true">
+        <property name="dataObjectClass" value="org.kuali.rice.krtrain.book.PublisherCode"/>
+        <property name="objectLabel" value="Publisher Code"/>
+        <property name="attributes">
+            <list merge="true">
+                <ref bean="PublisherCode-Code"/>
+                <ref bean="PublisherCode-Name"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PublisherCode-Code" parent="PublisherCode-Code-parentBean"/>
+    <bean id="PublisherCode-Code-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="code"/>
+        <property name="label" value="Code"/>
+        <property name="shortLabel" value="Cd"/>
+        <property name="controlField">
+            <bean parent="Uif-SmallTextControl"/>
+        </property>
+    </bean>
+
+    <bean id="PublisherCode-Name" parent="PublisherCode-Name-parentBean"/>
+    <bean id="PublisherCode-Name-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="name"/>
+        <property name="label" value="Name"/>
+        <property name="shortLabel" value="Nm"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="100"/>
+        </property>
+    </bean>
+
+</beans>

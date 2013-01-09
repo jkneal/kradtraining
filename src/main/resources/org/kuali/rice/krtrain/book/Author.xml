@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="Author" parent="Author-parentBean"/>
+    <bean id="Author-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.rice.krtrain.book.Author"/>
+        <property name="objectLabel" value="Author"/>
+        <property name="attributes">
+            <list>
+                <ref bean="Author-authorId"/>
+                <ref bean="Author-authorName"/>
+                <ref bean="Author-email"/>
+                <ref bean="Author-phoneNumber"/>
+            </list>
+        </property>
+        <property name="titleAttribute" value="authorName"/>
+    </bean>
+
+    <bean id="Author-authorId" parent="Author-authorId-parentBean"/>
+    <bean id="Author-authorId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+        <property name="name" value="authorId"/>
+        <property name="label" value="Author Name"/>
+        <property name="shortLabel" value="ID"/>
+        <property name="maxLength" value="14"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-SmallTextControl"/>
+        </property>
+        <property name="summary" value="ID identifying the Author."/>
+        <property name="description" value="ID identifying the Author."/>
+    </bean>
+
+    <bean id="Author-authorName" parent="Author-authorName-parentBean"/>
+    <bean id="Author-authorName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="authorName"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Author Name"/>
+        <property name="shortLabel" value="Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="50"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="summary" value="Name identifying the Author."/>
+        <property name="description" value="Name identifying the Author."/>
+    </bean>
+
+    <bean id="Author-email" parent="Author-email-parentBean"/>
+    <bean id="Author-email-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="email"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Email Id"/>
+        <property name="shortLabel" value="Email"/>
+        <property name="maxLength" value="100"/>
+        <property name="validCharactersConstraint">
+            <bean parent="EmailAddressPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="50"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="summary" value="Email identifying the Author."/>
+        <property name="description" value="Email identifying the Author."/>
+    </bean>
+
+    <bean id="Author-phoneNumber" parent="Author-phoneNumber-parentBean"/>
+    <bean id="Author-phoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="phoneNumber"/>
+        <property name="label" value="Phone No."/>
+        <property name="shortLabel" value="Phone"/>
+        <property name="maxLength" value="20"/>
+        <property name="validCharactersConstraint">
+            <bean parent="PhoneNumberPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="50"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="summary" value="Name identifying the Author."/>
+        <property name="description" value="Name identifying the Author."/>
+    </bean>
+
+</beans>

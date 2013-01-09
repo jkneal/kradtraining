@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<descriptor-repository version="1.0">
+
+    <jdbc-connection-descriptor
+            jcd-alias="dataSource-samplepp"
+            default-connection="false"
+            jdbc-level="3.0"
+            eager-release="false"
+            batch-mode="false"
+            useAutoCommit="0"
+            ignoreAutoCommitExceptions="false">
+        <object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl"/>
+        <sequence-manager className="org.kuali.rice.core.framework.persistence.ojb.ConfigurableSequenceManager">
+            <attribute attribute-name="property.prefix" attribute-value="datasource.ojb.sequenceManager"/>
+        </sequence-manager>
+    </jdbc-connection-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krtrain.book.BookType" table="KRTRAIN_BOOK_TYP_T">
+        <field-descriptor name="typeCode" column="TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krtrain.book.Author" table="KRTRAIN_AUTHOR_T">
+        <field-descriptor name="authorId" column="AUTHOR_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"
+                          sequence-name="KRTRAIN_AUTHOR_ID_S"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="authorName" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="email" column="EMAIL" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="phoneNumber" column="PHONE_NBR" jdbc-type="VARCHAR" index="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krtrain.book.PublisherCode" table="KRTRAIN_PUB_CD_T">
+        <field-descriptor name="code" column="PUB_CD" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+</descriptor-repository>

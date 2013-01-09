@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="Chapter" parent="Chapter-parentBean"/>
+    <bean id="Chapter-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.rice.krtrain.book.Chapter"/>
+        <property name="objectLabel" value="Chapter"/>
+        <property name="attributes">
+            <list>
+                <ref bean="Chapter-number"/>
+                <ref bean="Chapter-title"/>
+                <ref bean="Chapter-part"/>
+                <ref bean="Chapter-summary"/>
+                <ref bean="Chapter-numberPages"/>
+                <ref bean="Chapter-recap"/>
+            </list>
+        </property>
+        <property name="titleAttribute" value="title"/>
+    </bean>
+
+    <bean id="Chapter-number" parent="Chapter-number-parentBean"/>
+    <bean id="Chapter-number-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="number"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Number"/>
+        <property name="shortLabel" value="Num"/>
+        <property name="maxLength" value="2"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="2"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="required" value="true"/>
+    </bean>
+
+    <bean id="Chapter-title" parent="Chapter-title-parentBean"/>
+    <bean id="Chapter-title-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="title"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Title"/>
+        <property name="shortLabel" value="Title"/>
+        <property name="maxLength" value="40"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40"/>
+        </property>
+        <property name="required" value="true"/>
+    </bean>
+
+    <bean id="Chapter-part" parent="Chapter-part-parentBean"/>
+    <bean id="Chapter-part-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="part"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Part"/>
+        <property name="shortLabel" value="Part"/>
+        <property name="maxLength" value="30"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40"/>
+        </property>
+        <property name="required" value="false"/>
+    </bean>
+
+    <bean id="Chapter-summary" parent="Chapter-summary-parentBean"/>
+    <bean id="Chapter-summary-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="summary"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Summary"/>
+        <property name="shortLabel" value="Summary"/>
+        <property name="maxLength" value="120"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-LargeTextAreaControl"/>
+        </property>
+        <property name="required" value="false"/>
+    </bean>
+
+    <bean id="Chapter-numberPages" parent="Chapter-numberPages-parentBean"/>
+    <bean id="Chapter-numberPages-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="numberPages"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Number Pages"/>
+        <property name="shortLabel" value="Num Pages"/>
+        <property name="maxLength" value="3"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="3"/>
+        </property>
+        <property name="required" value="false"/>
+    </bean>
+
+    <bean id="Chapter-recap" parent="Chapter-recap-parentBean"/>
+    <bean id="Chapter-recap-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="recap"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Has Recap?"/>
+        <property name="shortLabel" value="Recap?"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>
+
+</beans>
