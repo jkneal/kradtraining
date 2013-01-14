@@ -65,6 +65,8 @@
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Collections.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/book/IndexEntry.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/book/Book.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Dialogs.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Beans.xml</file>
         </fileset>
       </configuration>
     </facet>
@@ -80,7 +82,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-core-api:2.2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-core-api:2.3.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.kuali.db.ojb:db-ojb:1.0.4-patch8" level="project" />
     <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.1" level="project" />
     <orderEntry type="library" name="Maven: commons-dbcp:commons-dbcp:1.4" level="project" />
@@ -108,7 +110,7 @@
     <orderEntry type="library" name="Maven: com.google.guava:guava:11.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:1.3.9" level="project" />
     <orderEntry type="library" name="Maven: com.sun.xml.bind:jaxb-impl:2.2.6" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-core-framework:2.2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-core-framework:2.3.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:3.1.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-orm:3.1.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:3.1.0.RELEASE" level="project" />
@@ -132,19 +134,19 @@
     <orderEntry type="library" name="Maven: org.objectweb.howl:howl:1.0.1-1" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.btm:btm:2.1.2" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-core-impl:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-krad-app-framework:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-kim-api:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-kew-api:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-ksb-api:2.2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-core-impl:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-krad-app-framework:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-kim-api:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-kew-api:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-ksb-api:2.3.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: javax.ws.rs:jsr311-api:1.1.1" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-location-api:2.2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-location-api:2.3.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: net.sf.ehcache:ehcache-core:2.5.0" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-krad-web-framework:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-core-service-framework:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-core-service-api:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-kew-framework:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-kim-framework:2.2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-krad-web-framework:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-core-service-framework:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-core-service-api:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-kew-framework:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-kim-framework:2.3.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:3.1.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:3.1.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.18" level="project" />
@@ -153,7 +155,7 @@
     <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.6.8" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.6.8" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: commons-digester:commons-digester:2.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-kns:2.2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-kns:2.3.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.apache.struts:struts-core:1.3.10" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: commons-chain:commons-chain:1.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: commons-validator:commons-validator:1.3.1" level="project" />
@@ -206,34 +208,34 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.quartz-scheduler:quartz:1.8.4" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: commons-fileupload:commons-fileupload:1.2.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.javassist:javassist:3.15.0-GA" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-core-web:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-core-service-impl:2.2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-core-web:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-core-service-impl:2.3.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: xalan:xalan:2.7.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: xalan:serializer:2.7.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: xml-apis:xml-apis:1.3.04" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-core-service-web:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-edl-framework:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-edl-impl:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-impl:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-ken-api:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-kew-impl:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-kim-impl:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-ksb-client-impl:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-ksb-server-impl:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-location-framework:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-location-impl:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-location-web:2.2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-core-service-web:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-edl-framework:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-edl-impl:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-impl:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-ken-api:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-kew-impl:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-kim-impl:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-ksb-client-impl:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-ksb-server-impl:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-location-framework:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-location-impl:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-location-web:2.3.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.jasig.cas.client:cas-client-core:3.2.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework.security:spring-security-core:3.1.0.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework.security:spring-security-crypto:3.1.0.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework.security:spring-security-cas:3.1.0.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework.security:spring-security-web:3.1.0.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-krms-api:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-krms-framework:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-krms-impl:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-ksb-web:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.kuali.rice:rice-web:war:2.2.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-development-tools:2.2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-krms-api:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-krms-framework:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-krms-impl:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-ksb-web:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.kuali.rice:rice-web:war:2.3.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.kuali.rice:rice-development-tools:2.3.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.sun.codemodel:codemodel:2.4.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: no.geosoft:filemonitor:1.0-kuali" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.10" level="project" />

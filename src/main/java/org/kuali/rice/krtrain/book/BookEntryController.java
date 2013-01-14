@@ -29,6 +29,8 @@ import java.util.List;
 @RequestMapping(value = "/bookEntry")
 public class BookEntryController extends UifControllerBase {
 
+    protected static final String SAVE_OVERRIDE_DIALOG = "saveOverrideDialog";
+
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         return new BookEntryForm();
     }
@@ -168,7 +170,17 @@ public class BookEntryController extends UifControllerBase {
         GlobalVariables.getMessageMap().putInfoForSectionId(KRADConstants.GLOBAL_MESSAGES,
                 "method.invoked", "saveBook");
 
-        GlobalVariables.getMessageMap().addGrowlMessage("Save Action", "book.saved", form.getBook().getTitle());
+        if (!hasDialogBeenAnswered(SAVE_OVERRIDE_DIALOG, form)) {
+            return showDialog(SAVE_OVERRIDE_DIALOG, form, request, response);
+        }
+
+        boolean continueSave = getBooleanDialogResponse(SAVE_OVERRIDE_DIALOG, form, request, response);
+
+        if (continueSave) {
+            GlobalVariables.getMessageMap().addGrowlMessage("Save Action", "book.saved", form.getBook().getTitle());
+        }
+
+        form.getDialogManager().removeDialog(SAVE_OVERRIDE_DIALOG);
 
         return getUIFModelAndView(form);
     }
@@ -200,6 +212,16 @@ public class BookEntryController extends UifControllerBase {
 
         GlobalVariables.getMessageMap().putInfoForSectionId(KRADConstants.GLOBAL_MESSAGES,
                 "method.invoked", "viewBookEntry");
+
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=updateAuthorBooks")
+    public ModelAndView updateAuthorBooks(@ModelAttribute("KualiForm") BookEntryForm form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) {
+
+        Author author = form.getBook().getAuthor();
+        author.setNumberWrittenBooks(author.getNumberWrittenBooks() + 1);
 
         return getUIFModelAndView(form);
     }

@@ -15,10 +15,16 @@ function promptBeforeSave() {
 }
 
 function setupReviewCheck() {
-
+    jQuery("input[name='book.averageReview']").click(checkReview);
 }
 
 function checkReview() {
-
+    var value = jQuery(this).val();
+    if (value == 5) {
+        jQuery("#averageReview_markers").html("<b>Awesome!</b>");
+    }
+    else {
+        jQuery("#averageReview_markers").html("");
+    }
 }
 

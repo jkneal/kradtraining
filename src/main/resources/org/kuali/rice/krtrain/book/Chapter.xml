@@ -16,6 +16,7 @@
                 <ref bean="Chapter-summary"/>
                 <ref bean="Chapter-numberPages"/>
                 <ref bean="Chapter-recap"/>
+                <ref bean="Chapter-recapPageNumber"/>
             </list>
         </property>
         <property name="titleAttribute" value="title"/>
@@ -114,6 +115,22 @@
         <property name="controlField">
             <bean parent="Uif-CheckboxControl"/>
         </property>
+    </bean>
+
+    <bean id="Chapter-recapPageNumber" parent="Chapter-recapPageNumber-parentBean"/>
+    <bean id="Chapter-recapPageNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="recapPageNumber"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Recap Page"/>
+        <property name="shortLabel" value="Recap Pg"/>
+        <property name="maxLength" value="3"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="3"/>
+        </property>
+        <property name="required" value="false"/>
     </bean>
 
 </beans>

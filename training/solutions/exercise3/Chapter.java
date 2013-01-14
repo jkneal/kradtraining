@@ -10,7 +10,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 public class Chapter extends PersistableBusinessObjectBase {
     private static final long serialVersionUID = -7959433888441638987L;
 
-    private Long bookId;
     private int number;
     private String title;
     private String part;
@@ -31,14 +30,6 @@ public class Chapter extends PersistableBusinessObjectBase {
         this.part = part;
         this.numberPages = numberPages;
         this.recap = recap;
-    }
-
-    public Long getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
     }
 
     public int getNumber() {
