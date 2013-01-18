@@ -18,12 +18,18 @@
         </property>
         <property name="formClass" value="org.kuali.rice.krtrain.book.BookEntryForm"/>
         <property name="additionalCssFiles">
-            <value>@{#ConfigProperties['application.url']}/css/krad-training.css
-            </value>
+            <list>
+                <value>@{#ConfigProperties['application.url']}/css/theme-kns.css</value>
+                <value>@{#ConfigProperties['application.url']}/css/krad-training.css</value>
+                <value>@{#ConfigProperties['application.url']}/plugins/booklet/jquery.booklet.1.1.0.css</value>
+                <value>@{#ConfigProperties['application.url']}/plugins/booklet/moleskine.css</value>
+            </list>
         </property>
         <property name="additionalScriptFiles">
-            <value>@{#ConfigProperties['application.url']}/js/krad-training.js
-            </value>
+            <list>
+                <value>@{#ConfigProperties['application.url']}/js/krad-training.js</value>
+                <value>@{#ConfigProperties['application.url']}/plugins/booklet/jquery.booklet.1.1.0.js</value>
+            </list>
         </property>
         <property name="applicationHeader">
             <bean parent="Uif-HeaderBase" p:template="/WEB-INF/templates/ftl/applicationHeader.ftl"
@@ -131,8 +137,8 @@
                 <bean id="title" parent="Uif-InputField" p:propertyName="title" p:label="Book Title"/>
 
                 <bean id="typeCode" parent="Uif-InputField" p:propertyName="typeCode"
-                      p:label="Book Type" p:shortLabel="Bk Typ"
-                      p:propertyNamesForAdditionalDisplay="bookType.description" p:uppercaseValue="true">
+                      p:propertyNamesForAdditionalDisplay="bookType.description" p:uppercaseValue="true"
+                      p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.BookType">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krtrain.book.BookType"
                               p:fieldConversions="typeCode:typeCode"/>
@@ -348,12 +354,11 @@
                 <bean id="publisher" parent="Uif-InputField-LabelRight" p:propertyName="publisher"
                       p:label="Publisher"/>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherCode" p:label="Publisher Code"
-                      p:minLength="1" p:maxLength="4" p:constraintText="#xxx format"
-                      p:propertyNamesForAdditionalDisplay="pubCode.name">
-                    <property name="control">
-                        <bean parent="Uif-SmallTextControl"/>
-                    </property>
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherCode"
+                      p:minLength="1" p:constraintText="#xxx format"
+                      p:propertyNamesForAdditionalDisplay="pubCode.name"
+                      p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.PublisherCode"
+                      p:dictionaryAttributeName="code">
 
                     <property name="attributeQuery">
                         <bean parent="Uif-AttributeQueryConfig"

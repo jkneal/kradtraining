@@ -67,6 +67,7 @@
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/book/Book.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Dialogs.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Beans.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Widgets.xml</file>
         </fileset>
       </configuration>
     </facet>

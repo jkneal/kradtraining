@@ -53,18 +53,7 @@
     </bean>
 
     <bean id="Book-typeCode" parent="Book-typeCode-parentBean"/>
-    <bean id="Book-typeCode-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="typeCode"/>
-        <property name="label" value="Book Type"/>
-        <property name="shortLabel" value="Type"/>
-        <property name="controlField">
-            <bean parent="Uif-DropdownControl"/>
-        </property>
-        <property name="optionsFinder">
-            <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder"
-                  p:businessObjectClass="org.kuali.rice.krtrain.book.BookType" p:keyAttributeName="typeCode"
-                  p:labelAttributeName="name"/>
-        </property>
+    <bean id="Book-typeCode-parentBean" abstract="true" parent="BookType-typeCode">
     </bean>
 
     <bean id="Book-isbn" parent="Book-isbn-parentBean"/>

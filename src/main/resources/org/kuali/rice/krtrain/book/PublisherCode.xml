@@ -19,7 +19,9 @@
     <bean id="PublisherCode-Code" parent="PublisherCode-Code-parentBean"/>
     <bean id="PublisherCode-Code-parentBean" parent="AttributeDefinition" abstract="true">
         <property name="name" value="code"/>
-        <property name="label" value="Code"/>
+        <property name="label" value="Publisher Code"/>
+        <property name="minLength" value="3"/>
+        <property name="maxLength" value="4"/>
         <property name="shortLabel" value="Cd"/>
         <property name="controlField">
             <bean parent="Uif-SmallTextControl"/>
@@ -29,7 +31,7 @@
     <bean id="PublisherCode-Name" parent="PublisherCode-Name-parentBean"/>
     <bean id="PublisherCode-Name-parentBean" parent="AttributeDefinition" abstract="true">
         <property name="name" value="name"/>
-        <property name="label" value="Name"/>
+        <property name="label" value="Publisher Name"/>
         <property name="shortLabel" value="Nm"/>
         <property name="validCharactersConstraint">
             <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>

@@ -120,7 +120,7 @@
                 <bean id="title" parent="Uif-InputField" p:propertyName="title" p:label="Book Title"/>
 
                 <bean id="typeCode" parent="Uif-InputField" p:propertyName="typeCode"
-                      p:label="Book Type" p:shortLabel="Bk Typ"
+                      p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.BookType"
                       p:propertyNamesForAdditionalDisplay="bookType.description" p:uppercaseValue="true">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krtrain.book.BookType"

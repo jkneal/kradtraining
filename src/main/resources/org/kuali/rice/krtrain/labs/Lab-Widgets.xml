@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="Krtrain-BookPreview" parent="Uif-Page">
+         <property name="items">
+             <list>
+                 <bean id="next_page_button" parent="Uif-Link" p:href="#"/>
+                 <bean id="prev_page_button" parent="Uif-Link" p:href="#"/>
+                 <bean id="bookPreviewGroup">
+                     <property name="items">
+                         <list>
+                             <ref bean="previewPage1"/>
+                             <ref bean="previewPage2"/>
+                             <ref bean="previewPage3"/>
+                         </list>
+                     </property>
+                 </bean>
+             </list>
+         </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>book_wrapper</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="previewPage1" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/images/k_usc.jpg"/>
+                <bean parent="Uif-HeaderOne" p:headerText="Kuali @ USC"/>
+                <bean parent="Uif-Message">
+                    <property name="messageText">
+                      <value>
+                       [p]USC is a contributing partner in the development of Kuali, a suite of software solutions,
+                        created by a consortium of universities to automate and integrate a broad spectrum of administrative
+                        processes.[/p]
+                      </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="previewPage2" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/images/k_cornell.jpg"/>
+                <bean parent="Uif-HeaderOne" p:headerText="Kuali @ Cornell"/>
+                <bean parent="Uif-Message">
+                    <property name="messageText">
+                      <value>
+                       [p]Cheers and confetti helped celebrate Cornell's launch of the Kuali Financial System (KFS)
+                          in a ceremony July 1 in the East Hill Office Building. [/p]
+                      </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="previewPage3" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/images/k_iu.png"/>
+                <bean parent="Uif-HeaderOne" p:headerText="Kuali @ IU"/>
+                <bean parent="Uif-Message">
+                    <property name="messageText">
+                      <value>
+                       [p]The Kuali Financial System (KFS) is a comprehensive suite of functionality that will serve
+                          all of Indiana University’s financial business needs. Kuali Financial System’s design is based
+                          upon the proven functionality of Indiana University’s Financial Information System (FIS) and
+                          Electronic Procurement and Invoicing Center (EPIC).[/p]
+                      </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

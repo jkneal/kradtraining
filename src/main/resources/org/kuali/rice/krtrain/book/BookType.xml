@@ -23,8 +23,8 @@
     <bean id="BookType-typeCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="typeCode"/>
         <property name="forceUppercase" value="true"/>
-        <property name="label" value="Book Type Code"/>
-        <property name="shortLabel" value="Code"/>
+        <property name="label" value="Book Type"/>
+        <property name="shortLabel" value="Bk Typ"/>
         <property name="maxLength" value="40"/>
         <property name="minLength" value="4"/>
         <property name="required" value="true"/>
