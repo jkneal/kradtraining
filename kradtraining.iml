@@ -19,7 +19,6 @@
       <configuration>
         <fileset id="fileset1" name="KRAD  Context" removed="false">
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/book/BookEntryView.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/bookproposal/soln/Lab-Views.xml</file>
           <file>jar://$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.2.1-SNAPSHOT/rice-krad-web-framework-2.2.1-SNAPSHOT.jar!/org/kuali/rice/krad/uif/UifActionDefinitions.xml</file>
           <file>jar://$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.2.1-SNAPSHOT/rice-krad-web-framework-2.2.1-SNAPSHOT.jar!/org/kuali/rice/krad/uif/UifConfigurationDefinitions.xml</file>
           <file>jar://$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.2.1-SNAPSHOT/rice-krad-web-framework-2.2.1-SNAPSHOT.jar!/org/kuali/rice/krad/uif/UifControlDefinitions.xml</file>
@@ -37,7 +36,6 @@
           <file>jar://$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.2.1-SNAPSHOT/rice-krad-web-framework-2.2.1-SNAPSHOT.jar!/org/kuali/rice/krad/uif/UifRiceDefinitions.xml</file>
           <file>jar://$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.2.1-SNAPSHOT/rice-krad-web-framework-2.2.1-SNAPSHOT.jar!/org/kuali/rice/krad/uif/UifViewPageDefinitions.xml</file>
           <file>jar://$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.2.1-SNAPSHOT/rice-krad-web-framework-2.2.1-SNAPSHOT.jar!/org/kuali/rice/krad/uif/UifWidgetDefinitions.xml</file>
-          <file>file://$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.2.1-SNAPSHOT/rice-krad-web-framework-2.2.1-SNAPSHOT.jar</file>
           <file>jar://$MAVEN_REPOSITORY$/org/kuali/rice/rice-impl/2.2.1-SNAPSHOT/rice-impl-2.2.1-SNAPSHOT.jar!/org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml</file>
           <file>jar://$MAVEN_REPOSITORY$/org/kuali/rice/rice-impl/2.2.1-SNAPSHOT/rice-impl-2.2.1-SNAPSHOT.jar!/org/kuali/rice/krad/bo/datadictionary/AttributeReferenceDummy.xml</file>
           <file>jar://$MAVEN_REPOSITORY$/org/kuali/rice/rice-impl/2.2.1-SNAPSHOT/rice-impl-2.2.1-SNAPSHOT.jar!/org/kuali/rice/krad/bo/datadictionary/DocumentHeader.xml</file>
@@ -46,10 +44,8 @@
           <file>jar://$MAVEN_REPOSITORY$/org/kuali/rice/rice-impl/2.2.1-SNAPSHOT/rice-impl-2.2.1-SNAPSHOT.jar!/org/kuali/rice/krad/bo/datadictionary/BusinessObjectAttributeEntry.xml</file>
           <file>jar://$MAVEN_REPOSITORY$/org/kuali/rice/rice-impl/2.2.1-SNAPSHOT/rice-impl-2.2.1-SNAPSHOT.jar!/org/kuali/rice/krad/bo/datadictionary/Note.xml</file>
           <file>jar://$MAVEN_REPOSITORY$/org/kuali/rice/rice-impl/2.2.1-SNAPSHOT/rice-impl-2.2.1-SNAPSHOT.jar!/org/kuali/rice/krad/bo/datadictionary/NoteType.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/BookEntryView.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/KrtrainMenuView.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/book/BookType.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/book/BookTypeViews.xml.txt</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Labels.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-DataInputFields.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-ValueDisplay.xml</file>
@@ -61,7 +57,6 @@
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Actions.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/PublisherGroup.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Groups.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/book/Chapter.xml.txt</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Collections.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/book/IndexEntry.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/book/Book.xml</file>

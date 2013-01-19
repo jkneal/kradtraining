@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+  <bean id="BookType-typeCode" parent="BookType-typeCode-parentBean"/>
+  <bean id="BookType-typeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="typeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Book Type Code"/>
+    <property name="shortLabel" value="Typ Cd"/>
+    <property name="maxLength" value="40"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="BookType-name" parent="BookType-name-parentBean"/>
+  <bean id="BookType-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Book Type Name"/>
+    <property name="shortLabel" value="Typ Nm"/>
+    <property name="maxLength" value="100"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="100"/>
+    </property>
+  </bean>
+
+  <bean id="BookType-description" parent="BookType-description-parentBean"/>
+  <bean id="BookType-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Book Type Description"/>
+    <property name="shortLabel" value="Typ Desc"/>
+    <property name="maxLength" value="300"/>
+    <property name="controlField">
+      <bean parent="Uif-MediumTextAreaControl"/>
+    </property>
+  </bean>
+
+  <bean id="BookType-active" parent="BookType-active-parentBean"/>
+  <bean id="BookType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+      <property name="name" value="active"/>
+  </bean>
+
+</beans>
