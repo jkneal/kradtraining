@@ -85,9 +85,6 @@
         <property name="name" value="publicationDate"/>
         <property name="label" value="Publication Date"/>
         <property name="shortLabel" value="Pub Date"/>
-        <property name="validCharactersConstraint">
-            <bean parent="DatePatternConstraint"/>
-        </property>
         <property name="controlField">
             <bean parent="Uif-DateControl"/>
         </property>
