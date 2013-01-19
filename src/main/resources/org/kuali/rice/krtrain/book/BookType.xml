@@ -26,6 +26,11 @@
         <property name="label" value="Book Type Code"/>
         <property name="shortLabel" value="Typ Cd"/>
         <property name="maxLength" value="40"/>
+        <property name="minLength" value="4"/>
+        <property name="required" value="true"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="40"/>
         </property>
