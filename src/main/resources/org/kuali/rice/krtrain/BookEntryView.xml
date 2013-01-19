@@ -19,7 +19,6 @@
         <property name="formClass" value="org.kuali.rice.krtrain.book.BookEntryForm"/>
         <property name="additionalCssFiles">
             <list>
-                <value>@{#ConfigProperties['application.url']}/css/theme-kns.css</value>
                 <value>@{#ConfigProperties['application.url']}/css/krad-training.css</value>
                 <value>@{#ConfigProperties['application.url']}/plugins/booklet/jquery.booklet.1.1.0.css</value>
                 <value>@{#ConfigProperties['application.url']}/plugins/booklet/moleskine.css</value>

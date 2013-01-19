@@ -17,8 +17,7 @@
     </jdbc-connection-descriptor>
 
     <class-descriptor class="org.kuali.rice.krtrain.book.Author" table="KRTRAIN_AUTHOR_T">
-        <field-descriptor name="authorId" column="AUTHOR_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"
-                          sequence-name="KRTRAIN_AUTHOR_ID_S"/>
+        <field-descriptor name="authorId" column="AUTHOR_ID" jdbc-type="BIGINT" primarykey="true"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
         <field-descriptor name="authorName" column="NM" jdbc-type="VARCHAR"/>
@@ -44,40 +43,6 @@
         <field-descriptor name="publisherCode" column="PUB_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="publisherAddress" column="PUB_ADD" jdbc-type="VARCHAR"/>
         <field-descriptor name="publisherState" column="PUB_ST" jdbc-type="VARCHAR"/>
-
-        <reference-descriptor name="bookType" class-ref="org.kuali.rice.krtrain.book.BookType" auto-retrieve="true"
-                              auto-update="none" auto-delete="none" proxy="true">
-          <foreignkey field-ref="typeCode"/>
-        </reference-descriptor>
-
-        <collection-descriptor name="chapters" element-class-ref="org.kuali.rice.krtrain.book.Chapter"
-                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="true" auto-update="object" auto-delete="object">
-          <inverse-foreignkey field-ref="bookId"/>
-        </collection-descriptor>
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.rice.krtrain.book.BookType" table="KRTRAIN_BOOK_TYP_T">
-        <field-descriptor name="typeCode" column="TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
-        <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR"/>
-        <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
-                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.rice.krtrain.book.Chapter" table="KRTRAIN_CHAPTER_T">
-        <field-descriptor name="bookId" column="BOOK_ID" jdbc-type="BIGINT" primarykey="true"/>
-        <field-descriptor name="number" column="NUM" jdbc-type="INTEGER" primarykey="true"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-        <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR"/>
-        <field-descriptor name="part" column="PART" jdbc-type="VARCHAR"/>
-        <field-descriptor name="summary" column="SUMM" jdbc-type="VARCHAR"/>
-        <field-descriptor name="numberPages" column="NUM_PAGES" jdbc-type="INTEGER"/>
-        <field-descriptor name="recap" column="REC" jdbc-type="VARCHAR"
-                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="recapPageNumber" column="REC_PAGE_NUM" jdbc-type="INTEGER"/>
     </class-descriptor>
 
 </descriptor-repository>

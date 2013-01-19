@@ -28,9 +28,6 @@
         <property name="label" value="Book ID"/>
         <property name="shortLabel" value="ID"/>
         <property name="maxLength" value="14"/>
-        <property name="validCharactersConstraint">
-            <bean parent="NumericPatternConstraint"/>
-        </property>
         <property name="controlField">
             <bean parent="Uif-HiddenControl"/>
         </property>
@@ -62,29 +59,6 @@
         <property name="label" value="ISBN"/>
         <property name="shortLabel" value="ISBN"/>
         <property name="maxLength" value="24"/>
-        <property name="validCharactersConstraint">
-            <bean parent="AlphaNumericPatternConstraint" p:allowDash="true" p:allowUnderscore="true"/>
-        </property>
-        <property name="caseConstraint">
-            <bean parent="CaseConstraint">
-                <property name="propertyName" value="typeCode"/>
-                <property name="whenConstraint">
-                    <list>
-                        <bean parent="WhenConstraint">
-                            <property name="values">
-                                <list>
-                                    <value>IT</value>
-                                    <value>SCI-FI</value>
-                                </list>
-                            </property>
-                            <property name="constraint">
-                                <bean parent="RequiredConstraint"/>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
-        </property>
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="40"/>
         </property>
@@ -127,9 +101,6 @@
         <property name="shortLabel" value="Price"/>
         <property name="maxLength" value="10"/>
         <property name="required" value="false"/>
-        <property name="validCharactersConstraint">
-            <bean parent="FloatingPointPatternConstraint" p:allowNegative="false"/>
-        </property>
         <property name="controlField">
             <bean parent="Uif-CurrencyTextControl"/>
         </property>

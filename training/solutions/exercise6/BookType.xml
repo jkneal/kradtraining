@@ -12,9 +12,7 @@
       <list>
         <ref bean="BookType-typeCode"/>
         <ref bean="BookType-name"/>
-        <ref bean="BookType-description"/>
-        <ref bean="BookType-active"/>
-      </list>
+        <ref bean="BookType-description"/>Chapter
     </property>
     <property name="titleAttribute" value="name"/>
   </bean>

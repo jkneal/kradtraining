@@ -49,7 +49,7 @@
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/BookEntryView.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/KrtrainMenuView.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/book/BookType.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/book/BookTypeViews.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/book/BookTypeViews.xml.txt</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Labels.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-DataInputFields.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-ValueDisplay.xml</file>

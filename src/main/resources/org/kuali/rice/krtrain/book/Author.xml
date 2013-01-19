@@ -60,9 +60,6 @@
         <property name="label" value="Email Id"/>
         <property name="shortLabel" value="Email"/>
         <property name="maxLength" value="100"/>
-        <property name="validCharactersConstraint">
-            <bean parent="EmailAddressPatternConstraint"/>
-        </property>
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="50"/>
         </property>
@@ -77,9 +74,6 @@
         <property name="label" value="Phone No."/>
         <property name="shortLabel" value="Phone"/>
         <property name="maxLength" value="20"/>
-        <property name="validCharactersConstraint">
-            <bean parent="PhoneNumberPatternConstraint"/>
-        </property>
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="50"/>
         </property>

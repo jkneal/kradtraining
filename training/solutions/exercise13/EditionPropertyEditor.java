@@ -50,7 +50,7 @@ public class EditionPropertyEditor extends PropertyEditorSupport implements Seri
     }
 
     /**
-     * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
+     * @see java.beans.PropertyEditorSupport#setAsText(String)
      */
     @Override
     public void setAsText(String text) {

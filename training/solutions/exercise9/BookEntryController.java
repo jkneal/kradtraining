@@ -2,7 +2,6 @@ package org.kuali.rice.krtrain.bookproposal;
 
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krtrain.book.BookEntryForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 

@@ -81,6 +81,14 @@
         </property>
     </bean>
 
+    <bean id="Uif-ClassicKnsTheme" parent="Uif-ClassicKnsTheme-parentBean"/>
+      <property name="cssFiles">
+        <list merge="true">
+          <value>css/krtrain-theme.css</value>
+        </list>
+      </property>
+    </bean>
+
     <bean id="Uif-SectionBase" parent="Uif-GroupBase" scope="prototype">
         <property name="cssClasses">
             <list merge="true">
