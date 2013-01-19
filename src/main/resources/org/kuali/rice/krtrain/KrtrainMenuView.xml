@@ -21,7 +21,14 @@
                                   p:href="@{#ConfigProperties['application.url']}/app/generic?viewId=Krtrain-BookEntryViewTabs&amp;methodToCall=start"/>
 
                             <bean parent="Uif-MessageField" p:messageText="[b]Exercise 9[/b]" />
-                            <!-- Links for exercise 9 go here -->
+                            <bean parent="Uif-Link" p:linkText="Book Proposal" p:target="_self"
+                                  p:href="@{#ConfigProperties['application.url']}/app/bookEntry?viewId=Krtrain-BookEntryViewMenu&amp;methodToCall=start"/>
+                            <bean parent="Uif-Link" p:linkText="Book Type Lookup" p:target="_self"
+                                  p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?dataObjectClassName=org.kuali.rice.krtrain.book.BookType&amp;methodToCall=search&amp;showMaintenanceLinks=true"/>
+                            <bean parent="Uif-Link" p:linkText="Book Type Advanced Lookup" p:target="_self"
+                                  p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?dataObjectClassName=org.kuali.rice.krtrain.book.BookType&amp;viewName=advanced&amp;methodToCall=search"/>
+                            <bean parent="Uif-Link" p:linkText="Edit Book Type ROM" p:target="_self"
+                                  p:href="@{#ConfigProperties['application.url']}/kr-krad/maintenance?dataObjectClassName=org.kuali.rice.krtrain.book.BookType&amp;typeCode=ROM&amp;methodToCall=maintenanceEdit"/>
 
                             <bean parent="Uif-MessageField" p:messageText="[b]Exercise 13[/b]" />
                             <bean parent="Uif-Link" p:linkText="Book Proposal with Data" p:target="_self"
