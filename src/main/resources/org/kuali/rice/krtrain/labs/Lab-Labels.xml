@@ -4,27 +4,20 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-
-    <bean id="labLabels-Page" parent="Uif-Page">
+    <bean parent="Uif-HorizontalBoxGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="items">
-                        <list>
-                            <bean id="titleLbl" parent="" />
+                <bean id="titleLbl" parent=""/>
 
-                            <bean id="title" parent="Uif-InputField" p:propertyName="book.title"/>
-                        </list>
-                    </property>
-                </bean>
-
-                <bean id="typeCode" parent="Uif-InputField" p:propertyName="book.typeCode"/>
-
-                <bean id="isbn" parent="Uif-InputField" p:propertyName="book.isbn"/>
-
-                <bean id="publisher" parent="Uif-InputField" p:propertyName="book.publisher"/>
+                <bean id="title" parent="Uif-InputField" p:propertyName="book.title"/>
             </list>
         </property>
     </bean>
+
+    <bean id="typeCode" parent="Uif-InputField" p:propertyName="book.typeCode"/>
+
+    <bean id="isbn" parent="Uif-InputField" p:propertyName="book.isbn"/>
+
+    <bean id="publisher" parent="Uif-InputField" p:propertyName="book.publisher"/>
 
 </beans>
