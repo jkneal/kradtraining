@@ -12,7 +12,6 @@
             <list>
                 <ref bean="Book-id"/>
                 <ref bean="Book-title"/>
-                <ref bean="Book-typeCode"/>
                 <ref bean="Book-isbn"/>
                 <ref bean="Book-publisher"/>
                 <ref bean="Book-publicationDate"/>
@@ -47,10 +46,6 @@
             <bean parent="Uif-TextControl" p:size="50"/>
         </property>
         <property name="required" value="true"/>
-    </bean>
-
-    <bean id="Book-typeCode" parent="Book-typeCode-parentBean"/>
-    <bean id="Book-typeCode-parentBean" abstract="true" parent="BookType-typeCode">
     </bean>
 
     <bean id="Book-isbn" parent="Book-isbn-parentBean"/>
