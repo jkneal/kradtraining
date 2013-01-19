@@ -51,9 +51,11 @@ public class Book extends PersistableBusinessObjectBase {
     private List<String> availableFormats;
     private List<Integer> averageReview;
 
+    private BookType bookType;
     private Author author;
     private PublisherCode pubCode;
 
+    private List<Chapter> chapters;
     private List<IndexEntry> index;
     private List<Book> relatedBooks;
 
@@ -63,6 +65,7 @@ public class Book extends PersistableBusinessObjectBase {
         isbn = "";
         edition = 1;
         ratings = new HashMap<String, Integer>();
+        chapters = new ArrayList<Chapter>();
         index = new ArrayList<IndexEntry>();
         relatedBooks = new ArrayList<Book>();
         availableFormats = new ArrayList<String>();
@@ -196,6 +199,14 @@ public class Book extends PersistableBusinessObjectBase {
         this.wearAndTear = wearAndTear;
     }
 
+    public BookType getBookType() {
+        return bookType;
+    }
+
+    public void setBookType(BookType bookType) {
+        this.bookType = bookType;
+    }
+
     public Author getAuthor() {
         return author;
     }
@@ -282,6 +293,14 @@ public class Book extends PersistableBusinessObjectBase {
 
     public void setBookAwardTwo(String bookAwardTwo) {
         this.bookAwardTwo = bookAwardTwo;
+    }
+
+    public List<Chapter> getChapters() {
+        return chapters;
+    }
+
+    public void setChapters(List<Chapter> chapters) {
+        this.chapters = chapters;
     }
 
     public List<String> getLanguages() {
