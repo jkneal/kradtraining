@@ -52,7 +52,7 @@
                       p:label="Book Type" p:shortLabel="Bk Typ"/>
 
                 <bean id="isbn" parent="Uif-InputField-LabelRight" p:propertyName="isbn"
-                      p:label="ISBN"/>
+                      p:label="ISBN" p:instructionalText="Please enter the newest ISBN number available"/>
 
                 <bean id="publisher" parent="Uif-InputField-LabelTop" p:propertyName="publisher"
                       p:label="Publisher"/>
@@ -89,7 +89,7 @@
                       p:readOnlyListDisplayType="OL"/>
 
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherCode" p:label="Publisher Code"
-                      p:minLength="1" p:maxLength="4">
+                      p:minLength="1" p:maxLength="4" p:constraintText="#xxx format">
                     <property name="control">
                         <bean parent="Uif-SmallTextControl"/>
                     </property>
