@@ -260,6 +260,10 @@
                         </list>
                     </property>
                 </bean>
+
+                <bean parent="Uif-Link" p:linkText="List of Publishers" p:target="_blank"
+                      p:href="http://en.wikipedia.org/wiki/List_of_English-language_book_publishing_companies"
+                      p:openInLightbox="true"/>
             </list>
         </property>
     </bean>
