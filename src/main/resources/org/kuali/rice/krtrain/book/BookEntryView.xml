@@ -107,10 +107,6 @@
                 <bean parent="Uif-InputField" p:propertyName="coverArt" p:label="Cover" p:readOnly="true"
                       p:readOnlyDisplaySuffixPropertyName="coverArtist"/>
 
-                <bean parent="Uif-InputField" p:propertyName="author.numberWrittenBooks" p:label="Written Books"
-                      p:readOnly="true"
-                      p:readOnlyDisplayReplacement="@{book.author.numberWrittenBooks} (@{book.author.numberPublishedBooks} Published)"/>
-
                 <bean parent="Uif-InputField" p:propertyName="wearAndTear" p:label="Wear and Tear" p:readOnly="true"
                       p:readOnlyListDisplayType="OL"/>
 
@@ -263,10 +259,6 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-Link" p:linkText="List of Publishers" p:target="_blank"
-                      p:href="http://en.wikipedia.org/wiki/List_of_English-language_book_publishing_companies"
-                      p:openInLightbox="true"/>
-
                 <bean parent="Uif-Message">
                     <property name="messageText">
                       <value>
@@ -304,6 +296,34 @@
                                 </property>
                             </bean>
                         </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HeaderTwo" p:headerText="Publisher Information">
+                    <property name="rightGroup">
+                        <bean parent="Uif-HeaderRightGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-Link" p:linkText="List of Publishers" p:target="_blank"
+                                          p:href="http://en.wikipedia.org/wiki/List_of_English-language_book_publishing_companies"
+                                          p:openInLightbox="true"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HeaderThree" p:headerText="Author Information">
+                    <property name="lowerGroup">
+                        <bean parent="Uif-HeaderLowerGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-InputField" p:propertyName="author.numberWrittenBooks" p:label="Written Books"
+                                          p:readOnly="true"
+                                          p:readOnlyDisplayReplacement="@{book.author.numberWrittenBooks} (@{book.author.numberPublishedBooks} published)"/>
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
             </list>
