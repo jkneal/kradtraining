@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9f611976-3cd5-4592-93c8-63796db37682" name="Default" comment="Add dummy files for empty packages">
+    <list default="true" id="9f611976-3cd5-4592-93c8-63796db37682" name="Default" comment="">
+      <change type="MOVED" beforePath="C:\java\projects\kradtraining.git\src\main\resources\org\kuali\rice\krtrain\book\Chapter.xml" afterPath="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/book/Chapter.xml.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kradtraining.iml" afterPath="$PROJECT_DIR$/kradtraining.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="kradtraining.iws" />
@@ -323,7 +325,7 @@
     <file path="$PROJECT_DIR$/../rice/kim/kim-impl/src/main/resources/org/kuali/rice/kim/impl/role/RoleMemberBo.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356285101414" ignored="false" />
     <file path="$PROJECT_DIR$/../rice/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/ActionField.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356285101652" ignored="false" />
     <file path="$PROJECT_DIR$/../rice/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/MessageField.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356285101652" ignored="false" />
-    <file path="$PROJECT_DIR$/../rice/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/widget/QuickFinder.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356285101652" ignored="false" />
+    <file path="$PROJECT_DIR$/../rice/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/widget/QuickFinder.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358702011129" ignored="false" />
     <file path="$PROJECT_DIR$/../rice/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/DataField.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356285101652" ignored="false" />
     <file path="$PROJECT_DIR$/../rice/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/view/FormView.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356285101652" ignored="false" />
     <file path="$PROJECT_DIR$/../rice/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/view/History.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356285101652" ignored="false" />
@@ -349,10 +351,10 @@
     <file path="/customApplication.tag" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356545440682" ignored="false" />
     <file path="/pom.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356546098427" ignored="false" />
     <file path="/Book.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1357940587151" ignored="false" />
-    <file path="/fragment.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358529725163" ignored="false" />
+    <file path="/fragment.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358705503611" ignored="false" />
     <file path="/GenericController.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356620753215" ignored="false" />
     <file path="/GenericForm.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356620737804" ignored="false" />
-    <file path="$PROJECT_DIR$/../rice/sampleapp/src/main/java/edu/sampleu/bookstore/bo/BookType.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356623154749" ignored="false" />
+    <file path="$PROJECT_DIR$/../rice/sampleapp/src/main/java/edu/sampleu/bookstore/bo/BookType.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358703963712" ignored="false" />
     <file path="/BookType.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356719032795" ignored="false" />
     <file path="/BookProposal.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356640976988" ignored="false" />
     <file path="/create_training_tables.sql" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356888959303" ignored="false" />
@@ -361,18 +363,18 @@
     <file path="/BookTypeKew.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356625099961" ignored="false" />
     <file path="/applicationHeader.ftl" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356630988013" ignored="false" />
     <file path="/applicationFooter.ftl" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356630983644" ignored="false" />
-    <file path="/Lab-Labels.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356638623531" ignored="false" />
+    <file path="/Lab-Labels.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358643026396" ignored="false" />
     <file path="/Author.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356800186780" ignored="false" />
-    <file path="/BookEntryController.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358031488750" ignored="false" />
+    <file path="/BookEntryController.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358628875850" ignored="false" />
     <file path="/BookEntryForm.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356712307082" ignored="false" />
-    <file path="/BookEntryView.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358558652986" ignored="false" />
+    <file path="/BookEntryView.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358704864760" ignored="false" />
     <file path="/Lab-DataInputFields.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356721624368" ignored="false" />
     <file path="/Chapter.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1357399043650" ignored="false" />
     <file path="/DefaultBindingTypeValueFinder.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356716222006" ignored="false" />
-    <file path="/Dummy.txt" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358617086344" ignored="false" />
+    <file path="/Dummy.txt" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358710990349" ignored="false" />
     <file path="/EmailPropertyEditor.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356723257570" ignored="false" />
     <file path="/EditionPropertyEditor.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356988198827" ignored="false" />
-    <file path="/Lab-ValueDisplay.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356800601176" ignored="false" />
+    <file path="/Lab-ValueDisplay.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358695213704" ignored="false" />
     <file path="/Lab-Controls.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356809154389" ignored="false" />
     <file path="/BookLanguageOptions.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1357946497772" ignored="false" />
     <file path="/Author.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356823704777" ignored="false" />
@@ -383,13 +385,13 @@
     <file path="/load_training_data.sql" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1357605174155" ignored="false" />
     <file path="/QueryUtils.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356969194751" ignored="false" />
     <file path="$PROJECT_DIR$/../rice/web/src/main/webapp/krad/scripts/krad.widget.js" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356967857093" ignored="false" />
-    <file path="/Lab-Actions.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356974046991" ignored="false" />
+    <file path="/Lab-Actions.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358704828770" ignored="false" />
     <file path="/krad-training.js" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358018281809" ignored="false" />
     <file path="/KrtrainApplicationResources.properties" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1357494944880" ignored="false" />
     <file path="/BootStrapConfig.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1356987420283" ignored="false" />
     <file path="$PROJECT_DIR$/../rice/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/web/bind/UifConfigurableWebBindingInitializer.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1357055617894" ignored="false" />
-    <file path="$PROJECT_DIR$/../rice/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/web/bind/UifViewBeanWrapper.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1357058550806" ignored="false" />
-    <file path="/UifViewBeanWrapper.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1357056026608" ignored="false" />
+    <file path="$PROJECT_DIR$/../rice/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/web/bind/UifViewBeanWrapper.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358706479658" ignored="false" />
+    <file path="/UifViewBeanWrapper.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358706021613" ignored="false" />
     <file path="/krad-training.css" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1357243591717" ignored="false" />
     <file path="/Lab-Groups.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1357231332593" ignored="false" />
     <file path="/a.dummy" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358289142968" ignored="false" />
@@ -436,7 +438,6 @@
     <file path="$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.3.0-SNAPSHOT/rice-krad-web-framework-2.3.0-SNAPSHOT.jar!/org/kuali/rice/krad/uif/UifMaintenanceDefinitions.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358035626586" ignored="false" />
     <file path="$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.3.0-SNAPSHOT/rice-krad-web-framework-2.3.0-SNAPSHOT.jar!/org/kuali/rice/krad/uif/UifLookupDefinitions.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358035626586" ignored="false" />
     <file path="$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.3.0-SNAPSHOT/rice-krad-web-framework-2.3.0-SNAPSHOT.jar!/org/kuali/rice/krad/uif/UifRiceDefinitions.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358035626587" ignored="false" />
-    <file path="$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.3.0-SNAPSHOT/rice-krad-web-framework-2.3.0-SNAPSHOT.jar!/org/kuali/rice/krad/uif/UifFieldDefinitions.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358035626587" ignored="false" />
     <file path="$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.3.0-SNAPSHOT/rice-krad-web-framework-2.3.0-SNAPSHOT.jar!/org/kuali/rice/krad/uif/UifIncidentReportDefinitions.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358035626587" ignored="false" />
     <file path="$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.3.0-SNAPSHOT/rice-krad-web-framework-2.3.0-SNAPSHOT.jar!/META-INF/krad_schema.xsd" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358035626588" ignored="false" />
     <file path="$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.3.0-SNAPSHOT/rice-krad-web-framework-2.3.0-SNAPSHOT.jar!/org/kuali/rice/krad/uif/UifInitiateDocumentInfoDefinitions.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358035626588" ignored="false" />
@@ -446,7 +447,7 @@
     <file path="$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.3.0-SNAPSHOT/rice-krad-web-framework-2.3.0-SNAPSHOT.jar!/org/kuali/rice/krad/uif/UifInquiryDefinitions.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358035626589" ignored="false" />
     <file path="$PROJECT_DIR$/../rice/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/component/ScriptEventSupport.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358103739568" ignored="false" />
     <file path="$PROJECT_DIR$/../rice/web/src/main/webapp/krad/scripts/krad.response.js" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358103842397" ignored="false" />
-    <file path="/BookType.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358290076752" ignored="false" />
+    <file path="/BookType.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358626311025" ignored="false" />
     <file path="$PROJECT_DIR$/../rice-split/config/ide/intellij/.idea/workspace.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358282118193" ignored="false" />
     <file path="/Booklet.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358292398523" ignored="false" />
     <file path="/BookGroup.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358382257865" ignored="false" />
@@ -502,6 +503,10 @@
     <file path="$PROJECT_DIR$/../rice-2.2-split/config/ide/intellij/.idea/artifacts/rice_web_war.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358532853584" ignored="false" />
     <file path="$PROJECT_DIR$/../rice-2.2-split/config/ide/intellij/.idea/artifacts/rice_web_war_exploded.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358532991821" ignored="false" />
     <file path="$PROJECT_DIR$/../rice/sampleapp/pom.xml" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358558493071" ignored="false" />
+    <file path="/QuickFinder.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358701990575" ignored="false" />
+    <file path="$PROJECT_DIR$/../rice/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/widget/Inquiry.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358699280112" ignored="false" />
+    <file path="/Inquiry.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358699196259" ignored="false" />
+    <file path="$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.3.0-SNAPSHOT/rice-krad-web-framework-2.3.0-SNAPSHOT-sources.jar!/org/kuali/rice/krad/web/bind/UifViewBeanWrapper.java" changelist="9f611976-3cd5-4592-93c8-63796db37682" time="1358706514393" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -551,7 +556,22 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint url="jar://$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.3.0-SNAPSHOT/rice-krad-web-framework-2.3.0-SNAPSHOT-sources.jar!/org/kuali/rice/krad/uif/widget/Inquiry.java" line="276" class="org.kuali.rice.krad.uif.widget.Inquiry" package="org.kuali.rice.krad.uif.widget">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -571,7 +591,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="exercise1" />
+        <entry key="$PROJECT_DIR$" value="exercise21" />
       </map>
     </option>
   </component>
@@ -598,12 +618,12 @@
     <setting file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-ValueDisplay.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Labels.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Groups.xml" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/training/solutions/exercise1/Lab-Beans.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise36/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/training/solutions/exercise1/Lab-Beans.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Dialogs.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/BaseDefinitionOverrides.xml" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/book/Author.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise36/Lab-Widgets.xml" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/book/Author.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/book/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise10/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/book/Book.xml" root0="SKIP_HIGHLIGHTING" />
@@ -630,41 +650,41 @@
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise5/BookType.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise11/Lab-Labels.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise12/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/training/solutions/exercise12/Lab-DataInputFields.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise6/BookType.xml" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/training/solutions/exercise12/Lab-DataInputFields.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise21/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/training/solutions/exercise22/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise7/Author.xml" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/training/solutions/exercise23/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/training/solutions/exercise22/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise7/Book.xml" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/training/solutions/exercise7/BookType.xml" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/training/solutions/exercise23/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise24/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/training/solutions/exercise7/BookType.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise18/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise19/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/training/solutions/exercise44/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise19/Lab-Actions.xml" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/training/solutions/exercise44/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/training/solutions/exercise20/BookEntryView.xml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Widgets.xml" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/BookEntryView.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/book/Author.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/book/Book.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/KrtrainMenuView.xml" />
-        <option value="$PROJECT_DIR$/training/solutions/exercise9/KrtrainMenuView.xml" />
-        <option value="$PROJECT_DIR$/training/solutions/exercise10/BookEntryView.xml" />
-        <option value="$PROJECT_DIR$/training/solutions/exercise8/BookEntryView.xml" />
-        <option value="$PROJECT_DIR$/training/solutions/exercise11/BookEntryView.xml" />
-        <option value="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/ControllerMethods.java.txt" />
-        <option value="$PROJECT_DIR$/src/main/java/org/kuali/rice/krtrain/book/BookEntryController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/kuali/rice/krtrain/finders/BookLanguageOptions.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Actions.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Labels.xml" />
+        <option value="$PROJECT_DIR$/training/solutions/exercise37/BookEntryForm.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/kuali/rice/krtrain/book/BookEntryForm.java" />
         <option value="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-DataInputFields.xml" />
-        <option value="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Controls.xml" />
+        <option value="$PROJECT_DIR$/training/solutions/exercise13/Lab-ValueDisplay.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-ValueDisplay.xml" />
-        <option value="$PROJECT_DIR$/src/main/resources/KrtrainApplicationResources.properties" />
-        <option value="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Dialogs.xml" />
+        <option value="$PROJECT_DIR$/training/solutions/exercise14/Lab-Controls.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Controls.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/org/kuali/rice/krtrain/book/BookEntryController.java" />
+        <option value="$PROJECT_DIR$/training/solutions/exercise19/Lab-Actions.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Actions.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/book/BookEntryView.xml" />
+        <option value="$PROJECT_DIR$/src/main/webapp/css/krad-training.css" />
       </list>
     </option>
   </component>
@@ -685,8 +705,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-9" />
     <option name="y" value="-9" />
-    <option name="width" value="2066" />
-    <option name="height" value="1122" />
+    <option name="width" value="1938" />
+    <option name="height" value="1050" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -697,6 +717,9 @@
           </State>
           <State>
             <id>Serialization issues</id>
+          </State>
+          <State>
+            <id>Spring Model</id>
           </State>
         </expanded-state>
         <selected-state>
@@ -752,6 +775,192 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kradtraining" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kradtraining.git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="training" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kradtraining" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kradtraining.git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kradtraining" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kradtraining.git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kradtraining" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kradtraining.git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kradtraining" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kradtraining.git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kuali" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="krtrain" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kradtraining" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kradtraining.git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kuali" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="krtrain" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="book" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kradtraining" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kradtraining.git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kuali" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="krtrain" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -766,7 +975,7 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors" />
+    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Font" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="project.structure.side.proportion" value="0.39050388" />
     <property name="GoToClass.includeJavaFiles" value="true" />
@@ -786,13 +995,10 @@
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\java\projects\kradtraining.git\src\main\java\org\kuali\rice\krtrain\editors" />
-      <recent name="C:\java\projects\kradtraining.git\training\solutions" />
       <recent name="C:\java\projects\kradtraining.git\src\main\java\org\kuali\rice\krtrain\finders" />
-      <recent name="C:\java\projects\kradtraining.git\training\solutions\exercise45" />
-      <recent name="C:\java\projects\kradtraining.git\training\solutions\exercise10" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="org.kuali.rice.krtrain.book" />
+      <recent name="C:\java\projects\kradtraining.git\src\main\java\org\kuali\rice\krtrain\book" />
+      <recent name="C:\java\projects\kradtraining.git\src\main\resources\org\kuali\rice\krtrain\book" />
+      <recent name="C:\java\projects\kradtraining.git\training\solutions" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\java\projects\kradtraining\src\main\resources\org\kuali\rice\krtrain\book" />
@@ -800,6 +1006,9 @@
       <recent name="C:\java\projects\kradtraining\src\main\resources\org\kuali\rice\krtrain" />
       <recent name="C:\java\projects\kradtraining\src\main\resources\org\kuali\rice\krtrain\solutions\exercise8" />
       <recent name="C:\java\projects\kradtraining\src\main\resources\org\kuali\rice\krtrain\bookproposal\soln" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.kuali.rice.krtrain.book" />
     </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 7">
@@ -951,25 +1160,24 @@
     <supportedVersion>125</supportedVersion>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="2066" height="1122" extended-state="6" />
+    <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27440906" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35405105" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3088685" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39844617" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30988786" sideWeight="0.4985015" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3291536" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32673267" sideWeight="0.498002" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32944608" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22277722" sideWeight="0.72559094" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33333334" sideWeight="0.498002" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2145144" sideWeight="0.64594895" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972253" sideWeight="0.498002" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="SVN Repositories" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23226434" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -977,6 +1185,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4928493" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Notes" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32673267" sideWeight="0.498002" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1019,7 +1228,7 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add dummy files for empty packages" />
+    <option name="LAST_COMMIT_MESSAGE" value="Starting point for exercise 22" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1032,8 +1241,31 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Update for initial state" />
-    <MESSAGE value="Add dummy files for empty packages" />
+    <MESSAGE value="Starting point for exercise 4" />
+    <MESSAGE value="Fix for a couple startup errors" />
+    <MESSAGE value="Starting point for exercise 5" />
+    <MESSAGE value="Fix for startup error on chapter" />
+    <MESSAGE value="Starting point for exercise 6" />
+    <MESSAGE value="Starting point for exercise 7" />
+    <MESSAGE value="Starting point for exercise 8" />
+    <MESSAGE value="Removing date constraint which will be added in later exercise" />
+    <MESSAGE value="Starting point for exercise 9" />
+    <MESSAGE value="Starting point for exercise 10" />
+    <MESSAGE value="Starting point for exercise 11" />
+    <MESSAGE value="Starting point for exercise 12" />
+    <MESSAGE value="Changing book views chapter back to .txt" />
+    <MESSAGE value="Set render to false on input field" />
+    <MESSAGE value="starting point for exercise 13" />
+    <MESSAGE value="starting point for exercise 14" />
+    <MESSAGE value="starting point for exercise 15" />
+    <MESSAGE value="starting point for exercise 16" />
+    <MESSAGE value="starting point for exercise 17" />
+    <MESSAGE value="starting point for exercise 18" />
+    <MESSAGE value="starting point for exercise 19" />
+    <MESSAGE value="starting point for exercise 20" />
+    <MESSAGE value="starting point for exercise 21" />
+    <MESSAGE value="Tweak to border-photo style" />
+    <MESSAGE value="Starting point for exercise 22" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1043,100 +1275,85 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/training/solutions/exercise40/BookEntryViewHelper.java">
+    <entry file="file://$PROJECT_DIR$/training/solutions/exercise19/BookEntryView.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="71" selection-start="740" selection-end="740" vertical-scroll-proportion="0.34554973" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/training/solutions/exercise41/BookEntryViewHelper.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Actions.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="8" selection-start="1347" selection-end="1347" vertical-scroll-proportion="0.3790576" />
+        <state line="30" column="84" selection-start="1503" selection-end="1503" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/training/solutions/exercise45/BookEntryViewHelper.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/book/Book.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.2764398" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Widgets.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="8" selection-start="758" selection-end="758" vertical-scroll-proportion="0.3225131">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-3.9412751">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/training/solutions/exercise44/krad-training.js">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/3.1.0.RELEASE/spring-beans-3.1.0.RELEASE.jar!/org/springframework/beans/BeanWrapperImpl.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="12" column="54" selection-start="611" selection-end="611" vertical-scroll-proportion="-11.88" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/js/krad-training.js">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/3.1.0.RELEASE/spring-beans-3.1.0.RELEASE-sources.jar!/org/springframework/beans/BeanWrapperImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="112" selection-start="386" selection-end="386" vertical-scroll-proportion="0.0" />
+        <state line="918" column="29" selection-start="33738" selection-end="33738" vertical-scroll-proportion="-13.481482" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/training/solutions/exercise45/Lab-Dialogs.xml">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/3.1.0.RELEASE/spring-beans-3.1.0.RELEASE-sources.jar!/org/springframework/beans/PropertyAccessorUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="64" column="22" selection-start="2352" selection-end="2352" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/training/solutions/BookEntryView.xml">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/3.1.0.RELEASE/spring-beans-3.1.0.RELEASE-sources.jar!/org/springframework/beans/PropertyEditorRegistrySupport.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="66" selection-start="666" selection-end="666" vertical-scroll-proportion="0.28025478" />
+        <state line="478" column="0" selection-start="20317" selection-end="20491" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/Lab-Dialogs.xml">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/kuali/rice/rice-krad-web-framework/2.3.0-SNAPSHOT/rice-krad-web-framework-2.3.0-SNAPSHOT-sources.jar!/org/kuali/rice/krad/web/bind/UifViewBeanWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="18" selection-start="470" selection-end="470" vertical-scroll-proportion="0.0">
+        <state line="182" column="33" selection-start="7201" selection-end="7201" vertical-scroll-proportion="0.14186047" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/book/PublisherCode.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/labs/PublisherGroup.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="32" selection-start="1441" selection-end="1441" vertical-scroll-proportion="0.6680628">
-          <folding />
-        </state>
+        <state line="6" column="0" selection-start="368" selection-end="1473" vertical-scroll-proportion="0.16494845" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/kuali/rice/krtrain/component/.hold">
+    <entry file="file://$PROJECT_DIR$/training/solutions/exercise20/BookEntryView.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="255" column="0" selection-start="13921" selection-end="14078" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/training/solutions/exercise21/BookEntryView.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="258" column="0" selection-start="14080" selection-end="14597" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/css/krad-training.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="33" selection-start="250" selection-end="250" vertical-scroll-proportion="0.40206185" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/KradTrainingModuleBeans.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/kuali/rice/krtrain/editors/.hold">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/org/kuali/rice/krtrain/book/BookEntryView.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/BootStrapConfig.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="25" selection-start="905" selection-end="905" vertical-scroll-proportion="0.2446352">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/kuali/rice/krtrain/GenericForm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="16" selection-start="284" selection-end="284" vertical-scroll-proportion="0.2793651">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/kuali/rice/krtrain/GenericController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="40" selection-start="380" selection-end="380" vertical-scroll-proportion="0.16296296">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="17" selection-start="17" selection-end="17" vertical-scroll-proportion="0.032448377">
+        <state line="30" column="28" selection-start="1302" selection-end="1302" vertical-scroll-proportion="0.814433">
           <folding />
         </state>
       </provider>
@@ -1164,7 +1381,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.39050388" />
+                <option value="0.17452008" />
               </list>
             </option>
           </splitter-proportions>
