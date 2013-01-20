@@ -49,7 +49,17 @@
                 </bean>
 
                 <bean id="typeCode" parent="Uif-InputField" p:propertyName="typeCode"
-                      p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.BookType"/>
+                      p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.BookType">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krtrain.book.BookType"
+                              p:fieldConversions="typeCode:typeCode"/>
+                    </property>
+
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.krtrain.book.BookType"
+                              p:inquiryParameters="typeCode:typeCode" p:enableDirectInquiry="true"/>
+                    </property>
+                </bean>
 
                 <bean id="isbn" parent="Uif-InputField-LabelRight" p:propertyName="isbn"
                       p:label="ISBN" p:instructionalText="Please enter the newest ISBN number available"/>
@@ -64,7 +74,13 @@
                       p:defaultValueFinderClass="org.kuali.rice.krtrain.finders.DefaultBindingTypeValueFinder"/>
 
                 <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="author"
-                      p:propertyName="authorName" p:label="Author Name"/>
+                      p:propertyName="authorName" p:label="Author Name" p:additionalHiddenPropertyNames="authorId">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krtrain.book.Author"
+                              p:fieldConversions="authorId:authorId,authorName:authorName,email:email"
+                              p:lookupParameters="email:email" p:readOnlySearchFields="email"/>
+                    </property>
+                </bean>
 
                 <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="author"
                       p:propertyName="email" p:label="Author Email"/>
