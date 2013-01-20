@@ -9,7 +9,8 @@
             <list>
                 <bean id="titleLbl" parent=""/>
 
-                <bean id="title" parent="Uif-InputField" p:propertyName="book.title"/>
+                <bean id="title" parent="Uif-InputField" p:propertyName="book.title"
+                      p:fieldLabel.render="false"/>
             </list>
         </property>
     </bean>
