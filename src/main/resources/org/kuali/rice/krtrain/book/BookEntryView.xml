@@ -250,6 +250,16 @@
 
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel"
                       p:performDirtyValidation="true"/>
+
+                <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/images/publisher.png"
+                      p:altText="publisher logo" p:captionHeaderText="Publisher Logo"
+                      p:cutlineText="logo created by entangled publishing, 2013">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>border-photo</value>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
