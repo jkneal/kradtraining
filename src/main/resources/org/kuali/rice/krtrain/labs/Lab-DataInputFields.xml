@@ -4,4 +4,22 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
+    <bean parent="Uif-DataField" p:propertyName="entryDate" p:label="Entry Date"
+          p:defaultValue="01/03/2013"/>
+
+    <bean parent="Uif-InputField" p:propertyName="book.bindingType" p:label="Binding Type"
+          p:defaultValueFinderClass="org.kuali.rice.krtrain.finders.DefaultBindingTypeValueFinder"/>
+
+    <bean parent="Uif-InputField" p:bindingInfo.bindingObjectPath="book.author"
+          p:propertyName="authorName" p:label="Author Name"/>
+
+    <bean parent="Uif-InputField" p:bindingInfo.bindingObjectPath="book"
+          p:bindingInfo.bindByNamePrefix="author" p:propertyName="email" p:label="Author Email"/>
+
+    <bean parent="Uif-InputField" p:bindingInfo.bindingObjectPath="book.ratings"
+          p:bindingInfo.bindToMap="true" p:propertyName="NYTIMES" p:label="New York Times Rating"/>
+
+    <bean parent="Uif-InputField" p:bindingInfo.bindingObjectPath="book.ratings"
+          p:bindingInfo.bindToMap="true" p:propertyName="AMAZON" p:label="Amazon Rating"/>
+
 </beans>

@@ -30,6 +30,7 @@
             <bean parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
                   p:templateName="appfooter"/>
         </property>
+        <property name="defaultBindingObjectPath" value="book"/>
     </bean>
 
     <bean id="Krtrain-BookEntryPage1" parent="Uif-Page">
@@ -41,20 +42,38 @@
                             <bean id="titleLbl" parent="Uif-Label" p:labelText="Book Title"
                                   p:labelForComponentId="title"/>
 
-                            <bean id="title" parent="Uif-InputField" p:propertyName="book.title"
+                            <bean id="title" parent="Uif-InputField" p:propertyName="title"
                                   p:fieldLabel.render="false"/>
                         </list>
                     </property>
                 </bean>
 
-                <bean id="typeCode" parent="Uif-InputField" p:propertyName="book.typeCode"
+                <bean id="typeCode" parent="Uif-InputField" p:propertyName="typeCode"
                       p:label="Book Type" p:shortLabel="Bk Typ"/>
 
-                 <bean id="isbn" parent="Uif-InputField-LabelRight" p:propertyName="book.isbn"
+                <bean id="isbn" parent="Uif-InputField-LabelRight" p:propertyName="isbn"
                       p:label="ISBN"/>
 
-                <bean id="publisher" parent="Uif-InputField-LabelTop" p:propertyName="book.publisher"
+                <bean id="publisher" parent="Uif-InputField-LabelTop" p:propertyName="publisher"
                       p:label="Publisher"/>
+
+                <bean parent="Uif-DataField" p:propertyName="entryDate" p:bindingInfo.bindToForm="true"
+                      p:label="Entry Date" p:defaultValue="01/03/2013"/>
+
+                <bean parent="Uif-InputField" p:propertyName="bindingType" p:label="Binding Type"
+                      p:defaultValueFinderClass="org.kuali.rice.krtrain.finders.DefaultBindingTypeValueFinder"/>
+
+                <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="author"
+                      p:propertyName="authorName" p:label="Author Name"/>
+
+                <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="author"
+                      p:propertyName="email" p:label="Author Email"/>
+
+                <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="ratings"
+                      p:bindingInfo.bindToMap="true" p:propertyName="NYTIMES" p:label="New York Times Rating"/>
+
+                <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="ratings"
+                      p:bindingInfo.bindToMap="true" p:propertyName="AMAZON" p:label="Amazon Rating"/>
             </list>
         </property>
     </bean>
