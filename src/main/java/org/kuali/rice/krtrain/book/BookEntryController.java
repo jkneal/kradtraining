@@ -1,5 +1,6 @@
 package org.kuali.rice.krtrain.book;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -197,6 +198,26 @@ public class BookEntryController extends UifControllerBase {
 
         GlobalVariables.getMessageMap().putInfoForSectionId(KRADConstants.GLOBAL_MESSAGES,
                 "method.invoked", "viewBookEntry");
+
+        return getUIFModelAndView(form);
+    }
+
+    /**
+     * Sample method for getting action parameters
+     */
+    @RequestMapping(params = "methodToCall=viewPublisher")
+    public ModelAndView viewPublisher(@ModelAttribute("KualiForm") BookEntryForm form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) {
+
+        String format = form.getActionParamaterValue("format");
+
+        if (StringUtils.equals("summary", format)) {
+            // do summary logic
+        } else if (StringUtils.equals("detail", format)) {
+            // do detail logic
+        } else {
+            // throw exception or default
+        }
 
         return getUIFModelAndView(form);
     }
