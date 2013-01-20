@@ -264,6 +264,31 @@
                 <bean parent="Uif-Link" p:linkText="List of Publishers" p:target="_blank"
                       p:href="http://en.wikipedia.org/wiki/List_of_English-language_book_publishing_companies"
                       p:openInLightbox="true"/>
+
+                <bean parent="Uif-Message">
+                    <property name="messageText">
+                      <value>
+                        Copyright Information &lt;br&gt;
+                        United States of America: US copyright law can be found in various pieces of legislation dealing &lt;br&gt;
+                        with copyright and responsibility for the administrative aspects of copyright law rests with &lt;br&gt;
+                        the United States Copyright Office, whose website can be found at: http://www.copyright.gov/.
+                      </value>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>message-copyright</value>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-Message"
+                      p:messageText="There are @{book.numberPublisherBooks} books from this publisher.">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>message-highlight</value>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
