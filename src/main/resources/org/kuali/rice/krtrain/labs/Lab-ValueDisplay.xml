@@ -4,13 +4,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-    <bean parent="Uif-InputField" p:propertyName="edition" p:label="Edition"/>
+    <bean parent="Uif-InputField" p:propertyName="edition" p:label="Edition"
+          p:propertyEditorClass="org.kuali.rice.krtrain.editors.EditionPropertyEditor"/>
 
-    <bean parent="Uif-InputField" p:propertyName="coverArt" p:label="Cover" p:readOnly="true"/>
+    <bean parent="Uif-InputField" p:propertyName="coverArt" p:label="Cover" p:readOnly="true"
+          p:readOnlyDisplaySuffixPropertyName="coverArtist"/>
 
-    <bean parent="Uif-InputField" p:propertyName="author.numberWrittenBooks" p:label="Written Books"
-          p:readOnly="true"/>
+    <bean parent="Uif-InputField" p:propertyName="author.numberWrittenBooks" p:label="Written Books" p:readOnly="true"
+          p:readOnlyDisplayReplacement="@{book.author.numberWrittenBooks} (@{book.author.numberPublishedBooks} Published)"/>
 
-    <bean parent="Uif-InputField" p:propertyName="wearAndTear" p:label="Wear and Tear" p:readOnly="true"/>
+    <bean parent="Uif-InputField" p:propertyName="wearAndTear" p:label="Wear and Tear" p:readOnly="true"
+          p:readOnlyListDisplayType="OL"/>
 
 </beans>

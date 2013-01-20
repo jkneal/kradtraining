@@ -74,6 +74,19 @@
 
                 <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="ratings"
                       p:bindingInfo.bindToMap="true" p:propertyName="AMAZON" p:label="Amazon Rating"/>
+
+                <bean parent="Uif-InputField" p:propertyName="edition" p:label="Edition"
+                      p:propertyEditorClass="org.kuali.rice.krtrain.editors.EditionPropertyEditor"/>
+
+                <bean parent="Uif-InputField" p:propertyName="coverArt" p:label="Cover" p:readOnly="true"
+                      p:readOnlyDisplaySuffixPropertyName="coverArtist"/>
+
+                <bean parent="Uif-InputField" p:propertyName="author.numberWrittenBooks" p:label="Written Books"
+                      p:readOnly="true"
+                      p:readOnlyDisplayReplacement="@{book.author.numberWrittenBooks} (@{book.author.numberPublishedBooks} Published)"/>
+
+                <bean parent="Uif-InputField" p:propertyName="wearAndTear" p:label="Wear and Tear" p:readOnly="true"
+                      p:readOnlyListDisplayType="OL"/>
             </list>
         </property>
     </bean>
