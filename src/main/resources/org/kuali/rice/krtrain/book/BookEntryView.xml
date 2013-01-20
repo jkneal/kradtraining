@@ -128,21 +128,30 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherAddress" p:label="Publisher Address">
-                    <property name="control">
-                        <bean parent="Uif-MediumTextControl" p:watermarkText="street # name"/>
-                    </property>
-                </bean>
+                <bean id="publisherGroup" parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherAddress"
+                                  p:label="Publisher Address">
+                                <property name="control">
+                                    <bean parent="Uif-MediumTextControl" p:watermarkText="street # name"/>
+                                </property>
+                            </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherState" p:label="Publisher State">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="2"/>
-                    </property>
-                </bean>
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherState"
+                                  p:label="Publisher State">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="2"/>
+                                </property>
+                            </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="publicationDate" p:label="Publisher Date">
-                    <property name="control">
-                        <bean parent="Uif-DateControl"/>
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="publicationDate"
+                                  p:label="Publisher Date">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl"/>
+                                </property>
+                            </bean>
+                        </list>
                     </property>
                 </bean>
 
@@ -207,7 +216,9 @@
                     <property name="optionsFinderClass" value="org.kuali.rice.krtrain.finders.BookLanguageOptions"/>
                 </bean>
 
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveBook" p:actionLabel="save book"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveBook" p:actionLabel="save book"
+                      p:preSubmitCall="return promptBeforeSave();" p:loadingMessageText="Saving Book..."
+                      p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP"/>
 
                 <bean parent="Uif-ActionLink" p:methodToCall="viewRatings" p:actionLabel="View More Ratings"/>
 
@@ -227,12 +238,18 @@
                 </bean>
 
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="viewPublisher"
-                      p:actionLabel="publisher summary" p:actionParameters="format:summary"/>
+                      p:actionLabel="publisher summary" p:actionParameters="format:summary"
+                      p:refreshId="publisherGroup"
+                      p:successCallback="alert('publisher information retrieved');"/>
 
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="viewPublisher"
-                      p:actionLabel="publisher details" p:actionParameters="format:detail"/>
+                      p:actionLabel="publisher details" p:actionParameters="format:detail"
+                      p:refreshId="publisherGroup"/>
 
                 <bean parent="Uif-PrimaryActionButton" p:actionScript="clearForm();" p:actionLabel="clear form"/>
+
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel"
+                      p:performDirtyValidation="true"/>
             </list>
         </property>
     </bean>
