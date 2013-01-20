@@ -7,17 +7,21 @@
     <bean parent="Uif-HorizontalBoxGroup">
         <property name="items">
             <list>
-                <bean id="titleLbl" parent=""/>
+                <bean id="titleLbl" parent="Uif-Label" p:labelText="Book Title"
+                      p:labelForComponentId="title"/>
 
                 <bean id="title" parent="Uif-InputField" p:propertyName="book.title"/>
             </list>
         </property>
     </bean>
 
-    <bean id="typeCode" parent="Uif-InputField" p:propertyName="book.typeCode"/>
+    <bean id="typeCode" parent="Uif-InputField" p:propertyName="book.typeCode"
+          p:label="Book Type" p:shortLabel="Bk Typ"/>
 
-    <bean id="isbn" parent="Uif-InputField" p:propertyName="book.isbn"/>
+    <bean id="isbn" parent="Uif-InputField" p:propertyName="book.isbn"
+          p:label="ISBN" p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"/>
 
-    <bean id="publisher" parent="Uif-InputField" p:propertyName="book.publisher"/>
+    <bean id="publisher" parent="Uif-InputField" p:propertyName="book.publisher"
+          p:label="Publisher" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
 
 </beans>

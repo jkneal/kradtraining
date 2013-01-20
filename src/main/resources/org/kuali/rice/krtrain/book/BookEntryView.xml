@@ -33,6 +33,30 @@
     </bean>
 
     <bean id="Krtrain-BookEntryPage1" parent="Uif-Page">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="titleLbl" parent="Uif-Label" p:labelText="Book Title"
+                                  p:labelForComponentId="title"/>
+
+                            <bean id="title" parent="Uif-InputField" p:propertyName="book.title"
+                                  p:fieldLabel.render="false"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="typeCode" parent="Uif-InputField" p:propertyName="book.typeCode"
+                      p:label="Book Type" p:shortLabel="Bk Typ"/>
+
+                 <bean id="isbn" parent="Uif-InputField-LabelRight" p:propertyName="book.isbn"
+                      p:label="ISBN"/>
+
+                <bean id="publisher" parent="Uif-InputField-LabelTop" p:propertyName="book.publisher"
+                      p:label="Publisher"/>
+            </list>
+        </property>
     </bean>
 
     <bean id="Krtrain-BookEntryPage2" parent="Uif-Page">
