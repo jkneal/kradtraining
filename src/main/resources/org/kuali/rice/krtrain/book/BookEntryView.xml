@@ -70,7 +70,7 @@
                 </bean>
 
                 <bean id="isbn" parent="Uif-InputField-LabelRight" p:propertyName="isbn"
-                      p:label="ISBN" p:instructionalText="Please enter the newest ISBN number available"/>
+                      p:label="ISBN" p:instructionalText="Please enter the [b]newest ISBN[/b] number available"/>
 
                 <bean id="publisher" parent="Uif-InputField-LabelTop" p:propertyName="publisher"
                       p:label="Publisher"/>
@@ -94,10 +94,12 @@
                       p:propertyName="email" p:label="Author Email"/>
 
                 <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="ratings"
-                      p:bindingInfo.bindToMap="true" p:propertyName="NYTIMES" p:label="New York Times Rating"/>
+                      p:bindingInfo.bindToMap="true" p:propertyName="NYTIMES"
+                      p:label="[link=http://www.nytimes.com]New York Times[/link] Rating"/>
 
                 <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="ratings"
-                      p:bindingInfo.bindToMap="true" p:propertyName="AMAZON" p:label="Amazon Rating"/>
+                      p:bindingInfo.bindToMap="true" p:propertyName="AMAZON"
+                      p:label="[link=http://amazon.com]Amazon[/link] Rating"/>
 
                 <bean parent="Uif-InputField" p:propertyName="edition" p:label="Edition"
                       p:propertyEditorClass="org.kuali.rice.krtrain.editors.EditionPropertyEditor"/>
@@ -198,11 +200,11 @@
                         <bean parent="Uif-HorizontalRadioControl">
                             <property name="options">
                                 <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="1 Star"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="2 Star"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="3" p:value="3 Star"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="4" p:value="4 Star"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="5" p:value="5 Star"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="[color=yellow]1 Star[/color]"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="[color=green]2 Star[/color]"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="3" p:value="[color=blue]3 Star[/color]"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="4" p:value="[color=orange]4 Star[/color]"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="5" p:value="[color=red]5 Star[/color]"/>
                                 </list>
                             </property>
                         </bean>
@@ -253,7 +255,7 @@
 
                 <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/images/publisher.png"
                       p:altText="publisher logo" p:captionHeaderText="Publisher Logo"
-                      p:cutlineText="logo created by entangled publishing, 2013">
+                      p:cutlineText="logo created by [i]entangled publishing[/i], [id=copyrightImage]2013">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>border-photo</value>
@@ -268,10 +270,10 @@
                 <bean parent="Uif-Message">
                     <property name="messageText">
                       <value>
-                        Copyright Information &lt;br&gt;
+                        [b]Copyright Information[/b] &lt;br&gt;
                         United States of America: US copyright law can be found in various pieces of legislation dealing &lt;br&gt;
                         with copyright and responsibility for the administrative aspects of copyright law rests with &lt;br&gt;
-                        the United States Copyright Office, whose website can be found at: http://www.copyright.gov/.
+                        the United States Copyright Office, whose website can be found at: [link=http://www.copyright.gov/]http://www.copyright.gov/[/link].
                       </value>
                     </property>
                     <property name="cssClasses">
@@ -289,9 +291,27 @@
                         </list>
                     </property>
                 </bean>
+
+                <bean parent="Uif-Message"
+                      p:messageText="[css=message-caps]This entry[/css] is made by [0] to be valid for [1] days.">
+                    <property name="inlineComponents">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="preparerSignature"
+                                  p:fieldLabel.render="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="numberValidDays" p:fieldLabel.render="false">
+                                <property name="control">
+                                    <bean parent="Uif-SpinnerControl" p:size="2"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
+
+    <bean id="copyrightImage" parent="Uif-Image"
+          p:source="@{#ConfigProperties['application.url']}/images/copyright.png"/>
 
     <bean id="Krtrain-BookEntryPage2" parent="Uif-Page">
     </bean>
