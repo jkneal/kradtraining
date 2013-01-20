@@ -49,7 +49,8 @@
                 </bean>
 
                 <bean id="typeCode" parent="Uif-InputField" p:propertyName="typeCode"
-                      p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.BookType">
+                      p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.BookType"
+                      p:propertyNamesForAdditionalDisplay="bookType.description">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krtrain.book.BookType"
                               p:fieldConversions="typeCode:typeCode"/>
@@ -58,6 +59,13 @@
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.krtrain.book.BookType"
                               p:inquiryParameters="typeCode:typeCode" p:enableDirectInquiry="true"/>
+                    </property>
+
+                    <property name="attributeQuery">
+                        <bean parent="Uif-AttributeQueryConfig"
+                              p:dataObjectClassName="org.kuali.rice.krtrain.book.BookType"
+                              p:queryFieldMapping="typeCode:typeCode"
+                              p:returnFieldMapping="description:bookType.description"/>
                     </property>
                 </bean>
 
@@ -107,7 +115,18 @@
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherCode"
                       p:minLength="1" p:constraintText="#xxx format"
                       p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.PublisherCode"
-                      p:dictionaryAttributeName="code"/>
+                      p:dictionaryAttributeName="code" p:propertyNamesForAdditionalDisplay="pubCode.name">
+                    <property name="attributeQuery">
+                        <bean parent="Uif-AttributeQueryConfig"
+                              p:queryMethodArgumentFieldList="publisherCode" p:returnFieldMapping="name:pubCode.name"
+                              p:queryMethodInvokerConfig.staticMethod="org.kuali.rice.krtrain.util.QueryUtils.retrievePublisherCode"/>
+                    </property>
+
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:sourcePropertyName="code"
+                              p:suggestQuery.dataObjectClassName="org.kuali.rice.krtrain.book.PublisherCode" />
+                    </property>
+                </bean>
 
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherAddress" p:label="Publisher Address">
                     <property name="control">
