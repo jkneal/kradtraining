@@ -49,7 +49,7 @@
                 </bean>
 
                 <bean id="typeCode" parent="Uif-InputField" p:propertyName="typeCode"
-                      p:label="Book Type" p:shortLabel="Bk Typ"/>
+                      p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.BookType"/>
 
                 <bean id="isbn" parent="Uif-InputField-LabelRight" p:propertyName="isbn"
                       p:label="ISBN" p:instructionalText="Please enter the newest ISBN number available"/>
@@ -88,12 +88,10 @@
                 <bean parent="Uif-InputField" p:propertyName="wearAndTear" p:label="Wear and Tear" p:readOnly="true"
                       p:readOnlyListDisplayType="OL"/>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherCode" p:label="Publisher Code"
-                      p:minLength="1" p:maxLength="4" p:constraintText="#xxx format">
-                    <property name="control">
-                        <bean parent="Uif-SmallTextControl"/>
-                    </property>
-                </bean>
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherCode"
+                      p:minLength="1" p:constraintText="#xxx format"
+                      p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.PublisherCode"
+                      p:dictionaryAttributeName="code"/>
 
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherAddress" p:label="Publisher Address">
                     <property name="control">
