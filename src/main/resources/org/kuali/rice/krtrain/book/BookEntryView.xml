@@ -95,13 +95,6 @@
 
                 <ref bean="formats"/>
 
-                <bean parent="Uif-ActionImage" p:methodToCall="viewAuthorBooks">
-                    <property name="actionImage">
-                        <bean parent="Uif-Image"
-                              p:source="@{#ConfigProperties['application.url']}/images/book.png"/>
-                    </property>
-                </bean>
-
                 <ref bean="publisherGroup"/>
 
                 <ref bean="authorGroup"/>
@@ -180,13 +173,13 @@
                 <bean parent="Uif-InputField" p:propertyName="edition" p:label="Edition"
                       p:propertyEditorClass="org.kuali.rice.krtrain.editors.EditionPropertyEditor"/>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="shortSummary" p:label="Short Summary">
+                <bean parent="Uif-InputField" p:propertyName="shortSummary" p:label="Short Summary">
                     <property name="control">
                         <bean parent="Uif-SmallTextAreaControl"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="longSummary" p:label="Long Summary"
+                <bean parent="Uif-InputField" p:propertyName="longSummary" p:label="Long Summary"
                       p:colSpan="3">
                     <property name="control">
                         <bean parent="Uif-TextAreaControl" p:rows="8" p:cols="80" p:textExpand="true"/>
@@ -206,12 +199,18 @@
                 <bean parent="Uif-InputField" p:propertyName="wearAndTear" p:label="Wear and Tear" p:readOnly="true"
                       p:readOnlyListDisplayType="OL" p:fieldLabel.rowSpan="2" p:rowSpan="2"/>
 
-                <bean parent="Uif-InputField" p:propertyName="coverArt" p:label="Cover" p:readOnly="true"
-                      p:readOnlyDisplaySuffixPropertyName="coverArtist"/>
+                <bean parent="Uif-VerticalFieldGroup" p:label="Cover">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="coverArt" p:readOnly="true"
+                                  p:readOnlyDisplaySuffixPropertyName="coverArtist"/>
 
-                <bean parent="Uif-InputField" p:propertyName="coverImage" p:label="Cover Image">
-                    <property name="control">
-                        <bean parent="Uif-FileControl"/>
+                            <bean parent="Uif-InputField" p:propertyName="coverImage">
+                                <property name="control">
+                                    <bean parent="Uif-FileControl"/>
+                                </property>
+                            </bean>
+                        </list>
                     </property>
                 </bean>
             </list>
@@ -221,17 +220,22 @@
     <bean id="ratings" parent="Uif-GridSection" p:headerText="Ratings">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="ratings"
-                      p:bindingInfo.bindToMap="true" p:propertyName="NYTIMES"
-                      p:label="[link=http://www.nytimes.com]New York Times[/link] Rating"/>
+                <bean parent="Uif-GridFieldGroup" p:label="Ratings"
+                      p:group.layoutManager.numberOfColumns="1">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="ratings"
+                                  p:bindingInfo.bindToMap="true" p:propertyName="NYTIMES"
+                                  p:label="[link=http://www.nytimes.com]New York Times[/link] Rating"/>
 
-                <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="ratings"
-                      p:bindingInfo.bindToMap="true" p:propertyName="AMAZON"
-                      p:label="[link=http://amazon.com]Amazon[/link] Rating"/>
+                            <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="ratings"
+                                  p:bindingInfo.bindToMap="true" p:propertyName="AMAZON"
+                                  p:label="[link=http://amazon.com]Amazon[/link] Rating"/>
 
-                <bean parent="Uif-Space"/>
-
-                <bean parent="Uif-ActionLink" p:methodToCall="viewRatings" p:actionLabel="View More Ratings"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="viewRatings" p:actionLabel="View More Ratings"/>
+                        </list>
+                    </property>
+                </bean>
 
                 <bean parent="Uif-InputField" p:propertyName="averageReview" p:label="Average Review">
                     <property name="control">
@@ -406,9 +410,22 @@
             <bean parent="Uif-HeaderLowerGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-InputField" p:propertyName="author.numberWrittenBooks" p:label="Written Books"
-                              p:readOnly="true"
-                              p:readOnlyDisplayReplacement="@{book.author.numberWrittenBooks} (@{book.author.numberPublishedBooks} published)"/>
+                        <bean parent="Uif-HorizontalFieldGroup" p:label="Written Books">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-InputField" p:propertyName="author.numberWrittenBooks"
+                                          p:readOnly="true"
+                                          p:readOnlyDisplayReplacement="@{book.author.numberWrittenBooks} (@{book.author.numberPublishedBooks} published)"/>
+
+                                    <bean parent="Uif-ActionImage" p:methodToCall="viewAuthorBooks">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-Image"
+                                                  p:source="@{#ConfigProperties['application.url']}/images/book.png"/>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
                     </list>
                 </property>
             </bean>
