@@ -168,6 +168,8 @@ public class BookEntryController extends UifControllerBase {
         GlobalVariables.getMessageMap().putInfoForSectionId(KRADConstants.GLOBAL_MESSAGES,
                 "method.invoked", "saveBook");
 
+        GlobalVariables.getMessageMap().addGrowlMessage("Save Action", "book.saved", form.getBook().getTitle());
+
         return getUIFModelAndView(form);
     }
 

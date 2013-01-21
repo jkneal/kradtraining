@@ -197,7 +197,12 @@
 
                 <bean parent="Uif-InputField" p:propertyName="shortSummary" p:label="Short Summary">
                     <property name="control">
-                        <bean parent="Uif-SmallTextAreaControl"/>
+                        <bean parent="Uif-SmallTextAreaControl">
+                            <property name="toolTip">
+                                <bean parent="Uif-Tooltip" p:onFocus="true" p:onMouseHover="false"
+                                      p:tooltipContent="Please use the long summary field for a longer description"/>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
 
@@ -364,11 +369,19 @@
                         <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="viewPublisher"
                               p:actionLabel="publisher summary" p:actionParameters="format:summary"
                               p:refreshId="publisherGroup"
-                              p:successCallback="alert('publisher information retrieved');"/>
+                              p:successCallback="alert('publisher information retrieved');">
+                            <property name="toolTip">
+                                <bean parent="Uif-Tooltip" p:tooltipContent="See a summary of this publisher"/>
+                            </property>
+                        </bean>
 
                         <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="viewPublisher"
                               p:actionLabel="publisher details" p:actionParameters="format:detail"
-                              p:refreshId="publisherGroup"/>
+                              p:refreshId="publisherGroup">
+                            <property name="toolTip">
+                                <bean parent="Uif-Tooltip" p:tooltipContent="See all details for this publisher"/>
+                            </property>
+                        </bean>
                     </list>
                 </property>
             </bean>
