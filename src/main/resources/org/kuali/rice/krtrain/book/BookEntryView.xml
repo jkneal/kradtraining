@@ -180,13 +180,13 @@
                 <bean parent="Uif-InputField" p:propertyName="edition" p:label="Edition"
                       p:propertyEditorClass="org.kuali.rice.krtrain.editors.EditionPropertyEditor"/>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="shortSummary" p:label="Short Summary">
+                <bean parent="Uif-InputField" p:propertyName="shortSummary" p:label="Short Summary">
                     <property name="control">
                         <bean parent="Uif-SmallTextAreaControl"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="longSummary" p:label="Long Summary"
+                <bean parent="Uif-InputField" p:propertyName="longSummary" p:label="Long Summary"
                       p:colSpan="3">
                     <property name="control">
                         <bean parent="Uif-TextAreaControl" p:rows="8" p:cols="80" p:textExpand="true"/>
