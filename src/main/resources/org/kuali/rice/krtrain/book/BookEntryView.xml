@@ -381,7 +381,18 @@
                                         <bean parent="Uif-InputField-LabelTop" p:propertyName="publicationDate"
                                               p:label="Publisher Date">
                                             <property name="control">
-                                                <bean parent="Uif-DateControl"/>
+                                                <bean parent="Uif-DateControl">
+                                                    <property name="datePicker">
+                                                        <bean parent="Uif-DatePicker">
+                                                            <property name="templateOptions">
+                                                                <map merge="true">
+                                                                    <entry key="changeYear" value="false"/>
+                                                                    <entry key="maxDate" value="+3m"/>
+                                                                </map>
+                                                            </property>
+                                                        </bean>
+                                                    </property>
+                                                </bean>
                                             </property>
                                         </bean>
                                     </list>
@@ -547,6 +558,15 @@
         </property>
         <property name="layoutManager.rowDetailsGroup">
             <bean parent="relatedBookChapters" p:disclosure.render="false"/>
+        </property>
+        <property name="layoutManager.richTable">
+            <bean parent="Uif-RichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="sDom" value="fTrt"/>
+                    </map>
+                </property>
+            </bean>
         </property>
     </bean>
 
