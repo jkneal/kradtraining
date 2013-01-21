@@ -48,6 +48,12 @@
                 </property>
             </bean>
         </property>
+        <property name="help">
+          <bean parent="Uif-Help">
+            <property name="externalHelpUrl" value="https://wiki.kuali.org"/>
+            <property name="tooltipHelpContent" value="Help for Book Entry"/>
+          </bean>
+        </property>
     </bean>
 
     <bean id="Krtrain-BookEntryPage1" parent="Uif-Page">
@@ -174,7 +180,14 @@
                 </bean>
 
                 <bean id="isbn" parent="Uif-InputField-LabelRight" p:propertyName="isbn"
-                      p:label="ISBN" p:instructionalText="Please enter the [b]newest ISBN[/b] number available"/>
+                      p:label="ISBN" p:instructionalText="Please enter the [b]newest ISBN[/b] number available">
+                    <property name="help">
+                        <bean parent="Uif-Help">
+                            <property name="tooltipHelpContent"
+                                      value="Search &lt;a href=http://www.google.com&gt;google.com&lt;/a&gt; for ISBN codes"/>
+                        </bean>
+                    </property>
+                </bean>
 
                 <bean parent="Uif-DataField" p:propertyName="entryDate" p:bindingInfo.bindToForm="true"
                       p:label="Entry Date" p:defaultValue="01/03/2013"/>
@@ -296,6 +309,14 @@
                     <property name="optionsFinderClass" value="org.kuali.rice.krtrain.finders.BookLanguageOptions"/>
                 </bean>
             </list>
+        </property>
+        <property name="help">
+          <bean parent="Uif-Help">
+            <property name="helpDefinition">
+              <bean parent="HelpDefinition" p:parameterNamespace="KR-SAP"
+                    p:parameterDetailType="BookEntry" p:parameterName="FormatsHelpUrl"/>
+            </property>
+          </bean>
         </property>
     </bean>
 
