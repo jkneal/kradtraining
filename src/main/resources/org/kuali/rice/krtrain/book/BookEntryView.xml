@@ -340,7 +340,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/images/publisher.png"
+                <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['application.url']}/images/publisher.png"
                       p:altText="publisher logo" p:captionHeaderText="Publisher Logo"
                       p:cutlineText="logo created by [i]entangled publishing[/i], [id=copyrightImage]2013">
                     <property name="cssClasses">
