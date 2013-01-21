@@ -4,17 +4,73 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-    <bean id="chapters">
+    <bean id="chapters" parent="Uif-Disclosure-StackedCollectionSection" p:headerText="Chapters" p:propertyName="chapters"
+          p:collectionObjectClass="org.kuali.rice.krtrain.book.Chapter" p:renderSaveLineActions="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="number"/>
+                <bean parent="Uif-InputField" p:propertyName="title"/>
+                <bean parent="Uif-InputField" p:propertyName="part"/>
+                <bean parent="Uif-InputField" p:propertyName="numberPages"/>
+                <bean parent="Uif-InputField" p:propertyName="recap"/>
+            </list>
+        </property>
     </bean>
 
-    <bean id="relatedBooks">
+    <bean id="relatedBooks" parent="Uif-Disclosure-StackedCollectionSection" p:headerText="Related Books"
+          p:propertyName="relatedBooks" p:collectionObjectClass="org.kuali.rice.krtrain.book.Book"
+          p:displayCollectionSize="3" p:addLineLabel.labelText="Add Related Book">
+        <property name="addLineItems">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="id">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="id"/>
+                <bean parent="Uif-DataField" p:propertyName="title"/>
+                <bean parent="Uif-DataField" p:propertyName="typeCode"
+                      p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.BookType"/>
+                <bean parent="Uif-DataField" p:propertyName="isbn"/>
+                <bean parent="Uif-DataField" p:propertyName="publisher"/>
+                <bean parent="Uif-DataField" p:propertyName="publicationDate"/>
+                <bean parent="Uif-DataField" p:propertyName="price"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list merge="true">
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="viewBookEntry"
+                      p:actionLabel="view book entry" p:actionParameters="id:@{#line.id}"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <bean parent="relatedBookChapters"/>
+            </list>
+        </property>
     </bean>
 
-    <bean id="relatedBookChapters">
+    <bean id="relatedBookChapters" parent="Uif-Disclosure-StackedSubCollection-WithinSection" p:headerText="Chapters"
+          p:propertyName="chapters" p:collectionObjectClass="org.kuali.rice.krtrain.book.Chapter"
+          p:disclosure.defaultOpen="false" p:readOnly="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="number"/>
+                <bean parent="Uif-DataField" p:propertyName="title"/>
+                <bean parent="Uif-DataField" p:propertyName="part"/>
+                <bean parent="Uif-DataField" p:propertyName="numberPages"/>
+                <bean parent="Uif-DataField" p:propertyName="recap"/>
+            </list>
+        </property>
     </bean>
 
     <bean id="index" parent="Uif-Disclosure-StackedCollectionSection" p:headerText="Index" p:propertyName="index"
-          p:collectionObjectClass="org.kuali.rice.krtrain.book.IndexEntry">
+          p:collectionObjectClass="org.kuali.rice.krtrain.book.IndexEntry"
+          p:renderAddBlankLineButton="true" p:addLinePlacement="BOTTOM">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="term"/>
