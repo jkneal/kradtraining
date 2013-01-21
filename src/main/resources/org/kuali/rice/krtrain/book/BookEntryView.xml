@@ -504,7 +504,7 @@
         </property>
         <property name="layoutManager.columnCalculations">
           <list>
-            <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="numberPages"/>
+            <bean parent="Uif-ColumnCalculationInfo-Sum" p:showGroupTotal="true" p:propertyName="numberPages"/>
           </list>
         </property>
         <property name="layoutManager.actionFieldPrototype.group.layoutManager">
