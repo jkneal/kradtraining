@@ -62,7 +62,8 @@
         </property>
     </bean>
 
-    <bean id="publisherDetails" parent="Uif-Disclosure-SubSectionBase" p:headerText="Publisher Details">
+    <bean id="publisherDetails" parent="Uif-Disclosure-SubSectionBase" p:headerText="Publisher Details"
+          p:disclosure.defaultOpen="false">
         <property name="layoutManager">
             <bean parent="Uif-VerticalBoxLayout"/>
         </property>
