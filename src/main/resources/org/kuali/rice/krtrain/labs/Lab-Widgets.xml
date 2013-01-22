@@ -4,12 +4,33 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
+    <bean id="Booklet" class="org.kuali.rice.krtrain.component.Booklet" scope="prototype">
+       <property name="templateOptions">
+           <map>
+               <entry key="width" value="800"/>
+               <entry key="height" value="500"/>
+               <entry key="speed" value="600"/>
+               <entry key="pagePadding" value="10"/>
+               <entry key="overlays" value="false"/>
+               <entry key="hovers" value="false"/>
+               <entry key="next" value="#next_page_button"/>
+               <entry key="prev" value="#prev_page_button"/>
+           </map>
+       </property>
+    </bean>
+
+    <bean id="BookGroup" class="org.kuali.rice.krtrain.component.BookGroup" parent="Uif-VerticalBoxGroup">
+        <property name="booklet">
+            <bean parent="Booklet"/>
+        </property>
+    </bean>
+
     <bean id="Krtrain-BookPreview" parent="Uif-Page">
          <property name="items">
              <list>
                  <bean id="next_page_button" parent="Uif-Link" p:href="#"/>
                  <bean id="prev_page_button" parent="Uif-Link" p:href="#"/>
-                 <bean id="bookPreviewGroup">
+                 <bean id="bookPreviewGroup" parent="BookGroup">
                      <property name="items">
                          <list>
                              <ref bean="previewPage1"/>

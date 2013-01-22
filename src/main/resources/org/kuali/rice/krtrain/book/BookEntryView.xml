@@ -10,6 +10,7 @@
             <list>
                 <ref bean="Krtrain-BookEntryPage1"/>
                 <ref bean="Krtrain-BookEntryPage2"/>
+                <ref bean="Krtrain-BookPreview"/>
             </list>
         </property>
         <property name="navigation">
@@ -17,10 +18,17 @@
         </property>
         <property name="formClass" value="org.kuali.rice.krtrain.book.BookEntryForm"/>
         <property name="additionalCssFiles">
-            <value>@{#ConfigProperties['application.url']}/css/krad-training.css</value>
+            <list>
+                <value>@{#ConfigProperties['application.url']}/css/krad-training.css</value>
+                <value>@{#ConfigProperties['application.url']}/plugins/booklet/jquery.booklet.1.1.0.css</value>
+                <value>@{#ConfigProperties['application.url']}/plugins/booklet/moleskine.css</value>
+            </list>
         </property>
         <property name="additionalScriptFiles">
-            <value>@{#ConfigProperties['application.url']}/js/krad-training.js</value>
+            <list>
+                <value>@{#ConfigProperties['application.url']}/js/krad-training.js</value>
+                <value>@{#ConfigProperties['application.url']}/plugins/booklet/jquery.booklet.1.1.0.js</value>
+            </list>
         </property>
         <property name="applicationHeader">
             <bean parent="Uif-HeaderBase" p:template="/WEB-INF/templates/ftl/applicationHeader.ftl"
@@ -131,6 +139,8 @@
                       p:actionLabel="Book Indexing"/>
                 <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage2"
                       p:actionLabel="Book Content"/>
+                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookPreview"
+                      p:actionLabel="Book Preview"/>
             </list>
         </property>
     </bean>
@@ -635,6 +645,104 @@
         </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems"/>
+        </property>
+    </bean>
+
+    <bean id="Booklet" class="org.kuali.rice.krtrain.component.Booklet" scope="prototype">
+       <property name="templateOptions">
+           <map>
+               <entry key="width" value="800"/>
+               <entry key="height" value="500"/>
+               <entry key="speed" value="600"/>
+               <entry key="pagePadding" value="10"/>
+               <entry key="overlays" value="false"/>
+               <entry key="hovers" value="false"/>
+               <entry key="next" value="#next_page_button"/>
+               <entry key="prev" value="#prev_page_button"/>
+           </map>
+       </property>
+    </bean>
+
+    <bean id="BookGroup" class="org.kuali.rice.krtrain.component.BookGroup" parent="Uif-VerticalBoxGroup">
+        <property name="booklet">
+            <bean parent="Booklet"/>
+        </property>
+    </bean>
+
+    <bean id="Krtrain-BookPreview" parent="Uif-Page">
+         <property name="items">
+             <list>
+                 <bean id="next_page_button" parent="Uif-Link" p:href="#"/>
+                 <bean id="prev_page_button" parent="Uif-Link" p:href="#"/>
+                 <bean id="bookPreviewGroup" parent="BookGroup">
+                     <property name="items">
+                         <list>
+                             <ref bean="previewPage1"/>
+                             <ref bean="previewPage2"/>
+                             <ref bean="previewPage3"/>
+                         </list>
+                     </property>
+                 </bean>
+             </list>
+         </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>book_wrapper</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="previewPage1" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/images/k_usc.jpg"/>
+                <bean parent="Uif-HeaderOne" p:headerText="Kuali @ USC"/>
+                <bean parent="Uif-Message">
+                    <property name="messageText">
+                      <value>
+                       [p]USC is a contributing partner in the development of Kuali, a suite of software solutions,
+                        created by a consortium of universities to automate and integrate a broad spectrum of administrative
+                        processes.[/p]
+                      </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="previewPage2" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/images/k_cornell.jpg"/>
+                <bean parent="Uif-HeaderOne" p:headerText="Kuali @ Cornell"/>
+                <bean parent="Uif-Message">
+                    <property name="messageText">
+                      <value>
+                       [p]Cheers and confetti helped celebrate Cornell's launch of the Kuali Financial System (KFS)
+                          in a ceremony July 1 in the East Hill Office Building. [/p]
+                      </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="previewPage3" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/images/k_iu.png"/>
+                <bean parent="Uif-HeaderOne" p:headerText="Kuali @ IU"/>
+                <bean parent="Uif-Message">
+                    <property name="messageText">
+                      <value>
+                       [p]The Kuali Financial System (KFS) is a comprehensive suite of functionality that will serve
+                          all of Indiana University’s financial business needs. Kuali Financial System’s design is based
+                          upon the proven functionality of Indiana University’s Financial Information System (FIS) and
+                          Electronic Procurement and Invoicing Center (EPIC).[/p]
+                      </value>
+                    </property>
+                </bean>
+            </list>
         </property>
     </bean>
 
