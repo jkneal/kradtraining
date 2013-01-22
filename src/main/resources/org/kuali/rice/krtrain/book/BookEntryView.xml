@@ -63,6 +63,7 @@
             <property name="tooltipHelpContent" value="Help for Book Entry"/>
           </bean>
         </property>
+        <property name="viewHelperServiceClass" value="org.kuali.rice.krtrain.book.BookEntryViewHelper"/>
     </bean>
 
     <bean id="Krtrain-BookEntryPage1" parent="Uif-Page">
@@ -549,6 +550,9 @@
                                     </list>
                                 </property>
                             </bean>
+
+                            <bean parent="Uif-Link" p:linkText="Link Not Set"
+                                  p:finalizeMethodToCall="setupAuthorBlogLink"/>
                         </list>
                     </property>
                 </bean>
