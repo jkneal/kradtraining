@@ -225,6 +225,12 @@
                 </bean>
             </list>
         </property>
+        <property name="componentModifiers">
+            <list merge="true">
+                <bean class="org.kuali.rice.krtrain.component.AuditFieldModifier"
+                        p:runPhase="FINALIZE" p:runCondition="@{auditMode}"/>
+            </list>
+        </property>
     </bean>
 
     <bean id="bookCondition" parent="Uif-GridSection" p:headerText="Book Condition"
