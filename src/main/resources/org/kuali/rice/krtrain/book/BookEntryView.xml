@@ -295,6 +295,16 @@
                             </property>
                         </bean>
                     </property>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="control"
+                                  p:condition="@{expertEntry}">
+                                <property name="replacement">
+                                    <bean parent="Uif-TextControl" p:size="3"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
@@ -403,6 +413,12 @@
                     </list>
                 </property>
             </bean>
+        </property>
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="instructionalText"
+                      p:condition="@{expertEntry}" p:replacement="Entry the usual publisher"/>
+            </list>
         </property>
     </bean>
 
