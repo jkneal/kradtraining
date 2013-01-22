@@ -5,7 +5,8 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
 
-    <bean id="Krtrain-BookEntryViewMenu" parent="Uif-FormView" p:headerText="Book Entry Menu">
+    <bean id="Krtrain-BookEntryViewMenu" parent="Uif-FormView" p:headerText="Book Entry Menu"
+          p:readOnly="@{format.readOnlyView}">
         <property name="items">
             <list>
                 <ref bean="Krtrain-BookEntryPage1"/>
@@ -45,7 +46,7 @@
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveBook" p:actionLabel="save book"
                               p:preSubmitCall="return promptBeforeSave();" p:loadingMessageText="Saving Book..."
-                              p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP"/>
+                              p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP" p:render="@{!view.readOnly}"/>
 
                         <bean parent="Uif-PrimaryActionButton" p:actionScript="clearForm();"
                               p:actionLabel="clear form"/>
@@ -162,7 +163,7 @@
         </property>
     </bean>
 
-    <bean id="generalInformation" parent="Uif-GridSection" p:headerText="General Information"
+    <bean id="generalInformation" parent="Uif-GridSection" p:headerText="General Information - @{#dp.isbn}"
           p:layoutManager.numberOfColumns="4">
         <property name="items">
             <list>
@@ -219,7 +220,7 @@
                 <bean parent="Uif-InputField" p:propertyName="longSummary" p:label="Long Summary"
                       p:colSpan="3">
                     <property name="control">
-                        <bean parent="Uif-TextAreaControl" p:rows="8" p:cols="80" p:textExpand="true"/>
+                        <bean parent="Uif-TextAreaControl" p:rows="@{format.summaryRows}" p:cols="80" p:textExpand="true"/>
                     </property>
                 </bean>
             </list>
@@ -254,7 +255,7 @@
         </property>
     </bean>
 
-    <bean id="ratings" parent="Uif-GridSection" p:headerText="Ratings">
+    <bean id="ratings" parent="Uif-GridSection" p:headerText="Ratings" p:render="@{!format.hideRatings}">
         <property name="items">
             <list>
                 <bean parent="Uif-GridFieldGroup" p:label="Ratings"
@@ -303,7 +304,8 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="availableFormats" p:label="Available Formats">
+                <bean parent="Uif-InputField" p:propertyName="availableFormats" p:label="Available Formats"
+                      p:required="@{#dp.fiction or (#dp.edition > 1)}">
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl">
                             <property name="options">
@@ -416,7 +418,7 @@
                                         </bean>
 
                                         <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherState"
-                                              p:label="Publisher State">
+                                              p:label="Publisher State" p:readOnly="@{#empty(#dp.publisherAddress)}">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="2"/>
                                             </property>
@@ -446,7 +448,8 @@
                             <bean parent="Uif-ImageField"
                                   p:source="@{#ConfigProperties['application.url']}/images/publisher.png"
                                   p:altText="publisher logo" p:captionHeaderText="Publisher Logo"
-                                  p:cutlineText="logo created by [i]entangled publishing[/i], [id=copyrightImage]2013">
+                                  p:cutlineText="logo created by [i]entangled publishing[/i], [id=copyrightImage]2013"
+                                  p:render="@{#getParmInd('KR-SAP','BookEntry','RenderPublisherLogo')}">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>border-photo</value>
@@ -509,7 +512,8 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="author"
-                                  p:propertyName="email" p:label="Author Email"/>
+                                  p:propertyName="email" p:label="Author Email"
+                                  p:instructionalText="Enter email for the author @{#fp.authorName}"/>
 
                             <bean parent="Uif-LinkGroup" p:linkSeparator="|">
                                 <property name="items">
