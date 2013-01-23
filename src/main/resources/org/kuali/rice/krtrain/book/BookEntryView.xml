@@ -46,7 +46,8 @@
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveBook" p:actionLabel="save book"
                               p:preSubmitCall="return promptBeforeSave();" p:loadingMessageText="Saving Book..."
-                              p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP" p:render="@{!view.readOnly}"/>
+                              p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP" p:render="@{!view.readOnly}"
+                              p:disabled="@{#empty(#dp.title)}"/>
 
                         <bean parent="Uif-PrimaryActionButton" p:actionScript="clearForm();"
                               p:actionLabel="clear form"/>
@@ -240,7 +241,11 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="bindingType" p:label="Binding Type"
-                      p:defaultValueFinderClass="org.kuali.rice.krtrain.finders.DefaultBindingTypeValueFinder"/>
+                      p:defaultValueFinderClass="org.kuali.rice.krtrain.finders.DefaultBindingTypeValueFinder">
+                    <property name="control">
+                        <bean parent="Uif-MediumTextControl" p:disabled="@{#dp.fiction}"/>
+                    </property>
+                </bean>
 
                 <bean parent="Uif-InputField" p:propertyName="wearAndTear" p:label="Wear and Tear" p:readOnly="true"
                       p:readOnlyListDisplayType="OL" p:fieldLabel.rowSpan="2" p:rowSpan="2"/>
@@ -689,6 +694,12 @@
         </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems"/>
+        </property>
+        <property name="lineActions">
+          <list>
+            <bean parent="Uif-DeleteLineAction" p:disabledWhenChangedPropertyNames="#lp.term,#lp.pageNumbers"
+                  p:evaluateDisabledOnKeyUp="true"/>
+          </list>
         </property>
     </bean>
 
