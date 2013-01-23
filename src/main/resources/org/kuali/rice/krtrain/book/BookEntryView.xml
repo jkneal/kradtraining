@@ -67,7 +67,7 @@
         <property name="viewHelperServiceClass" value="org.kuali.rice.krtrain.book.BookEntryViewHelper"/>
     </bean>
 
-    <bean id="Krtrain-BookEntryPage1" parent="Uif-Page">
+    <bean id="Krtrain-BookEntryPage1" parent="Uif-Page" p:onDocumentReadyScript="setupReviewCheck();">
         <property name="items">
             <list>
                 <bean parent="Uif-Message">
@@ -93,8 +93,12 @@
                       p:messageText="[css=message-caps]This entry[/css] is made by [0] to be valid for [1] days.">
                     <property name="inlineComponents">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="preparerSignature"
-                                  p:fieldLabel.render="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="preparerSignature" p:fieldLabel.render="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl"
+                                          p:onBlurScript="alert('By entering your name you are providing an electronic signature.');"/>
+                                </property>
+                            </bean>
                             <bean parent="Uif-InputField" p:propertyName="numberValidDays" p:fieldLabel.render="false">
                                 <property name="control">
                                     <bean parent="Uif-SpinnerControl" p:size="2"/>
@@ -206,7 +210,10 @@
                       p:label="Entry Date" p:defaultValue="01/03/2013"/>
 
                 <bean parent="Uif-InputField" p:propertyName="edition" p:label="Edition"
-                      p:propertyEditorClass="org.kuali.rice.krtrain.editors.EditionPropertyEditor"/>
+                      p:propertyEditorClass="org.kuali.rice.krtrain.editors.EditionPropertyEditor"
+                      p:onMouseOverScript="jQuery(this).stop().css({'color':'#FFF2A8','fontSize':'15px'});"
+                      p:onMouseOutScript="jQuery(this).stop().css({'color':'black','fontSize':'11px'});"
+                      p:readOnly="true"/>
 
                 <bean parent="Uif-InputField" p:propertyName="shortSummary" p:label="Short Summary">
                     <property name="control">
@@ -289,7 +296,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="averageReview" p:label="Average Review">
+                <bean id="averageReview" parent="Uif-InputField" p:propertyName="averageReview" p:label="Average Review">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl">
                             <property name="options">
