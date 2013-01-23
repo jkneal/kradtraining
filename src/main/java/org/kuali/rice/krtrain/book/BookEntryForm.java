@@ -17,6 +17,7 @@ public class BookEntryForm extends UifFormBase {
     private BookEntryFormat format;
     private boolean auditMode;
     private boolean expertEntry;
+    private String awardToAdd;
 
     public BookEntryForm() {
         super();
@@ -62,5 +63,13 @@ public class BookEntryForm extends UifFormBase {
 
     public void setExpertEntry(boolean expertEntry) {
         this.expertEntry = expertEntry;
+    }
+
+    public String getAwardToAdd() {
+        return awardToAdd;
+    }
+
+    public void setAwardToAdd(String awardToAdd) {
+        this.awardToAdd = awardToAdd;
     }
 }

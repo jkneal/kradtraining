@@ -1,7 +1,9 @@
 package org.kuali.rice.krtrain.book;
 
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Group;
+import org.kuali.rice.krad.uif.control.ControlBase;
 import org.kuali.rice.krad.uif.element.Link;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
@@ -40,7 +42,8 @@ public class BookEntryViewHelper extends ViewHelperServiceImpl {
 
             List<Component> groupItems = new ArrayList<Component>();
 
-            InputField field = ComponentFactory.getInputField("bookAwardOne", "Award One");
+            InputField field = ComponentFactory.getInputField("bookAwardOne", "Award One",
+                    UifConstants.ControlType.TEXT);
             view.assignComponentIds(field);
 
             InputField field2 = ComponentUtils.copy(field);
@@ -48,6 +51,8 @@ public class BookEntryViewHelper extends ViewHelperServiceImpl {
 
             field2.setPropertyName("bookAwardTwo");
             field2.setLabel("Award Two");
+
+            field.getControl().setOnFocusScript("showLightboxComponent('addAwardDialog');");
 
             groupItems.add(field);
             groupItems.add(field2);
