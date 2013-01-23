@@ -235,7 +235,8 @@
     </bean>
 
     <bean id="bookCondition" parent="Uif-GridSection" p:headerText="Book Condition"
-          p:layoutManager.numberOfColumns="4">
+          p:layoutManager.numberOfColumns="4" p:progressiveRender="@{!#empty(#dp.title)}"
+          p:progressiveRenderViaAJAX="true">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="bindingType" p:label="Binding Type"
@@ -277,7 +278,8 @@
                                   p:bindingInfo.bindToMap="true" p:propertyName="AMAZON"
                                   p:label="[link=http://amazon.com]Amazon[/link] Rating"/>
 
-                            <bean parent="Uif-ActionLink" p:methodToCall="viewRatings" p:actionLabel="View More Ratings"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="viewRatings" p:actionLabel="View More Ratings"
+                                  p:progressiveRender="@{#dp.ratings[NYTIMES] != #dp.ratings[AMAZON]}"/>
                         </list>
                     </property>
                 </bean>
@@ -336,7 +338,8 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="languages" p:label="Languages">
+                <bean parent="Uif-InputField" p:propertyName="languages" p:label="Languages"
+                      p:refreshWhenChangedPropertyNames="#dp.availableFormats">
                     <property name="control">
                         <bean parent="Uif-MultiSelectControl"/>
                     </property>
@@ -355,7 +358,8 @@
     </bean>
 
     <bean id="publisherGroup" parent="Uif-VerticalBoxSection" p:headerText="Publisher Information"
-          p:instructionalText="If no publisher information is available this section may be left blank.">
+          p:instructionalText="If no publisher information is available this section may be left blank."
+          p:conditionalRefresh="@{#dp.publisherCode eq 'NON'}">
         <property name="header.rightGroup">
             <bean parent="Uif-HeaderRightGroup">
                 <property name="items">
@@ -441,7 +445,8 @@
                                         </bean>
 
                                         <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherState"
-                                              p:label="Publisher State" p:readOnly="@{#empty(#dp.publisherAddress)}">
+                                              p:label="Publisher State" p:readOnly="@{#empty(#dp.publisherAddress)}"
+                                              p:refreshWhenChangedPropertyNames="#dp.publisherAddress">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="2"/>
                                             </property>
@@ -500,7 +505,8 @@
             <bean parent="Uif-HeaderLowerGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-HorizontalFieldGroup" p:label="Written Books">
+                        <bean parent="Uif-HorizontalFieldGroup" p:label="Written Books"
+                              p:refreshTimer="30">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-InputField" p:propertyName="author.numberWrittenBooks"
@@ -584,7 +590,15 @@
                 <bean parent="Uif-InputField" p:propertyName="title"/>
                 <bean parent="Uif-InputField" p:propertyName="part"/>
                 <bean parent="Uif-InputField" p:propertyName="numberPages"/>
-                <bean parent="Uif-InputField" p:propertyName="recap"/>
+                <bean parent="Uif-VerticalFieldGroup" p:label="Recap">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="recap"/>
+                            <bean parent="Uif-InputField" p:propertyName="recapPageNumber"
+                                  p:progressiveRender="@{#lp.recap}"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="layoutManager.columnCalculations">

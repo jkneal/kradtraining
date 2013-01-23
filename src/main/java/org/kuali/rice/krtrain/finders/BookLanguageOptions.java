@@ -4,6 +4,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krtrain.book.BookEntryForm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +20,20 @@ public class BookLanguageOptions extends UifKeyValuesFinderBase {
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> options = new ArrayList<KeyValue>();
 
+        BookEntryForm entryForm = (BookEntryForm) model;
+
         options.add(new ConcreteKeyValue("E", "English"));
-        options.add(new ConcreteKeyValue("G", "German"));
-        options.add(new ConcreteKeyValue("F", "French"));
-        options.add(new ConcreteKeyValue("S", "Spanish"));
-        options.add(new ConcreteKeyValue("I", "Italian"));
-        options.add(new ConcreteKeyValue("R", "Russian"));
-        options.add(new ConcreteKeyValue("C", "Chinese"));
-        options.add(new ConcreteKeyValue("K", "Korean"));
+
+        List<String> availableFormats = entryForm.getBook().getAvailableFormats();
+        if ((availableFormats != null) && availableFormats.contains("K")) {
+            options.add(new ConcreteKeyValue("G", "German"));
+            options.add(new ConcreteKeyValue("F", "French"));
+            options.add(new ConcreteKeyValue("S", "Spanish"));
+            options.add(new ConcreteKeyValue("I", "Italian"));
+            options.add(new ConcreteKeyValue("R", "Russian"));
+            options.add(new ConcreteKeyValue("C", "Chinese"));
+            options.add(new ConcreteKeyValue("K", "Korean"));
+        }
 
         return options;
     }
