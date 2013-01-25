@@ -17,10 +17,14 @@
         </property>
         <property name="formClass" value="org.kuali.rice.krtrain.book.BookEntryForm"/>
         <property name="additionalCssFiles">
-            <value>@{#ConfigProperties['application.url']}/css/krad-training.css</value>
+            <list>
+                <value>@{#ConfigProperties['application.url']}/css/krad-training.css</value>
+            </list>
         </property>
         <property name="additionalScriptFiles">
-            <value>@{#ConfigProperties['application.url']}/js/krad-training.js</value>
+            <list>
+                <value>@{#ConfigProperties['application.url']}/js/krad-training.js</value>
+            </list>
         </property>
         <property name="applicationHeader">
             <bean parent="Uif-HeaderBase" p:template="/WEB-INF/templates/ftl/applicationHeader.ftl"
