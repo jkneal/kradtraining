@@ -44,12 +44,12 @@ in configuration files outside of the project.
   <param name="filtermapping.login.1">/*</param>
 
   <param name="dev.mode">true</param>
-      
+
   <param name="datasource.ojb.platform">MySQL</param>
   <param name="datasource.url">jdbc:mysql://localhost:3306/kulrice</param>
   <param name="datasource.username">kulrice</param>
   <param name="datasource.password">rice175kul</param>
-  
+
   <param name="transaction.timeout">3600</param>
 
   <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
@@ -58,4 +58,6 @@ in configuration files outside of the project.
   <param name="version">kradtraining :: ${project.version} :: ${kuali.build.timestamp}</param>
 
   <param name="resourceBundleNames">org.kuali.rice.krad.KRADApplicationResources,org.kuali.rice.krad.ApplicationResources,KrtrainApplicationResources</param>
+
+  <param name="reload.data.dictionary.interval" override="false">20000</param>
 </config>
