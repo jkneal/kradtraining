@@ -33,7 +33,7 @@
 
                             <bean parent="Uif-HeaderTwo" p:headerText="Exercise 34" />
                             <bean parent="Uif-Link" p:linkText="Parameter" p:target="_self"
-                                  p:href="@{#ConfigProperties['kr.url']}/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.rice.coreservice.impl.parameter.ParameterBo"/>
+                                  p:href="@{#ConfigProperties['kr.url']}/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.rice.coreservice.impl.parameter.ParameterBo&amp;returnLocation=http://localhost:8080/krtrain/portal.do"/>
 
                             <bean parent="Uif-HeaderTwo" p:headerText="Exercise 37" />
                             <bean parent="Uif-Link" p:linkText="Book Proposal Data" p:target="_self"
