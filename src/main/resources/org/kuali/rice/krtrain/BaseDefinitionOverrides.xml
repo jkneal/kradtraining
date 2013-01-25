@@ -85,6 +85,8 @@
       <property name="cssFiles">
         <list merge="true">
           <value>css/krtrain-theme.css</value>
+          <value>css/bootstrap.css</value>
+          <value>css/styles.css</value>
         </list>
       </property>
     </bean>
@@ -142,6 +144,21 @@
                     <list/>
                 </property>
             </bean>
+        </property>
+    </bean>
+
+    <bean id="Uif-GlobalApplicationHeader" parent="Uif-HeaderBase" p:template="/WEB-INF/templates/ftl/applicationHeader.ftl"
+          p:templateName="appheader" p:render="@{!renderedInLightBox}"/>
+
+    <bean id="Uif-GlobalApplicationFooter" parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
+          p:templateName="appfooter" p:render="@{!renderedInLightBox}"/>
+
+    <bean id="Uif-Breadcrumbs" parent="Uif-Breadcrumbs-parentBean">
+        <property name="homewardPathList">
+            <list>
+                <bean parent="Uif-HistoryEntry" p:title="Training Menu"
+                      p:url="@{#ConfigProperties['application.url']}/app/menu?viewId=Krtrain-MenuView&amp;methodToCall=start"/>
+            </list>
         </property>
     </bean>
 
