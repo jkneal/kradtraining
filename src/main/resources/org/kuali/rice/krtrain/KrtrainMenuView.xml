@@ -14,13 +14,13 @@
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-MessageField" p:messageText="[b]Exercise 8[/b]" />
+                            <bean parent="Uif-HeaderTwo" p:headerText="Exercise 8" />
                             <bean parent="Uif-Link" p:linkText="Book Proposal View Menu" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/app/generic?viewId=Krtrain-BookEntryViewMenu&amp;methodToCall=start"/>
                             <bean parent="Uif-Link" p:linkText="Book Proposal View Tabs" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/app/generic?viewId=Krtrain-BookEntryViewTabs&amp;methodToCall=start"/>
 
-                            <bean parent="Uif-MessageField" p:messageText="[b]Exercise 9[/b]" />
+                            <bean parent="Uif-HeaderTwo" p:headerText="Exercise 9" />
                             <bean parent="Uif-Link" p:linkText="Book Proposal" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/app/bookEntry?viewId=Krtrain-BookEntryViewMenu&amp;methodToCall=start"/>
                             <bean parent="Uif-Link" p:linkText="Book Type Lookup" p:target="_self"
@@ -30,29 +30,29 @@
                             <bean parent="Uif-Link" p:linkText="Edit Book Type ROM" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/kr-krad/maintenance?dataObjectClassName=org.kuali.rice.krtrain.book.BookType&amp;typeCode=ROM&amp;methodToCall=maintenanceEdit"/>
 
-                            <bean parent="Uif-MessageField" p:messageText="[b]Exercise 13[/b]" />
+                            <bean parent="Uif-HeaderTwo" p:headerText="Exercise 13" />
                             <bean parent="Uif-Link" p:linkText="Book Proposal with Data" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/app/bookEntry?viewId=Krtrain-BookEntryViewMenu&amp;methodToCall=loadSampleData"/>
 
-                            <bean parent="Uif-MessageField" p:messageText="[b]Exercise 17[/b]" />
+                            <bean parent="Uif-HeaderTwo" p:headerText="Exercise 17" />
                             <bean parent="Uif-Link" p:linkText="Book Proposal Inquiry" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/app/bookEntry?viewId=Krtrain-BookEntryViewMenu&amp;methodToCall=loadSampleData&amp;readOnlyFields=typeCode&amp;book.typeCode=ROM"/>
 
-                            <bean parent="Uif-MessageField" p:messageText="[b]Exercise 34[/b]" />
+                            <bean parent="Uif-HeaderTwo" p:headerText="Exercise 34" />
                             <bean parent="Uif-Link" p:linkText="Parameter" p:target="_self"
-                                  p:href="@{#ConfigProperties['kr.url']}/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.rice.coreservice.impl.parameter.ParameterBo&amp;returnLocation=http://localhost:8080/krtrain/portal.do&amp;docFormKey=88888888"/>
+                                  p:href="@{#ConfigProperties['kr.url']}/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.rice.coreservice.impl.parameter.ParameterBo&amp;returnLocation=http://localhost:8080/krtrain/portal.do&amp;docFormKey=888888"/>
 
-                            <bean parent="Uif-MessageField" p:messageText="[b]Exercise 37[/b]" />
+                            <bean parent="Uif-HeaderTwo" p:headerText="Exercise 37" />
                             <bean parent="Uif-Link" p:linkText="Book Proposal Data" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/app/bookEntry?viewId=Krtrain-BookEntryViewMenu&amp;methodToCall=loadSampleData&amp;exercise37=true&amp;format.summaryRows=15&amp;format.hideRatings=true&amp;book.fiction=true"/>
                             <bean parent="Uif-Link" p:linkText="Book Proposal View ReadOnly" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/app/bookEntry?viewId=Krtrain-BookEntryViewMenu&amp;methodToCall=loadSampleData&amp;exercise37=true&amp;format.readOnlyView=true"/>
 
-                            <bean parent="Uif-MessageField" p:messageText="[b]Exercise 38[/b]" />
+                            <bean parent="Uif-HeaderTwo" p:headerText="Exercise 38" />
                             <bean parent="Uif-Link" p:linkText="Book Proposal Audit" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/app/bookEntry?viewId=Krtrain-BookEntryViewMenu&amp;methodToCall=loadSampleData&amp;auditMode=true"/>
 
-                            <bean parent="Uif-MessageField" p:messageText="[b]Exercise 39[/b]" />
+                            <bean parent="Uif-HeaderTwo" p:headerText="Exercise 39" />
                             <bean parent="Uif-Link" p:linkText="Book Proposal Expert" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/app/bookEntry?viewId=Krtrain-BookEntryViewMenu&amp;methodToCall=loadSampleData&amp;expertEntry=true"/>
                         </list>
