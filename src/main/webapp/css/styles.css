@@ -1,0 +1,306 @@
+body {
+	/*font-family: 'Conv_Cabin-Regular';*/
+	background: #fff
+}
+h2 {
+	font-size: 1.7em;
+	font-weight: normal;
+}
+h3 {
+	font-size: 1.3em;
+	margin: 0px;
+	color: #000000;
+	font-weight: normal;
+}
+/* Bootsrap overrides */
+
+
+.navbar .nav > li > a {
+	padding-top: 17px;
+	padding-right: 0px;
+	padding-bottom: 17px;
+	padding-left: 40px;
+}
+.navbar.navbar-inverse.navbar-fixed-top .navbar-inner .container-fluid .nav-collapse.collapse {
+	float: right;
+}
+.navbar-inverse .navbar-inner {
+	background: #000;
+	background-image: none;
+}
+.navbar-inverse .nav .active > a, .navbar-inverse .nav .active > a:hover, .navbar-inverse .nav .active > a:focus {
+	color: #ffffff;
+	background: #000;
+}
+.navbar.navbar-inverse.navbar-fixed-top .navbar-inner .container-fluid .nav-collapse.collapse .nav li {
+	text-transform: uppercase;
+	font-size: 1.1em;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #191919;
+}
+.navbar.navbar-inverse.navbar-fixed-top .navbar-inner .container-fluid .nav-collapse.collapse .nav {
+	margin: 0px;
+}
+.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner {
+	padding-bottom: 0px;
+}
+.navbar-fixed-top {
+	margin-bottom: 0px;
+}
+.navbar.navbar-inverse.navbar-fixed-top .navbar-inner {
+/*-webkit-box-shadow: 0px 4px 8px 4px rgba(00, 00, 00, .2);
+	box-shadow: 0px 4px 8px 4px rgba(00, 00, 00, .2);*/
+	height:55px;
+}
+.breadcrumb {
+/*list-style: none;
+	background-color: #FFF;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	margin-top: 0;
+	margin-right: 0;
+	margin-bottom: 10px;
+	margin-left: 0;
+	padding: 0px;
+	padding-top: 10px;*/
+}
+/* prettify overrides */
+
+ol.linenums li:nth-of-type(odd) {
+	background: #fff;
+}
+.prettyprint {
+	font-size: .8em;
+}
+.prettyprint {
+	border: 1px solid #cccccc;
+	padding-right: 0px;
+	background-color: #F6F6F6;
+}
+ol.linenums li {
+	line-height: 16px;
+}
+/* Page Styles */
+
+
+.sectionContents h2 {
+	padding-top: 10px;
+}
+.navbar.navbar-inverse.navbar-fixed-top .navbar-inner .brand .logoBrand h1 span {
+	display: none;
+}
+.footer {
+	color: #FFF;
+	background-color: #c3492e;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-top-color: #8A291A;
+	border-right-color: #8A291A;
+	border-bottom-color: #8A291A;
+	border-left-color: #8A291A;
+}
+.footer a {
+	color: #999;
+}
+.footer a:hover {
+	color: #fff;
+}
+.footer .foundation {
+	background-image: url(../images/logo-kuali.png);
+	background-repeat: no-repeat;
+	padding-top: 22px;
+	padding-bottom: 22px;
+	padding-left: 40px;
+	background-position: 0px 14px;
+	float: left;
+}
+.footer .contactLink {
+	padding-top: 22px;
+	padding-bottom: 22px;
+	text-align: right;
+}
+
+
+
+
+
+
+.navbar.navbar-inverse.navbar-fixed-top .navbar-inner .brand div.logoBrand {
+	width: 170px;
+	height: 69px;
+	background-image: url(../images/logo.png);
+	position: absolute;
+	top: 0px;
+	z-index: 999999;
+}
+.splash .container .marketingBlurb {
+	width: 430px;
+}
+.splash .container .marketingBlurb .graphic {
+	position: absolute;
+	height: 299px;
+	width: 475px;
+	background-image: url(file:///Macintosh%20HD/Users/thrclark/Freelance/Jerry%20Neal/krad%20training%20site/traning-theme2/assets/img/splashGraphic1.png);
+	margin-left: 465px;
+	margin-top: -180px;
+}
+.splash .container {
+ background:;
+	height: 300px;
+}
+
+
+.demo .widgetShowcase .widgetContainers .widgetContainer {
+	width: 700px;
+	min-height: 400px;
+	margin-bottom: 30px;
+	padding: 20px;
+}
+.demo .widgetShowcase .widgetNav {
+	width: 210px;
+}
+
+
+
+
+.prettyprint.linenums {
+-webkit-box-shadow: inset 40px 0 0 #f6f6f6, inset 41px 0 0 #e5e5e5;
+-moz-box-shadow: inset 40px 0 0 #f6f6f6, inset 41px 0 0 #e5e5e5;
+box-shadow: inset 40px 0 0 #f6f6f6, inset 41px 0 0 #e5e5e5;
+}
+.demo .row.demoLaunchers .span3 {
+	background: ;
+}
+.demo .row.demoLaunchers .span4 div {
+	min-height: 80px;
+	padding-left: 76px;
+	background-image: url(file:///Macintosh%20HD/Users/thrclark/Freelance/Jerry%20Neal/krad%20training%20site/traning-theme2/assets/img/demo-edit.png);
+		-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background-color: #F6F6F6;
+	border: 1px solid #e5e5e5;
+	background-repeat: no-repeat;
+	padding-top: 6px;
+	padding-right: 6px;
+	padding-bottom: 6px;
+	background-position: 0px 6px;
+}
+.demo .row.demoLaunchers .span4 div a {
+	font-weight: bold;
+}
+.demo .row.demoLaunchers {
+	margin-bottom: 24px;
+}
+.demo .row.demoLaunchers .span4 div.edit {
+	background-image: url(file:///Macintosh%20HD/Users/thrclark/Freelance/Jerry%20Neal/krad%20training%20site/traning-theme2/assets/img/demo-edit.png);
+}
+
+.demo .row.demoLaunchers .span4 div.inquiry {
+	background-image: url(file:///Macintosh%20HD/Users/thrclark/Freelance/Jerry%20Neal/krad%20training%20site/traning-theme2/assets/img/demo-inquiry.png);
+}
+
+.demo .row.demoLaunchers .span4 div.lookup {
+	background-image: url(file:///Macintosh%20HD/Users/thrclark/Freelance/Jerry%20Neal/krad%20training%20site/traning-theme2/assets/img/demo-lookup.png);
+}
+
+.demo .row.demoLaunchers .span4 div.maintenance {
+	background-image: url(file:///Macintosh%20HD/Users/thrclark/Freelance/Jerry%20Neal/krad%20training%20site/traning-theme2/assets/img/demo-maintenance.png);
+}
+
+.demo .row.demoLaunchers .span4 div.new {
+	background-image: url(file:///Macintosh%20HD/Users/thrclark/Freelance/Jerry%20Neal/krad%20training%20site/traning-theme2/assets/img/demo-new.png);
+}
+.controls .btn-group .dropdown-menu.themes {
+	right: 0px;
+	left: inherit;
+	min-width: inherit;
+}
+.controls .btn-group .dropdown-menu.options {
+	right: 0px;
+	left: inherit;
+	min-width: inherit;
+}
+.sectionHeader {
+	position: relative;
+}
+.sectionHeader .controls {
+	position: absolute;
+	top: 20px;
+	right: 0px;
+}
+.sectionHeader .controls .btn-group {
+	display: inline;
+}
+.widgetShowcaseLarge .widgetContainers {
+	border: 1px solid #CCC;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	min-height: 300px;
+}
+.demo .widgetShowcaseLarge .widgetContainers .widgetContainer {
+	min-height: 600px;
+}
+.demo .widgetShowcaseLarge {
+	margin-bottom: 40px;
+}
+.footer .credit {
+	color: red;
+	float: right;
+	background-image: url(file:///Macintosh%20HD/Users/thrclark/Freelance/Jerry%20Neal/krad%20training%20site/mocks-responsive/assets/img/kradCredit.png);
+	height: 45px;
+	width: 93px;
+	margin-top:10px;
+}
+.footer .credit span {
+	display: none;
+}
+.widgetShowcase .widgetContainers .widgetContent {
+	padding: 20px;
+}
+/* Sticky footer styles
+      -------------------------------------------------- */
+
+
+html,  body {
+	height: 100%;/* The html and body elements cannot have any padding or margin. */
+}
+/* Wrapper for page content to push down footer */
+#wrap {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	/* Negative indent footer by it's height */
+	margin: 0 auto -60px;
+}
+/* Set the fixed height of the footer here */
+#push,  #footer {
+	height: 60px;
+}
+#footer {
+	background-color: #f5f5f5;
+}
+.sectionContents1 {
+	background: #ecccb6;
+	-webkit-box-shadow: 00px 00px 4px 4px rgba(00, 00, 00, .08);
+	box-shadow: 00px 00px 4px 4px rgba(00, 00, 00, .08);
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #D5A485;
+}
+.sectionContents h2 {
+	border-bottom-width: 1px;
+	border-bottom-style: dotted;
+	border-bottom-color: #CCC;
+}
+
+
+.backdoor {
+	
+}
