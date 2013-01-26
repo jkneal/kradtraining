@@ -191,6 +191,9 @@ public class BookEntryController extends UifControllerBase {
         GlobalVariables.getMessageMap().putInfoForSectionId(KRADConstants.GLOBAL_MESSAGES,
                 "method.invoked", "viewAuthorBooks");
 
+        Author author = form.getBook().getAuthor();
+        author.setNumberWrittenBooks(author.getNumberWrittenBooks() + 1);
+
         return getUIFModelAndView(form);
     }
 
