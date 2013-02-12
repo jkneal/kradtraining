@@ -18,9 +18,9 @@
 <config>
 	<param name="production.environment.code">prd</param>
 	
-	<param name="datasource.url">jdbc:mysql://localhost:3306/kulrice</param>
-	<param name="datasource.username">kulrice</param>
-	<param name="datasource.password">rice174kul</param>
+	<param name="datasource.url">jdbc:mysql://localhost:3306/rice</param>
+	<param name="datasource.username">RICE</param>
+	<param name="datasource.password">RICE</param>
 	<param name="datasource.ojb.platform">MySQL</param>
 	<param name="datasource.platform">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
 	<param name="datasource.driver.name">com.mysql.jdbc.Driver</param>

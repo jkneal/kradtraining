@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="net.sourceforge.eclipsejetty.launchConfigurationType">
+<stringAttribute key="bad_container_name" value="\kradtraining.git\jetty.la"/>
+<stringAttribute key="net.sourceforge.eclipsejetty.launcher.ajp.enabled" value="false"/>
+<stringAttribute key="net.sourceforge.eclipsejetty.launcher.context" value="/krtrain"/>
+<booleanAttribute key="net.sourceforge.eclipsejetty.launcher.jetty.config.active.0" value="true"/>
+<stringAttribute key="net.sourceforge.eclipsejetty.launcher.jetty.config.path.0" value=""/>
+<stringAttribute key="net.sourceforge.eclipsejetty.launcher.jetty.config.type.0" value="DEFAULT"/>
+<booleanAttribute key="net.sourceforge.eclipsejetty.launcher.jetty.embedded" value="true"/>
+<stringAttribute key="net.sourceforge.eclipsejetty.launcher.jetty.path" value=""/>
+<stringAttribute key="net.sourceforge.eclipsejetty.launcher.jetty.version" value="JETTY_EMBEDDED"/>
+<stringAttribute key="net.sourceforge.eclipsejetty.launcher.jmx.enabled" value="false"/>
+<stringAttribute key="net.sourceforge.eclipsejetty.launcher.jndi.enabled" value="false"/>
+<stringAttribute key="net.sourceforge.eclipsejetty.launcher.jsp.enabled" value="true"/>
+<stringAttribute key="net.sourceforge.eclipsejetty.launcher.launcher.excludeLibs" value=".*/servlet-api-2\.5\.jar"/>
+<stringAttribute key="net.sourceforge.eclipsejetty.launcher.launcher.globalLibs" value=""/>
+<stringAttribute key="net.sourceforge.eclipsejetty.launcher.launcher.includeLibs" value=""/>
+<booleanAttribute key="net.sourceforge.eclipsejetty.launcher.launcher.info" value="true"/>
+<stringAttribute key="net.sourceforge.eclipsejetty.launcher.port" value="8080"/>
+<booleanAttribute key="net.sourceforge.eclipsejetty.launcher.scope.compile.exclude" value="false"/>
+<booleanAttribute key="net.sourceforge.eclipsejetty.launcher.scope.provided.exclude" value="true"/>
+<booleanAttribute key="net.sourceforge.eclipsejetty.launcher.scope.runtime.exclude" value="false"/>
+<booleanAttribute key="net.sourceforge.eclipsejetty.launcher.scope.system.exclude" value="true"/>
+<booleanAttribute key="net.sourceforge.eclipsejetty.launcher.scope.test.exclude" value="true"/>
+<stringAttribute key="net.sourceforge.eclipsejetty.launcher.webappdir" value="target/kradtraining-0.0.1-SNAPSHOT"/>
+<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
+<listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
+<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="net.sourceforge.eclipsejetty.launcher.JettyLaunchClassPathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="net.sourceforge.eclipsejetty.starter.embedded.JettyEmbeddedLauncherMain"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="kradtraining.git"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms512m -Xmx1536m -XX:MaxPermSize=768m"/>
+</launchConfiguration>
