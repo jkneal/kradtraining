@@ -55,6 +55,7 @@
 		<maven.failsafe.skip>true</maven.failsafe.skip>
 		<plugin.compiler.source>1.6</plugin.compiler.source>
 		<plugin.compiler.target>1.6</plugin.compiler.target>
+		<tools.jar.path>${java.home}/../lib/tools.jar</tools.jar.path>
 	</properties>
 
 	<build>
@@ -123,7 +124,6 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-
 		</plugins>
 	</build>
 
@@ -504,6 +504,12 @@
 			<artifactId>rice-development-tools</artifactId>
 			<version>${rice.version}</version>
 			<scope>runtime</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun</groupId>
+					<artifactId>tools</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- third party libraries -->
