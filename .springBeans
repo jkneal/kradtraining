@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.1.0.201210040510-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>src/main/resources/org/kuali/rice/krtrain/book/BookEntryView.xml</config>
+		<config>src/main/resources/org/kuali/rice/krtrain/book/Author.xml</config>
+		<config>src/main/resources/org/kuali/rice/krtrain/book/AuthorViews.xml</config>
+		<config>src/main/resources/org/kuali/rice/krtrain/book/Book.xml</config>
+		<config>src/main/resources/org/kuali/rice/krtrain/book/BookTypeViews.xml</config>
+		<config>src/main/resources/org/kuali/rice/krtrain/book/Chapter.xml</config>
+		<config>src/main/resources/org/kuali/rice/krtrain/book/IndexEntry.xml</config>
+		<config>src/main/resources/org/kuali/rice/krtrain/book/PublisherCode.xml</config>
+		<config>src/main/resources/org/kuali/rice/krtrain/BaseDefinitionOverrides.xml</config>
+		<config>src/main/resources/org/kuali/rice/krtrain/KrtrainMenuView.xml</config>
+	</configs>
+	<configSets>
+		<configSet>
+			<name><![CDATA[KRAD Dictionary]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>src/main/resources/org/kuali/rice/krtrain/BaseDefinitionOverrides.xml</config>
+				<config>src/main/resources/org/kuali/rice/krtrain/book/Author.xml</config>
+				<config>src/main/resources/org/kuali/rice/krtrain/book/AuthorViews.xml</config>
+				<config>src/main/resources/org/kuali/rice/krtrain/book/Book.xml</config>
+				<config>src/main/resources/org/kuali/rice/krtrain/book/BookEntryView.xml</config>
+				<config>src/main/resources/org/kuali/rice/krtrain/book/BookTypeViews.xml</config>
+				<config>src/main/resources/org/kuali/rice/krtrain/book/Chapter.xml</config>
+				<config>src/main/resources/org/kuali/rice/krtrain/book/IndexEntry.xml</config>
+				<config>src/main/resources/org/kuali/rice/krtrain/book/PublisherCode.xml</config>
+				<config>src/main/resources/org/kuali/rice/krtrain/KrtrainMenuView.xml</config>
+				<config>src/main/webapp/WEB-INF/krtrain-servlet.xml</config>
+			</configs>
+			<profiles>
+			</profiles>
+		</configSet>
+	</configSets>
+</beansProjectDescription>
