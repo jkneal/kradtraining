@@ -44,4 +44,34 @@
         </property>
     </bean>
 
+	<bean id="AuthorMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+		<property name="dataObjectClass" value="org.kuali.rice.krtrain.book.Author" />
+		<property name="documentTypeName" value="AuthorMaintenanceDocument" />
+		<property name="lockingKeys">
+			<list>
+				<value>authorId</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Author-MaintenanceView" parent="Uif-MaintenanceView">
+		<property name="headerText" value="Author Maintenance" />
+		<property name="dataObjectClassName" value="org.kuali.rice.krtrain.book.Author" />
+		<property name="items">
+			<list merge="true">
+				<bean parent="Uif-MaintenanceGridSection">
+					<property name="headerText" value="Add/Edit Author" />
+					<property name="items">
+						<list>
+							<bean parent="Uif-InputField" p:propertyName="authorId" />
+							<bean parent="Uif-InputField" p:propertyName="authorName" />
+							<bean parent="Uif-InputField" p:propertyName="email" />
+							<bean parent="Uif-InputField" p:propertyName="phoneNumber" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 </beans>
