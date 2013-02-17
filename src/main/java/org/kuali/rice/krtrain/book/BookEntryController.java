@@ -1,23 +1,24 @@
 package org.kuali.rice.krtrain.book;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.controller.UifControllerBase;
-import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krad.web.controller.TransactionalDocumentControllerBase;
+import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 /**
  * Controller for the Book Entry View
@@ -26,12 +27,12 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/bookEntry")
-public class BookEntryController extends UifControllerBase {
+public class BookEntryController extends TransactionalDocumentControllerBase {
 
     protected static final String SAVE_OVERRIDE_DIALOG = "saveOverrideDialog";
 
     @Override
-    protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
+    protected DocumentFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         return new BookEntryForm();
     }
 
@@ -42,7 +43,7 @@ public class BookEntryController extends UifControllerBase {
     public ModelAndView loadSampleData(@ModelAttribute("KualiForm") BookEntryForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
 
-        Book book = form.getBook();
+        Book book = ((BookEntryDocument) form.getDocument()).getBook();
 
         if (book == null) {
             book = new Book();
@@ -158,7 +159,7 @@ public class BookEntryController extends UifControllerBase {
 
         book.setRelatedBooks(relatedBooks);
 
-        form.setBook(book);
+        ((BookEntryDocument) form.getDocument()).setBook(book);
 
         return getUIFModelAndView(form);
     }
@@ -177,7 +178,7 @@ public class BookEntryController extends UifControllerBase {
         boolean continueSave = getBooleanDialogResponse(SAVE_OVERRIDE_DIALOG, form, request, response);
 
         if (continueSave) {
-            GlobalVariables.getMessageMap().addGrowlMessage("Save Action", "book.saved", form.getBook().getTitle());
+            GlobalVariables.getMessageMap().addGrowlMessage("Save Action", "book.saved", ((BookEntryDocument) form.getDocument()).getBook().getTitle());
         }
 
         form.getDialogManager().removeDialog(SAVE_OVERRIDE_DIALOG);
@@ -203,7 +204,7 @@ public class BookEntryController extends UifControllerBase {
         GlobalVariables.getMessageMap().putInfoForSectionId(KRADConstants.GLOBAL_MESSAGES,
                 "method.invoked", "viewAuthorBooks");
 
-        Author author = form.getBook().getAuthor();
+        Author author = ((BookEntryDocument) form.getDocument()).getBook().getAuthor();
         author.setNumberWrittenBooks(author.getNumberWrittenBooks() + 1);
 
         return getUIFModelAndView(form);

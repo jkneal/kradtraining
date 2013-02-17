@@ -4,74 +4,64 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
+	<bean id="Krtrain-BookEntryTransactionalDocument" parent="TransactionalDocumentEntry">
+		<property name="documentTypeName" value="BookEntry" />
+		<property name="documentClass"
+			value="org.kuali.rice.krtrain.book.BookEntryDocument" />
+	</bean>
 
-    <bean id="Krtrain-BookEntryViewMenu" parent="Uif-FormView" p:headerText="Book Entry Menu"
-          p:readOnly="@{format.readOnlyView}">
-        <property name="items">
-            <list>
-                <ref bean="Krtrain-BookEntryPage1"/>
-                <ref bean="Krtrain-BookEntryPage2"/>
-                <ref bean="Krtrain-BookPreview"/>
-            </list>
-        </property>
-        <property name="navigation">
-            <ref bean="Krtrain-BookEntryMenuNavigation"/>
-        </property>
-        <property name="formClass" value="org.kuali.rice.krtrain.book.BookEntryForm"/>
-        <property name="additionalCssFiles">
-            <list>
-                <value>@{#ConfigProperties['application.url']}/css/krad-training.css</value>
-                <value>@{#ConfigProperties['application.url']}/plugins/booklet/jquery.booklet.1.1.0.css</value>
-                <value>@{#ConfigProperties['application.url']}/plugins/booklet/moleskine.css</value>
-            </list>
-        </property>
-        <property name="additionalScriptFiles">
-            <list>
-                <value>@{#ConfigProperties['application.url']}/js/krad-training.js</value>
-                <value>@{#ConfigProperties['application.url']}/plugins/booklet/jquery.booklet.1.1.0.js</value>
-            </list>
-        </property>
-        <property name="applicationHeader">
-            <bean parent="Uif-HeaderBase" p:template="/WEB-INF/templates/ftl/applicationHeader.ftl"
-                  p:templateName="appheader"/>
-        </property>
-        <property name="applicationFooter">
-            <bean parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
-                  p:templateName="appfooter"/>
-        </property>
-        <property name="defaultBindingObjectPath" value="book"/>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveBook" p:actionLabel="save book"
-                              p:preSubmitCall="return promptBeforeSave();" p:loadingMessageText="Saving Book..."
-                              p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP" p:render="@{!view.readOnly}"
-                              p:disabled="@{#empty(#dp.title)}"/>
+	<bean id="Krtrain-BookEntryViewMenu" parent="Uif-TransactionalDocumentView"
+		p:headerText="Book Entry Document" p:readOnly="@{format.readOnlyView}">
+		<property name="documentClass" value="org.kuali.rice.krtrain.book.BookEntryDocument" />
+		<property name="items">
+			<list>
+				<bean id="Krtrain-BookEntryDocumentOverview" parent="Uif-DocumentPage" />
 
-                        <bean parent="Uif-PrimaryActionButton" p:actionScript="clearForm();"
-                              p:actionLabel="clear form"/>
+				<ref bean="Krtrain-BookEntryPage1" />
 
-                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel"
-                              p:performDirtyValidation="true"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="help">
-          <bean parent="Uif-Help">
-            <property name="externalHelpUrl" value="https://wiki.kuali.org"/>
-            <property name="tooltipHelpContent" value="Help for Book Entry"/>
-          </bean>
-        </property>
-        <property name="viewHelperServiceClass" value="org.kuali.rice.krtrain.book.BookEntryViewHelper"/>
-        <property name="dialogs">
-            <list>
-                <ref bean="addAwardDialog"/>
-                <ref bean="saveOverrideDialog"/>
-            </list>
-        </property>
-    </bean>
+				<ref bean="Krtrain-BookEntryPage2" />
+
+				<ref bean="Krtrain-BookPreview" />
+			</list>
+		</property>
+		<property name="navigation">
+			<ref bean="Krtrain-BookEntryMenuNavigation" />
+		</property>
+		<property name="formClass" value="org.kuali.rice.krtrain.book.BookEntryForm" />
+		<property name="additionalCssFiles">
+			<list>
+				<value>@{#ConfigProperties['application.url']}/css/krad-training.css</value>
+				<value>@{#ConfigProperties['application.url']}/plugins/booklet/jquery.booklet.1.1.0.css</value>
+				<value>@{#ConfigProperties['application.url']}/plugins/booklet/moleskine.css</value>
+			</list>
+		</property>
+		<property name="additionalScriptFiles">
+			<list>
+				<value>@{#ConfigProperties['application.url']}/js/krad-training.js</value>
+				<value>@{#ConfigProperties['application.url']}/plugins/booklet/jquery.booklet.1.1.0.js</value>
+			</list>
+		</property>
+		<property name="applicationHeader">
+			<bean parent="Uif-HeaderBase" p:template="/WEB-INF/templates/ftl/applicationHeader.ftl"	p:templateName="appheader" />
+		</property>
+		<property name="applicationFooter">
+			<bean parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"	p:templateName="appfooter" />
+		</property>
+		<property name="defaultBindingObjectPath" value="document.book" />
+		<property name="help">
+			<bean parent="Uif-Help">
+				<property name="externalHelpUrl" value="https://wiki.kuali.org" />
+				<property name="tooltipHelpContent" value="Help for Book Entry" />
+			</bean>
+		</property>
+		<property name="viewHelperServiceClass"	value="org.kuali.rice.krtrain.book.BookEntryViewHelper" />
+		<property name="dialogs">
+			<list>
+				<ref bean="addAwardDialog" />
+				<ref bean="saveOverrideDialog" />
+			</list>
+		</property>
+	</bean>
 
     <bean id="Krtrain-BookEntryPage1" parent="Uif-Page" p:onDocumentReadyScript="setupReviewCheck();">
         <property name="items">
@@ -127,6 +117,9 @@
                 <ref bean="authorGroup"/>
             </list>
         </property>
+	    <property name="footer">
+		    <bean parent="Uif-DocumentPageFooter" />
+	    </property>
     </bean>
 
     <bean id="copyrightImage" parent="Uif-Image"
@@ -142,12 +135,17 @@
                 <ref bean="index"/>
             </list>
         </property>
+        <property name="footer">
+		    <bean parent="Uif-DocumentPageFooter" />
+	    </property>
     </bean>
 
     <bean id="Krtrain-BookEntryMenuNavigation" parent="Uif-MenuNavigationGroup">
         <property name="items">
             <list>
                 <bean parent="Uif-HeaderTwo" p:headerText="Navigation"/>
+                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryDocumentOverview"
+                      p:actionLabel="Document Information"/>
                 <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage1"
                       p:actionLabel="Book Indexing"/>
                 <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage2"
@@ -159,6 +157,7 @@
     </bean>
 
     <bean id="Krtrain-BookEntryViewTabs" parent="Krtrain-BookEntryViewMenu" p:headerText="Book Entry Tabs">
+        <property name="viewName" value="bookEntryTabs"/>
         <property name="navigation">
             <ref bean="Krtrain-BookEntryTabNavigation"/>
         </property>
@@ -507,7 +506,7 @@
                 </bean>
 
                 <bean parent="Uif-Message"
-                      p:messageText="There are @{book.numberPublisherBooks} books from this publisher.">
+                      p:messageText="There are @{#dp.numberPublisherBooks} books from this publisher.">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>message-highlight</value>
@@ -529,7 +528,7 @@
                                 <list>
                                     <bean parent="Uif-InputField" p:propertyName="author.numberWrittenBooks"
                                           p:readOnly="true"
-                                          p:readOnlyDisplayReplacement="@{book.author.numberWrittenBooks} (@{book.author.numberPublishedBooks} published)"/>
+                                          p:readOnlyDisplayReplacement="@{#dp.author.numberWrittenBooks} (@{#dp.author.numberPublishedBooks} published)"/>
 
                                     <bean parent="Uif-ActionImage" p:methodToCall="viewAuthorBooks">
                                         <property name="actionImage">
@@ -758,6 +757,9 @@
                 <value>book_wrapper</value>
             </list>
         </property>
+        <property name="footer">
+		    <bean parent="Uif-DocumentPageFooter" />
+	    </property>
     </bean>
 
     <bean id="previewPage1" parent="Uif-VerticalBoxGroup">
@@ -829,6 +831,6 @@
     </bean>
 
     <bean id="saveOverrideDialog" parent="Uif-Yes-No-DialogGroup"
-          p:headerText="Book '@{book.title}' already exists. Do you wish to override the entry?"/>
+          p:headerText="Book '@{#dp.title}' already exists. Do you wish to override the entry?"/>
 
 </beans>                    

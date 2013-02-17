@@ -1,6 +1,6 @@
 package org.kuali.rice.krtrain.book;
 
-import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
 import java.util.Date;
 
@@ -9,10 +9,9 @@ import java.util.Date;
  *
  * @author KRAD Training
  */
-public class BookEntryForm extends UifFormBase {
+public class BookEntryForm extends TransactionalDocumentFormBase {
     private static final long serialVersionUID = 2113794438746300917L;
 
-    private Book book;
     private Date entryDate;
     private BookEntryFormat format;
     private boolean auditMode;
@@ -24,13 +23,10 @@ public class BookEntryForm extends UifFormBase {
 
         format = new BookEntryFormat();
     }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
+    
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "BookEntry";
     }
 
     public Date getEntryDate() {

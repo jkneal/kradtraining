@@ -1,13 +1,14 @@
 package org.kuali.rice.krtrain.finders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krtrain.book.BookEntryDocument;
 import org.kuali.rice.krtrain.book.BookEntryForm;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Retrieves language options for books
@@ -24,7 +25,7 @@ public class BookLanguageOptions extends UifKeyValuesFinderBase {
 
         options.add(new ConcreteKeyValue("E", "English"));
 
-        List<String> availableFormats = entryForm.getBook().getAvailableFormats();
+        List<String> availableFormats = ((BookEntryDocument) entryForm.getDocument()).getBook().getAvailableFormats();
         if ((availableFormats != null) && availableFormats.contains("K")) {
             options.add(new ConcreteKeyValue("G", "German"));
             options.add(new ConcreteKeyValue("F", "French"));
