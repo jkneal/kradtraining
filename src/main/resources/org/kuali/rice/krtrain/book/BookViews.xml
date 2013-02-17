@@ -7,6 +7,7 @@
 	<bean id="Book-LookupView" parent="Uif-LookupView">
 		<property name="headerText" value="Book Lookup" />
 		<property name="dataObjectClassName" value="org.kuali.rice.krtrain.book.Book" />
+
 		<property name="criteriaFields">
 			<list>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" />
@@ -17,15 +18,18 @@
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="publicationDate" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="price" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="fiction" />
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="availableFormats" p:addControlSelectAllOption="true"/>
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="bindingType" 
-				      p:progressiveRender="@{(#fp.availableFormats eq 'P') or #empty(#fp.availableFormats)}" />
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="languages" p:addControlSelectAllOption="true"/>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="availableFormats"
+					p:addControlSelectAllOption="true" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="bindingType"
+					p:progressiveRender="@{(#fp.availableFormats eq 'P') or #empty(#fp.availableFormats)}" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="languages"
+					p:addControlSelectAllOption="true" />
 			</list>
 		</property>
+
 		<property name="resultFields">
 			<list>
-			    <bean parent="Uif-DataField" p:propertyName="id" />
+				<bean parent="Uif-DataField" p:propertyName="id" />
 				<bean parent="Uif-DataField" p:propertyName="title" />
 				<bean parent="Uif-DataField" p:propertyName="typeCode" />
 				<bean parent="Uif-DataField" p:propertyName="publisher" />
@@ -37,8 +41,45 @@
 			</list>
 		</property>
 		<property name="resultsGroup.layoutManager.rowDetailsGroup">
-            <bean parent="relatedBookChapters" p:disclosure.render="false"/>
-        </property>
+			<bean parent="relatedBookChapters" p:disclosure.render="false" />
+		</property>
+	</bean>
+
+	<bean id="Book-InquiryView" parent="Uif-InquiryView">
+		<property name="headerText" value="Book Inquiry" />
+		<property name="dataObjectClassName" value="org.kuali.rice.krtrain.book.Book" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-Disclosure-GridSection">
+					<property name="headerText" value="Book Information" />
+					<property name="items">
+						<list>
+							<bean parent="Uif-DataField" p:propertyName="id" />
+							<bean parent="Uif-DataField" p:propertyName="title" />
+							<bean parent="Uif-DataField" p:propertyName="isbn" />
+							<bean parent="Uif-DataField" p:propertyName="bookType.name" />
+							<bean parent="Uif-DataField" p:propertyName="shortSummary" />
+							<bean parent="Uif-DataField" p:propertyName="price" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="Uif-Disclosure-GridSection">
+					<property name="headerText" value="Publisher Information" />
+					<property name="items">
+						<list>
+							<bean parent="Uif-DataField" p:propertyName="publisherCode" />
+							<bean parent="Uif-DataField" p:propertyName="publisher" />
+							<bean parent="Uif-DataField" p:propertyName="publisherAddress" />
+							<bean parent="Uif-DataField" p:propertyName="publisherState" />
+							<bean parent="Uif-DataField" p:propertyName="publicationDate" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="chapters" />
+			</list>
+		</property>
 	</bean>
 
 </beans>                    
