@@ -1,10 +1,8 @@
 package org.kuali.rice.krtrain.book;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-import java.io.File;
 import java.util.*;
 
 /**
