@@ -1,133 +1,275 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-    <bean id="Book" parent="Book-parentBean"/>
-    <bean id="Book-parentBean" abstract="true" parent="DataObjectEntry">
-        <property name="dataObjectClass" value="org.kuali.rice.krtrain.book.Book"/>
-        <property name="objectLabel" value="Book"/>
-        <property name="attributes">
-            <list>
-                <ref bean="Book-id"/>
-                <ref bean="Book-title"/>
-                <ref bean="Book-isbn"/>
-                <ref bean="Book-publisher"/>
-                <ref bean="Book-publicationDate"/>
-                <ref bean="Book-price"/>
-            </list>
-        </property>
-        <property name="titleAttribute" value="title"/>
-    </bean>
+	<bean id="Book" parent="Book-parentBean" />
+	<bean id="Book-parentBean" abstract="true" parent="DataObjectEntry">
+		<property name="dataObjectClass" value="org.kuali.rice.krtrain.book.Book" />
+		<property name="objectLabel" value="Book" />
+		<property name="attributes">
+			<list>
+				<ref bean="Book-id" />
+				<ref bean="Book-title" />
+				<ref bean="Book-isbn" />
+				<ref bean="Book-typeCode" />
+				<ref bean="Book-publisher" />
+				<ref bean="Book-publicationDate" />
+				<ref bean="Book-publisherCode" />
+				<ref bean="Book-fiction" />
+				<ref bean="Book-availableFormats" />
+				<ref bean="Book-bindingType" />
+				<ref bean="Book-languages" />
+				<ref bean="Book-publisherAddress" />
+				<ref bean="Book-publisherState" />
+				<ref bean="Book-shortSummary" />
+				<ref bean="Book-price" />
+			</list>
+		</property>
+		<property name="titleAttribute" value="title" />
+	</bean>
 
-    <bean id="Book-id" parent="Book-id-parentBean"/>
-    <bean id="Book-id-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
-        <property name="name" value="id"/>
-        <property name="label" value="Book ID"/>
-        <property name="shortLabel" value="ID"/>
-        <property name="maxLength" value="14"/>
-        <property name="validCharactersConstraint">
-            <bean parent="NumericPatternConstraint"/>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>
+	<bean id="Book-id" parent="Book-id-parentBean" />
+	<bean id="Book-id-parentBean" abstract="true"
+		parent="AttributeReferenceDummy-genericSystemId">
+		<property name="name" value="id" />
+		<property name="label" value="Book ID" />
+		<property name="shortLabel" value="ID" />
+		<property name="maxLength" value="14" />
+		<property name="validCharactersConstraint">
+			<bean parent="NumericPatternConstraint" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-HiddenControl" />
+		</property>
+	</bean>
 
-    <bean id="Book-title" parent="Book-title-parentBean"/>
-    <bean id="Book-title-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="title"/>
-        <property name="forceUppercase" value="false"/>
-        <property name="label" value="Book Title"/>
-        <property name="shortLabel" value="Title"/>
-        <property name="maxLength" value="100"/>
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="50"/>
-        </property>
-        <property name="required" value="true"/>
-    </bean>
+	<bean id="Book-title" parent="Book-title-parentBean" />
+	<bean id="Book-title-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="title" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Book Title" />
+		<property name="shortLabel" value="Title" />
+		<property name="maxLength" value="100" />
+		<property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="50" />
+		</property>
+		<property name="required" value="true" />
+	</bean>
 
-    <bean id="Book-isbn" parent="Book-isbn-parentBean"/>
-    <bean id="Book-isbn-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="isbn"/>
-        <property name="label" value="ISBN"/>
-        <property name="shortLabel" value="ISBN"/>
-        <property name="maxLength" value="24"/>
-        <property name="validCharactersConstraint">
-            <bean parent="AlphaNumericPatternConstraint" p:allowDash="true" p:allowUnderscore="true"/>
-        </property>
-        <property name="caseConstraint">
-            <bean parent="CaseConstraint">
-                <property name="propertyName" value="typeCode"/>
-                <property name="whenConstraint">
-                    <list>
-                        <bean parent="WhenConstraint">
-                            <property name="values">
-                                <list>
-                                    <value>IT</value>
-                                    <value>SCI-FI</value>
-                                </list>
-                            </property>
-                            <property name="constraint">
-                                <bean parent="RequiredConstraint"/>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40"/>
-        </property>
-    </bean>
+	<bean id="Book-isbn" parent="Book-isbn-parentBean" />
+	<bean id="Book-isbn-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="isbn" />
+		<property name="label" value="ISBN" />
+		<property name="shortLabel" value="ISBN" />
+		<property name="maxLength" value="24" />
+		<property name="validCharactersConstraint">
+			<bean parent="AlphaNumericPatternConstraint" p:allowDash="true"
+				p:allowUnderscore="true" />
+		</property>
+		<property name="caseConstraint">
+			<bean parent="CaseConstraint">
+				<property name="propertyName" value="typeCode" />
+				<property name="whenConstraint">
+					<list>
+						<bean parent="WhenConstraint">
+							<property name="values">
+								<list>
+									<value>IT</value>
+									<value>SCI-FI</value>
+								</list>
+							</property>
+							<property name="constraint">
+								<bean parent="RequiredConstraint" />
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="40" />
+		</property>
+	</bean>
 
-    <bean id="Book-publisher" parent="Book-publisher-parentBean"/>
-    <bean id="Book-publisher-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="publisher"/>
-        <property name="label" value="Publisher"/>
-        <property name="shortLabel" value="Publisher"/>
-        <property name="maxLength" value="100"/>
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="true"/>
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="50"/>
-        </property>
-    </bean>
+	<bean id="Book-typeCode" parent="Book-typeCode-parentBean" />
+	<bean id="Book-typeCode-parentBean" abstract="true" parent="BookType-typeCode" />
 
-    <bean id="Book-publicationDate" parent="Book-publicationDate-parentBean"/>
-    <bean id="Book-publicationDate-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="publicationDate"/>
-        <property name="label" value="Publication Date"/>
-        <property name="shortLabel" value="Pub Date"/>
-        <property name="validCharactersConstraint">
-            <bean parent="DatePatternConstraint"/>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-DateControl"/>
-        </property>
-    </bean>
+	<bean id="Book-publisher" parent="Book-publisher-parentBean" />
+	<bean id="Book-publisher-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="publisher" />
+		<property name="label" value="Publisher" />
+		<property name="shortLabel" value="Publisher" />
+		<property name="maxLength" value="100" />
+		<property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="50" />
+		</property>
+	</bean>
 
-    <bean id="Book-price" parent="Book-price-parentBean"/>
-    <bean id="Book-price-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="price"/>
-        <property name="forceUppercase" value="false"/>
-        <property name="label" value="Price"/>
-        <property name="shortLabel" value="Price"/>
-        <property name="maxLength" value="10"/>
-        <property name="required" value="false"/>
-        <property name="validCharactersConstraint">
-            <bean parent="FloatingPointPatternConstraint" p:allowNegative="false"/>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-CurrencyTextControl"/>
-        </property>
-    </bean>
+	<bean id="Book-publisherCode" parent="Book-publisherCode-parentBean" />
+	<bean id="Book-publisherCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="publisherCode" />
+		<property name="label" value="Publisher Code" />
+		<property name="shortLabel" value="Publisher Code" />
+		<property name="maxLength" value="5" />
+		<property name="validCharactersConstraint">
+			<bean parent="AlphaNumericPatternConstraint" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="5" />
+		</property>
+	</bean>
+
+	<bean id="Book-publicationDate" parent="Book-publicationDate-parentBean" />
+	<bean id="Book-publicationDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="publicationDate" />
+		<property name="label" value="Publication Date" />
+		<property name="shortLabel" value="Pub Date" />
+		<property name="validCharactersConstraint">
+			<bean parent="DatePatternConstraint" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-DateControl" />
+		</property>
+	</bean>
+
+	<bean id="Book-publisherAddress" parent="Book-publisherAddress-parentBean" />
+	<bean id="Book-publisherAddress-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="publisherAddress" />
+		<property name="label" value="Publisher Address" />
+		<property name="shortLabel" value="Publisher Add" />
+		<property name="maxLength" value="100" />
+		<property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="50" />
+		</property>
+	</bean>
+
+	<bean id="Book-publisherState" parent="Book-publisherState-parentBean" />
+	<bean id="Book-publisherState-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="publisherState" />
+		<property name="label" value="Publisher State" />
+		<property name="shortLabel" value="Publisher St" />
+		<property name="maxLength" value="1" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="2" />
+		</property>
+	</bean>
+
+	<bean id="Book-shortSummary" parent="Book-shortSummary-parentBean" />
+	<bean id="Book-shortSummary-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="shortSummary" />
+		<property name="label" value="Book Summary" />
+		<property name="shortLabel" value="Summary" />
+		<property name="maxLength" value="250" />
+		<property name="controlField">
+			<bean parent="Uif-MediumTextAreaControl" />
+		</property>
+	</bean>
+
+	<bean id="Book-price" parent="Book-price-parentBean" />
+	<bean id="Book-price-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="price" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Price" />
+		<property name="shortLabel" value="Price" />
+		<property name="maxLength" value="10" />
+		<property name="required" value="false" />
+		<property name="validCharactersConstraint">
+			<bean parent="FloatingPointPatternConstraint" p:allowNegative="false" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-CurrencyTextControl" />
+		</property>
+	</bean>
+
+	<bean id="Book-fiction" parent="Book-fiction-parentBean" />
+	<bean id="Book-fiction-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="fiction" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Fiction?" />
+		<property name="shortLabel" value="Fiction?" />
+		<property name="required" value="false" />
+		<property name="controlField">
+			<bean parent="Uif-CheckboxControl" />
+		</property>
+	</bean>
+
+	<bean id="Book-availableFormats" parent="Book-availableFormats-parentBean" />
+	<bean id="Book-availableFormats-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="availableFormats" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Available Formats" />
+		<property name="shortLabel" value="Available Formats" />
+		<property name="required" value="false" />
+		<property name="controlField">
+			<bean parent="Uif-DropdownControl">
+				<property name="options">
+					<list>
+						<bean parent="Uif-KeyLabelPair" p:key="P" p:value="Printed" />
+						<bean parent="Uif-KeyLabelPair" p:key="K" p:value="Kindle" />
+						<bean parent="Uif-KeyLabelPair" p:key="A" p:value="AudioBook" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="Book-bindingType" parent="Book-bindingType-parentBean" />
+	<bean id="Book-bindingType-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="bindingType" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Binding Type" />
+		<property name="shortLabel" value="Binding" />
+		<property name="maxLength" value="25" />
+		<property name="required" value="false" />
+		<property name="controlField">
+			<bean parent="Uif-MediumTextControl" />
+		</property>
+	</bean>
+
+	<bean id="Book-languages" parent="Book-languages-parentBean" />
+	<bean id="Book-languages-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="languages" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Languages" />
+		<property name="shortLabel" value="Lang" />
+		<property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="controlField">
+			<bean parent="Uif-DropdownControl">
+				<property name="options">
+					<list>
+						<bean parent="Uif-KeyLabelPair" p:key="E" p:value="English" />
+						<bean parent="Uif-KeyLabelPair" p:key="G" p:value="German" />
+						<bean parent="Uif-KeyLabelPair" p:key="F" p:value="French" />
+						<bean parent="Uif-KeyLabelPair" p:key="S" p:value="Spanish" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
 
 </beans>
