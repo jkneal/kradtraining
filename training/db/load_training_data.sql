@@ -74,3 +74,9 @@ INSERT INTO krtrain_chapter_t (book_id,num,obj_id,ver_nbr,title,part,summ,num_pa
   
 INSERT INTO krtrain_chapter_t (book_id,num,obj_id,ver_nbr,title,part,summ,num_pages,rec,rec_page_num)
   VALUES (3, 2, '6bbbdb82-d614-49c2-8716-4234e72f9f69', 1, 'Software that corrects itself', '2040','In the future we will have software that finds its own bugs and applies fixes',11,'N', 0);
+
+INSERT INTO krtrain_book_id_s values (4);
+
+INSERT INTO krcr_nmspc_t values ('krtrain', uuid(), 1, 'KRAD Training', 'Y', 'RICE');
+
+UPDATE krim_perm_attr_data_t set attr_val = '*' where perm_id = '150';

@@ -34,7 +34,8 @@
     </class-descriptor>
 
     <class-descriptor class="org.kuali.rice.krtrain.book.Book" table="KRTRAIN_BOOK_T">
-        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" index="true"/>
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true"
+                          sequence-name="krtrain_book_id_s"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
         <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR"/>
@@ -90,6 +91,18 @@
         <field-descriptor name="recap" column="REC" jdbc-type="VARCHAR"
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="recapPageNumber" column="REC_PAGE_NUM" jdbc-type="INTEGER"/>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.rice.krtrain.book.BookEntryDocument" table="KRTRAIN_BOOK_DOC_T">
+        <field-descriptor name="documentNumber" primarykey="true" column="FDOC_NBR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="bookId" column="BOOK_ID" jdbc-type="BIGINT"/>
+        
+        <reference-descriptor name="book" class-ref="org.kuali.rice.krtrain.book.Book" auto-retrieve="true"
+                              auto-update="object" auto-delete="object">
+          <foreignkey field-ref="bookId"/>
+        </reference-descriptor>
     </class-descriptor>
 
 </descriptor-repository>

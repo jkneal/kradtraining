@@ -63,6 +63,10 @@
                             <bean parent="Uif-HeaderTwo" p:headerText="Exercise 48" />
                             <bean parent="Uif-Link" p:linkText="Author Lookup" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?dataObjectClassName=org.kuali.rice.krtrain.book.Author&amp;methodToCall=start&amp;showMaintenanceLinks=true"/>
+                             
+                            <bean parent="Uif-HeaderTwo" p:headerText="Exercise 49" />
+                            <bean parent="Uif-Link" p:linkText="Book Entry Document" p:target="_self"
+                                  p:href="@{#ConfigProperties['application.url']}/app/bookEntry?viewId=Krtrain-BookEntryViewMenu&amp;methodToCall=docHandler&amp;command=initiate&amp;documentClass=org.kuali.rice.krtrain.book.BookEntryDocument"/>     
                         </list>
                     </property>
                 </bean>

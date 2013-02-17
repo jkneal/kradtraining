@@ -77,3 +77,19 @@ CREATE TABLE krtrain_chapter_t
 	PRIMARY KEY (book_id, num),
 	UNIQUE krtrain_chapter_tc0(obj_id)
 );
+
+CREATE TABLE krtrain_book_doc_t
+(
+	fdoc_nbr VARCHAR(14) NOT NULL,
+	obj_id VARCHAR(36) NOT NULL,
+	ver_nbr DECIMAL(8) NOT NULL DEFAULT 1,
+	book_id INT NOT NULL,
+	PRIMARY KEY (fdoc_nbr),
+	UNIQUE krtrain_book_doc_tc0(obj_id)
+);
+
+CREATE TABLE krtrain_book_id_s
+(
+	id BIGINT NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (id)
+);
