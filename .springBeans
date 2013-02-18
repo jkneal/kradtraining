@@ -17,6 +17,34 @@
 		<config>src/main/resources/org/kuali/rice/krtrain/book/PublisherCode.xml</config>
 		<config>src/main/resources/org/kuali/rice/krtrain/BaseDefinitionOverrides.xml</config>
 		<config>src/main/resources/org/kuali/rice/krtrain/KrtrainMenuView.xml</config>
+		<config>training/rice/context/AdHocRoutePerson.xml</config>
+		<config>training/rice/context/AdHocRouteWorkgroup.xml</config>
+		<config>training/rice/context/Attachment.xml</config>
+		<config>training/rice/context/AttributeReferenceDummy.xml</config>
+		<config>training/rice/context/AttributeReferenceElements.xml</config>
+		<config>training/rice/context/BusinessObjectAttributeEntry.xml</config>
+		<config>training/rice/context/DataDictionaryBaseTypes.xml</config>
+		<config>training/rice/context/DocumentHeader.xml</config>
+		<config>training/rice/context/Note.xml</config>
+		<config>training/rice/context/NoteType.xml</config>
+		<config>training/rice/context/PessimisticLock.xml</config>
+		<config>training/rice/context/UifActionDefinitions.xml</config>
+		<config>training/rice/context/UifConfigurationDefinitions.xml</config>
+		<config>training/rice/context/UifControlDefinitions.xml</config>
+		<config>training/rice/context/UifDocumentDefinitions.xml</config>
+		<config>training/rice/context/UifElementDefinitions.xml</config>
+		<config>training/rice/context/UifFieldDefinitions.xml</config>
+		<config>training/rice/context/UifGroupDefinitions.xml</config>
+		<config>training/rice/context/UifHeaderFooterDefinitions.xml</config>
+		<config>training/rice/context/UifIncidentReportDefinitions.xml</config>
+		<config>training/rice/context/UifInitiateDocumentInfoDefinitions.xml</config>
+		<config>training/rice/context/UifInquiryDefinitions.xml</config>
+		<config>training/rice/context/UifLayoutManagerDefinitions.xml</config>
+		<config>training/rice/context/UifLookupDefinitions.xml</config>
+		<config>training/rice/context/UifMaintenanceDefinitions.xml</config>
+		<config>training/rice/context/UifRiceDefinitions.xml</config>
+		<config>training/rice/context/UifViewPageDefinitions.xml</config>
+		<config>training/rice/context/UifWidgetDefinitions.xml</config>
 	</configs>
 	<configSets>
 		<configSet>
@@ -35,6 +63,37 @@
 				<config>src/main/resources/org/kuali/rice/krtrain/book/PublisherCode.xml</config>
 				<config>src/main/resources/org/kuali/rice/krtrain/KrtrainMenuView.xml</config>
 				<config>src/main/webapp/WEB-INF/krtrain-servlet.xml</config>
+				<config>src/main/webapp/kcb/WEB-INF/kcb-servlet.xml</config>
+				<config>src/main/webapp/ken/WEB-INF/notification-servlet.xml</config>
+				<config>src/main/webapp/WEB-INF/krad-servlet.xml</config>
+				<config>training/rice/context/AdHocRoutePerson.xml</config>
+				<config>training/rice/context/AdHocRouteWorkgroup.xml</config>
+				<config>training/rice/context/Attachment.xml</config>
+				<config>training/rice/context/AttributeReferenceDummy.xml</config>
+				<config>training/rice/context/AttributeReferenceElements.xml</config>
+				<config>training/rice/context/BusinessObjectAttributeEntry.xml</config>
+				<config>training/rice/context/DataDictionaryBaseTypes.xml</config>
+				<config>training/rice/context/DocumentHeader.xml</config>
+				<config>training/rice/context/Note.xml</config>
+				<config>training/rice/context/NoteType.xml</config>
+				<config>training/rice/context/PessimisticLock.xml</config>
+				<config>training/rice/context/UifActionDefinitions.xml</config>
+				<config>training/rice/context/UifConfigurationDefinitions.xml</config>
+				<config>training/rice/context/UifControlDefinitions.xml</config>
+				<config>training/rice/context/UifDocumentDefinitions.xml</config>
+				<config>training/rice/context/UifElementDefinitions.xml</config>
+				<config>training/rice/context/UifFieldDefinitions.xml</config>
+				<config>training/rice/context/UifGroupDefinitions.xml</config>
+				<config>training/rice/context/UifHeaderFooterDefinitions.xml</config>
+				<config>training/rice/context/UifIncidentReportDefinitions.xml</config>
+				<config>training/rice/context/UifInitiateDocumentInfoDefinitions.xml</config>
+				<config>training/rice/context/UifInquiryDefinitions.xml</config>
+				<config>training/rice/context/UifLayoutManagerDefinitions.xml</config>
+				<config>training/rice/context/UifLookupDefinitions.xml</config>
+				<config>training/rice/context/UifMaintenanceDefinitions.xml</config>
+				<config>training/rice/context/UifRiceDefinitions.xml</config>
+				<config>training/rice/context/UifViewPageDefinitions.xml</config>
+				<config>training/rice/context/UifWidgetDefinitions.xml</config>
 			</configs>
 			<profiles>
 			</profiles>
