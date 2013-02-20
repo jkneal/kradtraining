@@ -209,6 +209,7 @@
                                       value="Search &lt;a href=http://www.google.com&gt;google.com&lt;/a&gt; for ISBN codes"/>
                         </bean>
                     </property>
+                    <property name="componentSecurity.editAuthz" value="true"/>
                 </bean>
 
                 <bean parent="Uif-DataField" p:propertyName="entryDate" p:bindingInfo.bindToForm="true"
@@ -554,7 +555,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-VerticalBoxGroup">
+                <bean id="authorLinks" parent="Uif-VerticalBoxGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:bindingInfo.bindByNamePrefix="author"
@@ -578,6 +579,7 @@
                                   p:finalizeMethodToCall="setupAuthorBlogLink"/>
                         </list>
                     </property>
+                    <property name="componentSecurity.viewAuthz" value="true"/>
                 </bean>
             </list>
         </property>
