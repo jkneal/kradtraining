@@ -36,7 +36,7 @@
                                   p:href="@{#ConfigProperties['kr.url']}/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.rice.coreservice.impl.parameter.ParameterBo&amp;returnLocation=http://localhost:8080/krtrain/portal.do&amp;docFormKey=888888"/>
 
                             <bean parent="Uif-HeaderTwo" p:headerText="Exercise 37" />
-                            <bean parent="Uif-Link" p:linkText="Book Entry Data" p:target="_self"
+                            <bean parent="Uif-Link" p:linkText="Book Entry Expressions" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/app/bookEntry?viewId=Krtrain-BookEntryViewMenu&amp;methodToCall=loadSampleData&amp;exercise37=true&amp;format.summaryRows=15&amp;format.hideRatings=true&amp;book.fiction=true"/>
                             <bean parent="Uif-Link" p:linkText="Book Entry View ReadOnly" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/app/bookEntry?viewId=Krtrain-BookEntryViewMenu&amp;methodToCall=loadSampleData&amp;exercise37=true&amp;format.readOnlyView=true"/>
@@ -58,6 +58,7 @@
                                   p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?dataObjectClassName=org.kuali.rice.krtrain.book.Author&amp;methodToCall=start&amp;showMaintenanceLinks=true"/>
                              
                             <bean parent="Uif-HeaderTwo" p:headerText="Exercise 49" />
+                            <!-- Link for exercise 49 goes here -->
    
                         </list>
                     </property>
