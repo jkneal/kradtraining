@@ -81,7 +81,7 @@
         </property>
     </bean>
 
-    <bean id="Uif-ClassicKnsTheme" parent="Uif-ClassicKnsTheme-parentBean"/>
+    <bean id="Uif-ClassicKnsTheme" parent="Uif-ClassicKnsTheme-parentBean">
       <property name="cssFiles">
         <list merge="true">
           <value>css/krtrain-theme.css</value>
