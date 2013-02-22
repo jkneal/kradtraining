@@ -11,8 +11,6 @@
 		<config>src/main/resources/org/kuali/rice/krtrain/book/Author.xml</config>
 		<config>src/main/resources/org/kuali/rice/krtrain/book/AuthorViews.xml</config>
 		<config>src/main/resources/org/kuali/rice/krtrain/book/Book.xml</config>
-		<config>src/main/resources/org/kuali/rice/krtrain/book/BookTypeViews.xml</config>
-		<config>src/main/resources/org/kuali/rice/krtrain/book/Chapter.xml</config>
 		<config>src/main/resources/org/kuali/rice/krtrain/book/IndexEntry.xml</config>
 		<config>src/main/resources/org/kuali/rice/krtrain/book/PublisherCode.xml</config>
 		<config>src/main/resources/org/kuali/rice/krtrain/BaseDefinitionOverrides.xml</config>
@@ -45,6 +43,8 @@
 		<config>training/rice/context/UifRiceDefinitions.xml</config>
 		<config>training/rice/context/UifViewPageDefinitions.xml</config>
 		<config>training/rice/context/UifWidgetDefinitions.xml</config>
+		<config>src/main/resources/org/kuali/rice/krtrain/book/Chapter.xml.txt</config>
+		<config>src/main/resources/org/kuali/rice/krtrain/book/BookTypeViews.xml.txt</config>
 	</configs>
 	<configSets>
 		<configSet>
@@ -57,8 +57,6 @@
 				<config>src/main/resources/org/kuali/rice/krtrain/book/AuthorViews.xml</config>
 				<config>src/main/resources/org/kuali/rice/krtrain/book/Book.xml</config>
 				<config>src/main/resources/org/kuali/rice/krtrain/book/BookEntryView.xml</config>
-				<config>src/main/resources/org/kuali/rice/krtrain/book/BookTypeViews.xml</config>
-				<config>src/main/resources/org/kuali/rice/krtrain/book/Chapter.xml</config>
 				<config>src/main/resources/org/kuali/rice/krtrain/book/IndexEntry.xml</config>
 				<config>src/main/resources/org/kuali/rice/krtrain/book/PublisherCode.xml</config>
 				<config>src/main/resources/org/kuali/rice/krtrain/KrtrainMenuView.xml</config>
@@ -94,6 +92,8 @@
 				<config>training/rice/context/UifRiceDefinitions.xml</config>
 				<config>training/rice/context/UifViewPageDefinitions.xml</config>
 				<config>training/rice/context/UifWidgetDefinitions.xml</config>
+				<config>src/main/resources/org/kuali/rice/krtrain/book/Chapter.xml.txt</config>
+				<config>src/main/resources/org/kuali/rice/krtrain/book/BookTypeViews.xml.txt</config>
 			</configs>
 			<profiles>
 			</profiles>
