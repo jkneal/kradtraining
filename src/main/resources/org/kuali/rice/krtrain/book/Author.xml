@@ -22,7 +22,7 @@
     <bean id="Author-authorId" parent="Author-authorId-parentBean"/>
     <bean id="Author-authorId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
         <property name="name" value="authorId"/>
-        <property name="label" value="Author Name"/>
+        <property name="label" value="Author Id"/>
         <property name="shortLabel" value="ID"/>
         <property name="maxLength" value="14"/>
         <property name="validCharactersConstraint">
