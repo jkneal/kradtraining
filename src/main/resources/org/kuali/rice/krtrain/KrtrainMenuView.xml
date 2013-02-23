@@ -21,7 +21,7 @@
                                   p:href="@{#ConfigProperties['application.url']}/app/generic?viewId=Krtrain-BookEntryViewTabs&amp;methodToCall=start"/>
 
                             <bean parent="Uif-HeaderTwo" p:headerText="Exercise 9" />
-                            <bean parent="Uif-Link" p:linkText="Book Proposal" p:target="_self"
+                            <bean parent="Uif-Link" p:linkText="Book Entry" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/app/bookEntry?viewId=Krtrain-BookEntryViewMenu&amp;methodToCall=start"/>
                             <bean parent="Uif-Link" p:linkText="Book Type Lookup" p:target="_self"
                                   p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?dataObjectClassName=org.kuali.rice.krtrain.book.BookType&amp;methodToCall=search&amp;showMaintenanceLinks=true"/>
