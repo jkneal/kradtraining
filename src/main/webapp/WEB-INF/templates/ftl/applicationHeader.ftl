@@ -35,6 +35,8 @@
     <div class="container-fluid">
       <div class="row-fluid" style=" margin-top:56px">
         <div class="span12" style="text-align:right; padding:6px">
+         <strong>Logged in User:&nbsp;${UserSession.loggedInUserPrincipalName}</strong>
+         <form action="/krtrain/app/menu" method="post" style="margin:0; display:inline">
           <div class="input-append">
               <input class="backdoor" style="
                   -webkit-appearance: none;
@@ -90,8 +92,11 @@
                vertical-align: top;
                white-space: nowrap;
                width: 150px;
-               word-spacing: 0px;" type="text" id="backdoor" name="backdoor">
-            <button class="btn btn-danger" type="button">backdoor</button>
+               word-spacing: 0px;" type="text" id="backdoor" name="backdoorId">
+            <button class="btn btn-danger">backdoor</button>
+            <input name="methodToCall" type="hidden" value="login" />
+            <input name="viewId" type="hidden" value="Krtrain-MenuView" />
+           </form>
           </div>
         </div>
       </div>
