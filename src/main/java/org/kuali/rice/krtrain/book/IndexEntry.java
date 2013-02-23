@@ -2,9 +2,6 @@ package org.kuali.rice.krtrain.book;
 
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Index Entry Entity
  *
