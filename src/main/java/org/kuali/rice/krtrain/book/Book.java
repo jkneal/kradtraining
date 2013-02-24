@@ -59,6 +59,9 @@ public class Book extends PersistableBusinessObjectBase {
 
     public Book() {
         super();
+        
+        author = new Author();
+        pubCode = new PublisherCode();
 
         isbn = "";
         edition = 1;
