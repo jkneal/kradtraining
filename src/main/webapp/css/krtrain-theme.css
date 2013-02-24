@@ -359,3 +359,7 @@ table.dataTable tfoot th {
   padding: 3px 10px;
   background: -webkit-linear-gradient(top, #f7f7f7 0%, #e5e5e5 100%);
 }
+
+uif-helpAction {
+	margin-left: 5px;
+}
