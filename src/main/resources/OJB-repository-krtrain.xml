@@ -34,7 +34,8 @@
     </class-descriptor>
 
     <class-descriptor class="org.kuali.rice.krtrain.book.Book" table="KRTRAIN_BOOK_T">
-        <field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true"
+                          sequence-name="krtrain_book_id_s"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
         <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR"/>
@@ -44,6 +45,17 @@
         <field-descriptor name="publisherCode" column="PUB_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="publisherAddress" column="PUB_ADD" jdbc-type="VARCHAR"/>
         <field-descriptor name="publisherState" column="PUB_ST" jdbc-type="VARCHAR"/>
+        <field-descriptor name="fiction" column="FICT" jdbc-type="VARCHAR" 
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="availableFormats" column="FORMATS" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.krtrain.util.OjbVarcharListConversion"/>
+        <field-descriptor name="bindingType" column="BIND_TYP" jdbc-type="VARCHAR"/>
+        <field-descriptor name="languages" column="LANG" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.krtrain.util.OjbVarcharListConversion"/>
+        <field-descriptor name="shortSummary" column="SUMMARY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="publicationDate" column="pub_dt" jdbc-type="DATE"/>
+        <field-descriptor name="price" column="price" jdbc-type="DECIMAL"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 
         <reference-descriptor name="bookType" class-ref="org.kuali.rice.krtrain.book.BookType" auto-retrieve="true"
                               auto-update="none" auto-delete="none" proxy="true">
