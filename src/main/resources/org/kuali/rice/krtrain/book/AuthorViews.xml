@@ -7,7 +7,7 @@
     <bean id="Author-InquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Author Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.rice.krtrain.book.Author"/>
-        <property name="Items">
+        <property name="items">
             <list>
                 <bean parent="Uif-Disclosure-GridSection">
                     <property name="headerText" value="Author Information"/>
