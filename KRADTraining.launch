@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="net.sourceforge.eclipsejetty.launchConfigurationType">
-<stringAttribute key="bad_container_name" value="\kradtraining.git\jetty.la"/>
+<stringAttribute key="bad_container_name" value="\kradtraining\jetty.la"/>
 <stringAttribute key="net.sourceforge.eclipsejetty.launcher.ajp.enabled" value="false"/>
 <stringAttribute key="net.sourceforge.eclipsejetty.launcher.context" value="/krtrain"/>
 <booleanAttribute key="net.sourceforge.eclipsejetty.launcher.jetty.config.active.0" value="true"/>
@@ -29,6 +29,6 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="net.sourceforge.eclipsejetty.launcher.JettyLaunchClassPathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="net.sourceforge.eclipsejetty.starter.embedded.JettyEmbeddedLauncherMain"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="kradtraining.git"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="kradtraining"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms512m -Xmx1536m -XX:MaxPermSize=768m"/>
 </launchConfiguration>
