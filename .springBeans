@@ -43,8 +43,8 @@
 		<config>training/rice/context/UifRiceDefinitions.xml</config>
 		<config>training/rice/context/UifViewPageDefinitions.xml</config>
 		<config>training/rice/context/UifWidgetDefinitions.xml</config>
-		<config>src/main/resources/org/kuali/rice/krtrain/book/Chapter.xml.txt</config>
 		<config>src/main/resources/org/kuali/rice/krtrain/book/BookTypeViews.xml.txt</config>
+		<config>src/main/resources/org/kuali/rice/krtrain/book/Chapter.xml.txt</config>
 	</configs>
 	<configSets>
 		<configSet>
@@ -92,8 +92,8 @@
 				<config>training/rice/context/UifRiceDefinitions.xml</config>
 				<config>training/rice/context/UifViewPageDefinitions.xml</config>
 				<config>training/rice/context/UifWidgetDefinitions.xml</config>
-				<config>src/main/resources/org/kuali/rice/krtrain/book/Chapter.xml.txt</config>
 				<config>src/main/resources/org/kuali/rice/krtrain/book/BookTypeViews.xml.txt</config>
+				<config>src/main/resources/org/kuali/rice/krtrain/book/Chapter.xml.txt</config>
 			</configs>
 			<profiles>
 			</profiles>
