@@ -26,7 +26,8 @@ function KradRequest(action) {
             this.ajaxSubmit = action.data("ajaxsubmit");
         }
 
-        this.additionalData = action.data("submitData");
+        this.additionalData = action.data(kradVariables.SUBMIT_DATA);
+
         this.methodToCall = this.additionalData['methodToCall'];
 
         if (action.data("successcallback") !== undefined) {
@@ -60,6 +61,14 @@ function KradRequest(action) {
         if (action.data("refreshid") !== undefined) {
             this.refreshId = action.data("refreshid");
         }
+
+        if (action.data("dirtyonaction") !== undefined) {
+            this.dirtyOnAction = action.data("dirtyonaction");
+        }
+
+        if (action.data("cleardirtyonaction") !== undefined) {
+            this.clearDirtyOnAction = action.data("cleardirtyonaction");
+        }
     }
 }
 
@@ -83,6 +92,10 @@ KradRequest.prototype = {
     // indicates whether client side validation should be performed before making
     // the request (see ajaxReturnHandlers)
     validate: false,
+
+    dirtyOnAction: false,
+
+    clearDirtyOnAction: false,
 
     // when blocking is enabled will display this text with the blocking overlay
     loadingMessage: getMessage(kradVariables.MESSAGE_LOADING),
@@ -145,6 +158,16 @@ KradRequest.prototype = {
 
                 return;
             }
+        }
+
+        //reset dirty form state
+        if (this.clearDirtyOnAction){
+            dirtyFormState.reset();
+        }
+
+        //increase dirty field count when this flag is true
+        if (this.dirtyOnAction){
+            dirtyFormState.incrementDirtyFieldCount();
         }
 
         // check for non-ajax request
@@ -267,6 +290,14 @@ KradRequest.prototype = {
             writeHiddenToForm("clientViewState", jsonViewState);
         }
 
+        // check for file inputs and set encoding, this is handled for us with the ajax submits (using jqform)
+        var fileInputs = jQuery('input[type=file]:enabled[value!=""]', '#kualiForm');
+
+        var hasFileInputs = fileInputs.length > 0;
+        if (hasFileInputs) {
+            jQuery('#kualiForm').attr('enctype', 'multipart/form-data');
+        }
+
         // submit
         jQuery('#kualiForm').submit();
     },
@@ -294,12 +325,14 @@ KradRequest.prototype = {
                     showLoading(request.loadingMessage, request.elementToBlock, replaceElement);
                 }
             },
-            complete: function () {
+            complete: function (jqXHR, textStatus) {
                 // note that if you want to unblock simultaneous with showing the new retrieval
                 // you must do so in the successCallback
                 if (!request.disableBlocking) {
                     hideLoading(request.elementToBlock);
                 }
+
+                resetSessionTimers();
             },
             error: function () {
                 if (nonEmpty(request.elementToBlock) && request.elementToBlock.hasClass("uif-placeholder")) {
@@ -308,7 +341,17 @@ KradRequest.prototype = {
                 else if (!request.disableBlocking) {
                     hideLoading(request.elementToBlock);
                 }
-            }
+            },
+            statusCode: {403: function (jqXHR, textStatus) {
+                if (nonEmpty(request.elementToBlock) && request.elementToBlock.hasClass("uif-placeholder")) {
+                    request.elementToBlock.hide();
+                }
+                else if (!request.disableBlocking) {
+                    hideLoading(request.elementToBlock);
+                }
+
+                handleAjaxSessionTimeout(jqXHR.responseText);
+            }}
         };
 
         jQuery.extend(options, elementBlockingOptions);
