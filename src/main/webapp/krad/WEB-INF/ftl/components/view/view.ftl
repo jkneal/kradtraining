@@ -20,9 +20,26 @@
     <!-- VIEW -->
     <@krad.div component=view>
 
+        <!-- optional top group content above breadcrumbs -->
+        <#local topGroupWrapData=""/>
+        <#if view.stickyTopGroup>
+            <#local topGroupWrapData="data-sticky='true'"/>
+        </#if>
+
+        <#if view.topGroup?has_content && view.topGroup.render>
+            <div id="Uif-TopGroupWrapper" ${topGroupWrapData}>
+                <@krad.template component=view.topGroup/>
+            </div>
+        </#if>
+
         <!-- BREADCRUMBS -->
-        <#if view.renderBreadcrumbsInView>
-            <@krad.template component=view.breadcrumbs/>
+        <#local breadcrumbWrapData=""/>
+        <#if view.stickyBreadcrumbs>
+            <#local breadcrumbWrapData="data-sticky='true'"/>
+        </#if>
+
+        <#if view.breadcrumbs?has_content && view.breadcrumbs.render>
+           <div id="Uif-BreadcrumbWrapper" ${breadcrumbWrapData}></div>
         </#if>
 
         <!-- VIEW HEADER -->
@@ -44,16 +61,14 @@
         </div>
 
         <!-- VIEW FOOTER -->
-        <div id="viewfooter_div">
-            <@krad.template component=view.footer/>
-        </div>
+        <@krad.template component=view.footer/>
 
         <#if (view.dialogs?size > 0)>
             <!-- DIALOG LIST -->
             <div id="dialogs_div">
-            <#list view.dialogs as dialog>
-                <@krad.template component=dialog/>
-            </#list>
+                <#list view.dialogs as dialog>
+                    <@krad.template component=dialog/>
+                </#list>
             </div>
         </#if>
 

@@ -51,4 +51,14 @@ public class BookGroup extends Group {
     public void setBooklet(Booklet booklet) {
         this.booklet = booklet;
     }
+
+	@Override
+	protected <T> void copyProperties(T component) {
+		super.copyProperties(component);
+		
+		BookGroup bookGroup = (BookGroup) component;
+		
+		bookGroup.setBooklet((Booklet) this.booklet.copy()); 
+	}
+    
 }
