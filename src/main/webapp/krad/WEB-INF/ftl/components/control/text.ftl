@@ -29,7 +29,7 @@
         <#local attributes='${attributes} disabled="disabled"'/>
     </#if>
 
-    <#if control.readOnly>
+    <#if control.readOnly  || field.widgetInputOnly!false>
         <#local attributes='${attributes} readonly="readonly"'/>
     </#if>
 
@@ -43,6 +43,10 @@
 
     <#if control.minLength??>
         <#local attributes='${attributes} minLength="${control.minLength}"'/>
+    </#if>
+
+    <#if field.disableNativeAutocomplete>
+        <#local attributes='${attributes} autocomplete="off"'/>
     </#if>
 
     <@spring.formInput id="${control.id}" path="KualiForm.${field.bindingInfo.bindingPath}" attributes="${attributes}"/>
