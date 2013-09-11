@@ -20,20 +20,27 @@
 <#compress>
 
     <#if !KualiForm.ajaxRequest || (KualiForm.ajaxReturnType == "update-view")
-         || (KualiForm.ajaxReturnType == "update-page")>
-        <#global view=KualiForm.view/>
+        || (KualiForm.ajaxReturnType == "update-page")>
+        <#global view=KualiForm.view!/>
     <#else>
-        <#global view=KualiForm.postedView/>
+        <#global view=KualiForm.postedView!/>
     </#if>
 
-    <#-- include all templates needed for the view -->
-    <#if !(KualiForm.ajaxRequest && KualiForm.ajaxReturnType == "redirect")>
+    <#if KualiForm.ajaxRequest && KualiForm.ajaxReturnType == "redirect">
+        <div data-returntype="redirect">
+            <#include "redirect.ftl" parse=true/>
+        </div>
+    <#elseif view?? && view.viewTemplates??>
+        <#-- include all templates needed for the view -->
         <#list view.viewTemplates as viewTemplate>
             <#include "${viewTemplate}" parse=true/>
         </#list>
     </#if>
 
-    <#if KualiForm.ajaxRequest>
+    <#if KualiForm.jsonRequest>
+        <#include "${KualiForm.requestJsonTemplate}" parse=true/>
+    <#elseif KualiForm.ajaxRequest>
+
         <#if KualiForm.ajaxReturnType == "update-view">
             <div data-returntype="update-view">
                 <#include "fullView.ftl" parse=true/>
@@ -49,21 +56,15 @@
                 <#include "updatePage.ftl" parse=true/>
             </div>
 
-       <#elseif KualiForm.ajaxReturnType == "redirect">
-            <div data-returntype="redirect">
-                <#include "redirect.ftl" parse=true/>
-            </div>
-
-       <#elseif KualiForm.ajaxReturnType == "display-lightbox">
+        <#elseif KualiForm.ajaxReturnType == "display-lightbox">
             <div data-returntype="display-lightbox">
                 <#include "updateComponent.ftl" parse=true/>
             </div>
 
-       <#elseif KualiForm.ajaxReturnType == "update-dialog">
+        <#elseif KualiForm.ajaxReturnType == "update-dialog">
             <div data-returntype="update-dialog" data-updatecomponentid="${Component.id!}">
                 <#include "updateComponent.ftl" parse=true/>
             </div>
-
         </#if>
 
     <#else>
