@@ -24,93 +24,12 @@
 
   <!-- View Themes -->
 
-  <bean id="Uif-BaseTheme" abstract="true" parent="Uif-BaseTheme-parentBean"/>
-  <bean id="Uif-BaseTheme-parentBean" abstract="true" parent="Uif-ViewTheme">
-    <property name="cssFiles">
-      <list>
-        <!--<value>krad/min/css/krad_@{#ConfigProperties['rice.version']}.min.css</value>-->
-        <!-- For Debugging, uncomment out the values below (and comment out the minimized css above) -->
-        <value>krad/css/global/fss-reset.css</value>
-        <value>krad/css/global/fss-layout.css</value>
-        <value>krad/css/global/fss-text.css</value>
-        <value>krad/plugins/jqueryUI/jquery-ui-1.9.2.css</value>
-        <value>krad/plugins/jgrowl/jquery.jgrowl.css</value>
-        <value>krad/plugins/rice/datatables/jquery.dataTables.css</value>
-        <value>krad/plugins/rice/datatables/TableTools.css</value>
-        <value>krad/plugins/fancybox/jquery.fancybox.css</value>
-        <value>krad/plugins/rice/textpopout/popoutTextarea.css</value>
-        <value>krad/plugins/rice/menu/tabs.css</value>
-        <value>krad/plugins/tooltip/jquery.bubblepopup.v2.3.1.css</value>
-        <value>krad/plugins/prettify/prettify.css</value>
-        <value>krad/css/global/base.css</value>
-      </list>
-    </property>
-    <property name="scriptFiles">
-      <list>
-        <!--<value>krad/min/scripts/krad_@{#ConfigProperties['rice.version']}.min.js</value>-->
-        <!-- For Debugging, uncomment out the values below (and comment out the minimized js above) -->
-        <value>krad/plugins/jquery/jquery-1.8.3.js</value>
-        <value>krad/plugins/jqueryUI/jquery-ui-1.9.2.js</value>
-        <value>krad/plugins/jqueryUI/jquery.ui.autocomplete.html.js</value>
-        <value>krad/plugins/color/jquery.color.js</value>
-        <value>krad/plugins/cookie/jquery.cookie.js</value>
-        <value>krad/plugins/jgrowl/jquery.jgrowl.js</value>
-        <value>krad/plugins/blockUI/jquery.blockUI.js</value>
-        <value>krad/plugins/watermark/jquery.watermark.js</value>
-        <value>krad/plugins/validate/jquery.validate.js</value>
-        <value>krad/plugins/tooltip/jquery.bubblepopup.v2.3.1.js</value>
-        <value>krad/plugins/rice/menu/krad.navigationMenu.js</value>
-        <value>krad/plugins/rice/textpopout/krad.textareaPopout.js</value>
-        <value>krad/plugins/dirtyform/jquery.dirtyform.js</value>
-        <value>krad/plugins/scrollto/jquery.scrollTo-1.4.3-min.js</value>
-        <value>krad/plugins/rice/menu/krad.tabMenu.js</value>
-        <value>krad/plugins/rice/datatables/jquery.dataTables.js</value>
-        <value>krad/plugins/rice/datatables/ZeroClipboard.js</value>
-        <value>krad/plugins/rice/datatables/TableTools.js</value>
-        <value>krad/plugins/rice/datatables/jquery.dataTables.rowGrouping.js</value>
-        <value>krad/plugins/jstree/jquery.jstree.js</value>
-        <value>krad/plugins/validate/additional_validations.js</value>
-        <value>krad/plugins/jqform/jquery.form.js</value>
-        <value>krad/plugins/fancybox/jquery.fancybox.pack.js</value>
-        <value>krad/plugins/easydrag/jquery.easydrag.js</value>
-        <value>krad/plugins/easing/jquery.easing-1.3.pack.js</value>
-        <value>krad/plugins/json/jquery.json-2.2.js</value>
-        <value>krad/plugins/infusion/infusion-1.4.js</value>
-        <value>krad/plugins/infusion/infusion.reorderer.js</value>
-        <value>krad/plugins/prettify/prettify.js</value>
-        <value>krad/plugins/globalize/globalize.js</value>
-        <value>krad/scripts/krad.variables.js</value>
-        <value>krad/scripts/krad.message.js</value>
-        <value>krad/scripts/krad.widget.js</value>
-        <value>krad/scripts/krad.utility.js</value>
-        <value>krad/scripts/krad.initialize.js</value>
-        <value>krad/scripts/krad.request.js</value>
-        <value>krad/scripts/krad.response.js</value>
-        <value>krad/scripts/krad.actions.js</value>
-        <value>krad/scripts/krad.validate.js</value>
-      </list>
-    </property>
-  </bean>
+  <!-- Bean for setting the default theme for views -->
+  <bean id="GlobalTheme" parent="Uif-KbootTheme"/>
 
-  <bean id="Uif-ClassicKnsTheme" parent="Uif-ClassicKnsTheme-parentBean"/>
-  <bean id="Uif-ClassicKnsTheme-parentBean" parent="Uif-BaseTheme">
-    <property name="imageDirectory" value="@{#ConfigProperties['krad.externalizable.images.url']}kns/"/>
-    <property name="cssFiles">
-      <list merge="true">
-        <value>krad/css/kns/theme-kns.css</value>
-      </list>
-    </property>
-  </bean>
-
-  <bean id="Uif-KradTheme" parent="Uif-KradTheme-parentBean"/>
-  <bean id="Uif-KradTheme-parentBean" parent="Uif-BaseTheme">
-    <property name="imageDirectory" value="@{#ConfigProperties['krad.externalizable.images.url']}ks/"/>
-    <property name="cssFiles">
-      <list merge="true">
-        <value>krad/css/ks/theme-krad.css</value>
-        <value>krad/css/ks/fss-theme-krad.css</value>
-      </list>
-    </property>
+  <bean id="Uif-KbootTheme" parent="Uif-KbootTheme-parentBean"/>
+  <bean id="Uif-KbootTheme-parentBean" abstract="true" parent="Uif-RiceViewTheme">
+    <property name="name" value="kboot"/>
   </bean>
 
   <!-- Base Views -->
@@ -123,14 +42,14 @@
     <property name="template" value="/krad/WEB-INF/ftl/components/view/view.ftl"/>
     <property name="templateName" value="uif_view"/>
     <property name="theme">
-      <bean parent="Uif-KradTheme"/>
+      <bean parent="GlobalTheme"/>
     </property>
     <property name="cssClasses">
       <list>
         <value>uif-view</value>
       </list>
     </property>
-    <property name="renderBreadcrumbsInView" value="true"/>
+    <property name="useLibraryCssClasses" value="true"/>
     <property name="viewTypeName" value="DEFAULT"/>
     <property name="viewName" value="default"/>
     <property name="viewHelperServiceClass"
@@ -138,11 +57,20 @@
     <property name="persistFormToSession" value="true"/>
     <property name="presentationControllerClass" value="org.kuali.rice.krad.uif.view.ViewPresentationControllerBase"/>
     <property name="authorizerClass" value="org.kuali.rice.krad.uif.view.ViewAuthorizerBase"/>
-    <property name="preloadPoolSize" value="1"/>
     <property name="breadcrumbs">
       <bean parent="Uif-Breadcrumbs"/>
     </property>
-    <property name="breadcrumbTitleDisplayOption" value="dash"/>
+    <property name="breadcrumbOptions">
+      <bean parent="Uif-BreadcrumbOptions"/>
+    </property>
+    <property name="breadcrumbItem">
+      <bean parent="Uif-BreadcrumbItem">
+        <property name="renderAsLink" value="true"/>
+      </bean>
+    </property>
+    <property name="parentLocation">
+      <bean parent="Uif-ParentLocation"/>
+    </property>
     <property name="growlMessagingEnabled" value="true"/>
     <property name="growls">
       <bean parent="Uif-Growls"/>
@@ -155,6 +83,7 @@
       <bean parent="Uif-BlockUI"
             p:blockingImageSource="@{#ConfigProperties['krad.externalizable.images.url']}loader.gif"/>
     </property>
+    <property name="unifiedHeader" value="true"/>
     <property name="header">
       <bean parent="Uif-ViewHeader"/>
     </property>
@@ -170,13 +99,14 @@
     <property name="help">
       <bean parent="Uif-Help"/>
     </property>
+    <property name="mergeWithPageItems" value="true"/>
   </bean>
 
   <bean id="Uif-FormView" abstract="true" parent="Uif-FormView-parentBean"/>
   <bean id="Uif-FormView-parentBean" abstract="true"
         class="org.kuali.rice.krad.uif.view.FormView" parent="Uif-View">
     <property name="cssClasses">
-      <list merge="true">
+      <list>
         <value>uif-formView</value>
       </list>
     </property>
@@ -196,14 +126,32 @@
     <property name="message">
       <bean parent="Uif-Message">
         <property name="cssClasses">
-          <list merge="true">
+          <list>
             <value>uif-applicationMessage</value>
           </list>
         </property>
       </bean>
     </property>
+    <property name="singlePageView" value="true"/>
     <property name="persistFormToSession" value="false"/>
     <property name="breadcrumbs.render" value="false"/>
+  </bean>
+
+  <bean id="Uif-SessionTimeoutView" parent="Uif-SessionTimeoutView-parentBean"/>
+  <bean id="Uif-SessionTimeoutView-parentBean" parent="Uif-MessageView">
+    <property name="messageText" value="[b]Your Session has timed out and the request could not be completed.[/b]"/>
+    <property name="formClass" value="org.kuali.rice.krad.web.form.SessionTimeoutForm"/>
+  </bean>
+
+  <bean id="Uif-LoggedOutView" parent="Uif-LoggedOutView-parentBean"/>
+  <bean id="Uif-LoggedOutView-parentBean" parent="Uif-MessageView">
+    <property name="messageText" value="You have been successfully logged out. To relogin return to the&amp;nbsp;[0]."/>
+    <property name="message.inlineComponents">
+      <list>
+        <bean parent="Uif-Link" p:href="@{#ConfigProperties['application.url']}" p:linkText="home screen"
+              p:target="_self"/>
+      </list>
+    </property>
   </bean>
 
   <bean id="Uif-Page" parent="Uif-Page-parentBean"/>
@@ -211,12 +159,20 @@
     <property name="template" value="/krad/WEB-INF/ftl/components/group/pageGroup.ftl"/>
     <property name="templateName" value="uif_pageGroup"/>
     <property name="cssClasses">
-      <list merge="true">
+      <list>
         <value>uif-page</value>
       </list>
     </property>
     <property name="validationMessages">
       <bean parent="Uif-PageValidationMessages"/>
+    </property>
+    <property name="breadcrumbOptions">
+      <bean parent="Uif-PageBreadcrumbOptions"/>
+    </property>
+    <property name="breadcrumbItem">
+      <bean parent="Uif-BreadcrumbItem">
+        <property name="renderAsLink" value="false"/>
+      </bean>
     </property>
     <property name="header">
       <bean parent="Uif-PageHeader">
@@ -244,7 +200,7 @@
   <bean id="Uif-Disclosure-Page" parent="Uif-Disclosure-Page-parentBean"/>
   <bean id="Uif-Disclosure-Page-parentBean" abstract="true" parent="Uif-Page">
     <property name="cssClasses">
-      <list merge="true">
+      <list>
         <value>uif-disclosure</value>
       </list>
     </property>

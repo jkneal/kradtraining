@@ -17,19 +17,30 @@
 -->
 <#macro uif_pageGroup group>
 
+    <#--Breadcrumb update-->
+    <div id="Uif-BreadcrumbUpdate" style="display:none;">
+        <@krad.template component=KualiForm.view.breadcrumbs page=group/>
+    </div>
+
+    <#if KualiForm.view.topGroup?has_content>
+        <div id="Uif-TopGroupUpdate" style="display:none;">
+            <@krad.template component=KualiForm.view.topGroup/>
+        </div>
+    </#if>
+
+    <#--unified view header supportTitle update-->
+    <#if KualiForm.view.header?has_content>
+        <div id="Uif-ViewHeaderUpdate" style="display:none;">
+            <@krad.template component=KualiForm.view.header/>
+        </div>
+    </#if>
+
     <#include "group.ftl" parse=true/>
     <@uif_group group=group/>
 
     <!-- PAGE RELATED VARS -->
     <#if KualiForm.view.renderForm>
-
         <@spring.formHiddenInput id="pageId" path="KualiForm.view.currentPageId"/>
-        <#if KualiForm.view.currentPage.header??>
-            <@spring.formHiddenInput id="pageTitle" path="KualiForm.view.currentPage.header.headerText"/>
-        </#if>
-
-        <@spring.formHiddenInput id="historyParameterString" path="KualiForm.formHistory.historyParameterString"/>
-
     </#if>
 
 </#macro>
