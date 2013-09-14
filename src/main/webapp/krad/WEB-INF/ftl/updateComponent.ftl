@@ -17,7 +17,7 @@
 -->
 <html>
     <#-- need to render the pages errors since the component could have added errors for the page -->
-    <@krad.template component=view.currentPage.validationMessages/>
+    <@krad.template component=view.currentPage.validationMessages includeSrc=true/>
 
     <#-- now render the updated component (or page) wrapped in an update div -->
     <div id="${Component.id}_update">
@@ -29,7 +29,10 @@
         <@krad.script value="${KualiForm.growlScript!}" component=Component/>
 
         <#-- set focus if configured but do not perform jump -->
-        <@krad.script value="performFocusAndJumpTo(${view.currentPage.autoFocus?string}, false, false, '${KualiForm.focusId!}',
-                             '', '');" component=Component/>
+        <@krad.script value="jQuery(document).on(kradVariables.PAGE_LOAD_EVENT, function(){
+                    performFocusAndJumpTo(${view.currentPage.autoFocus?string}, false, false, '${KualiForm.focusId!}',
+                        '', '');
+                    dirtyFormState.setDirty(${KualiForm.dirtyForm?string});
+                });" component=Component/>
     </div>
 </html>
