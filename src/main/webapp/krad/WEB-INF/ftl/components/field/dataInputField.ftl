@@ -27,46 +27,39 @@
                 <fieldset data-type="InputSet" aria-labelledby="${field.id}_label" id="${field.id}_fieldset">
                     <legend style="display: none">${field.label!}</legend>
             </#if>
-            <#-- render field value (if read-only) or control (if edit) -->
-            <#if readOnly>
+
+            <#local quickfinderInputOnly=(field.widgetInputOnly!false) && ((field.quickfinder.dataObjectClassName)!"")?has_content />
+
+            <#-- render field value (if read-only/quickfinder-input-only) or control (if edit) -->
+            <#if readOnly || quickfinderInputOnly>
 
                 <#local readOnlyDisplay>
-                    <#-- if it is a textarea add a pre tag to preserve formatting-->
-                    <#if field.multiLineReadOnlyDisplay>
-                        <pre>
-                            <#-- display replacement display value if set -->
-                            <#if field.readOnlyDisplayReplacement?has_content>
-                               ${field.readOnlyDisplayReplacement?replace(" ","&nbsp;")}
-                            <#else>
-                                <#-- display actual field value -->
-                                <@spring.bindEscaped path="KualiForm.${field.bindingInfo.bindingPath}"
-                                htmlEscape=field.escapeHtmlInPropertyValue/>
-                                ${(spring.status.value?default(""))?replace(" ","&nbsp;")}
-
-                                <#-- add display suffix value if set -->
-                                <#if field.readOnlyDisplaySuffix?has_content>
-                                   *-* ${field.readOnlyDisplaySuffix?replace(" ","&nbsp;")}
-
-                                </#if>
-                            </#if>
-                        </pre>
-                      <#else>
+                    <#if field.forcedValue?has_content>
+                        ${field.forcedValue}
+                    <#else>
                         <#-- display replacement display value if set -->
                         <#if field.readOnlyDisplayReplacement?has_content>
-                            ${field.readOnlyDisplayReplacement}
+                             ${field.readOnlyDisplayReplacement}
                         <#else>
                             <#-- display actual field value -->
-                            <@spring.bindEscaped path="KualiForm.${field.bindingInfo.bindingPath}"
-                            htmlEscape=field.escapeHtmlInPropertyValue/>
-                            ${spring.status.value?default("")}
+                            <@spring.bind path="KualiForm.${field.bindingInfo.bindingPath}"/>
+                            ${(spring.status.value?default(""))}
 
                             <#-- add display suffix value if set -->
                             <#if field.readOnlyDisplaySuffix?has_content>
-                                *-* ${field.readOnlyDisplaySuffix}
+                                 *-* ${field.readOnlyDisplaySuffix}
                             </#if>
                         </#if>
                     </#if>
                 </#local>
+
+                <#if field.escapeHtmlInPropertyValue>
+                    <#local readOnlyDisplay=readOnlyDisplay?html>
+                </#if>
+
+                <#if field.multiLineReadOnlyDisplay>
+                    <#local readOnlyDisplay="<pre>${readOnlyDisplay?trim?replace(' ','&nbsp;')}</pre>"/>
+                </#if>
 
                 <span id="${field.id}_control" class="uif-readOnlyContent">
                     <#-- render inquiry if enabled -->
@@ -94,7 +87,7 @@
             </#if>
 
             <#-- render field direct inquiry if field is editable and inquiry is enabled-->
-            <#if !readOnly && field.inquiry.render>
+            <#if !readOnly && (field.inquiry.render)!false>
                 <@krad.template component=field.inquiry componentId="${field.id}" readOnly=field.readOnly/>
             </#if>
 
@@ -107,8 +100,8 @@
 
         </@krad.fieldLbl>
 
-    <!-- placeholder for dynamic field markers -->
-    <span id="${field.id}_markers"></span>
+        <!-- placeholder for dynamic field markers -->
+        <span id="${field.id}_markers"></span>
 
         <#if !readOnly>
             <#-- render error container for field -->

@@ -23,10 +23,10 @@
 function showGrowl(message, title, theme) {
     var context = getContext();
     if (theme) {
-        context.jGrowl(message, { header: title, theme: theme});
+        context.jGrowl(message, { header:title, theme:theme});
     }
     else {
-        context.jGrowl(message, { header: title});
+        context.jGrowl(message, { header:title});
     }
 }
 
@@ -140,7 +140,7 @@ function hideLoading(elementToBlock) {
  * @param fieldId - id for the field the icon should be added to
  */
 function showChangeIcon(fieldId) {
-    var fieldMarkerSpan = jQuery("#" + fieldId + "_attribute_markers");
+    var fieldMarkerSpan = jQuery("#" + fieldId + "_markers");
     var fieldIcon = jQuery("#" + fieldId + "_changeIcon");
 
     if (fieldMarkerSpan.length > 0 && fieldIcon.length == 0) {
@@ -172,11 +172,11 @@ function showChangeIconOnDisclosure(headerFieldId) {
  * @param fieldId - id for the header field the icon should be added to
  */
 function showChangeIconOnGroupHeader(fieldId, idSuffix) {
-    var targetElement = jQuery("#" + fieldId + idSuffix).find("[class~=uif-headerText]");
+    var targetElement = jQuery("#" + fieldId + idSuffix).find("[class~=uif-headerText-span]");
     var headerIcon = jQuery("#" + fieldId + "_changeIcon");
 
     if (targetElement.length > 0 && headerIcon.length == 0) {
-        targetElement.append("<img id='" + fieldId + "_changeIcon' class='" + kradVariables.CHANGED_HEADER_ICON_CLASS+"' alt='" + getMessage(kradVariables.MESSAGE_CHANGE) + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "asterisk_orange.png'>");
+        targetElement.append("<img id='" + fieldId + "_changeIcon' class='" + kradVariables.CHANGED_HEADER_ICON_CLASS + "' alt='" + getMessage(kradVariables.MESSAGE_CHANGE) + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "asterisk_orange.png'>");
     }
 }
 
@@ -212,5 +212,6 @@ function showClientSideErrorNotification(message) {
         message = getMessage(kradVariables.MESSAGE_FORM_CONTAINS_ERRORS);
     }
 
-    showLightboxContent(message);
+    showGrowl(message, getMessage(kradVariables.MESSAGE_ERROR), 'errorGrowl');
 }
+
