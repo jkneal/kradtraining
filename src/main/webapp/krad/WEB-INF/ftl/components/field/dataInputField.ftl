@@ -53,9 +53,9 @@
                     </#if>
                 </#local>
 
-                <#if field.escapeHtmlInPropertyValue>
+               <#-- <#if field.escapeHtmlInPropertyValue>
                     <#local readOnlyDisplay=readOnlyDisplay?html>
-                </#if>
+                </#if>-->
 
                 <#if field.multiLineReadOnlyDisplay>
                     <#local readOnlyDisplay="<pre>${readOnlyDisplay?trim?replace(' ','&nbsp;')}</pre>"/>
