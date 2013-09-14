@@ -97,7 +97,7 @@ function convertToHtml(text, removeAnchors) {
         text = text.replace(/&lt;\/a&gt;/gi, "");
     }
 
-    return jQuery("<span />", { html: text }).text();
+    return jQuery("<span />", { html: text }).html();
 }
 
 /**
@@ -326,6 +326,7 @@ function getLabel(id) {
  * they handle this during the setupPage call
  */
 function runHiddenScripts(id, isSelector, skipValidationBubbling) {
+    profile(true, "run-scripts:" + id);
     if (id) {
 
         var selector = "#" + id;
@@ -334,20 +335,26 @@ function runHiddenScripts(id, isSelector, skipValidationBubbling) {
         }
 
         evaluateScripts(selector);
-        runScriptsForId(id);
 
-        //reinit dirty fields
-        jQuery('#kualiForm').dirty_form({changedClass: kradVariables.DIRTY_CLASS, includeHidden: true});
-
-        //reinitialize BubblePopup
-        initBubblePopups();
+        if (!isSelector) {
+            runScriptsForId(id);
+        }
 
         //Interpret new server message state for refreshed InputFields and write them out
         if (!skipValidationBubbling) {
+            //reinitialize BubblePopup
+            initBubblePopups();
+
             jQuery(selector).find("div[data-role='InputField']").andSelf().filter("div[data-role='InputField']").each(function () {
-                var data = jQuery(this).data(kradVariables.VALIDATION_MESSAGES);
-                handleMessagesAtField(jQuery(this).attr('id'));
+                var id = jQuery(this).attr('id');
+                var field = jQuery("#" + id);
+                var data = getValidationData(field);
+                var parent = field.data("parent");
+                writeMessagesAtField(id);
+                handleMessagesAtGroup(parent, id, data, true);
             });
+
+            writeMessagesForPage();
         }
     }
     else {
@@ -356,6 +363,8 @@ function runHiddenScripts(id, isSelector, skipValidationBubbling) {
         //reinitialize BubblePopup
         initBubblePopups();
     }
+
+    profile(false, "run-scripts:" + id);
 }
 
 /**
@@ -414,9 +423,13 @@ function runScriptsForId(id) {
  * @param jqueryObj - a jquery object representing a hidden input element with a script in its value attribute
  */
 function evalHiddenScript(jqueryObj) {
-    eval(jqueryObj.val());
+    if (jqueryObj.attr("name") === undefined || jqueryObj.closest("div[data-open='false']").length) {
+        return;
+    }
     jqueryObj.attr("script", "first_run");
     jqueryObj.removeAttr("name");
+    eval(jqueryObj.val());
+
 }
 
 /**
@@ -498,9 +511,9 @@ function coerceValue(name) {
     if (jQuery(nameSelect + ":checkbox", parent).length == 1) {
         value = jQuery(nameSelect + ":checked", parent).val();
     }
-    else if(jQuery(nameSelect + ":checkbox", parent).length > 1){
+    else if (jQuery(nameSelect + ":checkbox", parent).length > 1) {
         value = [];
-        jQuery(nameSelect + ":checked", parent).each(function(){
+        jQuery(nameSelect + ":checked", parent).each(function () {
             value.push(jQuery(this).val());
         });
     }
@@ -522,6 +535,15 @@ function coerceValue(name) {
         value = "";
     }
 
+    // boolean matching
+    if (value && !jQuery.isArray(value)) {
+        if (value.toUpperCase() == "TRUE") {
+            value = true;
+        } else if (value.toUpperCase() == "FALSE") {
+            value = false;
+        }
+    }
+
     return value;
 }
 
@@ -533,7 +555,16 @@ function coerceValue(name) {
  */
 function setValue(name, value) {
     var nameSelect = "[name='" + escapeName(name) + "']";
-    jQuery(nameSelect).val(value);
+    var control = jQuery(nameSelect);
+
+    if (value != undefined && !jQuery.isArray(value)
+            && (control.is(":radio") || control.is("select") || control.is(":checkbox"))) {
+        var valueArray = [value];
+        control.val(valueArray);
+    }
+    else {
+        control.val(value);
+    }
 }
 
 //returns true if the field with name of name1 occurs before field with name2
@@ -555,48 +586,6 @@ function occursBefore(name1, name2) {
     else {
         return false;
     }
-}
-
-/**
- * Validate dirty fields on the form
- *
- * <p>Whenever the user clicks on the action field which navigates away from the page,
- * form dirtyness is checked. It checks for any input elements which has "dirty" class. If present,
- * it pops a message to the user to confirm whether they want to stay on the page or want to navigate.
- * </p>
- *
- * @param event - the event which triggered the action
- * @returns true if the form has dirty fields, false if not
- */
-function checkDirty(event) {
-    var validateDirty = jQuery("#validateDirty").val();
-    var dirty = jQuery("." + kradVariables.FIELD_CLASS).find("input." + kradVariables.DIRTY_CLASS);
-
-    if (validateDirty == "true" && dirty.length > 0) {
-        var dirtyMessage = getMessage(kradVariables.MESSAGE_KEY_DIRTY_FIELDS);
-        var answer = confirm(dirtyMessage);
-
-        if (answer == false) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-
-            // change the current nav button class to 'current' if user doesn't wants to leave the page
-            var ul = jQuery("#" + event.target.id).closest("ul");
-            if (ul.length > 0) {
-                var pageId = jQuery("[name='view.currentPageId']").val();
-                if (ul.hasClass(kradVariables.TAB_MENU_CLASS)) {
-                    jQuery("#" + ul.attr("id")).selectTab({selectPage: pageId});
-                }
-                else {
-                    jQuery("#" + ul.attr("id")).selectMenuItem({selectPage: pageId});
-                }
-            }
-
-            return true;
-        }
-    }
-
-    return false;
 }
 
 /**
@@ -661,12 +650,12 @@ function performJumpTo(jumpToId, jumpToName) {
  * @param autoFocus - boolean that indicates where focus to top should happen if focus to not set
  */
 function performFocus(focusId) {
-    if(!focusId){
+    if (!focusId) {
         return;
     }
 
     if (focusId == "FIRST" && gAutoFocus) {
-        var id = jQuery("div[data-role='InputField'] .uif-control:input:first", "#kualiForm").attr("id");
+        var id = jQuery("div[data-role='InputField']:first [data-role='Control']:input:first", "#kualiForm").attr("id");
         focus(id);
         return;
     }
@@ -676,19 +665,19 @@ function performFocus(focusId) {
         var original = jQuery("#" + focusId);
         var inputs = jQuery(":input:visible, a:visible:not(\"a[data-role='disclosureLink']\")");
         var index = jQuery(inputs).index(original);
-        if(index && jQuery(inputs).length > index + 1){
+        if (index && jQuery(inputs).length > index + 1) {
             var id = jQuery(inputs).eq(index + 1).attr("id");
             focus(id);
         }
-    }else{
+    } else {
         var focusElement = jQuery("#" + focusId);
-        if(focusElement.length){
+        if (focusElement.length) {
             focus(focusId);
         }
-        else{
+        else {
             focusId = focusId.replace(/_control\S*/, "");
             focusElement = jQuery("#" + focusId).find(":input:visible, a:visible").first();
-            if(focusElement.length){
+            if (focusElement.length) {
                 focus(jQuery(focusElement).attr("id"));
             }
         }
@@ -716,23 +705,23 @@ function focusOnElementById(focusId) {
  *
  * @param id
  */
-function focus(id){
+function focus(id) {
     var inputField = document.getElementById(id);
     if (inputField != null && jQuery(inputField).is(":text,textarea,:password") &&
-            inputField.value && inputField.value.length != 0){
-        if (inputField.createTextRange){
+            inputField.value && inputField.value.length != 0) {
+        if (inputField.createTextRange) {
             var FieldRange = inputField.createTextRange();
-            FieldRange.moveStart('character',inputField.value.length);
+            FieldRange.moveStart('character', inputField.value.length);
             FieldRange.collapse();
             FieldRange.select();
-        }else if (inputField.selectionStart ||
-                (inputField.selectionStart != undefined &&inputField.selectionStart == '0')) {
+        } else if (inputField.selectionStart ||
+                (inputField.selectionStart != undefined && inputField.selectionStart == '0')) {
             var elemLen = inputField.value.length;
             inputField.selectionStart = elemLen;
             inputField.selectionEnd = elemLen;
             inputField.focus();
         }
-    }else if(inputField != null){
+    } else if (inputField != null) {
         inputField.focus();
     }
 }
@@ -884,6 +873,9 @@ function openHelpWindow(url) {
  */
 function uppercaseValue(controlId) {
     jQuery("#" + controlId).css('text-transform', 'uppercase');
+    jQuery("#" + controlId).change(function () {
+        this.value = this.value.toUpperCase();
+    });
 }
 
 /**
@@ -893,7 +885,7 @@ function uppercaseValue(controlId) {
  * @param testingText text to be printed with this profile
  */
 function profile(start, testingText) {
-    if (profilingOn) {
+    if (profilingOn && window.console && window.console.time && window.console.profile) {
         if (start) {
             console.time(testingText);
             console.profile(testingText);
@@ -913,7 +905,7 @@ function profile(start, testingText) {
  * @param testingText text to be printed out with time results
  */
 function time(start, testingText) {
-    if (profilingOn) {
+    if (profilingOn && window.console && window.console.time) {
         if (start) {
             console.time(testingText);
         }
@@ -1053,10 +1045,11 @@ function showLightboxComponent(componentId, overrideOptions) {
 
     if (jQuery('#' + componentId).hasClass('uif-placeholder')) {
         retrieveComponent(componentId, undefined, function () {
-            _showLightboxComponentHelper(componentId, overrideOptions)
-        });
+            _showLightboxComponentHelper(componentId, overrideOptions);
+        }, {}, true);
+
     } else {
-        _showLightboxComponentHelper(componentId, overrideOptions)
+        _showLightboxComponentHelper(componentId, overrideOptions);
     }
 }
 
@@ -1064,41 +1057,67 @@ function showLightboxComponent(componentId, overrideOptions) {
  * This internal function continues the showLightboxComponent processing after the ajax content has been rendered.
  */
 function _showLightboxComponentHelper(componentId, overrideOptions) {
-    var component = jQuery('#' + componentId);
-    var cssDisplay = component.css('display');
+    var component = jQuery("#" + componentId);
+    var cssDisplay = component.css("display");
 
-    // suppress scrollbar when not needed
-    // undo the div.clearfix hack (KULRICE-7467)
-    component.attr('class', component.attr('class').replace('clearfix', ''));
-    component.find('div').each(function () {
-        jQuery(this).attr('class', jQuery(this).attr('class').replace('clearfix', ''));
+    // suppress scrollbar when not needed, undo the div.clearfix hack (KULRICE-7467)
+    if (component.attr("class")) {
+        component.attr("class", component.attr("class").replace("clearfix", ""));
+    }
+
+    component.find("div").each(function () {
+        var classAttribute = jQuery(this).attr("class");
+
+        if (classAttribute) {
+            jQuery(this).attr("class", classAttribute.replace("clearfix", ""));
+        }
     });
 
     if (top == self) {
         // ensure that component of KualiForm gets updated after fancybox closes
         _appendCallbackFunctions(overrideOptions, {beforeClose: function () {
             // hack fancybox to prevent it from moving the original lightbox content into the body
-            jQuery('#' + componentId).parents('.fancybox-wrap').unbind('onReset');
+            jQuery("#" + componentId).parents(".fancybox-wrap").unbind("onReset");
 
-            jQuery('#tmpForm_' + componentId).replaceWith(jQuery('#' + componentId).detach());
-            jQuery('#' + componentId).css('display', cssDisplay);
-            jQuery('#renderedInLightBox').val(false);
+            // restore original display state and replace placeholder
+            jQuery("#" + componentId).css("display", cssDisplay);
+            jQuery("#" + componentId + kradVariables.DIALOG_PLACEHOLDER).replaceWith(parent.jQuery("#" + componentId).detach());
+
+            jQuery("#renderedInLightBox").val(false);
+
+            activeDialogId = null;
         }});
     } else {
         // reattach component to KualiForm after fancybox closes
         _appendCallbackFunctions(overrideOptions, {beforeClose: function () {
             // hack fancybox to prevent it from moving the original lightbox content into the body
-            parent.jQuery('#' + componentId).parents('.fancybox-wrap').unbind('onReset');
+            parent.jQuery("#" + componentId).parents(".fancybox-wrap").unbind("onReset");
 
-            jQuery('#tmpForm_' + componentId).replaceWith(parent.jQuery('#' + componentId).detach());
-            jQuery('#' + componentId).css('display', cssDisplay);
-            jQuery('#renderedInLightBox').val(false);
+            // restore original display state and replace placeholder
+            jQuery("#" + componentId).css("display", cssDisplay);
+            jQuery("#" + componentId + kradVariables.DIALOG_PLACEHOLDER).replaceWith(parent.jQuery("#" + componentId).detach());
+
+            jQuery("#renderedInLightBox").val(false);
+
+            activeDialogId = null;
         }});
     }
 
-    // clone the content for the lightbox and make the element id unique
-    showLightboxContent(component.clone(true, true).css('display', ''), overrideOptions);
-    addIdPrefix(component, 'tmpForm_');
+    // add a dialog placeholder
+    component.before("<div id='" + componentId + kradVariables.DIALOG_PLACEHOLDER + "' "
+            + "style='display: none; height: 0; width: 0;'/>");
+
+    // detach and show content
+    component = component.detach();
+    component.show();
+    showLightboxContent(component, overrideOptions);
+
+    // indicate active dialog, note this is done after showing the lightbox since it could close an existing
+    // lightbox which will set activeDialogId to null (through the beforeClose handler above)
+    activeDialogId = componentId;
+
+    // trigger the show dialog event
+    jQuery(component).trigger(kradVariables.SHOW_DIALOG_EVENT);
 }
 
 /**
@@ -1158,7 +1177,7 @@ function _initAndOpenLightbox(contentOptions, overrideOptions) {
         openSpeed: 200,
         closeSpeed: 200,
         minHeight: 10,
-        minWidth: 10,
+        //minWidth: 10,
         helpers: {overlay: {css: {cursor: 'arrow'}, closeClick: false}}
     };
 
@@ -1179,11 +1198,25 @@ function _initAndOpenLightbox(contentOptions, overrideOptions) {
  *  Wrap the div to display in the light box in a form and setup form for validation and dirty checks
  */
 function setupLightboxForm() {
-    jQuery(".fancybox-inner").children().wrap("<form id='kualiLightboxForm' class='uif-lightbox'>");
+    jQuery(".fancybox-inner").children().wrap("<form style='margin:0; padding:0; overflow:auto;' id='kualiLightboxForm' class='uif-lightbox'>");
 
     var kualiLightboxForm = jQuery('#kualiLightboxForm');
     setupValidator(kualiLightboxForm);
-    kualiLightboxForm.dirty_form({changedClass: kradVariables.DIRTY_CLASS, includeHidden: true});
+}
+
+/**
+ * Closes any open lightbox
+ */
+function closeLightbox() {
+    getContext().fancybox.close();
+}
+
+/**
+ * Convenience method closes lightbox and reloads page
+ */
+function closeLightboxReloadPage() {
+    closeLightbox();
+    top.window.location.reload(true);
 }
 
 /**
@@ -1265,19 +1298,6 @@ function openLightboxOnLoad(dialogId) {
 }
 
 /**
- * script to run when a lightbox response button is selected.
- *
- * <p>
- * setup common return method for lightboxes, close the fancybox, and submit the form
- * </p>
- */
-function lightboxButtonScript() {
-    writeHiddenToForm('methodToCall', 'returnFromLightbox');
-    jQuery.fancybox.close();
-    jQuery('#kualiForm').submit();
-}
-
-/**
  * Initialize/recalculate the totals placed in the footer of a richTable.  Also, calculates and places
  * the totals related to group totalling, if present.
  *
@@ -1308,7 +1328,7 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
 
     //Only calculate totals if no grouping or when there is grouping, wait for those rows to become
     //generated - avoids unnecessary totalling
-    if(!hasGroups || (hasGroups && groupTotalRows.length)){
+    if (!hasGroups || (hasGroups && groupTotalRows.length)) {
         var nCells = footerRow.find("th").has("div[data-role='totalsBlock']");
 
         var groupLabel = footerRow.find("th:first span[data-role='groupTotalLabel']");
@@ -1322,13 +1342,13 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
             //find the totalsBlocks in the column footer cell, and calculate the appropriate totals
             jQuery("div[data-role='totalsBlock']", cell).each(function () {
                 var totalDiv = jQuery(this).find("div[data-role='total']");
-                var skipTotal = totalDiv.data("skiptotal");
+                var skipTotal = totalDiv.data(kradVariables.SKIP_TOTAL);
 
-                if(!skipTotal && totalDiv.length){
+                if (!skipTotal && totalDiv.length) {
                     calculateTotal(totalDiv, 0, aaData.length, columns[c], aaData, aiDisplay);
                 }
 
-                if(totalDiv.length){
+                if (totalDiv.length) {
                     hasTotalsInFooter = true;
                 }
 
@@ -1338,11 +1358,11 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
                     hasTotalsInFooter = true;
                 }
 
-                if(groupTotalRows.length){
+                if (groupTotalRows.length) {
                     var groupTotalDiv = jQuery(this).find("div[data-role='groupTotal']");
                     var rowIndex = 0;
                     //for each group total row calculate the group total for the column we are totalling
-                    groupTotalRows.each(function(){
+                    groupTotalRows.each(function () {
                         var groupTotalRow = jQuery(this);
                         var tds = groupTotalRow.find("td");
                         var td = jQuery(tds[index]);
@@ -1352,18 +1372,36 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
                         //the group total here - iEnd is the index-1 of the last displayed item (currently displayed)
                         // in the display order list (aiDisplay)
                         var lastValue = aaData[aiDisplay[iEnd - 1]][0];
-                        if(lastValue && lastValue.toLowerCase() == groupValue && iEnd < aiDisplay.length &&
-                                aaData[aiDisplay[iEnd]][0] && aaData[aiDisplay[iEnd]][0].toLowerCase() == groupValue){
+                        if (lastValue && lastValue.toLowerCase() == groupValue && iEnd < aiDisplay.length &&
+                                aaData[aiDisplay[iEnd]][0] && aaData[aiDisplay[iEnd]][0].toLowerCase() == groupValue) {
                             groupTotalRow.hide();
                         }
-                        else{
+                        else {
                             var groupCellsToTotal = new Array();
 
-                            for(var i = 0; i < aaData.length; i++){
-                                var groupingValue = aaData[i][0];
-                                if(groupingValue != undefined &&
-                                        normalizeGroupString(groupingValue).toLowerCase() == groupValue){
-                                    groupCellsToTotal.push(aaData[i][columns[c]]);
+                            for (var i = 0; i < aaData.length; i++) {
+                                var currentRow = aaData[i];
+                                var groupingValue;
+                                var isRowObject = currentRow != null && typeof currentRow === 'object'
+                                        && !jQuery.isArray(currentRow);
+                                //check if row is a rowObject - using mData setting
+                                if (isRowObject) {
+                                    groupingValue = currentRow['c0'].val;
+                                }
+                                else {
+                                    groupingValue = currentRow[0];
+                                }
+
+                                if (groupingValue != undefined &&
+                                        normalizeGroupString(groupingValue).toLowerCase() == groupValue) {
+
+                                    if (isRowObject) {
+                                        groupCellsToTotal.push(currentRow['c' + columns[c]]);
+                                    }
+                                    else {
+                                        groupCellsToTotal.push(currentRow[columns[c]]);
+                                    }
+
                                 }
                             }
                             groupTotalRow.show();
@@ -1371,11 +1409,11 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
                         }
 
                         //copy the label to the first column if a group left label exists
-                        if(groupLabel.length && jQuery(tds[0]).is(":empty")){
+                        if (groupLabel.length && jQuery(tds[0]).is(":empty")) {
                             groupLabel = groupLabel.clone();
                             //resetting ids to unique ids on the clone
                             groupLabel = groupLabel.attr("id", groupLabel.attr("id") + "_" + rowIndex + columns[c]);
-                            groupLabel.find("[id]").each(function(){
+                            groupLabel.find("[id]").each(function () {
                                 jQuery(this).attr("id", jQuery(this).attr("id") + "_" + rowIndex + columns[c]);
                             });
                             groupLabel.show();
@@ -1389,10 +1427,10 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
         }
 
         //Hide the footer row if no footer totals or page totals exist
-        if(hasTotalsInFooter){
+        if (hasTotalsInFooter) {
             footerRow.show();
         }
-        else{
+        else {
             footerRow.hide();
         }
 
@@ -1409,7 +1447,7 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
  * @param rowIndex index of the the group total row
  * @param columnIndex data column index
  */
-function calculateGroupTotal(cellsToTotal, totalTd, groupTotalDiv, rowIndex, columnIndex){
+function calculateGroupTotal(cellsToTotal, totalTd, groupTotalDiv, rowIndex, columnIndex) {
 
     var total = 0;
     var values = new Array();
@@ -1417,30 +1455,52 @@ function calculateGroupTotal(cellsToTotal, totalTd, groupTotalDiv, rowIndex, col
     var extraData = groupTotalDiv.data("params");
     var functionName = groupTotalDiv.data("function");
 
-    for(var i = 0; i < cellsToTotal.length; i++){
+    for (var i = 0; i < cellsToTotal.length; i++) {
         var currentCell = cellsToTotal[i];
+        var isCellObject = currentCell != null && typeof currentCell === 'object';
 
-        if (currentCell && jQuery(currentCell).find(":input[name^='newCollectionLines']").length == 0) {
-            var value = coerceTableCellValue(currentCell);
-            //set hasInvalidValues to true if value is undefined
-            if (value == undefined) {
-                hasInvalidValues = true;
-                break;
-            }
+        var value;
 
-            //skip over value when blank
-            if (value != "") {
-                value = parseFloat(value);
-                values.push(value);
+        //check if cell is a cellObject - using mData setting
+        if (isCellObject) {
+            value = currentCell.val;
+
+            if (value == null) {
+                value = "";
             }
+        }
+
+        var isAddLine = !isCellObject && currentCell
+                && jQuery(currentCell).find(":input[name^='newCollectionLines']").length;
+
+        // skip over add line
+        if (!isAddLine) {
+            value = coerceTableCellValue(currentCell, true);
+        }
+        else {
+            continue;
+        }
+
+        value = convertComplexNumericValue(value);
+
+        //set hasInvalidValues to true if value is undefined
+        if (value == undefined || (value && !jQuery.isNumeric(value))) {
+            hasInvalidValues = true;
+            continue;
+        }
+
+        //skip over value when blank
+        if (value != "") {
+            value = parseFloat(value);
+            values.push(value);
         }
     }
 
     if (!hasInvalidValues) {
-        if(extraData != undefined){
+        if (extraData != undefined) {
             total = window[functionName](values, extraData);
         }
-        else{
+        else {
             total = window[functionName](values);
         }
     }
@@ -1450,11 +1510,11 @@ function calculateGroupTotal(cellsToTotal, totalTd, groupTotalDiv, rowIndex, col
 
     var groupTotalDisplay = totalTd.find("div[data-role='groupTotal'][data-function='" + functionName + "']");
     //clone and append, if no place to display the total has been generated yet
-    if(groupTotalDisplay.length == 0){
+    if (groupTotalDisplay.length == 0) {
         groupTotalDisplay = groupTotalDiv.clone();
         //resetting ids to unique ids on the clone
         groupTotalDisplay = groupTotalDisplay.attr("id", groupTotalDisplay.attr("id") + "_" + rowIndex + columnIndex);
-        groupTotalDisplay.find("[id]").each(function(){
+        groupTotalDisplay.find("[id]").each(function () {
             jQuery(this).attr("id", jQuery(this).attr("id") + "_" + rowIndex + columnIndex);
         });
         totalTd.append(groupTotalDisplay);
@@ -1495,27 +1555,51 @@ function calculateTotal(totalDiv, start, end, currentColumn, aaData, aiDisplay) 
 
         // Calculate the total for all rows, even outside this page
         for (var i = start; i < end; i++) {
+            var currentRow;
             var currentCell;
-            if(totalType == "total"){
-                currentCell = aaData[i][dataIndex];
-            }
-            else if (totalType = "pageTotal"){
-                currentCell = aaData[aiDisplay[i]][dataIndex];
-            }
-            //skip over cells which contain add line content
-            if (currentCell && jQuery(currentCell).find(":input[name^='newCollectionLines']").length == 0) {
-                var value = coerceTableCellValue(currentCell);
-                //set hasInvalidValues to true if value is undefined
-                if (value == undefined) {
-                    hasInvalidValues = true;
-                    break;
-                }
 
-                //skip over value when blank
-                if (value != "") {
-                    value = parseFloat(value);
-                    values.push(value);
+            if (totalType == "total") {
+                currentRow = aaData[i];
+            }
+            else if (totalType = "pageTotal") {
+                currentRow = aaData[aiDisplay[i]];
+            }
+
+            var value;
+            //check if row is a rowObject - using mData setting
+            if (currentRow != null && typeof currentRow === 'object' && !jQuery.isArray(currentRow)) {
+                value = currentRow['c' + dataIndex].val;
+
+                if (value == null) {
+                    value = "";
                 }
+            }
+            else {
+                currentCell = currentRow[dataIndex];
+            }
+
+            var isAddLine = currentCell && jQuery(currentCell).find(":input[name^='newCollectionLines']").length;
+
+            //skip over cells which contain add line content
+            if (!isAddLine) {
+                value = coerceTableCellValue(currentCell, true);
+            }
+            else {
+                continue;
+            }
+
+            value = convertComplexNumericValue(value);
+
+            //set hasInvalidValues to true if value is undefined
+            if (value == undefined || (value && !jQuery.isNumeric(value))) {
+                hasInvalidValues = true;
+                continue;
+            }
+
+            //skip over value when blank
+            if (value != "") {
+                value = parseFloat(value);
+                values.push(value);
             }
         }
 
@@ -1541,6 +1625,24 @@ function calculateTotal(totalDiv, start, end, currentColumn, aaData, aiDisplay) 
             totalDiv.append(newSpan);
         }
     }
+}
+
+/**
+ * Converts "complex" numeric values that may contain commas, currency symbols, or % so they can be totalled correctly;
+ * this is a stop-gap until complete formatters are supported on the client
+ *
+ * @param value the numeric value to convert
+ * @return {*} the value without symbols that do not allow for calculations to occur
+ */
+function convertComplexNumericValue(value) {
+    //TODO support this functionality with client formatters
+    if (!value) {
+        return value;
+    }
+
+    return value.replace("$", "").replace(",", "").replace("&yen;", "").replace("&euro;",
+                    "").replace("&pound;", "").replace("&curren;", "").replace("%", "").replace("&#8355;",
+                    "").replace("&#8356;", "").replace("&#8359;", "").replace("&cent;", "");
 }
 
 /**
@@ -1642,12 +1744,11 @@ function refreshDatatableCellRedraw(input) {
 /**
  * Get the value from a table cell
  *
- * @param td
- * @return value the value if a numeric value, if blank or disabled returns empty string, if an invalid value
- * returns undefined
+ * @param element
+ * @return value the value
  */
-function coerceTableCellValue(td) {
-    var tdObject = jQuery(td);
+function coerceTableCellValue(element) {
+    var tdObject = jQuery(element);
 
     var inputField = tdObject.find(':input');
     var inputFieldValue;
@@ -1663,19 +1764,55 @@ function coerceTableCellValue(td) {
             inputFieldValue = inputField.text().replace(/\s+/g, "");
         } else {
             // after sorting
-            inputFieldValue = td;
+            inputFieldValue = element;
         }
+    }
+
+    // boolean matching
+    if (inputFieldValue && inputFieldValue.toUpperCase() == "TRUE") {
+        inputFieldValue = true;
+    } else if (inputFieldValue && inputFieldValue.toUpperCase() == "FALSE") {
+        inputFieldValue = false;
     }
 
     if (inputFieldValue === "" || inputField.prop("disabled") || tdObject.hasClass("uif-groupRow")) {
         //skip these situations - blank, disabled, grouping td
         return "";
-    }
-    else if (jQuery.isNumeric(inputFieldValue)) {
-        return inputFieldValue;
     } else {
-        return undefined;
+        return inputFieldValue;
     }
+}
+
+/**
+ * Private function called by the mDataProp option in the datatables jquery plugin and is used specifically to
+ * supply the correct display and value information
+ * from the rowData used by the uif in our RichTable widget which are backed by custom uif json object arrays
+ *
+ * @param rowObject the current object containing columns denotated by 'c' + column index
+ * @param type the type of value handling requested handling set, sort, display here
+ * @param colName the column name to retrieve ('c' + column index) from the rowObject
+ * @param newVal the new value to set during a set call
+ * @return {*} the value requested or nothing during a set
+ * @private
+ */
+function _handleColData(rowObject, type, colName, newVal) {
+    var colObj = rowObject[colName];
+
+    if (!colObj) {
+        return "";
+    }
+
+    if (type === "set" && newVal && newVal != colObj.val) {
+        colObj.render = jQuery(newVal).html();
+        colObj.val = coerceTableCellValue(newVal);
+        return;
+    } else if (type === "display") {
+        return colObj.render;
+    } else if (type === "sort" && colObj.val == null) {
+        return colObj.render;
+    }
+
+    return colObj.val;
 }
 
 function normalizeGroupString(sGroup) {
@@ -1708,7 +1845,7 @@ function getMessage(key, namespace, componentCode) {
     var messageText = retrieveFromSession(cacheKey);
     if (messageText) {
         //handle variable params
-        messageText = String(messageText).replace(pattern, function(match, index) {
+        messageText = String(messageText).replace(pattern, function (match, index) {
             var argumentIndex = parseInt(index) + parseInt(totalExplicitParameters);
             return args[argumentIndex];
         });
@@ -1734,7 +1871,7 @@ function getMessage(key, namespace, componentCode) {
         // store back to server for subsequent calls
         storeToSession(cacheKey, response.messageText);
 
-        messageText = String(response.messageText).replace(pattern, function(match, index) {
+        messageText = String(response.messageText).replace(pattern, function (match, index) {
             var argumentIndex = parseInt(index) + parseInt(totalExplicitParameters);
             return args[argumentIndex];
         });
@@ -1753,16 +1890,16 @@ function getMessage(key, namespace, componentCode) {
 function invokeServerListener(methodToCall, params) {
     var serverResponse;
 
-    params.methodToCall = methodToCall;
-    params.ajaxRequest = true;
-    params.ajaxReturnType = 'update-none';
+    var requestData = {methodToCall: methodToCall, ajaxRequest: true, ajaxReturnType: 'update-none'};
+
+    jQuery.extend(requestData, params);
 
     var postUrl = getConfigParam("kradUrl") + "/listener";
 
     jQuery.ajax({
         url: postUrl,
         dataType: "json",
-        data: params,
+        data: requestData,
         async: false,
         beforeSend: null,
         complete: null,
@@ -1835,11 +1972,11 @@ function removeFromSession(key) {
  * Makes a get request to the server so that the form with the specified formKey will
  * be cleared server side
  *
- * @param formKey key for the form to clear
+ * @param formKeyToClear key for the form to clear
  */
-function clearServerSideForm(formKey) {
+function clearServerSideForm(formKeyToClear) {
     var params = {};
-    params.formKey = formKey;
+    params.formKeyToClear = formKeyToClear;
 
     invokeServerListener(kradVariables.CLEAR_FORM_METHOD_TO_CALL, params);
 }
@@ -1898,7 +2035,7 @@ function getCurrentPageForRichTable(id) {
  */
 function writeRichTableInfoToHidden(collectionAction, page) {
     var tableId = getTableIdFromChild(collectionAction);
-    var currentPage = (page==null?getCurrentPageForRichTable(tableId):page);
+    var currentPage = (page == null ? getCurrentPageForRichTable(tableId) : page);
     writeHiddenToForm('currentPageRichTable', currentPage);
     var dataTableInfo = parseDataTablesInfo(tableId);
     writeHiddenToForm('fromRecordRichTable', dataTableInfo[1]);
@@ -1918,8 +2055,8 @@ function writeRichTableInfoToHidden(collectionAction, page) {
  */
 function writeCurrentPageToSession(collectionAction, page) {
     var tableId = getTableIdFromChild(collectionAction);
-    var currentPage = (page==null?getCurrentPageForRichTable(tableId):page);
-    storeToSession(tableId + ':currentPageRichTable',currentPage);
+    var currentPage = (page == null ? getCurrentPageForRichTable(tableId) : page);
+    storeToSession(tableId + ':currentPageRichTable', currentPage);
 }
 
 /**
@@ -1927,7 +2064,7 @@ function writeCurrentPageToSession(collectionAction, page) {
  *
  * @param id - the Table id
  */
-function parseDataTablesInfo (id) {
+function parseDataTablesInfo(id) {
     var dataTableInfo = jQuery('#' + id).parent().find('.dataTables_info').text();
     return dataTableInfo.split(" ");
 }
@@ -1938,7 +2075,7 @@ function parseDataTablesInfo (id) {
  * @param id - the Table id
  */
 function getFromRecordRichTable(id) {
-    return parseDataTablesInfo (id)[1];
+    return parseDataTablesInfo(id)[1];
 }
 
 /**
@@ -1947,7 +2084,7 @@ function getFromRecordRichTable(id) {
  * @param id - the Table id
  */
 function getToRecordRichTable(id) {
-    return parseDataTablesInfo (id)[3];
+    return parseDataTablesInfo(id)[3];
 }
 
 /**
@@ -1956,7 +2093,7 @@ function getToRecordRichTable(id) {
  * @param id - the Table id
  */
 function getTotalRecordsRichTable(id) {
-    return parseDataTablesInfo (id)[5];
+    return parseDataTablesInfo(id)[5];
 }
 
 /**
@@ -1965,7 +2102,7 @@ function getTotalRecordsRichTable(id) {
  * @param tableId
  * @param pageNumber - numeric page number or 'first'/'last' string
  */
-function openDataTablePage (tableId, pageNumber) {
+function openDataTablePage(tableId, pageNumber) {
     var oTable = getDataTableHandle(tableId);
     if (oTable == null) {
         oTable = getDataTableHandle(jQuery('#' + tableId).find('.dataTable').attr('id'));
@@ -1973,8 +2110,7 @@ function openDataTablePage (tableId, pageNumber) {
     if (pageNumber == "first" || pageNumber == "last") {
         oTable.fnPageChange(pageNumber);
     } else {
-        var numericPage =  Number(pageNumber) -1;
-        console.debug(numericPage);
+        var numericPage = Number(pageNumber) - 1;
         oTable.fnPageChange(numericPage);
     }
 }
@@ -1986,7 +2122,7 @@ function openDataTablePage (tableId, pageNumber) {
  * @param tableId id of the table
  * @return dataTable reference that one can invoke dataTable functions on
  */
-function getDataTableHandle(tableId){
+function getDataTableHandle(tableId) {
     var oTable = null;
     var tables = jQuery.fn.dataTable.fnTables();
     jQuery(tables).each(function () {
@@ -2022,15 +2158,15 @@ function isValueEmpty(value) {
  * @param values value(s) to be check for existence in listValues
  * @return {Boolean} true if the list contains the values, false if it does not or the listValues is empty/undefined
  */
-function listContains(listValues, values){
-    if(listValues == undefined || listValues.length == 0){
+function listContains(listValues, values) {
+    if (listValues == undefined || listValues.length == 0) {
         return false;
     }
 
-    if(values instanceof Array){
+    if (values instanceof Array) {
         return containsAll(values, listValues);
     }
-    else{
+    else {
         values = values.toString();
         return jQuery.inArray(values, listValues) > -1;
     }
@@ -2042,11 +2178,11 @@ function listContains(listValues, values){
  * @param listValues the array to be checked for emptiness
  * @return {Boolean} true if empty/undefined, false otherwise
  */
-function emptyList(listValues){
-    if(listValues == undefined || listValues.length == 0){
+function emptyList(listValues) {
+    if (listValues == undefined || listValues.length == 0) {
         return true;
     }
-    else{
+    else {
         return false;
     }
 }
@@ -2058,11 +2194,357 @@ function emptyList(listValues){
  * @param parentArray the parentArray to check for values in
  * @return {Boolean} true if all values in subArray exist in parentArray, false otherwise
  */
-function containsAll(subArray, parentArray){
-    for(var i = 0 , len = subArray.length; i < len; i++){
-        if(subArray[i] != undefined && jQuery.inArray(subArray[i].toString(), parentArray) == -1){
+function containsAll(subArray, parentArray) {
+    for (var i = 0 , len = subArray.length; i < len; i++) {
+        if (subArray[i] != undefined && jQuery.inArray(subArray[i].toString(), parentArray) == -1) {
             return false;
         }
     }
     return true;
+}
+
+/**
+ * Method for creating a guid (note this is a low implementation and does not meet official
+ * standards such as RFC4122 for creating guids)
+ *
+ * @return {string}
+ */
+function generateQuickGuid() {
+    return Math.random().toString(36).substring(2, 15) +
+            Math.random().toString(36).substring(2, 15);
+}
+
+/**
+ * Retrieves the id for the page that is currently loaded into the DOM
+ *
+ * @return id for current page
+ */
+function getCurrentPageId() {
+    var page = jQuery("input#" + kradVariables.PAGE_ID);
+
+    if (page.length) {
+        return page.val();
+    }
+
+    return null;
+}
+
+/**
+ *  Prevent event from bubbling up
+ **/
+function stopEvent(e) {
+    if (!e) {
+        var e = window.event;
+    }
+    if (e.stopPropagation) {
+        e.preventDefault();
+        e.stopPropagation();
+    } else {
+        e.returnValue = false;
+        e.cancelBubble = true;
+    }
+    return false;
+}
+
+/**
+ * Initialize or reinitialize the sticky header positions based on the current scroll value
+ *
+ * @param currentScroll the current scroll
+ */
+function initStickyContent(currentScroll) {
+    //early return if no sticky content
+    if (stickyContent == undefined || stickyContent.length == 0) {
+        return;
+    }
+
+    if (!currentScroll) {
+        currentScroll = jQuery(window).scrollTop();
+    }
+
+    var topOffset = stickyContentOffset.top;
+
+    var totalHeight = 0;
+    var margin = 0;
+    var prevHeight = 0;
+    var automateMargin = false;
+    var innerNonStickyCount = 0;
+
+    //fix each sticky piece of content
+    stickyContent.each(function () {
+        var height = jQuery(this).outerHeight();
+        var thisOffset = jQuery(this).data("offset");
+        jQuery(this).addClass(kradVariables.STICKY_CLASS);
+
+        if (thisOffset.top < 1) {
+            automateMargin = true;
+        }
+
+        //scroll content with the scroll
+        if (currentScroll > 0) {
+            jQuery(this).attr("style", "position:fixed; left: 0; top: " + (thisOffset.top - currentScroll) + "px;");
+        }
+        else {
+            jQuery(this).attr("style", "position:fixed; left: 0; top: " + thisOffset.top + "px;");
+        }
+
+        //this means there is inner non-sticky content in the header
+        if (thisOffset.top > topOffset) {
+            margin = margin + totalHeight;
+            innerNonStickyCount++;
+            topOffset = thisOffset.top;
+        }
+
+        //set totalHeight of sticky elements, topOffset, and prevHeight
+        totalHeight = totalHeight + height;
+        topOffset = topOffset + height;
+        prevHeight = height;
+    });
+
+    //Only adjust the margin if a sticky area exists in the top most area, and there is inner-non-sticky content
+    // this allows for customization of
+    //non-sticky, sticky, non-sticky, sticky pattern through explicit css setting (non-calculated, complex)
+    if (automateMargin && innerNonStickyCount == 1) {
+        //change the margin to account for content in the header that collapses (scrolls away)
+        jQuery("#" + kradVariables.APP_ID).css("marginTop", (margin) + "px");
+    }
+
+    var navigation = jQuery("#" + kradVariables.NAVIGATION_ID);
+    var navigationHeightAdjust = 0;
+
+    if (navigation.length) {
+        if (navigation.is(".tab-navigation-block")) {
+            navigationHeightAdjust = navigation.height();
+        }
+
+        //move the navigation with total height of the header pieces - the scroll
+        navigation.attr("style", "position:fixed; top: " + (topOffset - currentScroll) + "px;");
+    }
+
+    //make the ViewContentWrapper margin-top reflect the visible header content pixel height
+    jQuery("#" + kradVariables.VIEW_CONTENT_WRAPPER).css("marginTop",
+            (totalHeight + navigationHeightAdjust - margin) + "px");
+
+    //set header height global
+    currentHeaderHeight = (topOffset - currentScroll);
+}
+
+/**
+ * Handles the calculation and positioning of sticky header elements on the screen when the user scrolls.  This
+ * function should be called on a scroll event.
+ */
+function handleStickyContent() {
+    //early return if no sticky content
+    if (stickyContent == undefined || stickyContent.length == 0) {
+        return;
+    }
+
+    if (jQuery(window).scrollTop() >= stickyContentOffset.top) {
+        var topOffset = 0;
+        var navAdjust = 0;
+
+        //adjust each sticky header piece based on whether their exists content between it or not
+        stickyContent.each(function () {
+            var height = jQuery(this).outerHeight();
+
+            var thisOffset = jQuery(this).data("offset");
+            //content exist between this sticky and last sticky
+            if (thisOffset && thisOffset.top - jQuery(window).scrollTop() > topOffset) {
+                var diff = thisOffset.top - jQuery(window).scrollTop();
+                jQuery(this).attr("style", "position:fixed; left: 0; top: " + diff + "px;");
+                navAdjust = diff + height;
+            }
+            //sticky content is adjacent to each other
+            else {
+                jQuery(this).attr("style", "position:fixed; left: 0; top: " + topOffset + "px;");
+                navAdjust = topOffset + height;
+            }
+
+            topOffset = topOffset + height;
+        });
+
+        //adjust the fixed nav position (if navigation exists)
+        jQuery("#" + kradVariables.NAVIGATION_ID).attr("style", "position:fixed; top: " +
+                (navAdjust) + "px;");
+        currentHeaderHeight = navAdjust;
+
+    }
+    else if (jQuery(window).scrollTop() < stickyContentOffset.top) {
+        //the content is back to past the first sticky element (topmost)
+        initStickyContent(jQuery(window).scrollTop());
+    }
+}
+
+/**
+ * Initialize all footers that should be sticky with the appropriate classes, fixed position, and calculated offset
+ * to make them always appear at the bottom of the screen
+ */
+function initStickyFooterContent() {
+    //no sticky footers, return
+    if (!stickyFooterContent || stickyFooterContent.length == 0) {
+        return;
+    }
+
+    var bottomOffset = 0;
+
+    //calculate bottom offset in reverse order (bottom up)
+    jQuery(stickyFooterContent.get().reverse()).each(function () {
+        var height = jQuery(this).outerHeight();
+        jQuery(this).addClass("uif-stickyFooter");
+
+        //special style for footers that are not the application footer
+        if (!jQuery(this).is(applicationFooter)) {
+            jQuery(this).addClass("uif-stickyButtonFooter");
+        }
+
+        jQuery(this).attr("style", "position:fixed; left: 0; bottom: " + bottomOffset + "px;");
+        bottomOffset = bottomOffset + height;
+    });
+    currentFooterHeight = bottomOffset;
+
+    var contentWindowDiff = jQuery(window).height() - jQuery("#" + kradVariables.APP_ID).height();
+    if (bottomOffset > contentWindowDiff) {
+        jQuery("#" + kradVariables.APP_ID).css("paddingBottom", bottomOffset + "px");
+    } else {
+        jQuery("#" + kradVariables.APP_ID).css("paddingBottom", contentWindowDiff + "px");
+    }
+}
+
+/**
+ * Handles the calculation and positioning of sticky footer elements on the screen when the user scrolls.  This
+ * function should be called on a scroll event.
+ */
+function handleStickyFooterContent() {
+    //early return when no footer content or no application footer or application footer is sticky itself
+    //(no need for adjustment)
+    if (!stickyFooterContent || stickyFooterContent.length == 0 || !applicationFooter || applicationFooter.length == 0
+            || stickyFooterContent.filter(applicationFooter).length) {
+        return;
+    }
+
+    var appFooterOffset = applicationFooter.offset();
+    var windowHeight = jQuery(window).height();
+    var scrollTop = jQuery(window).scrollTop();
+
+    //reposition elements when the scroll exceeds the footer's top (and footer content exists)
+    if (windowHeight + scrollTop >= appFooterOffset.top && scrollTop != 0 && applicationFooter.height() > 0) {
+        var bottomOffset = (windowHeight + scrollTop) - appFooterOffset.top;
+
+        jQuery(stickyFooterContent.get().reverse()).each(function () {
+            var height = jQuery(this).outerHeight();
+            jQuery(this).attr("style", "position:fixed; left: 0; bottom: " + bottomOffset + "px;");
+            bottomOffset = bottomOffset + height;
+        });
+        currentFooterHeight = bottomOffset;
+
+    }
+    else {
+        initStickyFooterContent();
+    }
+
+}
+
+/**
+ * Hides any cells and headers in a table if they have no content to prevent empty rows from displaying in grid layout
+ * when all cells are render=false or hidden by disclosure
+ */
+function hideEmptyCells() {
+    // get all the td elements
+    jQuery('td.' + kradVariables.GRID_LAYOUT_CELL_CLASS).each(function () {
+        // check if the children is hidden (progressive) or if there is no content(render=false)
+        var cellEmpty = jQuery(this).children().is(".uif-placeholder") || jQuery(this).is(":empty");
+
+        // hide the header only if the cell and the header is empty
+        if (cellEmpty) {
+            var hd = jQuery(this).siblings("th");
+
+            var headerEmpty = jQuery(hd).children().is(":hidden") || jQuery(hd).is(":empty");
+            if (headerEmpty) {
+                hd.hide();
+            }
+
+            // hide the cell
+            jQuery(this).hide();
+        }
+    });
+}
+
+/**
+ * Displays a countdown (days, hours, minutes) in the div given by the target id
+ *
+ * <p>
+ * Uses the jquery.countdown.js plugin: http://keith-wood.name/countdown.html
+ * </p>
+ *
+ * @param targetId id for the target element that should contain the countdown
+ * @param until date to countdown from
+ * @param overrideOptions any additional or override options for the countdown plugin
+ */
+function displayCountdown(targetId, until, overrideOptions) {
+    var options = {until: until, format: 'MS', compact: true};
+
+    jQuery.extend(true, options, overrideOptions);
+
+    var target = jQuery('#' + targetId);
+
+    if (target.length > 0) {
+        // in the case of redisplaying a countdown we need to clear the target's contents
+        target.removeClass(kradVariables.COUNTDOWN_CLASS);
+        target.empty();
+
+        target.countdown(options);
+    }
+}
+
+/**
+ * Enables the return selected button on the multi value lookup when at least one item is selected
+ *
+ * @param selectControl
+ */
+function setMultivalueLookupReturnButton(selectControl) {
+    refreshDatatableCellRedraw(selectControl);
+
+    var oTable = getDataTableHandle(getParentRichTableId(selectControl));
+
+    var checked = false;
+    jQuery.each(getDataTablesColumnData(0, oTable), function (index, value) {
+        if (jQuery(':input:checked', value).length) {
+            checked = true;
+        }
+    });
+
+    if (checked) {
+        jQuery(':button.' + kradVariables.RETURN_SELECTED_ACTION_CLASS).removeAttr('disabled');
+        jQuery(':button.' + kradVariables.RETURN_SELECTED_ACTION_CLASS).removeClass('disabled');
+    } else {
+        jQuery(':button.' + kradVariables.RETURN_SELECTED_ACTION_CLASS).attr('disabled', 'disabled');
+    }
+
+}
+
+/**
+ * Returns the table id of parent table of an element if it is a richtable
+ *
+ * @param childElement
+ * @returns table id
+ */
+function getParentRichTableId(childElement) {
+    return jQuery(childElement).parents('table.dataTable').attr('id');
+}
+
+/**
+ * Builds an array of all the content in a datatable for a column across pages
+ *
+ * @param columnIndex
+ * @param oTable
+ * @returns {Array}
+ */
+function getDataTablesColumnData(columnIndex, oTable) {
+    var allDataObject = oTable.fnGetData();
+    var colData = [];
+
+    jQuery.each(allDataObject, function (index, value) {
+        colData.push(value[columnIndex]);
+    });
+
+    return colData;
 }
