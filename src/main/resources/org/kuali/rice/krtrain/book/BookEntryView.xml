@@ -127,7 +127,7 @@
                     </property>
 
                     <property name="suggest">
-                        <bean parent="Uif-Suggest" p:sourcePropertyName="code"
+                        <bean parent="Uif-Suggest" p:valuePropertyName="code"
                               p:suggestQuery.dataObjectClassName="org.kuali.rice.krtrain.book.PublisherCode" />
                     </property>
                 </bean>
