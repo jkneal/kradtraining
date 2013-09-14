@@ -35,7 +35,7 @@
         <@krad.template component=manager.addLineGroup/>
     </#if>
 
-    <#if manager.dataFields?? && (manager.dataFields?size gt 0)>
+    <#if manager.allRowFields?? && (manager.allRowFields?size gt 0)>
 
     <#-- action button for opening and closing all details -->
     <#if manager.showToggleAllDetails>
@@ -52,13 +52,57 @@
             </thead>
         </#if>
 
-        <tbody>
-            <@krad.grid items=manager.dataFields numberOfColumns=manager.numberOfColumns
-            applyAlternatingRowStyles=manager.applyAlternatingRowStyles
-            applyDefaultCellWidths=manager.applyDefaultCellWidths
-            renderAlternatingHeaderColumns=false
-            rowCssClasses=manager.rowCssClasses/>
-        </tbody>
+        <#if manager.richTable?has_content && manager.richTable.render
+            && (manager.richTable.forceLocalJsonData)>
+
+            <#if container.useServerPaging>
+                <#-- empty body because content is being retrieved from the server after render -->
+                <tbody></tbody>
+            </#if>
+
+            <#-- iterate over each row (and its items) and convert them to the json array equivalent for later
+            retrieval -->
+            <#local row=""/>
+            <#local colIndex=0/>
+            <#local rowIndex=0/>
+
+            <#compress>
+                <#list manager.allRowFields as item>
+                    <#-- build custom json data structure using quote placeholders (to be parsed later) -->
+                    <#local row>
+                        ${row}
+                        @quot@c${colIndex}@quot@:{
+                            @quot@val@quot@:${manager.richTable.getCellValue(KualiForm, item)},
+                            @quot@render@quot@:@quot@<@krad.template component=item/>@quot@
+                        },
+                    </#local>
+
+                    <#local colIndex=colIndex+1/>
+                    <#if colIndex == manager.numberOfColumns>
+                        <#-- append row class to data -->
+                        <#local row>
+                            @quot@DT_RowClass@quot@:@quot@${manager.rowCssClasses[rowIndex]}@quot@,
+                            ${row}
+                        </#local>
+
+                        <#-- add the row of table data to the internal aaData storage in richTable -->
+                        ${manager.richTable.addRowToTableData(row)}
+
+                        <#local row=""/>
+                        <#local colIndex=0/>
+                        <#local rowIndex=rowIndex+1/>
+                    </#if>
+                </#list>
+            </#compress>
+        <#else>
+            <tbody>
+                <@krad.grid items=manager.allRowFields numberOfColumns=manager.numberOfColumns
+                applyAlternatingRowStyles=manager.applyAlternatingRowStyles
+                applyDefaultCellWidths=manager.applyDefaultCellWidths
+                renderAlternatingHeaderColumns=false
+                rowCssClasses=manager.rowCssClasses/>
+            </tbody>
+        </#if>
 
         <#if manager.footerCalculationComponents?has_content>
             <tfoot>
