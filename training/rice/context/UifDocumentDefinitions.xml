@@ -22,7 +22,7 @@
 
   <bean id="Uif-DocumentView" abstract="true" parent="Uif-DocumentView-parentBean"/>
   <bean id="Uif-DocumentView-parentBean" abstract="true"
-        class="org.kuali.rice.krad.uif.view.DocumentView" parent="Uif-FormView-KnsTheme">
+        class="org.kuali.rice.krad.uif.view.DocumentView" parent="Uif-FormView">
     <property name="cssClasses">
       <list merge="true">
         <value>uif-documentView</value>
@@ -130,6 +130,7 @@
                 <property name="replacement">
                   <list>
                     <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="downloadAttachment"
+                          p:ajaxSubmit="false"
                           p:actionLabel="download attachment" p:title="download attachment"
                           p:disableBlocking="true"
                           p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);">
@@ -296,7 +297,6 @@
               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
         <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge" p:actionLabel="acknowledge"
               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
-        <bean parent="Uif-CloseAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
         <bean parent="Uif-CancelAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
         <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="copy"
               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
@@ -330,7 +330,7 @@
   </bean>
 
   <bean id="Uif-DocumentStatus" parent="Uif-InputField" p:propertyName="documentHeader.workflowDocument.status"
-        p:dictionaryObjectEntry="org.kuali.rice.krad.bo.AttributeReferenceDummy" p:dictionaryAttributeName="workflowDocumentStatus">
+        p:dictionaryObjectEntry="org.kuali.rice.krad.datadictionary.AttributeReference" p:dictionaryAttributeName="workflowDocumentStatus">
     <property name="cssClasses">
           <list merge="true">
             <value>uif-documentStatus</value>
@@ -339,7 +339,7 @@
   </bean>
 
   <bean id="Uif-DocumentInitiatorNetworkId" parent="Uif-InputField" p:propertyName="documentInitiatorNetworkId"
-        p:dictionaryObjectEntry="org.kuali.rice.krad.bo.AttributeReferenceDummy" p:dictionaryAttributeName="initiatorNetworkId">
+        p:dictionaryObjectEntry="org.kuali.rice.krad.datadictionary.AttributeReference" p:dictionaryAttributeName="initiatorNetworkId">
     <property name="bindingInfo.bindToForm" value="true"/>
     <property name="cssClasses">
           <list merge="true">
@@ -349,7 +349,7 @@
   </bean>
 
   <bean id="Uif-DocumentCreateDate" parent="Uif-InputField" p:propertyName="documentCreateDate"
-        p:dictionaryObjectEntry="org.kuali.rice.krad.bo.AttributeReferenceDummy" p:dictionaryAttributeName="createDate">
+        p:dictionaryObjectEntry="org.kuali.rice.krad.datadictionary.AttributeReference" p:dictionaryAttributeName="createDate">
     <property name="bindingInfo.bindToForm" value="true"/>
     <property name="cssClasses">
           <list merge="true">

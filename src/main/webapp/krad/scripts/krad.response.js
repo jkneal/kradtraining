@@ -50,6 +50,8 @@ KradResponse.prototype = {
             if (handlerFunc) {
                 handlerFunc(div, div.data());
             }
+
+            hideEmptyCells();
         });
     },
 
@@ -63,14 +65,11 @@ KradResponse.prototype = {
 
         // give a selector that will avoid the temporary iframe used to hold ajax responses by the jquery form plugin
         var pageInLayout = "#" + kradVariables.VIEW_CONTENT_HEADER_CLASS + " > #" +
-                kradVariables.PAGE_CONTENT_HEADER_CLASS;
+                kradVariables.PAGE_CONTENT_WRAPPER;
         hideBubblePopups(pageInLayout);
 
         // update page contents from response
         jQuery(pageInLayout).empty().append(page.find(">*"));
-
-        // process breadcrumbs
-        setPageBreadcrumb();
 
         pageValidatorReady = false;
         runHiddenScripts(jQuery(pageInLayout).attr("id"), false, true);
@@ -155,6 +154,13 @@ KradResponse.prototype = {
             displayWithLabel.parent().show();
         }
 
+        // assume this content is open if being refreshed
+        var open = newComponent.attr("data-open");
+        if (open != undefined && open == "false"){
+            newComponent.attr("data-open", "true");
+            newComponent.show();
+        }
+
         // runs scripts on the span or div with id
         runHiddenScripts(id);
 
@@ -168,10 +174,8 @@ KradResponse.prototype = {
             jQuery(component).find("#" + id).addClass(kradVariables.PROGRESSIVE_DISCLOSURE_HIGHLIGHT_CLASS);
             newComponent.animate({backgroundColor:"transparent"}, 6000);
             jQuery(component).find("#" + id).animate({backgroundColor:"transparent"}, 6000);
-        }
+            }
         });
-
-
     },
 
     // performs a redirect to the URL found in the returned contents
