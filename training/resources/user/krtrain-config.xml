@@ -30,12 +30,13 @@
 	<param name="keystore.password">r1c3pw</param>
 
 	<param name="dev.mode">true</param>
+	<param name="rice.krad.dev.mode">true</param>
 	<param name="portal.show.sample.app">false</param>
 	<param name="useQuartzDatabase">false</param>
 	<param name="Routing.ImmediateExceptionRouting">true</param>
 
 	<param name="encryption.key">7IC64w6ksLU</param>
   
-    <param name="rice.kr.additionalSpringFiles">classpath:org/kuali/rice/devtools/krad/datadictionary/ReloadingDataDictionarySpringBeans.xml</param>
+    <param name="rice.kr.additionalSpringFiles">classpath:org/kuali/rice/krad/devtools/datadictionary/ReloadingDataDictionarySpringBeans.xml</param>
 
 </config>
