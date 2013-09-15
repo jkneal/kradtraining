@@ -106,13 +106,19 @@ select[multiple="multiple"] option:hover {
     background: none repeat scroll 0 0 #ECFCEB;
 }
 
+input[readonly] {
+    background-color: #eeeeee;
+    color: #999;
+    border: 1px solid #AAAAAA;
+}
+
 input[disabled], textarea[disabled], select[disabled] {
     background-color: #dddddd;
     color: #999;
     border: 1px solid #AAAAAA;
 }
 
-a.disabled, a[disabled], a.disabled:hover, a[disabled]:hover, a.disabled:focus, a[disabled]:focus{
+a.disabled, a[disabled], a.disabled:hover, a[disabled]:hover, a.disabled:focus, a[disabled]:focus {
     color: #888888;
     text-decoration: none;
     cursor: default;
@@ -123,11 +129,11 @@ input[disabled]+label {
     color: #888888;
 }
 
-ol.uif-readOnlyStringList li{
+ol.uif-readOnlyStringList li {
     list-style: decimal inside none;
 }
 
-ul.uif-readOnlyStringList li{
+ul.uif-readOnlyStringList li {
     list-style: disc inside none;
 }
 
@@ -160,22 +166,68 @@ ul.uif-readOnlyStringList li{
     max-width: 36em;
 }
 
+/** sticky content ****************************************************************************/
+
+.uif-sticky {
+    z-index: 5;
+    width: 100%;
+}
+
+.uif-stickyFooter {
+    z-index: 4;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.uif-stickyButtonFooter {
+    background-color: lightGray;
+    border: 1px solid gray;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    padding-top: 10px;
+    padding-left: 10px;
+    text-align: center;
+}
+
 /** Header related styles *********************************************************************/
 
+.uif-hideHeaderText > h1, .uif-hideHeaderText > h2, .uif-hideHeaderText > h3, .uif-hideHeaderText > h4,
+.uif-hideHeaderText > h5, .uif-hideHeaderText > h6, .uif-hideHeaderText > label {
+    display: none;
+    margin: 0;
+    padding: 0;
+}
+
+.uif-viewHeader-contentWrapper {
+    width: 100%;
+    background-color: white;
+    z-index: 3;
+}
+
+.uif-header-contentWrapper {
+    width: 100%;
+}
+
 .uif-header {
-    margin: .5em 0;
-    /* relative to position some icons/links on header line */
     position: relative;
 }
 
 .uif-viewHeader {
-    margin-left: 15px;
+    /* relative to position some icons/links on header line */
+    padding-left: 15px;
 }
 
 .uif-header-rightGroup {
     position: absolute;
     right: 0;
     top: 0;
+}
+
+#Uif-BreadcrumbWrapper, #Uif-ApplicationHeader-Wrapper, #Uif-ApplicationFooter-Wrapper, #Uif-TopGroupWrapper {
+    width: 100%;
+}
+
+#Uif-ApplicationFooter-Wrapper {
+    position: absolute;
 }
 
 /* all headers used at view, page, and section levels *************************************************/
@@ -188,7 +240,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1.uif-headerText {
-    font: bold 21px Helvetica;
+    font: bold 30px Helvetica;
 }
 
 h2.uif-headerText {
@@ -215,6 +267,26 @@ h5.uif-headerText {
 h6.uif-headerText {
     font: normal 12px Helvetica;
     text-transform: uppercase;
+}
+
+.uif-viewHeader-supportTitle {
+    display: block;
+    font-size: 0.7em;
+    font-weight: normal;
+}
+
+.uif-viewHeader-areaTitle {
+    display: block;
+    font-size: 0.7em;
+    font-weight: normal;
+    color: #888888;
+}
+
+.uif-viewHeader-metadata {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: #888888;
 }
 
 /* DocumentView header custom styling */
@@ -246,8 +318,13 @@ img.uif-disclosure-image {
 
 /** Group specific styles *******************************************************************************/
 
-.uif-page{
+.uif-page {
     margin-right: 10px;
+    padding-top: 15px;
+}
+
+.uif-lookupPage > .uif-header-contentWrapper {
+    min-height: 15px;
 }
 
 .uif-group > .uif-instructionalMessage, .uif-group > .uif-disclosureContent > .uif-instructionalMessage,
@@ -266,33 +343,95 @@ img.uif-disclosure-image {
 
 /** Breadcrumbs *****************************************************************************************/
 
-.uif-breadcrumbs {
-    display: block;
-    letter-spacing: 0.02em;
-    padding: 3px 0 3px 15px;
+#Uif-BreadcrumbWrapper {
+    background-color: white;
+    width: 100%;
+    z-index: 10 !important;
+    line-height: 18px;
+    background: #ffffff;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlYWVhZWEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #ffffff 0%, #eaeaea 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #eaeaea));
+    background: -webkit-linear-gradient(top, #ffffff 0%, #eaeaea 100%);
+    background: -o-linear-gradient(top, #ffffff 0%, #eaeaea 100%);
+    background: -ms-linear-gradient(top, #ffffff 0%, #eaeaea 100%);
+    background: linear-gradient(to bottom, #ffffff 0%, #eaeaea 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffffff', endColorstr = '#eaeaea', GradientType = 0);
+    border-bottom: 1px solid #cdcdcd;
+    border-top: 1px solid #cdcdcd;
+    height: 28px;
 }
 
-.uif-breadcrumbs .kr-current {
+ol.uif-breadcrumbs {
+    display: block;
+    letter-spacing: 0.02em;
+    padding-left: 15px;
+    height: 28px;
+}
+
+.uif-breadcrumbs > li > a {
+    text-decoration: none;
+}
+
+.uif-breadcrumbs > li > a, .uif-breadcrumbs > li > span {
+    padding: .4em 0 0 1em;
+    float: left;
+    color: #5B5B5B;
+}
+
+.uif-breadcrumbs > li:first-child > a {
+    padding-left: 0;
+}
+
+.uif-breadcrumbs > li:last-child > span, .uif-breadcrumbs > li:last-child > a {
     font-weight: bold;
 }
 
-.uif-breadcrumbs a {
+.uif-breadcrumbs > li > a:visited {
     text-decoration: none;
 }
 
-.uif-breadcrumbs a:visited {
-    text-decoration: none;
+.uif-breadcrumbs > li {
+    background-image: url(../../images/divider-breadcrumb.png);
+    background-position: right center;
+    background-repeat: no-repeat;
 }
 
-.uif-breadcrumbs a:focus, .uif-breadcrumbs a:hover {
+.uif-breadcrumbs > li:last-child {
+    background-image: none;
+}
+
+.uif-breadcrumbs  > li > a:focus, .uif-breadcrumbs > li > a:hover {
     text-decoration: underline;
 }
 
-.uif-breadcrumbs ol, .uif-breadcrumbs li {
-    display: inline;
+ol.uif-breadcrumbs, .uif-breadcrumbs > li {
     margin: 0;
     list-style: none;
     width: auto;
+    float: left;
+    height: 28px;
+    padding-right: 30px;
+}
+
+.uif-homeBreadcrumbLink {
+    content: "";
+}
+
+.uif-breadcrumbSiblingLink {
+    padding-left: .8em !important;
+    font-size: 9px;
+}
+
+.uif-breadcrumbSiblingContent {
+    position: absolute;
+    background: white;
+    /*border: 1px solid black;*/
+    border: 1px solid #CCCCCC;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    min-width: 180px;
+    padding: 5px;
+    z-index: 1000;
 }
 
 /** Buttons *********************************************************************************************/
@@ -372,11 +511,11 @@ div.clearfix:after {
     text-align: left;
 }
 
-table.uif-gridLayout > tbody > tr > td.uif-inputField{
+table.uif-gridLayout > tbody > tr > td.uif-inputField {
     white-space: nowrap;
 }
 
-.uif-gridLayout td.uif-inputField span.uif-instructionalMessage{
+.uif-gridLayout td.uif-inputField span.uif-instructionalMessage {
     max-width: none !important;
 }
 
@@ -412,11 +551,11 @@ table.uif-gridLayout > tbody > tr > td.uif-inputField{
     margin-right: 0px;
 }
 
-.uif-listLayout ul li{
+.uif-listLayout ul li {
     list-style: disc inside none;
 }
 
-.uif-listLayout ol li{
+.uif-listLayout ol li {
     list-style: decimal inside none;
 }
 
@@ -439,11 +578,11 @@ table.uif-tableCollectionLayout thead th.sorting_desc label {
     cursor: pointer;
 }
 
-table.dataTable thead th{
+table.dataTable thead th {
     cursor: default;
 }
 
-table.dataTable tfoot th{
+table.dataTable tfoot th {
     font-weight: normal;
     padding: 3px 10px;
 }
@@ -524,45 +663,45 @@ div.uif-newCollectionItem {
     background-color: #CCCC99;
 }
 
-tr.uif-groupRow.addline, tr.uif-groupTotalRow[data-groupvalue="addline"]{
+tr.uif-groupRow.addline, tr.uif-groupTotalRow[data-groupvalue="addline"] {
     display: none !important;
 }
 
-tr.uif-totalRow{
+tr.uif-totalRow {
     background-color: #F9F9F9;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
 }
 
-tr.uif-totalRow .uif-boxLayoutVerticalItem, tr.uif-groupTotalRow .uif-boxLayoutVerticalItem{
+tr.uif-totalRow .uif-boxLayoutVerticalItem, tr.uif-groupTotalRow .uif-boxLayoutVerticalItem {
     margin: 0;
 }
 
-tr.uif-groupRow{
+tr.uif-groupRow {
     background-color: #F9F9F9;
     border-top: 1px solid black;
     border-bottom: 1px solid black !important;
 }
 
-tr.uif-groupRow td{
+tr.uif-groupRow td {
     font-weight: bolder;
 }
 
-tr.uif-groupTotalRow{
+tr.uif-groupTotalRow {
     background-color: #F4F4F4;
     border-bottom: 1px solid black !important;
 }
 
-tr.uif-groupTotalRow td{
+tr.uif-groupTotalRow td {
     border: none !important;
     margin-right: 10px;
 }
 
-tr.uif-groupTotalRow td, tr.uif-totalRow th{
+tr.uif-groupTotalRow td, tr.uif-totalRow th {
     text-align: right;
 }
 
-div.uif-calculationField, div.uif-calculationField input{
+div.uif-calculationField, div.uif-calculationField input {
     text-align: right;
 }
 
@@ -718,7 +857,7 @@ div.blockElement {
     top: 40%;
     left: 0 !important;
     background-color: white;
-    textAlign: center;
+    text-align: center;
     color: #000;
     border: 3px solid #aaa;
     cursor: wait;
@@ -731,13 +870,12 @@ div.blockPage {
     width: 30%;
     top: 40%;
     left: 35%;
-    textAlign: center;
+    text-align: center;
     color: #000;
     border: 3px solid #aaa;
     background-color: white;
     cursor: wait;
     z-index: 10101 !important;
-    text-align: center;
 }
 
 /** Autocomplete customizations ************************************************************************/
@@ -787,13 +925,13 @@ img.uif-changedHeaderIcon {
 
 /** Radios and Checkboxes (fieldsets)**************************************************************/
 
-fieldset[data-type="RadioSet"], fieldset[data-type="CheckboxSet"]{
+fieldset[data-type="RadioSet"], fieldset[data-type="CheckboxSet"] {
     display: inline;
     padding-right: 0.5em;
     max-width: 64em;
 }
 
-fieldset[data-type="InputSet"]{
+fieldset[data-type="InputSet"] {
     display: inline;
 }
 
@@ -812,6 +950,9 @@ fieldset[data-type="InputSet"]{
 .tab-navigation-block {
     padding: 0 !important;
     padding-left: 20px !important;
+    background-color: white;
+    width: 100%;
+    z-index: 4;
 }
 
 .tab-navigation-block li {
@@ -846,7 +987,7 @@ fieldset[data-type="InputSet"]{
     width: 85.5em;
 }
 
-.ui-tabs-nav li.ui-state-active.ui-state-hover{
+.ui-tabs-nav li.ui-state-active.ui-state-hover {
 }
 
 .ui-tabs-vertical .ui-tabs-nav li a {
@@ -882,7 +1023,7 @@ fieldset[data-type="InputSet"]{
     margin-left: -2px;
 }
 
-.ui-tabs-vertical-left .ui-tabs-panel{
+.ui-tabs-vertical-left .ui-tabs-panel {
     clear: none !important;
 }
 
@@ -927,12 +1068,12 @@ fieldset[data-type="InputSet"]{
     padding-top: 1px;
 }
 
-
 /** Navigation Menu ************************************************************************************/
 
 .uif-navigation {
     position: absolute;
     width: 210px;
+    padding-top: 15px;
 }
 
 .uif-collapseLink {
@@ -1021,11 +1162,16 @@ li.uif-navigationItem-current a, li.uif-navigationItem-current a:hover {
 }
 
 /** Validation Messages Framework **********************************************************************/
+.uif-correctedError {
+    text-decoration: line-through;
+    color: #a9a9a9;
+}
+
 .uif-messageCount {
     font-size: 0.9em;
     font-weight: normal;
     padding-left: 1.3em;
-    vertical-align: top;
+    vertical-align: bottom;
     display: inline;
 }
 
@@ -1052,7 +1198,8 @@ li.uif-navigationItem-current a, li.uif-navigationItem-current a:hover {
 }
 
 .uif-validationMessages {
-    background-image: url(../../images/validation/normal-stripe.png);
+    /*background-image: url(../../images/validation/normal-stripe.png);*/
+    background-color: #F8F8F8;
     background-repeat: repeat;
     border: 1px solid #cbcbcb;
     padding-top: .5em;
@@ -1083,25 +1230,29 @@ li.uif-navigationItem-current a, li.uif-navigationItem-current a:hover {
 }
 
 .uif-pageValidationMessages-error {
-    background-image: url(../../images/validation/error-stripe.png);
-    background-repeat: repeat;
+    /*    background-image: url(../../images/validation/error-stripe.png);
+   background-repeat: repeat;*/
+    background-color: #FFEAF0;
     border: 1px solid #ffa09c;
 }
 
 .uif-pageValidationMessages-warning {
-    background-image: url(../../images/validation/warn-stripe.png);
-    background-repeat: repeat;
+    /*    background-image: url(../../images/validation/warn-stripe.png);
+   background-repeat: repeat;*/
+    background-color: #FFFEDA;
     border: 1px solid #FF9900;
 }
 
 .uif-pageValidationMessages-info {
-    background-image: url(../../images/validation/info-stripe.png);
-    background-repeat: repeat;
+    /*    background-image: url(../../images/validation/info-stripe.png);
+   background-repeat: repeat;*/
+    background-color: #EEF7FE;
     border: 1px solid #3366CC;
 }
 
 .uif-pageValidationHeader {
-    margin: .5em;
+    margin: .2em;
+    font-size: 18px;
 }
 
 .uif-hasInfo > fieldset[data-type="RadioSet"],
@@ -1111,29 +1262,29 @@ li.uif-navigationItem-current a, li.uif-navigationItem-current a:hover {
     border: 1px solid gray !important;
 }
 
-.uif-tableCollectionLayout .uif-hasInfo > .uif-control,
-.uif-tableCollectionLayout .uif-hasInfo > fieldset[data-type="InputSet"] > .uif-control,
+.uif-tableCollectionLayout .uif-hasInfo > [data-role='Control'],
+.uif-tableCollectionLayout .uif-hasInfo > fieldset[data-type="InputSet"] > [data-role='Control'],
 .uif-tableCollectionLayout .uif-hasInfo > fieldset[data-type="RadioSet"],
 .uif-tableCollectionLayout .uif-hasInfo > fieldset[data-type="CheckboxSet"] {
     border: 2px solid #3366CC !important;
 }
 
-.uif-tableCollectionLayout .uif-hasWarning > .uif-control,
-.uif-tableCollectionLayout .uif-hasWarning > fieldset[data-type="InputSet"] > .uif-control,
+.uif-tableCollectionLayout .uif-hasWarning > [data-role='Control'],
+.uif-tableCollectionLayout .uif-hasWarning > fieldset[data-type="InputSet"] > [data-role='Control'],
 .uif-tableCollectionLayout .uif-hasWarning > fieldset[data-type="RadioSet"],
 .uif-tableCollectionLayout .uif-hasWarning > fieldset[data-type="CheckboxSet"] {
     border: 2px solid #FF9900 !important;
 }
 
-.uif-hasError > .uif-control,
-.uif-hasError > fieldset[data-type="InputSet"] > .uif-control,
+.uif-hasError > [data-role='Control'],
+.uif-hasError > fieldset[data-type="InputSet"] > [data-role='Control'],
 .uif-hasError > fieldset[data-type="RadioSet"],
 .uif-hasError > fieldset[data-type="CheckboxSet"] {
     border: 2px solid #ff2300 !important;
 }
 
-.uif-hasError-modified > .uif-control,
-.uif-hasError-modified > fieldset[data-type="InputSet"] > .uif-control,
+.uif-hasError-modified > [data-role='Control'],
+.uif-hasError-modified > fieldset[data-type="InputSet"] > [data-role='Control'],
 .uif-hasError-modified > fieldset[data-type="RadioSet"],
 .uif-hasError-modified > fieldset[data-type="CheckboxSet"] {
     border: 2px solid gray !important;
@@ -1199,18 +1350,18 @@ li.uif-infoMessageItem:before {
     font-size: 20px;
 }
 
-.uif-errorHighlight .uif-control, .uif-errorHighlight > fieldset[data-type="RadioSet"],
-.uif-errorHighlight > fieldset[data-type="CheckboxSet"], .uif-errorHighlight .uif-checkboxControl + label{
+.uif-errorHighlight [data-role='Control'], .uif-errorHighlight > fieldset[data-type="RadioSet"],
+.uif-errorHighlight > fieldset[data-type="CheckboxSet"], .uif-errorHighlight .uif-checkboxControl + label {
     background-color: #FFE1E9;
 }
 
-.uif-warningHighlight .uif-control, .uif-warningHighlight > fieldset[data-type="RadioSet"],
-.uif-warningHighlight > fieldset[data-type="CheckboxSet"], .uif-warningHighlight .uif-checkboxControl + label{
+.uif-warningHighlight [data-role='Control'], .uif-warningHighlight > fieldset[data-type="RadioSet"],
+.uif-warningHighlight > fieldset[data-type="CheckboxSet"], .uif-warningHighlight .uif-checkboxControl + label {
     background-color: #FFFEDA;
 }
 
-.uif-infoHighlight .uif-control, .uif-infoHighlight > fieldset[data-type="RadioSet"],
-.uif-infoHighlight > fieldset[data-type="CheckboxSet"], .uif-infoHighlight .uif-checkboxControl + label{
+.uif-infoHighlight [data-role='Control'], .uif-infoHighlight > fieldset[data-type="RadioSet"],
+.uif-infoHighlight > fieldset[data-type="CheckboxSet"], .uif-infoHighlight .uif-checkboxControl + label {
     background-color: #E7F3FE;
 }
 
@@ -1237,8 +1388,26 @@ li.uif-infoMessageItem:before {
 }
 
 .uif-applicationMessage {
-    font-size:125%;
-    font-weight:bold;
+    font-size: 125%;
+    font-weight: bold;
+}
+
+.uif-pageValidationMessages .uif-validationImage {
+    vertical-align: bottom;
+    width: 24px;
+}
+
+ul.uif-pageValidationMessage-single {
+    margin-left: 1em;
+}
+
+.uif-pageValidationMessage-single li:before {
+    content: none;
+}
+
+.uif-hasError .uif-checkboxControl + label {
+    border: 2px solid red;
+    padding: .2em;
 }
 
 /** Help  *******************************************************************************************/
@@ -1285,21 +1454,21 @@ li.uif-infoMessageItem:before {
 }
 
 /***** Lightbox customization ******************************************************************/
-.fancybox-inner form{
+.fancybox-inner form {
     height: 100%;
 }
 
-.overlay-fixed{
+.overlay-fixed {
     opacity: 0.4 !important;
 }
 
 /***** Syntax Highlighter *********************************************************************/
-.uif-syntaxHighlighter > div{
-    max-height: 400px;
-    overflow: auto;
-}
+/*div.uif-syntaxHighlighter {*/
+/*max-height: 400px;*/
+/*overflow: auto;*/
+/*}*/
 
-.uif-syntaxHighlighter li{
+.uif-syntaxHighlighter li {
     list-style: decimal outside none;
 }
 
@@ -1312,13 +1481,14 @@ li.uif-infoMessageItem:before {
     line-height: 20px;
     margin: 0 0 10px;
     padding: 9.5px;
-    white-space: pre-wrap;
-    word-break: break-all;
-    word-wrap: break-word;
+    overflow: auto;
+    max-height: 600px;
 }
+
 .uif-syntaxHighlighter pre.prettyprint {
     margin-bottom: 20px;
 }
+
 .uif-syntaxHighlighter pre code {
     background-color: transparent;
     border: 0 none;
@@ -1329,9 +1499,11 @@ li.uif-infoMessageItem:before {
 .uif-syntaxHighlighter .prettyprint.linenums {
     box-shadow: 40px 0 0 #FBFBFC inset, 41px 0 0 #ECECF0 inset;
 }
+
 .uif-syntaxHighlighter ol.linenums {
     margin: 0 0 0 33px;
 }
+
 .uif-syntaxHighlighter ol.linenums li {
     color: #BEBEC5;
     line-height: 20px;
@@ -1346,11 +1518,18 @@ li.uif-infoMessageItem:before {
 ol.linenums li:nth-of-type(2n+1) {
     background: none repeat scroll 0 0 #FFFFFF;
 }
+
 .prettyprint {
     font-size: 0.8em;
 }
+
 .prettyprint {
     background-color: #F6F6F6;
     border: 1px solid #CCCCCC;
     padding-right: 0 !important;
+}
+
+/* div wrapper for the timer countdown plugin, by default want to display inline with the message */
+div.hasCountdown {
+    display: inline;
 }

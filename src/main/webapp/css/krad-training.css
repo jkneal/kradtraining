@@ -46,7 +46,7 @@ img.border-photo {
 }
 
 .audit-changed {
-    background-color: #D5B400;
+    background-color: #D5B400 !important;
 }
 
 .customItemLayout {
