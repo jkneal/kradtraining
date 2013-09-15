@@ -20,8 +20,8 @@ h1.uif-headerText {
 	padding-left: 5px;
 }
 .uif-navigationMenu-wrapper .uif-navigationItem .uif-headerText {
-	background-color: #c3492e;
-	color: #FFF
+	color: black;
+	border: none;
 }
 /** Navigation Menu ****************************************************************************************/
 li.uif-navigationItem a {
@@ -35,11 +35,7 @@ li.uif-navigationItem-current a, li.uif-navigationItem-current a:hover {
 	color: inherit;
 	background-color: #ECCCB6;
 }
-h3.uif-headerText {
-	color: #fff;
-	background: #c3492e;
-	font-weight: normal;
-}
+
 .uif-instructionalMessage {
 	display: block;
 	font-size: 1em;
@@ -330,10 +326,10 @@ label {
 	color: #FFF;
 }
 
+.uif-application {
+	min-height: 500px;
+}
 
-
-
-.blockUI.blockMsg.blockPage h1{ font-size:1em !important}
 
 
 h2.uif-headerText {
@@ -343,6 +339,10 @@ h2.uif-headerText {
 	font-size: 1.7em;
 font-weight: normal;
 }
+
+
+.blockUI.blockMsg.blockPage h1{ font-size:1em !important}
+
 
  h4 img.uif-disclosure-image[alt="expand"] {
         background: url(../images/h4_collapse.png);
@@ -360,6 +360,26 @@ table.dataTable tfoot th {
   background: -webkit-linear-gradient(top, #f7f7f7 0%, #e5e5e5 100%);
 }
 
-uif-helpAction {
+.uif-helpAction {
 	margin-left: 5px;
+}
+
+h3.uif-headerText {
+	padding-left: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+} 
+
+h3.uif-headerText {
+	color: #fff;
+	background: #c3492e;
+	font-weight: normal;
+}
+
+h3.uif-headerText  a {
+	color: white;
+}
+
+.uif-footer {
+	margin-top: 10px;
 }

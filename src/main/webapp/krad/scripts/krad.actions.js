@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * Sets up a new request configured from the given action component and submits
  * the request
@@ -91,32 +92,92 @@ function submitForm(methodToCall, additionalData, validate, ajaxSubmit, successC
 }
 
 /**
+ * Within a multi-page view changes the currently loaded page to the page identified
+ * by the given id
+ *
+ * @param pageId id for the page to navigate to
+ */
+function navigateToPage(pageId) {
+    ajaxSubmitForm(kradVariables.NAVIGATE_METHOD_TO_CALL, {"actionParameters[navigateToPageId]": pageId});
+}
+
+/**
+ * Convenience method for redirecting to a URL
+ *
+ * @param url to redirect to
+ */
+function redirect(url) {
+    window.location = url;
+}
+
+/**
+ * Default handler for dialog responses
+ *
+ * <p>
+ * Simply closes the dialog and makes server call to handle the response
+ * </p>
+ */
+function submitDialogResponse() {
+    closeLightbox();
+
+    ajaxSubmitForm(kradVariables.RETURN_FROM_LIGHTBOX_METHOD_TO_CALL);
+}
+
+/**
  * Runs client side validation on the entire form and returns the result (an alert is also given
  * if errors are encountered)
  */
 function validateForm() {
+    clientErrorStorage = new Object();
+    var summaryTextExistence = new Object();
     var validForm = true;
 
     jQuery.watermark.hideAll();
     pauseTooltipDisplay = true;
 
-    if(validateClient){
-        // turn on this flag to enable the page level summaries to now be shown for errors
-        messageSummariesShown = true;
+    if (validateClient) {
+        // Turn on this flag to avoid prematurely writing out messages which will cause performance issues if MANY
+        // fields have validation errors simultaneously (first we are only checking for errors, not checking and
+        // writing simultaneously like normal)
+        clientErrorExistsCheck = true;
+
+        // Temporarily turn off this flag to avoid traversing unneeded logic (all messages will be shown at the end)
+        messageSummariesShown = false;
+
+        // Validate the whole form
         validForm = jq("#kualiForm").valid();
+
+        // Handle field message bubbling manually, but do not write messages out yet
+        jQuery("div[data-role='InputField']").each(function () {
+            var id = jQuery(this).attr('id');
+            var field = jQuery("#" + id);
+            var data = getValidationData(field);
+            var parent = field.data("parent");
+            handleMessagesAtGroup(parent, id, data, true);
+        });
+
+        // Toggle the flag back to default
+        clientErrorExistsCheck = false;
+
+        // Message summaries are going to be shown
+        messageSummariesShown = true;
+
+        // Finally, write the result of the validation messages
+        writeMessagesForPage();
     }
 
-	if(!validForm){
+    if (!validForm) {
         validForm = false;
 
         //ensure all non-visible controls are visible to the user
-        jQuery(".error:not(:visible)").each(function(){
+        jQuery(".error:not(:visible)").each(function () {
             cascadeOpen(jQuery(this));
         });
 
-		jumpToTop();
+        jumpToTop();
         showClientSideErrorNotification();
-	}
+        jQuery(".uif-pageValidationMessages li.uif-errorMessageItem:first > a").focus();
+    }
 
     jq.watermark.showAll();
     pauseTooltipDisplay = false;
@@ -139,8 +200,9 @@ function validateForm() {
  * @param methodToCall - name of the method that should be invoked for the refresh call (if custom method is needed)
  * @param successCallback - (optional) additional callback function to be executed after the component is retrieved
  * @param additionalData - (optional) additional data to be submitted with the request
+ * @param disableBlocking - (optional) turns off blocking and loading messaging
  */
-function retrieveComponent(id, methodToCall, successCallback, additionalData) {
+function retrieveComponent(id, methodToCall, successCallback, additionalData, disableBlocking) {
     var refreshComp = jQuery("#" + id);
 
     // if a call is made from refreshComponentUsingTimer() and the component does not exist on the page or is hidden
@@ -167,6 +229,10 @@ function retrieveComponent(id, methodToCall, successCallback, additionalData) {
     kradRequest.additionalData = additionalData;
     kradRequest.refreshId = id;
 
+    if(disableBlocking){
+        kradRequest.disableBlocking = disableBlocking;
+    }
+
     kradRequest.send();
 }
 
@@ -178,7 +244,7 @@ function retrieveComponent(id, methodToCall, successCallback, additionalData) {
  */
 function validateAddLine(collectionGroupId, addViaLightbox) {
     var collectionGroup = jQuery("#" + collectionGroupId);
-    var addControls = collectionGroup.data("addcontrols");
+    var addControls = collectionGroup.data(kradVariables.ADD_CONTROLS);
 
     if (addViaLightbox) {
         collectionGroup = jQuery("#kualiLightboxForm");
@@ -188,7 +254,7 @@ function validateAddLine(collectionGroupId, addViaLightbox) {
 
     var valid = validateLineFields(controlsToValidate);
     if (!valid) {
-        if(!addViaLightbox){
+        if (!addViaLightbox) {
             showClientSideErrorNotification();
         }
 
@@ -226,26 +292,48 @@ function validateLine(collectionName, lineIndex) {
 function validateLineFields(controlsToValidate) {
     var valid = true;
 
+    // skip completely if client validation is off
+    if (!validateClient) {
+        return valid;
+    }
+
     jQuery.watermark.hideAll();
+
+    // Turn on this flag to avoid prematurely writing out messages which will cause performance issues if MANY
+    // fields have validation errors simultaneously (first we are only checking for errors, not checking and
+    // writing simultaneously like normal)
+    clientErrorExistsCheck = true;
+
+    // Temporarily turn off this flag to avoid traversing unneeded logic (all messages will be shown at the end)
+    var tempMessagesSummariesShown = messageSummariesShown;
+    messageSummariesShown = false;
 
     controlsToValidate.each(function () {
         var control = jQuery(this);
-        control.removeClass("ignoreValid");
+        var fieldId = jQuery(this).closest("div[data-role='InputField']").attr("id");
+        var field = jQuery("#" + fieldId);
+        var parent = field.data("parent");
         var validValue = true;
+
+        // remove ignoreValid because there are issues with the plugin if it stays on
+        control.removeClass("ignoreValid");
 
         haltValidationMessaging = true;
 
-        if(!control.prop("disabled") && !control.hasClass("uif-readOnlyContent")){
+        if (!control.prop("disabled") && !control.hasClass("uif-readOnlyContent")) {
             control.valid();
-            if(control.hasClass("error")){
+            if (control.hasClass("error")) {
                 validValue = false;
             }
         }
 
+        var data = getValidationData(field);
+        handleMessagesAtGroup(parent, fieldId, data, true);
+
         haltValidationMessaging = false;
 
         //details visibility check
-        if (control.not(":visible") && !validValue){
+        if (control.not(":visible") && !validValue) {
             cascadeOpen(control);
         }
 
@@ -255,6 +343,17 @@ function validateLineFields(controlsToValidate) {
 
         control.addClass("ignoreValid");
     });
+
+    // Toggle the flag back to default
+    clientErrorExistsCheck = false;
+
+    // Message summaries are going to be shown
+    messageSummariesShown = tempMessagesSummariesShown;
+
+    if (messageSummariesShown){
+        // Finally, write the result of the validation messages
+        writeMessagesForPage();
+    }
 
     jQuery.watermark.showAll();
 
@@ -268,16 +367,16 @@ function validateLineFields(controlsToValidate) {
  * @param componentObject the object to check for visibility of and "open" parent containing elements to make
  * it visible
  */
-function cascadeOpen(componentObject){
-    if(componentObject.not(":visible")){
+function cascadeOpen(componentObject) {
+    if (componentObject.not(":visible")) {
         var detailsDivs = componentObject.parents("div[data-role='details']");
-        detailsDivs.each(function(){
+        detailsDivs.each(function () {
             jQuery(this).parent().find("> a").click();
         });
 
         var disclosureDivs = componentObject.parents("div[data-role='disclosureContent']");
-        disclosureDivs.each(function(){
-            if(!jQuery(this).data("open")){
+        disclosureDivs.each(function () {
+            if (!jQuery(this).data("open")) {
                 jQuery(this).parent().find("a[data-linkfor='" + jQuery(this).attr("id") + "']").click();
             }
         });
@@ -334,38 +433,38 @@ function setupRefreshCheck(controlName, refreshId, condition, methodToCall) {
  * @param condition function that if returns true disables the component, and if returns false enables the component
  * @param onKeyUp true if evaluating on keyUp, only applies to textarea/text inputs
  */
-function setupDisabledCheck(controlName, disableCompId, disableCompType, condition, onKeyUp){
+function setupDisabledCheck(controlName, disableCompId, disableCompType, condition, onKeyUp) {
     var theControl = jQuery("[name='" + escapeName(controlName) + "']");
     var eventType = 'change';
 
-    if(onKeyUp && (theControl.is("textarea") || theControl.is("input[type='text'], input[type='password']"))){
+    if (onKeyUp && (theControl.is("textarea") || theControl.is("input[type='text'], input[type='password']"))) {
         eventType = 'keyup';
     }
 
-    if(disableCompType == "radioGroup" || disableCompType == "checkboxGroup"){
-        theControl.on(eventType, function (){
-            if(condition()){
+    if (disableCompType == "radioGroup" || disableCompType == "checkboxGroup") {
+        theControl.on(eventType, function () {
+            if (condition()) {
                 jQuery("input[id^='" + disableCompId + "']").prop("disabled", true);
             }
-            else{
+            else {
                 jQuery("input[id^='" + disableCompId + "']").prop("disabled", false);
             }
         });
     }
-    else{
-        theControl.on(eventType, function (){
+    else {
+        theControl.on(eventType, function () {
             var disableControl = jQuery("#" + disableCompId);
-            if(condition()){
+            if (condition()) {
                 disableControl.prop("disabled", true);
                 disableControl.addClass("disabled");
-                if(disableCompType === "actionLink" || disableCompType === "action"){
+                if (disableCompType === "actionLink" || disableCompType === "action") {
                     disableControl.attr("tabIndex", "-1");
                 }
             }
-            else{
+            else {
                 disableControl.prop("disabled", false);
                 disableControl.removeClass("disabled");
-                if(disableCompType === "actionLink" || disableCompType === "action"){
+                if (disableCompType === "actionLink" || disableCompType === "action") {
                     disableControl.attr("tabIndex", "0");
                 }
             }
@@ -405,7 +504,7 @@ function setupProgressiveCheck(controlName, disclosureId, baseId, condition, alw
                             refreshDisclosure.parent().show();
                         }
 
-                        refreshDisclosure.animate({backgroundColor:"transparent"}, 6000);
+                        refreshDisclosure.animate({backgroundColor: "transparent"}, 6000);
 
                         //re-enable validation on now shown inputs
                         hiddenInputValidationToggle(disclosureId);
@@ -429,6 +528,8 @@ function setupProgressiveCheck(controlName, disclosureId, baseId, condition, alw
                         displayWithLabel.parent().hide();
                     }
                 }
+
+                hideEmptyCells();
             }
         });
     }
@@ -444,18 +545,35 @@ function setupProgressiveCheck(controlName, disclosureId, baseId, condition, alw
 function hiddenInputValidationToggle(id) {
     var element = jQuery("#" + id);
     if (element.length) {
-        if (element.css("display") == "none") {
+        if (element.css("display") === "none") {
             jQuery(":input:hidden", element).each(function () {
+                storeOriginalDisabledProperty(jQuery(this));
                 jQuery(this).addClass("ignoreValid");
+                //disable hidden inputs to prevent from being submitted
                 jQuery(this).prop("disabled", true);
             });
         }
         else {
             jQuery(":input:visible", element).each(function () {
+                storeOriginalDisabledProperty(jQuery(this));
                 jQuery(this).removeClass("ignoreValid");
-                jQuery(this).prop("disabled", false);
+                //return to original disabled property value
+                jQuery(this).prop("disabled", jQuery(this).data('original-disabled'));
             });
         }
+    }
+}
+
+/**
+ * Stores the original value of the disabled property of the element into jquery data.
+ * This ensures that the correct value is set after toggling in hiddenInputValidation().
+ *
+ * @param element - jQuery element to examine and set the original-disabled data.
+ */
+function storeOriginalDisabledProperty(element) {
+    //capture original disabled property value
+    if(element.data('original-disabled') === undefined) {
+        element.data("original-disabled",element.prop("disabled"));
     }
 }
 
@@ -480,5 +598,122 @@ function refreshComponentUsingTimer(componentId, methodToCall, timeInterval) {
     refreshTimerComponentMap[componentId] = setInterval(function () {
         retrieveComponent(componentId, methodToCall);
     }, timeInterval * 1000);
+}
+
+/**
+ *  Open a hidden section in a jquery bubblepopup and freeze it until the user
+ *  clicks outside of the popup, or on the optional close button.
+ *
+ * @param e event (required)
+ * @param contentId id of hidden section with content (required)
+ * @param popupOptions map of bubblepopup options (optional)
+ * @param closeButton when true, a small close button is rendered in the top-right corner of the popup (optional)
+ **/
+function openPopupContent(e, contentId, popupOptions, closeButton) {
+    stopEvent(e);
+
+    var popupTarget = jQuery((e.currentTarget) ? e.currentTarget : e.srcElement);
+    if (popupTarget.IsBubblePopupOpen()) {
+        return;
+    }
+
+    // in case a prior popup is still open
+    if (gCurrentBubblePopupId) {
+        _hideBubblePopup(jQuery("#" + gCurrentBubblePopupId));
+    }
+    jQuery(".uif-tooltip").HideAllBubblePopups(); // just in case, case
+
+    gCurrentBubblePopupId = popupTarget.attr('id');
+    var clickName = "click." + gCurrentBubblePopupId;
+    var popupContent = jQuery("#" + contentId).detach().show();
+
+    // add required class uif-tooltip to action and create popup
+    if (!popupTarget.HasBubblePopup()) {
+        popupTarget.addClass("uif-tooltip");
+        //initBubblePopups();  // shotgun approach to CreateBubblePopup, versus...
+        popupTarget.CreateBubblePopup(".uif-tooltip");
+
+        if (closeButton) {
+            var closeButton = jQuery('<div class="uif-popup-closebutton"/>');
+            closeButton.on(clickName, function () {
+                _hideBubblePopup(popupTarget)
+            });
+            popupContent.prepend(closeButton);
+        }
+
+        // Odd error work-around with 2 popup forms: pressing Enter in a text
+        // field on the second popup causes a click event on the first button.
+        // True.
+        jQuery("input,select", popupContent).keypress(function (event) {
+            if (event.keyCode == 10 || event.keyCode == 13) {
+                stopEvent(event);
+            }
+        });
+    }
+
+    var clonedDefaultOptions = jQuery.extend({}, kradVariables.FORM_BUBBLEPOPUP_DEFAULT_OPTIONS);
+    clonedDefaultOptions.themePath = getConfigParam(kradVariables.APPLICATION_URL) + this.BUBBLEPOPUP_THEME_PATH;
+
+    jQuery.extend(clonedDefaultOptions, popupOptions);
+
+    popupTarget.ShowBubblePopup(clonedDefaultOptions, true);
+    popupTarget.FreezeBubblePopup();
+
+    var popupId = popupTarget.GetBubblePopupID();
+    jQuery("div#" + popupId + " td.jquerybubblepopup-innerHtml").append(popupContent);
+
+    // close popup on any click outside current popup
+    jQuery(document).on(clickName, function (e) {
+        var docTarget = jQuery((e.target) ? e.target : e.srcElement);
+        if (docTarget.parents("div.jquerybubblepopup").length === 0) {
+            _hideBubblePopup(popupTarget);
+        }
+    });
+
+    // Note: afterHidden property causes openPopupContentsWithErrors() to break
+    function _hideBubblePopup(target) {
+        target.HideBubblePopup();
+        jQuery(document).off("click." + target.attr('id'));
+        gCurrentBubblePopupId = "";
+    }
+}
+
+/**
+ *  Locate all bubblepopup content and see if any have a error displayed (via
+ *  class "uif-hasError").  If so, locate the action which opens the content
+ *  and submit the click event for that action.
+ **/
+function openPopupContentsWithErrors() {
+    var hiddenScript, popupFormId;
+    var bubblePopupContent = {};
+    jQuery("div.uif-bubblepopup-content").each(function () {
+        if (bubblePopupContent[this.id] == true) {
+            // .detach() apparently creates duplicates in the DOM, and this code eliminates them
+            return false;
+        }
+        bubblePopupContent[this.id] = true;
+
+        if (jQuery('.uif-hasError', jQuery(this)).length > 0) {
+            popupFormId = this.id;
+            // find the action linked to this popup via the openPopupContent() function:
+            jQuery('.uif-action').siblings('input[type="hidden"][data-role="script"]').each(function () {
+
+                hiddenScript = jQuery(this).val();
+                if ((hiddenScript.indexOf('openPopupContent') != -1)
+                        && (hiddenScript.indexOf(popupFormId) != -1)) {
+                    var saveSpeed = (typeof kradVariables.FORM_BUBBLEPOPUP_DEFAULT_OPTIONS['openingSpeed'] === "undefined") ?
+                            -1 : kradVariables.FORM_BUBBLEPOPUP_DEFAULT_OPTIONS['openingSpeed'];
+
+                    // open popup as fast as possible
+                    kradVariables.FORM_BUBBLEPOPUP_DEFAULT_OPTIONS['openingSpeed'] = 1;
+                    jQuery('#' + jQuery(this).attr('data-for')).click();
+                    kradVariables.FORM_BUBBLEPOPUP_DEFAULT_OPTIONS['openingSpeed'] = saveSpeed;
+
+                    // break from .each
+                    return false;
+                }
+            });
+        }
+    });
 }
 
