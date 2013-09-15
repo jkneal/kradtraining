@@ -5,7 +5,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
 
-    <bean id="Krtrain-BookEntryViewMenu" parent="Uif-FormView" p:headerText="Book Entry Menu">
+    <bean id="Krtrain-BookEntryViewMenu" parent="Uif-FormView" p:headerText="Book Entry Menu" p:stickyApplicationHeader="true">
         <property name="items">
             <list>
                 <ref bean="Krtrain-BookEntryPage1"/>
@@ -129,7 +129,7 @@
                     </property>
 
                     <property name="suggest">
-                        <bean parent="Uif-Suggest" p:sourcePropertyName="code"
+                        <bean parent="Uif-Suggest" p:valuePropertyName="code"
                               p:suggestQuery.dataObjectClassName="org.kuali.rice.krtrain.book.PublisherCode" />
                     </property>
                 </bean>
