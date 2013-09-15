@@ -37,7 +37,7 @@
 		<mysql.jdbc.version>5.1.18</mysql.jdbc.version>
 		<mysql.jdbc.artifactId>mysql-connector-java</mysql.jdbc.artifactId>
 
-		<rice.version>2.3.0-r37157</rice.version>
+		<rice.version>2.3.0</rice.version>
 		<servlet-api.version>2.5</servlet-api.version>
 
 		<!--plugin versions -->
@@ -82,10 +82,22 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>${plugin.war.version}</version>
 				<configuration>
+					<webResources>
+						<resource>
+							<filtering>true</filtering>
+							<!-- this is relative to the pom.xml directory -->
+							<directory>src/main/webapp/</directory>
+							<includes>
+								<include>**/web.xml</include>
+							</includes>
+						</resource>
+					</webResources>
+
 					<overlays>
 						<overlay>
-							<groupId>org.kuali.rice</groupId>
+							<groupId>${project.groupId}</groupId>
 							<artifactId>rice-web</artifactId>
+							<filtered>false</filtered>
 						</overlay>
 					</overlays>
 				</configuration>
@@ -255,183 +267,68 @@
 
 	<dependencies>
 
-		<!-- Kuali Rice libraries Ideally you only declare the modules of rice 
-			you are using. In practice, you may need to declare them all until rice's 
-			modularity work is complete. The only modules rice recommends compiling against 
-			are api & framework modules. It is usually a good idea to list ALL of the 
-			third party libraries being directly references in code. This makes it explicit 
-			which libraries are being used rather than coming in through a transitive 
-			relationship with other libraries. The http://maven.apache.org/plugins/maven-dependency-plugin/ 
-			does a pretty good job of finding these missing dependencies. -->
-		<!-- core -->
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-core-api</artifactId>
-			<version>${rice.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-core-framework</artifactId>
-			<version>${rice.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-core-impl</artifactId>
-			<version>${rice.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-core-web</artifactId>
-			<version>${rice.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<!-- core service -->
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-core-service-api</artifactId>
-			<version>${rice.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-core-service-framework</artifactId>
-			<version>${rice.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-core-service-impl</artifactId>
-			<version>${rice.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-core-service-web</artifactId>
-			<version>${rice.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<!-- edl -->
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-edl-framework</artifactId>
-			<version>${rice.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-edl-impl</artifactId>
-			<version>${rice.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<!-- legacy rice impl module -->
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-impl</artifactId>
-			<version>${rice.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<!-- ken -->
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-ken-api</artifactId>
-			<version>${rice.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- kew -->
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-kew-api</artifactId>
-			<version>${rice.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-kew-framework</artifactId>
-			<version>${rice.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-kew-impl</artifactId>
-			<version>${rice.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<!-- kim (not including kim-ldap support) -->
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-kim-api</artifactId>
-			<version>${rice.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-kim-framework</artifactId>
-			<version>${rice.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-kim-impl</artifactId>
-			<version>${rice.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<!-- kns (not including legacy kns) -->
-		<!-- krad -->
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-krad-app-framework</artifactId>
 			<version>${rice.version}</version>
-			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-krad-web-framework</artifactId>
 			<version>${rice.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- krms -->
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-krms-api</artifactId>
-			<version>${rice.version}</version>
-			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-krms-framework</artifactId>
+			<artifactId>rice-web</artifactId>
 			<version>${rice.version}</version>
-			<scope>compile</scope>
+			<type>war</type>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-krms-impl</artifactId>
+			<artifactId>rice-krad-development-tools</artifactId>
 			<version>${rice.version}</version>
-			<scope>runtime</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun</groupId>
+					<artifactId>tools</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-core-api</artifactId>
+			<version>${rice.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-core-framework</artifactId>
+			<version>${rice.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-impl</artifactId>
+			<version>${rice.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-it-krad</artifactId>
+			<version>${rice.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-it-internal-tools</artifactId>
+			<version>${rice.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- ksb -->
@@ -463,53 +360,49 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- location -->
+		<!-- krms -->
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-location-api</artifactId>
+			<artifactId>rice-krms-api</artifactId>
 			<version>${rice.version}</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-location-framework</artifactId>
+			<artifactId>rice-krms-framework</artifactId>
 			<version>${rice.version}</version>
 			<scope>compile</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-location-impl</artifactId>
+			<artifactId>rice-krms-impl</artifactId>
+			<version>${rice.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- edl -->
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-edl-framework</artifactId>
 			<version>${rice.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-location-web</artifactId>
+			<artifactId>rice-edl-impl</artifactId>
 			<version>${rice.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- web -->
+		<!-- ken -->
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-web</artifactId>
-			<version>${rice.version}</version>
-			<type>war</type>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-development-tools</artifactId>
+			<artifactId>rice-ken-api</artifactId>
 			<version>${rice.version}</version>
 			<scope>runtime</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>com.sun</groupId>
-					<artifactId>tools</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<!-- third party libraries -->

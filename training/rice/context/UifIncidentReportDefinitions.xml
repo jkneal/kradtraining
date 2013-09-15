@@ -22,9 +22,6 @@
 
   <bean id="Uif-IncidentReportView" parent="Uif-IncidentReportView-parentBean"/>
   <bean id="Uif-IncidentReportView-parentBean" abstract="true" parent="Uif-FormView">
-    <property name="theme">
-      <bean parent="Uif-ClassicKnsTheme"/>
-    </property>
     <property name="cssClasses">
       <list merge="true">
         <value>uif-incidentReportView</value>
@@ -110,7 +107,7 @@
       <list>
         <bean parent="Uif-InputField" p:propertyName="exceptionStackTrace" p:labelPlacement="TOP"
               p:fieldLabel.cssClasses="kr-labelTop" p:fieldLabel.renderColon="false" p:label="" p:readOnly="true"
-              p:width="auto">
+              p:width="auto" p:multiLineReadOnlyDisplay="true">
           <property name="control">
             <bean parent="Uif-TextControl" p:size="100"/>
           </property>
@@ -123,6 +120,7 @@
     <property name="items">
       <list>
         <bean parent="Uif-PrimaryActionButton" p:methodToCall="submitReport" p:actionLabel="Submit Report"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="back" p:actionLabel="Retry"/>
         <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"/>
       </list>
     </property>
