@@ -22,7 +22,7 @@
 
   <bean id="Uif-InquiryView" abstract="true" parent="Uif-InquiryView-parentBean"/>
   <bean id="Uif-InquiryView-parentBean" abstract="true"
-        class="org.kuali.rice.krad.uif.view.InquiryView" parent="Uif-FormView-KnsTheme">
+        class="org.kuali.rice.krad.uif.view.InquiryView" parent="Uif-FormView">
     <property name="cssClasses">
       <list merge="true">
         <value>uif-inquiryView</value>
@@ -37,7 +37,7 @@
     <property name="defaultBindingObjectPath" value="dataObject"/>
     <property name="readOnly" value="true"/>
     <property name="singlePageView" value="true"/>
-    <property name="preloadPoolSize" value="0"/>
+    <property name="disableBrowserCache" value="false"/>
     <property name="page">
       <bean parent="Uif-InquiryPage"/>
     </property>
@@ -74,14 +74,9 @@
       <list>
         <bean parent="Uif-PrimaryActionButton" p:methodToCall="export" p:actionLabel="export"
               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EXPORT]}" p:disableBlocking="true"/>
-        <bean parent="Uif-PrimaryActionButton" p:methodToCall="returnToPrevious" p:actionLabel="Cancel"
-              p:render="@{#form.renderedInLightBox and formHistory != null and !formHistory?.historyEntries?.empty}"/>
-        <bean parent="Uif-PrimaryActionButton" p:methodToCall="returnToHub" p:actionLabel="Home"
-              p:render="@{#form.renderedInLightBox and formHistory != null and (formHistory?.historyEntries?.size() > 1)}"/>
         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
               p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
-        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Close" p:render="@{!#form.renderedInLightBox}"
-              p:onClickScript="e.preventDefault();window.close();return false;"/>
+        <bean parent="Uif-BackAction" p:render="@{!#form.renderedInLightBox}"/>
       </list>
     </property>
   </bean>
