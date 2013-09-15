@@ -505,8 +505,7 @@
             <bean parent="Uif-HeaderLowerGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-HorizontalFieldGroup" p:label="Written Books"
-                              p:refreshTimer="30">
+                        <bean parent="Uif-HorizontalFieldGroup" p:label="Written Books">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-InputField" p:propertyName="author.numberWrittenBooks"
