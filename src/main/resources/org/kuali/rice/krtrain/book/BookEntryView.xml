@@ -509,7 +509,7 @@
 
     <bean id="relatedBooks" parent="Uif-Disclosure-StackedCollectionSection" p:headerText="Related Books"
           p:propertyName="relatedBooks" p:collectionObjectClass="org.kuali.rice.krtrain.book.Book"
-          p:displayCollectionSize="3" p:addLineLabel.labelText="Add Related Book">
+          p:displayCollectionSize="3" p:addLineLabel.messageText="Add Related Book">
         <property name="addLineItems">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="id">
