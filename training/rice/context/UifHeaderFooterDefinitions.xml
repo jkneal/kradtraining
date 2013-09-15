@@ -54,20 +54,10 @@
 
   <bean id="Uif-HeaderUpperGroup" parent="Uif-HeaderUpperGroup-parentBean"/>
   <bean id="Uif-HeaderUpperGroup-parentBean" abstract="true" parent="Uif-HorizontalBoxGroup">
-    <property name="cssClasses">
-      <list merge="true">
-        <value>uif-upperHeaderGroup</value>
-      </list>
-    </property>
   </bean>
 
   <bean id="Uif-HeaderRightGroup" parent="Uif-HeaderRightGroup-parentBean"/>
   <bean id="Uif-HeaderRightGroup-parentBean" abstract="true" parent="Uif-HorizontalBoxGroup">
-    <property name="cssClasses">
-      <list merge="true">
-        <value>uif-rightHeaderGroup</value>
-      </list>
-    </property>
   </bean>
 
   <bean id="Uif-HeaderLowerGroup" parent="Uif-HeaderLowerGroup-parentBean"/>
@@ -110,9 +100,21 @@
   </bean>
 
   <bean id="Uif-ViewHeader" parent="Uif-ViewHeader-parentBean"/>
-  <bean id="Uif-ViewHeader-parentBean" abstract="true" parent="Uif-HeaderOne">
+  <bean id="Uif-ViewHeader-parentBean" abstract="true" parent="Uif-HeaderOne"
+        class="org.kuali.rice.krad.uif.element.ViewHeader">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/viewHeader.ftl"/>
+    <property name="templateName" value="uif_viewHeader"/>
+    <property name="supportTitleMessage">
+      <bean parent="Uif-Message" p:cssClasses="uif-viewHeader-supportTitle"/>
+    </property>
+    <property name="areaTitleMessage">
+      <bean parent="Uif-Message" p:cssClasses="uif-viewHeader-areaTitle"/>
+    </property>
+    <property name="metadataMessage">
+      <bean parent="Uif-Message" p:cssClasses="uif-viewHeader-metadata"/>
+    </property>
     <property name="cssClasses">
-      <list merge="true">
+      <list>
         <value>uif-viewHeader</value>
       </list>
     </property>
@@ -121,7 +123,7 @@
   <bean id="Uif-PageHeader" parent="Uif-PageHeader-parentBean"/>
   <bean id="Uif-PageHeader-parentBean" abstract="true" parent="Uif-HeaderTwo">
     <property name="cssClasses">
-      <list merge="true">
+      <list>
         <value>uif-pageHeader</value>
         <value>clearfix</value>
       </list>
@@ -131,7 +133,7 @@
   <bean id="Uif-SectionHeader" parent="Uif-SectionHeader-parentBean"/>
   <bean id="Uif-SectionHeader-parentBean" abstract="true" parent="Uif-HeaderThree">
     <property name="cssClasses">
-      <list merge="true">
+      <list>
         <value>uif-sectionHeader</value>
       </list>
     </property>
@@ -140,7 +142,7 @@
   <bean id="Uif-SubSectionHeader" parent="Uif-SubSectionHeader-parentBean"/>
   <bean id="Uif-SubSectionHeader-parentBean" abstract="true" parent="Uif-HeaderFour">
     <property name="cssClasses">
-      <list merge="true">
+      <list>
         <value>uif-subSectionHeader</value>
       </list>
     </property>
@@ -149,7 +151,7 @@
   <bean id="Uif-SubCollectionHeader" parent="Uif-SubCollectionHeader-parentBean"/>
   <bean id="Uif-SubCollectionHeader-parentBean" abstract="true" parent="Uif-HeaderBase">
     <property name="cssClasses">
-      <list merge="true">
+      <list>
         <value>uif-subCollectionHeader</value>
       </list>
     </property>
@@ -185,7 +187,6 @@
     <property name="items">
       <list>
         <bean parent="Uif-SaveAction"/>
-        <bean parent="Uif-CloseAction"/>
         <bean parent="Uif-CancelAction"/>
       </list>
     </property>
