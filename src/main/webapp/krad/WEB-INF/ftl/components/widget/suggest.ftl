@@ -24,7 +24,8 @@
     <@krad.script value="
       createSuggest('${parent.control.id}', ${widget.templateOptionsJSString}, '${parent.id}',
        ${widget.suggestQuery.queryMethodArgumentFieldsJsString}, ${widget.retrieveAllSuggestions?string},
-       ${widget.suggestOptionsJsString!});"/>
+       ${widget.suggestOptionsJsString!},'${widget.labelPropertyName!}', '${widget.valuePropertyName!}',
+       ${widget.returnFullQueryObject?string});"/>
 
 </#macro>
 
