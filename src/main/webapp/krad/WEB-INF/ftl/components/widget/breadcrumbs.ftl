@@ -15,30 +15,72 @@
     limitations under the License.
 
 -->
-<#-- Create the breadcrumbs using the generatedBreadcrumbs from history, note that current
-is omitted by default, but the link to it is still present, it can be shown as a clickable
-link again through jquery as in setPageBreadcrumb when needed -->
 
-<#macro uif_breadcrumbs widget>
+<#macro uif_breadcrumbs widget page>
 
-    <#local current=KualiForm.formHistory.generatedCurrentBreadcrumb/>
-    <#local crumbs=KualiForm.formHistory.generatedBreadcrumbs/>
+    <#local options=page.breadcrumbOptions/>
 
-    <#if (crumbs?size >= 1) || widget.displayBreadcrumbsWhenOne>
-        <label id="breadcrumb_label" class="offScreen">Breadcrumbs</label>
+<ol ${krad.attrBuild(widget)} role="navigation">
 
-        <span class="${widget.styleClassesAsString!}">
-            <ol id="breadcrumbs" role="navigation" aria-labelledby="breadcrumb_label">
+<#-- process homewardPath breadcrumbs -->
+    <#if options.renderHomewardPathBreadcrumbs && options.homewardPathBreadcrumbs?has_content>
+    <#list options.homewardPathBreadcrumbs as crumb>
+        <@krad.template component=crumb breadcrumbsWidget=widget/>
+    </#list>
+</#if>
 
-                <#list crumbs as crumb>
-                    <li><a href="${crumb.url!}">${crumb.title!}</a><span role="presentation"> &raquo; </span></li>
-                </#list>
+    <#-- process parent locations (if set) -->
+    <#if !widget.usePathBasedBreadcrumbs && KualiForm.view.parentLocation?has_content &&
+KualiForm.view.parentLocation.resolvedBreadcrumbItems?has_content && options.renderParentLocations>
+    <#list KualiForm.view.parentLocation.resolvedBreadcrumbItems as crumb>
+        <@krad.template component=crumb breadcrumbsWidget=widget/>
+    </#list>
+</#if>
 
-                <span class="kr-current" id="current_breadcrumb_span">${current.title!}</span>
-                <a style="display:none;" id="current_breadcrumb_anchor" href="${current.url!}">${current.title!}</a>
-            </ol>
-        </span>
+    <#-- process path based breadcrumbs (if set)-->
+    <#if widget.usePathBasedBreadcrumbs && KualiForm.view.pathBasedBreadcrumbs?has_content>
+    <#list KualiForm.view.pathBasedBreadcrumbs as crumb>
+        <@krad.template component=crumb breadcrumbsWidget=widget/>
+    </#list>
+</#if>
 
+    <#if options.breadcrumbOverrides?has_content>
+<#-- process only the breadcrumb overrides (if set) -->
+    <#list options.breadcrumbOverrides as crumb>
+        <@krad.template component=crumb breadcrumbsWidget=widget/>
+    </#list>
+<#else>
+
+<#-- preView Breadcrumbs -->
+    <#if options.renderPreViewBreadcrumbs && options.preViewBreadcrumbs?has_content>
+        <#list options.preViewBreadcrumbs as crumb>
+            <@krad.template component=crumb breadcrumbsWidget=widget/>
+        </#list>
     </#if>
 
+<#-- View Breadcrumb -->
+    <#if options.renderViewBreadcrumb && KualiForm.view.breadcrumbItem?has_content>
+        <@krad.template component=KualiForm.view.breadcrumbItem breadcrumbsWidget=widget/>
+    </#if>
+
+<#-- prePage Breadcrumbs -->
+    <#if options.renderPrePageBreadcrumbs && options.prePageBreadcrumbs?has_content>
+        <#list options.prePageBreadcrumbs as crumb>
+            <@krad.template component=crumb breadcrumbsWidget=widget/>
+        </#list>
+    </#if>
+
+<#-- Page Breadcrumb -->
+    <#if page.breadcrumbItem?has_content>
+        <@krad.template component=page.breadcrumbItem breadcrumbsWidget=widget/>
+    </#if>
+</#if>
+
+</ol>
+
+    <@krad.script value="setupBreadcrumbs(${widget.displayBreadcrumbsWhenOne?string});" />
+
 </#macro>
+
+
+
