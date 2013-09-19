@@ -6,86 +6,14 @@
 
     <bean id="Uif-View" parent="Uif-View-parentBean">
         <property name="theme">
-            <bean parent="Uif-ClassicKnsTheme"/>
+            <bean parent="Uif-TrainingTheme"/>
         </property>
     </bean>
 
-    <bean id="Uif-Inquiry" parent="Uif-Inquiry-parentBean">
-        <property name="enableDirectInquiry" value="false"/>
-    </bean>
-
-    <bean id="Uif-BaseTheme" abstract="true" parent="Uif-BaseTheme-parentBean">
-        <property name="cssFiles">
-            <list>
-                <!--<value>krad/min/css/krad_@{#ConfigProperties['rice.version']}.min.css</value>-->
-                <!-- For Debugging, uncomment out the values below (and comment out the minimized css above) -->
-                <value>krad/css/global/fss-reset.css</value>
-                <value>krad/css/global/fss-layout.css</value>
-                <value>krad/css/global/fss-text.css</value>
-                <value>krad/plugins/jqueryUI/jquery-ui-1.9.2.css</value>
-                <value>krad/plugins/jgrowl/jquery.jgrowl.css</value>
-                <value>krad/plugins/rice/datatables/jquery.dataTables.css</value>
-                <value>krad/plugins/rice/datatables/TableTools.css</value>
-                <value>krad/plugins/fancybox/jquery.fancybox.css</value>
-                <value>krad/plugins/rice/textpopout/popoutTextarea.css</value>
-                <value>krad/plugins/rice/menu/tabs.css</value>
-                <value>krad/plugins/tooltip/jquery.bubblepopup.v2.3.1.css</value>
-                <value>krad/plugins/prettify/prettify.css</value>
-                <value>krad/css/global/base.css</value>
-            </list>
-        </property>
-        <property name="scriptFiles">
-            <list>
-                <!--<value>krad/min/scripts/krad_@{#ConfigProperties['rice.version']}.min.js</value>-->
-                <!-- For Debugging, uncomment out the values below (and comment out the minimized js above) -->
-                <value>krad/plugins/jquery/jquery-1.8.3.js</value>
-                <value>krad/plugins/jqueryUI/jquery-ui-1.9.2.js</value>
-                <value>krad/plugins/jqueryUI/jquery.ui.autocomplete.html.js</value>
-                <value>krad/plugins/color/jquery.color.js</value>
-                <value>krad/plugins/cookie/jquery.cookie.js</value>
-                <value>krad/plugins/jgrowl/jquery.jgrowl.js</value>
-                <value>krad/plugins/blockUI/jquery.blockUI.js</value>
-                <value>krad/plugins/watermark/jquery.watermark.js</value>
-                <value>krad/plugins/validate/jquery.validate.js</value>
-                <value>krad/plugins/tooltip/jquery.bubblepopup.v2.3.1.js</value>
-                <value>krad/plugins/rice/menu/krad.navigationMenu.js</value>
-                <value>krad/plugins/rice/textpopout/krad.textareaPopout.js</value>
-                <value>krad/plugins/dirtyform/jquery.dirtyform.js</value>
-                <value>krad/plugins/scrollto/jquery.scrollTo-1.4.3-min.js</value>
-                <value>krad/plugins/rice/menu/krad.tabMenu.js</value>
-                <value>krad/plugins/rice/datatables/jquery.dataTables.js</value>
-                <value>krad/plugins/rice/datatables/ZeroClipboard.js</value>
-                <value>krad/plugins/rice/datatables/TableTools.js</value>
-                <value>krad/plugins/rice/datatables/jquery.dataTables.rowGrouping.js</value>
-                <value>krad/plugins/jstree/jquery.jstree.js</value>
-                <value>krad/plugins/validate/additional_validations.js</value>
-                <value>krad/plugins/jqform/jquery.form.js</value>
-                <value>krad/plugins/fancybox/jquery.fancybox.pack.js</value>
-                <value>krad/plugins/easydrag/jquery.easydrag.js</value>
-                <value>krad/plugins/easing/jquery.easing-1.3.pack.js</value>
-                <value>krad/plugins/json/jquery.json-2.2.js</value>
-                <value>krad/plugins/infusion/infusion-1.4.js</value>
-                <value>krad/plugins/infusion/infusion.reorderer.js</value>
-                <value>krad/plugins/prettify/prettify.js</value>
-                <value>krad/plugins/globalize/globalize.js</value>
-                <value>krad/scripts/krad.variables.js</value>
-                <value>krad/scripts/krad.message.js</value>
-                <value>krad/scripts/krad.widget.js</value>
-                <value>krad/scripts/krad.utility.js</value>
-                <value>krad/scripts/krad.initialize.js</value>
-                <value>krad/scripts/krad.request.js</value>
-                <value>krad/scripts/krad.response.js</value>
-                <value>krad/scripts/krad.actions.js</value>
-                <value>krad/scripts/krad.validate.js</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="Uif-ClassicKnsTheme" parent="Uif-ClassicKnsTheme-parentBean">
+    <bean id="Uif-TrainingTheme" parent="Uif-KbootTheme">
       <property name="cssFiles">
         <list merge="true">
           <value>css/krtrain-theme.css</value>
-          <value>css/bootstrap.css</value>
           <value>css/styles.css</value>
         </list>
       </property>
@@ -131,6 +59,11 @@
         <property name="disclosure.render" value="true"/>
     </bean>
 
+	<bean id="Uif-Disclosure" parent="Uif-Disclosure-parentBean">
+		<property name="collapseImageSrc" value="/images/h4_expand.png" />
+		<property name="expandImageSrc" value="/images/h4_collapse.png" />
+	</bean>
+
     <bean id="Uif-GridFieldGroup" parent="Uif-GridFieldGroup-parentBean"/>
     <bean id="Uif-GridFieldGroup-parentBean" abstract="true" parent="Uif-FieldGroupBase">
         <property name="cssClasses">
@@ -153,13 +86,21 @@
     <bean id="Uif-GlobalApplicationFooter" parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
           p:templateName="appfooter" p:render="@{!renderedInLightBox}"/>
 
-    <bean id="Uif-Breadcrumbs" parent="Uif-Breadcrumbs-parentBean">
-        <property name="homewardPathList">
-            <list>
-                <bean parent="Uif-HistoryEntry" p:title="Training Menu"
-                      p:url="@{#ConfigProperties['application.url']}/app/menu?viewId=Krtrain-MenuView&amp;methodToCall=start"/>
-            </list>
-        </property>
-    </bean>
+
+	<bean id="DummyLoginViewHeadings" parent="Uif-VerticalBoxSection" p:header.headerTagStyle="background: white;">
+		<property name="headerText" value=" " />
+
+		<property name="header.rightGroup">
+			<bean parent="Uif-HeaderRightGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-Message" p:messageText="@{#ConfigProperties['version']} " />
+						<bean parent="Uif-Message"
+							p:messageText="@{#ConfigProperties['datasource.ojb.platform']}" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
 
 </beans>
