@@ -11,7 +11,7 @@
 	</bean>
 
 	<bean id="Krtrain-BookEntryViewMenu" parent="Uif-TransactionalDocumentView"
-		p:headerText="Book Entry Document" p:readOnly="@{format.readOnlyView}">
+		p:headerText="Book Entry Document" p:readOnly="@{format.readOnlyView}"> p:stickyFooter="true"
 		<property name="documentClass" value="org.kuali.rice.krtrain.book.BookEntryDocument" />
 		<property name="items">
 			<list>
@@ -404,7 +404,7 @@
                     </property>
 
                     <property name="suggest">
-                        <bean parent="Uif-Suggest" p:sourcePropertyName="code"
+                        <bean parent="Uif-Suggest" p:valuePropertyName="code"
                               p:suggestQuery.dataObjectClassName="org.kuali.rice.krtrain.book.PublisherCode"/>
                     </property>
                 </bean>
@@ -522,8 +522,7 @@
             <bean parent="Uif-HeaderLowerGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-HorizontalFieldGroup" p:label="Written Books"
-                              p:refreshTimer="30">
+                        <bean parent="Uif-HorizontalFieldGroup" p:label="Written Books">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-InputField" p:propertyName="author.numberWrittenBooks"
@@ -630,7 +629,7 @@
 
     <bean id="relatedBooks" parent="Uif-Disclosure-TableCollectionSection" p:headerText="Related Books"
           p:propertyName="relatedBooks" p:collectionObjectClass="org.kuali.rice.krtrain.book.Book"
-          p:displayCollectionSize="3" p:addLineLabel.labelText="Add Related Book"
+          p:displayCollectionSize="3" p:addLineLabel.messageText="Add Related Book"
           p:layoutManager.generateAutoSequence="true" p:layoutManager.actionColumnPlacement="LEFT"
           p:layoutManager.separateAddLine="true" p:layoutManager.showToggleAllDetails="true"
           p:layoutManager.expandDetailsActionPrototype.actionLabel="Chapters">

@@ -22,7 +22,8 @@
         <@template component=group.header/>
 
         <#if group.disclosure.render>
-            <div id="${group.id}_disclosureContent" data-role="disclosureContent" class="uif-disclosureContent">
+            <div id="${group.id}_disclosureContent" data-role="disclosureContent"
+                 data-open="${group.disclosure.defaultOpen?string}" class="uif-disclosureContent">
         </#if>
 
         <@template component=group.validationMessages/>
@@ -33,8 +34,8 @@
         <@template component=group.footer/>
 
         <#if group.disclosure.render>
-            <@template component=group.disclosure parent=group/>
             </div>
+            <@template component=group.disclosure parent=group/>
         </#if>
 
     </@div>
