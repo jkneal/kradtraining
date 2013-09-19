@@ -59,6 +59,11 @@
         <property name="disclosure.render" value="true"/>
     </bean>
 
+	<bean id="Uif-Disclosure" parent="Uif-Disclosure-parentBean">
+		<property name="collapseImageSrc" value="/images/h4_expand.png" />
+		<property name="expandImageSrc" value="/images/h4_collapse.png" />
+	</bean>
+
     <bean id="Uif-GridFieldGroup" parent="Uif-GridFieldGroup-parentBean"/>
     <bean id="Uif-GridFieldGroup-parentBean" abstract="true" parent="Uif-FieldGroupBase">
         <property name="cssClasses">
@@ -80,5 +85,22 @@
 
     <bean id="Uif-GlobalApplicationFooter" parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
           p:templateName="appfooter" p:render="@{!renderedInLightBox}"/>
+
+
+	<bean id="DummyLoginViewHeadings" parent="Uif-VerticalBoxSection" p:header.headerTagStyle="background: white;">
+		<property name="headerText" value=" " />
+
+		<property name="header.rightGroup">
+			<bean parent="Uif-HeaderRightGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-Message" p:messageText="@{#ConfigProperties['version']} " />
+						<bean parent="Uif-Message"
+							p:messageText="@{#ConfigProperties['datasource.ojb.platform']}" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
 
 </beans>

@@ -35,7 +35,7 @@
     <div class="container-fluid">
       <div class="row-fluid" style=" margin-top:56px">
         <div class="span12" style="text-align:right; padding:6px">
-         <strong>Logged in User:&nbsp;${(UserSession.loggedInUserPrincipalName)!}</strong>
+         <strong>Logged in User:&nbsp;${(UserSession.loggedInUserPrincipalName)!""}</strong>
          <form action="/krtrain/app/menu" method="post" style="margin:0; display:inline">
           <div class="input-append">
               <input class="backdoor" style="
