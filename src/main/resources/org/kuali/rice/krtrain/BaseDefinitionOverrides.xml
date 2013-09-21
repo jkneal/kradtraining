@@ -59,11 +59,6 @@
         <property name="disclosure.render" value="true"/>
     </bean>
 
-	<bean id="Uif-Disclosure" parent="Uif-Disclosure-parentBean">
-		<property name="collapseImageSrc" value="/images/h4_expand.png" />
-		<property name="expandImageSrc" value="/images/h4_collapse.png" />
-	</bean>
-
     <bean id="Uif-GridFieldGroup" parent="Uif-GridFieldGroup-parentBean"/>
     <bean id="Uif-GridFieldGroup-parentBean" abstract="true" parent="Uif-FieldGroupBase">
         <property name="cssClasses">

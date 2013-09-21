@@ -89,19 +89,18 @@ function showLoading(loadingMessage, elementToBlock, replaceElement, options) {
 
     if (elementToBlock && elementToBlock.length) {
         var blockingOptions = context.blockUI.defaults.refreshOptions || {};
-        var loadingContent = refreshImage;
     }
     else {
         var blockingOptions = context.blockUI.defaults.navigationOptions || {};
-        var loadingContent = navigationImage;
     }
 
     if (!loadingMessage) {
         loadingMessage = getMessage(kradVariables.MESSAGE_LOADING);
     }
 
-    loadingContent = loadingContent.attr("alt", loadingMessage).get(0).outerHTML + " " + loadingMessage;
-    
+    var loadingContent = '<img src="' + blockingOptions.blockingImage + '" alt="'
+            + loadingMessage + '" /> ' + loadingMessage;
+
     if (elementToBlock && elementToBlock.length) {
         if (replaceElement) {
             elementToBlock.html(loadingContent);
