@@ -16,6 +16,10 @@
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
 <td class="content" valign="top">
+  <mainChannel:customApplication />
+</td>
+
+<td class="content" valign="top">
 <mainChannel:workflow />
 <mainChannel:rules />
 
