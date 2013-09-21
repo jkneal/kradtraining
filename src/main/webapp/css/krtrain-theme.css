@@ -1,5 +1,6 @@
  .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.uif-primaryDialogButton  { background: inherit; padding:0px }
 
+
 [class*="span"] {
  float: inherit !important;
  margin-left:0px !important;
@@ -82,6 +83,10 @@ label {
 	margin-bottom: 5px;
 }
 
+
+
+
+
 /* Buttons ********************************************************************************************/
 .uif-primaryActionButton:hover, .uif-secondaryActionButton:hover, label.uif-primaryDialogButton:hover {
 	background: #000;
@@ -126,6 +131,7 @@ label {
 	cursor: default;
 }
 
+
 .uif-smallActionButton {
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 0px;
@@ -136,10 +142,17 @@ label {
 	padding-left: 3px;
 }
 
+
 .ui-spinner.ui-widget.ui-widget-content.ui-corner-all {
 	background:;
 	border: none !important;
 }
+
+
+
+
+
+
 
 /* Buttons ********************************************************************************************/
 .uif-primaryActionButton:hover, .uif-secondaryActionButton:hover, label.uif-primaryDialogButton:hover, .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.uif-primaryDialogButton:hover {
@@ -186,6 +199,7 @@ label {
 	cursor: default;
 }
 
+
 .uif-smallActionButton {
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 0px;
@@ -218,6 +232,14 @@ label {
 }
 
 .uif-smallActionButton:hover { color:#fff}
+
+
+
+
+
+
+
+
 
 .uif-primaryActionButton {
 	font-weight: bold;
@@ -271,6 +293,10 @@ label {
 	background-color: #CCC;
 }
 	
+	
+	
+	
+	
 .uif-primaryActionButton.disabled {	font-weight: bold;
 	text-transform: lowercase;
 	-moz-border-radius: 4px;
@@ -286,6 +312,9 @@ label {
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 	opacity:.5}
 	
+	
+	
+	
 	h1.uif-headerText {
 	font-family:Arial, Helvetica, sans-serif !important;
 	
@@ -296,6 +325,7 @@ label {
 	background-color:#FFF
 }
 
+
 .uif-header.uif-sectionHeader .uif-link.uif-boxLayoutHorizontalItem {
 	color: #FFF;
 }
@@ -304,7 +334,7 @@ label {
 	min-height: 500px;
 }
 
-.blockUI.blockMsg.blockPage h1{ font-size:1em !important}
+
 
 h2.uif-headerText {
 	border-bottom-width: 1px;
@@ -313,6 +343,10 @@ h2.uif-headerText {
 	font-size: 1.7em;
 font-weight: normal;
 }
+
+
+.blockUI.blockMsg.blockPage h1{ font-size:1em !important}
+
 
  h4 img.uif-disclosure-image[alt="expand"] {
         background: url(../images/h4_collapse.png);
@@ -330,7 +364,20 @@ table.dataTable tfoot th {
   background: -webkit-linear-gradient(top, #f7f7f7 0%, #e5e5e5 100%);
 }
 
-uif-helpAction {
+.uif-helpAction {
 	margin-left: 5px;
 }
 
+.uif-disclosure h3.uif-headerText {
+	padding-left: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+} 
+
+.uif-disclosure h3.uif-headerText > a {
+	color: white;
+}
+
+.uif-footer {
+	margin-top: 10px;
+}
