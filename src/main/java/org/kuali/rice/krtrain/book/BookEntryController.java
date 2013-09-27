@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.TransactionalDocumentControllerBase;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.kuali.rice.krtrain.service.BookService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -178,6 +180,11 @@ public class BookEntryController extends TransactionalDocumentControllerBase {
         boolean continueSave = getBooleanDialogResponse(SAVE_OVERRIDE_DIALOG, form, request, response);
 
         if (continueSave) {
+        	BookService bookService = (BookService) GlobalResourceLoader.getService("bookService");
+        	BookEntryDocument bookEntryDocument = (BookEntryDocument) form.getDocument();
+        	
+        	bookService.processBook(bookEntryDocument.getBook());
+        	
             GlobalVariables.getMessageMap().addGrowlMessage("Save Action", "book.saved", ((BookEntryDocument) form.getDocument()).getBook().getTitle());
         }
 
