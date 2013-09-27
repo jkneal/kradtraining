@@ -36,5 +36,7 @@
     <bean id="kradTrainingModuleService" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
         <property name="moduleConfiguration" ref="kradTrainingModuleConfiguration"/>
     </bean>
+    
+    <bean id="bookService" class="org.kuali.rice.krtrain.service.impl.BookServiceImpl"/>
 </beans>
 
