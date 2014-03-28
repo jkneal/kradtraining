@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -17,27 +17,11 @@
 -->
 <#macro groupWrap group>
 
-    <@div component=group>
-
-        <@template component=group.header/>
-
-        <#if group.disclosure.render>
-            <div id="${group.id}_disclosureContent" data-role="disclosureContent"
-                 data-open="${group.disclosure.defaultOpen?string}" class="uif-disclosureContent">
+    <@krad.wrap component=group renderAs="${group.wrapperTag}">
+        <#inline 'groupWrap-open' />
+        <#if !group.renderLoading>
+            <#nested/>
         </#if>
-
-        <@template component=group.validationMessages/>
-        <@template component=group.instructionalMessage/>
-
-        <#nested/>
-
-        <@template component=group.footer/>
-
-        <#if group.disclosure.render>
-            </div>
-            <@template component=group.disclosure parent=group/>
-        </#if>
-
-    </@div>
-
+        <#inline 'groupWrap-close' />
+    </@krad.wrap>
 </#macro>

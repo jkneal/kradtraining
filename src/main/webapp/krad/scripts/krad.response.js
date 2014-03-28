@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ KradResponse.prototype = {
     responseContents: null,
 
     // maps return types to handler function names
-    handlerMapping: {"update-page": "updatePageHandler", "update-component": "updateComponentHandler",
+    handlerMapping: {"update-form": "updateFormHandler", "update-page": "updatePageHandler", "update-component": "updateComponentHandler",
         "update-view": "updateViewHandler", "redirect": "redirectHandler",
         "display-lightbox": "displayLightBoxHandler", "update-dialog":"updateDialogHandler"},
 
@@ -58,23 +58,34 @@ KradResponse.prototype = {
     // finds the page content in the returned content and updates the page, then processes breadcrumbs and hidden
     // scripts. While processing, the page contents are hidden
     updatePageHandler: function (content, dataAttr) {
-        var page = jQuery("#page_update", content);
+        var pageUpdate = jQuery("#page_update", content);
+        var page = jQuery("[data-role='Page']", pageUpdate);
+        var viewContent = jQuery("#" + kradVariables.VIEW_CONTENT_WRAPPER);
 
-        // TODO: should this be hiding page or pageInLayout?
         page.hide();
 
         // give a selector that will avoid the temporary iframe used to hold ajax responses by the jquery form plugin
-        var pageInLayout = "#" + kradVariables.VIEW_CONTENT_HEADER_CLASS + " > #" +
-                kradVariables.PAGE_CONTENT_WRAPPER;
+        var pageInLayout = "#" + kradVariables.VIEW_CONTENT_WRAPPER + " [data-role='Page']:first";
         hideBubblePopups(pageInLayout);
 
+        var $pageInLayout = jQuery(pageInLayout);
+
         // update page contents from response
-        jQuery(pageInLayout).empty().append(page.find(">*"));
+        viewContent.find("[data-for='" + $pageInLayout.attr("id") + "']").remove();
+        $pageInLayout.replaceWith(pageUpdate.find(">*"));
+        $pageInLayout = jQuery(pageInLayout);
 
         pageValidatorReady = false;
-        runHiddenScripts(jQuery(pageInLayout).attr("id"), false, true);
+        runHiddenScripts(kradVariables.VIEW_CONTENT_WRAPPER, false, true);
 
-        jQuery(pageInLayout).show();
+        markActiveMenuLink();
+
+        viewContent.trigger(kradVariables.EVENTS.ADJUST_PAGE_MARGIN);
+        $pageInLayout.trigger(kradVariables.EVENTS.UPDATE_CONTENT);
+
+        $pageInLayout.show();
+
+        $pageInLayout.trigger(kradVariables.EVENTS.ADJUST_STICKY);
     },
 
 
@@ -93,8 +104,11 @@ KradResponse.prototype = {
         });
 
         // replace component
-        if (jQuery("#" + id).length) {
-            jQuery("#" + id).replaceWith(component.html());
+        var $dialog = jQuery("#" + id);
+        if ($dialog.length) {
+            $dialog.replaceWith(component.html());
+
+            $dialog.trigger(kradVariables.EVENTS.UPDATE_CONTENT);
         }
 
         runHiddenScripts(id);
@@ -106,21 +120,21 @@ KradResponse.prototype = {
     // and a displayWith marker span has a matching id, that span will be replaced with the label content
     // and removed from the component.  This allows for label and component content separation on fields
     updateComponentHandler: function (content, dataAttr) {
-        var id = dataAttr.updatecomponentid;
-        var elementToBlock = jQuery("#" + id);
+        var id = dataAttr.id;
 
-        hideBubblePopups(elementToBlock);
+        var $componentInDom = jQuery("#" + id);
+
+        hideBubblePopups($componentInDom);
 
         var component = jQuery("#" + id + "_update", content);
 
-        var displayWithId = id;
-
         // special label handling, if any
-        var theLabel = jQuery("#" + displayWithId + "_label_span", component);
-        if (jQuery(".displayWith-" + displayWithId).length && theLabel.length) {
-            theLabel.addClass("displayWith-" + displayWithId);
-            jQuery("span.displayWith-" + displayWithId).replaceWith(theLabel);
-            component.remove("#" + displayWithId + "_label_span");
+        var theLabel = jQuery("[data-label_for='" + id + "']", component);
+        if (jQuery(".displayWith-" + id).length && theLabel.length) {
+            theLabel.addClass("displayWith-" + id);
+            jQuery("span.displayWith-" + id).replaceWith(theLabel);
+
+            component.remove("[data-label_for='" + id + "']");
         }
 
         // remove old stuff
@@ -133,66 +147,121 @@ KradResponse.prototype = {
         });
 
         // replace component
-        if (jQuery("#" + id).length) {
-            jQuery("#" + id).replaceWith(component.html());
-        }
-
-        if (jQuery("#" + id).parent().is("td")) {
-            jQuery("#" + id).parent().show();
-        }
-
-        // lightbox specific processing
-        if (jQuery('#renderedInLightBox').val() == 'true') {
-            jQuery("#" + id).css('display', 'none');
-        }
-
-        var newComponent = jQuery("#" + id);
-
-        var displayWithLabel = jQuery(".displayWith-" + displayWithId);
-        displayWithLabel.show();
-        if (displayWithLabel.parent().is("td") || displayWithLabel.parent().is("th")) {
-            displayWithLabel.parent().show();
-        }
-
-        // assume this content is open if being refreshed
-        var open = newComponent.attr("data-open");
-        if (open != undefined && open == "false"){
-            newComponent.attr("data-open", "true");
-            newComponent.show();
-        }
-
-        // runs scripts on the span or div with id
-        runHiddenScripts(id);
-
-        // Only for table layout collections. Keeps collection on same page.
-        var currentPage = retrieveFromSession(id + ":currentPageRichTable");
-        if (currentPage != null) {
-            openDataTablePage(id, currentPage);
-        }
-
-        elementToBlock.unblock({onUnblock: function () {
-            jQuery(component).find("#" + id).addClass(kradVariables.PROGRESSIVE_DISCLOSURE_HIGHLIGHT_CLASS);
-            newComponent.animate({backgroundColor:"transparent"}, 6000);
-            jQuery(component).find("#" + id).animate({backgroundColor:"transparent"}, 6000);
+        if ($componentInDom.length) {
+            // only do highlighting if the is the first time the content is being displayed, and it is not
+            // a dialog
+            var componentInDialog = jQuery('#' + kradVariables.IDS.DIALOGS + ' #' + id).length > 0;
+            if (!componentInDialog && $componentInDom.hasClass(kradVariables.CLASSES.PLACEHOLDER)) {
+                var isNewlyDisclosed = true;
             }
-        });
+
+            $componentInDom.replaceWith(component.html());
+
+            $componentInDom = jQuery("#" + id);
+
+            if ($componentInDom.parent().is("td")) {
+                $componentInDom.parent().show();
+            }
+
+            var displayWithLabel = jQuery(".displayWith-" + id);
+            displayWithLabel.show();
+            if (displayWithLabel.parent().is("td") || displayWithLabel.parent().is("th")) {
+                displayWithLabel.parent().show();
+            }
+
+            // assume this content is open if being refreshed
+            var open = $componentInDom.attr("data-open");
+            if (open !== undefined && open === "false") {
+                $componentInDom.attr("data-open", "true");
+                $componentInDom.show();
+            }
+
+            // runs scripts on the span or div with id
+            runHiddenScripts(id);
+
+            // Only for table layout collections. Keeps collection on same page.
+            var currentPage = retrieveFromSession(id + ":currentPageRichTable");
+            if (currentPage != null) {
+                openDataTablePage(id, currentPage);
+            }
+
+            $componentInDom.unblock({onUnblock: function () {
+                if (isNewlyDisclosed) {
+                    $componentInDom.addClass(kradVariables.PROGRESSIVE_DISCLOSURE_HIGHLIGHT_CLASS);
+                    $componentInDom.animate({backgroundColor: "transparent"}, 6000);
+                }
+              }
+            });
+
+            $componentInDom.trigger(kradVariables.EVENTS.UPDATE_CONTENT);
+        }
     },
 
     // performs a redirect to the URL found in the returned contents
     redirectHandler: function (content, dataAttr) {
-        // get contents between div and do window.location = parsed href
-        window.location.href = jQuery(content).text();
+        // get url contents between div
+        var redirectUrl = jQuery(content).text().trim();
+
+        // don't check dirty state on a simple refresh (old url starts with the new one's url text)
+        if (window.location.href.indexOf(redirectUrl) === 0) {
+            dirtyFormState.skipDirtyChecks = true;
+        }
+
+        // redirect
+        window.location.href = redirectUrl;
     },
 
     // replaces the view with the given content and run the hidden scripts
     updateViewHandler: function (content, dataAttr) {
-        jQuery('#' + kradVariables.APP_ID).replaceWith(content);
+        var app = jQuery("#" + kradVariables.APP_ID);
+        app.hide();
 
-        runHiddenScriptsAgain();
+        var update = jQuery("div[data-returntype='update-view']", content);
+
+        var appHeaderUpdate = update.find("#" + kradVariables.APPLICATION_HEADER_WRAPPER);
+        app.find("#" + kradVariables.APPLICATION_HEADER_WRAPPER).replaceWith(appHeaderUpdate);
+
+        var kualiForm = app.find("#kualiForm");
+        var kualiFormReplacement = update.find("#kualiForm");
+        var view = app.find("[data-role='View']");
+        var viewUpdate = update.find("[data-role='View']");
+
+        if(kualiForm.length && kualiFormReplacement) {
+            kualiForm.replaceWith(kualiFormReplacement);
+        }
+        else if (kualiForm.length && !kualiFormReplacement.length){
+            kualiForm.replaceWith(viewUpdate);
+        }
+        else if (!kualiForm.length && kualiFormReplacement.length) {
+            view.replaceWith(kualiFormReplacement);
+        }
+        else {
+            view.replaceWith(viewUpdate);
+        }
+
+        var appFooterUpdate = update.find("#" + kradVariables.APPLICATION_FOOTER_WRAPPER);
+        app.find("#" + kradVariables.APPLICATION_FOOTER_WRAPPER).replaceWith(appFooterUpdate);
+
+        app.show();
+        setupStickyHeaderAndFooter();
+        runHiddenScripts(kradVariables.APP_ID);
+
+        view.trigger(kradVariables.EVENTS.UPDATE_CONTENT);
     },
 
     // displays the response contents in a lightbox
     displayLightBoxHandler: function (content, dataAttr) {
         showLightboxContent(content);
+    },
+
+    // replaces the form action with the given content
+    updateFormHandler: function (content, dataAttr) {
+
+        var action = jQuery(content).html();
+        // update form action with content
+
+        jQuery("form#" + kradVariables.KUALI_FORM).attr('action', jQuery.trim(action));
+
+
     }
 }

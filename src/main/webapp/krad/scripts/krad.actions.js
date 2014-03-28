@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/**
+ * Initialize action data for the action by merging any custom settings with global default settings
+ *
+ * @param jqComponent a jq object that represents the component to correct data for
+ */
+function initActionData(jqActionComponent) {
+    // If an action does not have a setting for something in defaults, use the default
+    jQuery.each(actionDefaults, function(key, value){
+        var dataValue = jqActionComponent.data(key.toLowerCase());
+        if (dataValue === undefined) {
+            jqActionComponent.data(key.toLowerCase(), value);
+        }
+    });
+
+    // Insert focusId and jumpToId settings into submitData
+    var submitData = jqActionComponent.data(kradVariables.SUBMIT_DATA);
+    var focusId = jqActionComponent.data(kradVariables.FOCUS_ID);
+    if (focusId && focusId !== kradVariables.SELF) {
+        submitData.focusId = focusId;
+    }
+    else if (focusId && focusId === kradVariables.SELF) {
+        submitData.focusId = jqActionComponent.attr("id");
+    }
+
+    var jumpToId = jqActionComponent.data(kradVariables.JUMP_TO_ID);
+    if (jumpToId && jumpToId !== kradVariables.SELF) {
+        submitData.jumpToId = jumpToId;
+    }
+    else if (jumpToId && jumpToId === kradVariables.SELF) {
+        submitData.jumpToId = jqActionComponent.attr("id");
+    }
+}
 
 /**
  * Sets up a new request configured from the given action component and submits
@@ -229,7 +261,7 @@ function retrieveComponent(id, methodToCall, successCallback, additionalData, di
     kradRequest.additionalData = additionalData;
     kradRequest.refreshId = id;
 
-    if(disableBlocking){
+    if (disableBlocking) {
         kradRequest.disableBlocking = disableBlocking;
     }
 
@@ -320,7 +352,7 @@ function validateLineFields(controlsToValidate) {
 
         haltValidationMessaging = true;
 
-        if (!control.prop("disabled") && !control.hasClass("uif-readOnlyContent")) {
+        if (control.length && !control.prop("disabled")) {
             control.valid();
             if (control.hasClass("error")) {
                 validValue = false;
@@ -350,7 +382,7 @@ function validateLineFields(controlsToValidate) {
     // Message summaries are going to be shown
     messageSummariesShown = tempMessagesSummariesShown;
 
-    if (messageSummariesShown){
+    if (messageSummariesShown) {
         // Finally, write the result of the validation messages
         writeMessagesForPage();
     }
@@ -358,6 +390,27 @@ function validateLineFields(controlsToValidate) {
     jQuery.watermark.showAll();
 
     return valid;
+}
+
+/**
+ * Retrieves a page for the collection by id specified, the linkElement supplied must have "num" data to retrieve
+ * the page; this method refreshes the collection with new page showing
+ *
+ * @param linkElement the link clicked with "num" data specifying the page to retrieve
+ * @param collectionId the collection by id to retrieve the new page from
+ */
+function retrieveCollectionPage(linkElement, collectionId) {
+    var link = jQuery(linkElement);
+    var parentLI = link.parent();
+
+    // Skip processing if the link supplied is disabled or active
+    if (parentLI.is("." + kradVariables.DISABLED_CLASS) || parentLI.is("." + kradVariables.ACTIVE_CLASS)) {
+        return;
+    }
+
+    var pageNumber = jQuery(linkElement).data(kradVariables.PAGE_NUMBER_DATA);
+    retrieveComponent(collectionId, kradVariables.RETRIEVE_COLLECTION_PAGE_METHOD_TO_CALL,
+            null, {pageNumber: pageNumber}, true);
 }
 
 /**
@@ -369,12 +422,12 @@ function validateLineFields(controlsToValidate) {
  */
 function cascadeOpen(componentObject) {
     if (componentObject.not(":visible")) {
-        var detailsDivs = componentObject.parents("div[data-role='details']");
+        var detailsDivs = componentObject.parents("[data-role='details']");
         detailsDivs.each(function () {
             jQuery(this).parent().find("> a").click();
         });
 
-        var disclosureDivs = componentObject.parents("div[data-role='disclosureContent']");
+        var disclosureDivs = componentObject.parents("[data-role='disclosureContent']");
         disclosureDivs.each(function () {
             if (!jQuery(this).data("open")) {
                 jQuery(this).parent().find("a[data-linkfor='" + jQuery(this).attr("id") + "']").click();
@@ -435,14 +488,18 @@ function setupRefreshCheck(controlName, refreshId, condition, methodToCall) {
  */
 function setupDisabledCheck(controlName, disableCompId, disableCompType, condition, onKeyUp) {
     var theControl = jQuery("[name='" + escapeName(controlName) + "']");
-    var eventType = 'change';
+
+    // Namespace the event type to avoid duplicates if the disabled enhanced component gets refreshed
+    var eventType = "change.disable-" + disableCompId;
 
     if (onKeyUp && (theControl.is("textarea") || theControl.is("input[type='text'], input[type='password']"))) {
-        eventType = 'keyup';
+        // Uses input event to account for all text changes
+        eventType = "input.disable-" + disableCompId;
     }
 
     if (disableCompType == "radioGroup" || disableCompType == "checkboxGroup") {
-        theControl.on(eventType, function () {
+        jQuery(document).off(eventType);
+        jQuery(document).on(eventType, "[name='" + escapeName(controlName) + "']", function () {
             if (condition()) {
                 jQuery("input[id^='" + disableCompId + "']").prop("disabled", true);
             }
@@ -452,7 +509,8 @@ function setupDisabledCheck(controlName, disableCompId, disableCompType, conditi
         });
     }
     else {
-        theControl.on(eventType, function () {
+        jQuery(document).off(eventType);
+        jQuery(document).on(eventType, "[name='" + escapeName(controlName) + "']", function () {
             var disableControl = jQuery("#" + disableCompId);
             if (condition()) {
                 disableControl.prop("disabled", true);
@@ -485,54 +543,52 @@ function setupDisabledCheck(controlName, disableCompId, disableCompType, conditi
  * @param condition - function which returns true to disclose, false otherwise
  * @param methodToCall - name of the method that should be invoked for the retrieve call (if custom method is needed)
  */
-function setupProgressiveCheck(controlName, disclosureId, baseId, condition, alwaysRetrieve, methodToCall) {
-    if (!baseId.match("\_c0$")) {
-        jQuery("[name='" + escapeName(controlName) + "']").live('change', function () {
-            var refreshDisclosure = jQuery("#" + disclosureId);
-            if (refreshDisclosure.length) {
-                var displayWithId = disclosureId;
+function setupProgressiveCheck(controlName, disclosureId, condition, alwaysRetrieve, methodToCall) {
+    jQuery("[name='" + escapeName(controlName) + "']").live('change', function () {
+        var refreshDisclosure = jQuery("#" + disclosureId);
+        if (refreshDisclosure.length) {
+            var displayWithId = disclosureId;
 
-                if (condition()) {
-                    if (refreshDisclosure.data("role") == "placeholder" || alwaysRetrieve) {
-                        retrieveComponent(disclosureId, methodToCall);
-                    }
-                    else {
-                        refreshDisclosure.addClass(kradVariables.PROGRESSIVE_DISCLOSURE_HIGHLIGHT_CLASS);
-                        refreshDisclosure.show();
-
-                        if (refreshDisclosure.parent().is("td")) {
-                            refreshDisclosure.parent().show();
-                        }
-
-                        refreshDisclosure.animate({backgroundColor: "transparent"}, 6000);
-
-                        //re-enable validation on now shown inputs
-                        hiddenInputValidationToggle(disclosureId);
-
-                        var displayWithLabel = jQuery(".displayWith-" + displayWithId);
-                        displayWithLabel.show();
-                        if (displayWithLabel.parent().is("td") || displayWithLabel.parent().is("th")) {
-                            displayWithLabel.parent().show();
-                        }
-                    }
+            if (condition()) {
+                if (refreshDisclosure.data("role") == "placeholder" || alwaysRetrieve) {
+                    retrieveComponent(disclosureId, methodToCall);
                 }
                 else {
-                    refreshDisclosure.hide();
+                    refreshDisclosure.addClass(kradVariables.PROGRESSIVE_DISCLOSURE_HIGHLIGHT_CLASS);
+                    refreshDisclosure.show();
 
-                    // ignore validation on hidden inputs
+                    if (refreshDisclosure.parent().is("td")) {
+                        refreshDisclosure.parent().show();
+                    }
+
+                    refreshDisclosure.animate({backgroundColor: "transparent"}, 6000);
+
+                    //re-enable validation on now shown inputs
                     hiddenInputValidationToggle(disclosureId);
 
                     var displayWithLabel = jQuery(".displayWith-" + displayWithId);
-                    displayWithLabel.hide();
+                    displayWithLabel.show();
                     if (displayWithLabel.parent().is("td") || displayWithLabel.parent().is("th")) {
-                        displayWithLabel.parent().hide();
+                        displayWithLabel.parent().show();
                     }
                 }
-
-                hideEmptyCells();
             }
-        });
-    }
+            else {
+                refreshDisclosure.hide();
+
+                // ignore validation on hidden inputs
+                hiddenInputValidationToggle(disclosureId);
+
+                var displayWithLabel = jQuery(".displayWith-" + displayWithId);
+                displayWithLabel.hide();
+                if (displayWithLabel.parent().is("td") || displayWithLabel.parent().is("th")) {
+                    displayWithLabel.parent().hide();
+                }
+            }
+
+            hideEmptyCells();
+        }
+    });
 }
 
 /**
@@ -572,8 +628,8 @@ function hiddenInputValidationToggle(id) {
  */
 function storeOriginalDisabledProperty(element) {
     //capture original disabled property value
-    if(element.data('original-disabled') === undefined) {
-        element.data("original-disabled",element.prop("disabled"));
+    if (element.data('original-disabled') === undefined) {
+        element.data("original-disabled", element.prop("disabled"));
     }
 }
 

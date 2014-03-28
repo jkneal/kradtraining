@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -17,6 +17,13 @@
 -->
 <#macro uif_header element>
 
+    <#-- Return if all content is missing -->
+    <#if (!element.headerText?? || !element.headerText?has_content || element.headerText == '&nbsp;')
+        && !element.richHeaderMessage?? && !element.upperGroup??
+        && !element.lowerGroup?? && !element.rightGroup??>
+        <#return>
+    </#if>
+
     <#if element.headerStyleClassesAsString?has_content>
         <#local styleClass="class=\"${element.headerStyleClassesAsString}\""/>
     </#if>
@@ -30,12 +37,29 @@
         <#local headerCloseTag="</${element.headerLevel}>"/>
     </#if>
 
-    <div class="clearfix uif-header-contentWrapper">
+    <#if element.headerTagOnly>
+        ${headerOpenTag}
+            <#if element.richHeaderMessage?has_content>
+                 <@krad.template component=element.richHeaderMessage/>
+            <#else>
+                 ${element.headerText!}
+            </#if>
+        ${headerCloseTag}
+    <#else>
 
+    <#local renderContentAs="header"/>
+
+    <#-- Only render wrapper when upper and lower group content exist -->
+    <#if element.upperGroup?has_content || element.lowerGroup?has_content>
+      <header class="clearfix uif-header-contentWrapper">
+        <#local renderContentAs="div"/>
         <#-- upper group -->
         <@krad.template component=element.upperGroup/>
 
-        <@krad.div component=element>
+    </#if>
+
+        <#-- Main header content -->
+        <@krad.wrap renderAs="${renderContentAs}" component=element>
 
             <#if element.headerLevel?has_content && element.headerText?has_content && element.headerText != '&nbsp;'>
 
@@ -49,22 +73,26 @@
                     </#if>
                 </span>
 
-                <#if element.context['parent']?has_content>
+                <#if element.context?? && element.context['parent']?has_content>
                     <#local group=element.context['parent']/>
                     <@krad.template component=group.help/>
                 </#if>
 
                 ${headerCloseTag}
 
-                <#-- right group -->
-                <@krad.template component=element.rightGroup/>
             </#if>
 
-        </@krad.div>
+            <#-- right group -->
+            <@krad.template component=element.rightGroup/>
 
-        <#-- lower group -->
-        <@krad.template component=element.lowerGroup/>
+        </@krad.wrap>
 
-    </div>
+      <#if element.upperGroup?has_content || element.lowerGroup?has_content>
+           <#-- lower group -->
+           <@krad.template component=element.lowerGroup/>
+        </header>
+      </#if>
+
+    </#if>
 
 </#macro>

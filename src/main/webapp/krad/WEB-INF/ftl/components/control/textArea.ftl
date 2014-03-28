@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -23,7 +23,11 @@ Standard HTML TextArea Input
 <#macro uif_textarea control field>
 
     <#local attributes='rows="${control.rows!}" cols="${control.cols!}"
-            class="${control.styleClassesAsString!}" tabindex="${control.tabIndex!}" ${control.simpleDataAttributes!}'/>
+        class="${control.styleClassesAsString!}" ${control.simpleDataAttributes!} '/>
+
+    <#if control.tabIndex != 0>
+        <#local attributes='${attributes} tabindex="${control.tabIndex!}"' />
+    </#if>
 
     <#if control.disabled>
         <#local attributes='${attributes} disabled="disabled"'/>
@@ -52,7 +56,7 @@ Standard HTML TextArea Input
     </#if>
 
     <#if control.textExpand>
-        <@krad.script value="setupTextPopout('${control.id}', '${field.label!}', '${(field.instructionalMessage.messageText?js_string)!}', '${(field.constraintMessage.messageText?js_string)!}', '${ConfigProperties[\"krad.externalizable.images.url\"]}');" />
+        <@krad.script value="setupTextPopout('${control.id}', '${field.label!}', '${(field.instructionalMessage.messageText?js_string)!}', '${(field.constraintMessage.messageText?js_string)!}');" />
     </#if>
 
     <@krad.disable control=field.control type="textArea"/>

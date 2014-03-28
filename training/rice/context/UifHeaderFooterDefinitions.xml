@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@
 
   <!-- Overrideable global application header and footer -->
   <bean id="Uif-GlobalApplicationHeader" parent="Uif-GlobalApplicationHeader-parentBean"/>
-  <bean id="Uif-GlobalApplicationHeader-parentBean" abstract="true" parent="Uif-HeaderBase"
-        p:render="false"/>
+  <bean id="Uif-GlobalApplicationHeader-parentBean" abstract="true" parent="Uif-HeaderBase" p:render="false"
+        scope="prototype"/>
 
   <bean id="Uif-GlobalApplicationFooter" parent="Uif-GlobalApplicationFooter-parentBean"/>
   <bean id="Uif-GlobalApplicationFooter-parentBean" abstract="true" parent="Uif-GroupBase"
@@ -62,11 +62,6 @@
 
   <bean id="Uif-HeaderLowerGroup" parent="Uif-HeaderLowerGroup-parentBean"/>
   <bean id="Uif-HeaderLowerGroup-parentBean" abstract="true" parent="Uif-HorizontalBoxGroup">
-    <property name="cssClasses">
-      <list merge="true">
-        <value>uif-lowerHeaderGroup</value>
-      </list>
-    </property>
   </bean>
 
   <bean id="Uif-HeaderOne" parent="Uif-HeaderOne-parentBean"/>
@@ -98,6 +93,13 @@
   <bean id="Uif-HeaderSix-parentBean" abstract="true" parent="Uif-HeaderBase">
     <property name="headerLevel" value="h6"/>
   </bean>
+
+  <bean id="Uif-SimpleHeaderOne" parent="Uif-HeaderOne" p:headerTagOnly="true"/>
+  <bean id="Uif-SimpleHeaderTwo" parent="Uif-HeaderTwo" p:headerTagOnly="true"/>
+  <bean id="Uif-SimpleHeaderThree" parent="Uif-HeaderThree" p:headerTagOnly="true"/>
+  <bean id="Uif-SimpleHeaderFour" parent="Uif-HeaderFour" p:headerTagOnly="true"/>
+  <bean id="Uif-SimpleHeaderFive" parent="Uif-HeaderFive" p:headerTagOnly="true"/>
+  <bean id="Uif-SimpleHeaderSix" parent="Uif-HeaderSix" p:headerTagOnly="true"/>
 
   <bean id="Uif-ViewHeader" parent="Uif-ViewHeader-parentBean"/>
   <bean id="Uif-ViewHeader-parentBean" abstract="true" parent="Uif-HeaderOne"
@@ -163,7 +165,15 @@
   <bean id="Uif-EditablePageHeader" parent="Uif-EditablePageHeader-parentBean"/>
   <bean id="Uif-EditablePageHeader-parentBean" abstract="true" parent="Uif-PageHeader">
     <property name="lowerGroup">
-      <bean parent="Uif-DisclosureActions-ReqMessageGroup"/>
+      <bean parent="Uif-VerticalBoxGroup">
+        <property name="items">
+          <list>
+            <bean parent="Uif-DisclosureActionsGroup"/>
+            <bean parent="Uif-DisclosureActions-ReqMessageGroup"/>
+          </list>
+        </property>
+      </bean>
+
     </property>
   </bean>
 

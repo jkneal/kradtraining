@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -23,6 +23,15 @@
 
     <meta charset="UTF-8">
 
+    <#list view.additionalMetaTags as tag>
+        <#if tag.http_equiv?has_content>
+            <meta http-equiv="${tag.http_equiv}" content="${tag.content}"/>
+        <#else>
+            <meta name="${tag.name}" content="${tag.content}"/>
+        </#if>
+
+    </#list>
+
     <title>
         <@spring.message "app.title"/>
         <#if view.headerText?has_content>
@@ -30,26 +39,76 @@
         </#if>
     </title>
 
+
     <#list view.theme.cssFiles as cssFile>
-        <#if cssFile?starts_with('http')>
-            <link href="${cssFile}" rel="stylesheet" type="text/css"/>
-        <#else>
-            <link href="${request.contextPath}/${cssFile}" rel="stylesheet" type="text/css"/>
+        <#local relation="stylesheet"/>
+        <#if cssFile?ends_with('.less')>
+            <#local relation="stylesheet/less"/>
         </#if>
+
+        <#if cssFile?starts_with('http')>
+            <link href="${cssFile}" rel="${relation}" type="text/css"/>
+        <#else>
+            <link href="${request.contextPath}/${cssFile}" rel="${relation}" type="text/css"/>
+        </#if>
+    </#list>
+
+
+
+    <#list view.additionalHeadLinks as headLink>
+        <#local relation="stylesheet"/>
+        <#local media="all"/>
+        <#local type="text/css"/>
+
+        <#if headLink.href?ends_with('.less')>
+            <#local relation="stylesheet/less"/>
+        </#if>
+
+        <#if headLink.relation?has_content>
+            <#local relation="${headLink.relation}"/>
+        </#if>
+
+        <#if headLink.type?has_content>
+            <#local type="${headLink.type}"/>
+        </#if>
+
+        <#if headLink.href?starts_with('http')>
+            <#local href="${headLink.href}"/>
+        <#else>
+            <#local href="${request.contextPath}/${headLink.href}"/>
+        </#if>
+
+        <#if headLink.media?has_content>
+            <#local media="${headLink.media}"/>
+        </#if>
+
+        <#if headLink.includeCondition?has_content>
+                <!--[${headLink.includeCondition}]>
+            <link rel="${relation}" href="${href}" type="${type}" media="${media}"/>
+                <![endif]-->
+        <#else>
+            <link rel="${relation}" href="${href}" type="${type}" media="${media}"/>
+        </#if>
+
+
     </#list>
 
     <#list view.additionalCssFiles as cssFile>
+        <#local relation="stylesheet"/>
+        <#if cssFile?ends_with('.less')>
+            <#local relation="stylesheet/less"/>
+        </#if>
+
         <#if cssFile?starts_with('http')>
-            <link href="${cssFile}" rel="stylesheet" type="text/css"/>
+            <link href="${cssFile}" rel="${relation}" type="text/css"/>
         <#else>
-            <link href="${request.contextPath}/${cssFile}" rel="stylesheet" type="text/css"/>
+            <link href="${request.contextPath}/${cssFile}" rel="${relation}" type="text/css"/>
         </#if>
     </#list>
 
-
 </head>
 
-<body>
+<body id="Uif-Application" style="display:none;">
     <#nested/>
 
     <#list view.theme.scriptFiles as javascriptFile>
@@ -70,14 +129,14 @@
         </#if>
     </#list>
 
-    <!-- preload script (server variables) -->
+    <#-- preload script (server variables) -->
     <#if view.preLoadScript?has_content>
         <script type="text/javascript">
             ${view.preLoadScript}
         </script>
     </#if>
 
-    <!-- custom script for the view -->
+    <#-- custom script for the view -->
     <#if view.onLoadScript?has_content>
         <script type="text/javascript">
             jQuery(document).ready(function () {

@@ -60,5 +60,7 @@ in configuration files outside of the project.
 
   <param name="resourceBundleNames">org.kuali.rice.krad.KRADApplicationResources,org.kuali.rice.krad.ApplicationResources,KrtrainApplicationResources</param>
 
-  <param name="reload.data.dictionary.interval" override="false">40000</param>
+  <param name="reload.data.dictionary.interval">40000</param>
+  
+  <param name="rice.krad.schema.packages">org.kuali.rice.krad.uif,org.kuali.rice.krad.datadictionary,org.kuali.rice.krad.lookup,org.kuali.rice.krtrain.util</param>
 </config>

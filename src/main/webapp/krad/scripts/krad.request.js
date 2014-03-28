@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -172,7 +172,11 @@ KradRequest.prototype = {
 
         // check for non-ajax request
         if (!this.ajaxSubmit) {
+            dirtyFormState.reset();
+
+            // submit non ajax call
             this._submit();
+            clearHiddens();
 
             return;
         }
@@ -209,6 +213,11 @@ KradRequest.prototype = {
                 var responseContents = document.createElement('div');
                 responseContents.innerHTML = response;
 
+                // for lightbox copy data back into lightbox
+                if (lightboxCompId !== undefined) {
+                    jQuery('#' + lightboxCompId + "_dialogPlaceholder").empty();
+                }
+
                 // create a response object to process the response contents
                 var kradResponse = new KradResponse(responseContents);
                 kradResponse.processResponse();
@@ -231,16 +240,6 @@ KradRequest.prototype = {
                 }
 
                 clearHiddens();
-
-                // for lightbox copy data back into lightbox
-                if (lightboxCompId !== undefined) {
-                    var component = jQuery('#' + lightboxCompId).clone(true, true);
-
-                    addIdPrefix(jQuery('#' + lightboxCompId), 'tmpForm_');
-                    jQuery('#tmpLightbox_' + lightboxCompId).replaceWith(component);
-                    jQuery('#' + lightboxCompId).css('display', '');
-                }
-
             },
             error: function (jqXHR, textStatus) {
                 if (request.errorCallback) {
@@ -258,13 +257,12 @@ KradRequest.prototype = {
 
         this._setupBlocking(submitOptions);
 
-        // for lightbox copy data back into form
+        // for lightbox copy data back into form because its content exist outside it
         // TODO: do we need this here again? Already in the success callback
         if (lightboxCompId !== undefined) {
             var component = jQuery('#' + lightboxCompId).clone(true, true);
 
-            addIdPrefix(jQuery('#' + lightboxCompId), 'tmpLightbox_');
-            jQuery('#tmpForm_' + lightboxCompId).replaceWith(component);
+            jQuery('#' + lightboxCompId + "_dialogPlaceholder").append(component);
         }
 
         jQuery("#" + kradVariables.KUALI_FORM).ajaxSubmit(submitOptions);

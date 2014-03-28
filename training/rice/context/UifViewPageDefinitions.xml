@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -47,6 +47,16 @@
     <property name="cssClasses">
       <list>
         <value>uif-view</value>
+      </list>
+    </property>
+    <property name="libraryCssClasses">
+      <list>
+        <value>clearfix</value>
+      </list>
+    </property>
+    <property name="contentContainerCssClasses">
+      <list>
+        <value>container-fluid</value>
       </list>
     </property>
     <property name="useLibraryCssClasses" value="true"/>
@@ -115,6 +125,11 @@
     </property>
   </bean>
 
+  <bean id="Uif-MockView" parent="Uif-MockView-parentBean"/>
+  <bean id="Uif-MockView-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.mock.MockView" parent="Uif-FormView"
+        p:formClass="org.kuali.rice.krad.uif.mock.DynaForm"/>
+
   <!-- Common Views -->
 
   <bean id="Uif-MessageView" parent="Uif-MessageView-parentBean"/>
@@ -137,6 +152,35 @@
     <property name="breadcrumbs.render" value="false"/>
   </bean>
 
+  <bean id="Uif-IframeView" parent="Uif-IframeView-parentBean"/>
+  <bean id="Uif-IframeView-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.view.IframeView" parent="Uif-FormView">
+    <property name="page">
+      <bean parent="Uif-Page"/>
+    </property>
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-iframeView</value>
+      </list>
+    </property>
+    <property name="iframe">
+      <bean parent="Uif-Iframe"/>
+    </property>
+    <property name="location">
+      <bean parent="Uif-Url">
+        <property name="requestParameters">
+          <map>
+            <entry key="renderedInIframe" value="true"/>
+          </map>
+        </property>
+      </bean>
+    </property>
+    <property name="header.render" value="false"/>
+    <property name="breadcrumbs.render" value="false"/>
+    <property name="singlePageView" value="true"/>
+    <property name="persistFormToSession" value="false"/>
+  </bean>
+
   <bean id="Uif-SessionTimeoutView" parent="Uif-SessionTimeoutView-parentBean"/>
   <bean id="Uif-SessionTimeoutView-parentBean" parent="Uif-MessageView">
     <property name="messageText" value="[b]Your Session has timed out and the request could not be completed.[/b]"/>
@@ -155,7 +199,7 @@
   </bean>
 
   <bean id="Uif-Page" parent="Uif-Page-parentBean"/>
-  <bean id="Uif-Page-parentBean" abstract="true" class="org.kuali.rice.krad.uif.container.PageGroup" scope="prototype">
+  <bean id="Uif-Page-parentBean" abstract="true" class="org.kuali.rice.krad.uif.container.PageGroupBase" scope="prototype">
     <property name="template" value="/krad/WEB-INF/ftl/components/group/pageGroup.ftl"/>
     <property name="templateName" value="uif_pageGroup"/>
     <property name="cssClasses">

@@ -4,7 +4,7 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <dependent-module deploy-path="/" handle="module:/overlay/var/M2_REPO/org/kuali/rice/rice-web/2.3.0/rice-web-2.3.0.war?unpackFolder=target/m2e-wtp/overlays&amp;includes=**/**&amp;excludes=META-INF/MANIFEST.MF">
+        <dependent-module deploy-path="/" handle="module:/overlay/var/M2_REPO/org/kuali/rice/rice-web/2.4.0-M5-r45649/rice-web-2.4.0-M5-r45649.war?unpackFolder=target/m2e-wtp/overlays&amp;includes=**/**&amp;excludes=META-INF/MANIFEST.MF">
             <dependency-type>consumes</dependency-type>
         </dependent-module>
         <dependent-module deploy-path="/" handle="module:/overlay/slf/?includes=**/**&amp;excludes=META-INF/MANIFEST.MF">

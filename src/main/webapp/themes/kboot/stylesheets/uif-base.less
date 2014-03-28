@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,32 @@
 
 body { background: white}
 
+/** The following are required for labels and required messages to behave correctly **/
+.uif-message {
+  margin: 0;
+}
+
 .uif-requiredMessage {
   display: inline;
+  color: #DD3B16;
 }
+
+.uif-label{
+  overflow: hidden;
+  display: block;
+  margin-bottom: 0;
+}
+
+.uif-labelBlock {
+  margin-bottom: 0;
+}
+
+.uif-cssGridLabelCol label {
+  float: right;
+  white-space: pre-wrap;
+}
+/** end label css **/
+
 img {
   vertical-align: top;
 }
@@ -38,6 +61,7 @@ label {
 }
 input, textarea, .uneditable-input {
   width: inherit;
+
 }
 
 input[type="radio"], input[type="checkbox"] {
@@ -64,12 +88,68 @@ ol.uif-readOnlyStringList li {
 ul.uif-readOnlyStringList li {
   list-style: disc inside none;
 }
+
+
+/* Bootstrap 3rc2 overrides */
+
+body {
+  margin: 0px;
+}
+
+input[type="text"], .uif-textAreaControl {
+  .form-control;
+  .input-sm;
+  display: inline;
+  width: inherit;
+}
+.uif-dropdownControl {
+  .form-control;
+  width: inherit;
+  display: inline;
+}
+select[multiple] {
+  .form-control;
+  height: inherit;
+  width: inherit;
+}
+textarea {
+  height: inherit;
+  width: inherit;
+}
+.form-control {
+  height: inherit;
+  width: inherit;
+}
+ul {
+  padding: 0px;
+}
+fieldset {padding: 0px;
+  margin: 0px;
+  border: 0px;}
+
+
 /** View structure related **************************************************************************/
-.uif-viewContentWrapper .uif-pageContentWrapper {
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 0;
+
+.uif-iframeView iframe{
+  width: 100%;
+  border: none;
+  height: 800px;
+}
+
+.uif-iframeView .uif-viewContentWrapper {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.uif-iframeView .uif-page {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.uif-page {
+  min-height: 300px;
   padding-top: 5px;
+  padding-bottom: 5px;
 }
 /** Field and group related *************************************************************************/
 
@@ -100,11 +180,15 @@ ul.uif-readOnlyStringList li {
 }
 .uif-stickyButtonFooter {
   background-color: lightGray;
-  border: 1px solid gray;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 0px 0px 3px 3px rgba(0, 0, 0, 0.07);
   padding-top: 10px;
   padding-left: 10px;
   text-align: center;
+}
+
+.uif-stickyButtonFooter a, .uif-stickyButtonFooter button{
+  float: none;
+  display: inline;
 }
 /** Header related styles *********************************************************************/
 
@@ -112,19 +196,6 @@ ul.uif-readOnlyStringList li {
   display: none;
   margin: 0;
   padding: 0;
-}
-.uif-viewHeader-contentWrapper {
-  /* width: 100%; */
-  background-color: white;
-  z-index: 3;
-  padding: 0;
-  margin: 0;
-}
-.uif-viewHeader-contentWrapper > .uif-header-upperGroup, .uif-viewHeader-contentWrapper > .uif-header-lowerGroup {
-  padding-left: 20px;
-}
-.uif-header-contentWrapper {
-  width: 100%;
 }
 .uif-header {
   position: relative;
@@ -134,69 +205,16 @@ ul.uif-readOnlyStringList li {
   float: inherit;  /* bootstrap override */
   margin-left: 0px;
 }
-.uif-viewHeader {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 20px
-}
-.uif-viewHeader, .uif-pageHeader, .uif-sectionHeader {
-  margin-top: 10px;
+.uif-pageHeader, .uif-sectionHeader {
   position: relative;
 }
 .uif-header-rightGroup {
-  position: absolute;
+  float: right;
   right: 20px;
   top: 0;
-}
-.uif-supportTitle-wrapper {
-  display: block;
-}
-.uif-viewHeader-contentWrapper {
-  padding-top: 0;
-
-}
-.uif-viewHeader-contentWrapper h1 {
-  font-size: 20px;
-  margin-top: 0;
-  margin-right: 0;
-  margin-bottom: 0;
-}
-.uif-viewHeader .uif-headerText {
-  margin-bottom: 0;
-  display: inline;
-}
-.uif-viewHeader .uif-headerText .uif-viewHeader-areaTitle {
-  display: block;
-  font-size: .6em;
-  color: #666;
-  line-height: 14px;
-  font-weight: normal;
-  padding-bottom: .5em;
-}
-.uif-viewHeader .uif-headerText .uif-headerText-span {
-  display: block;
-  float: inherit;
-  width: inherit;
-  clear: both;
-  font-size: 32px;
-  margin: 0;
-  padding: 0;
-
-  padding-top: 8px;
-
-
-
-
-}
-.uif-viewHeader .uif-supportTitle-wrapper .uif-viewHeader-supportTitle {
-  display: block;
-}
-.uif-viewHeader .uif-viewHeader-metadata {
-  padding-right: 20px;
   position: absolute;
-  right: 0;
-  bottom: 8px;
 }
+
 #Uif-TopGroupWrapper > div {
   padding-left: 0px;
 }
@@ -224,7 +242,7 @@ img.uif-disclosure-image {
   text-align: center;
   margin-bottom: 20px;
 }
-.uif-footer .uif-horizontalBoxLayout button, .uif-footer .uif-horizontalBoxLayout a {
+.uif-footer > button, .uif-footer > a {
   float: none;
   display: inline;
 }
@@ -241,22 +259,7 @@ img.uif-disclosure-image {
 }
 
 
-/** Buttons *****************************************************************************************/
 
-.uif-primaryActionButton {
-  .btn;
-  .btn-primary;
-}
-.uif-smallActionButton, .DTTT_button {
-  .btn;
-  .btn-mini;
-}
-.kr-button-primary, .kr-button-primary-disabled {
-  .btn;
-}
-.btn {
-  margin-bottom: 2px;
-}
 
 /** Breadcrumbs *****************************************************************************************/
 
@@ -373,7 +376,6 @@ button img.rightActionImage, a img.rightActionImage {
   clear: both;
 }
 div.clearfix:after {
-  content: ".";
   display: block;
   height: 0;
   width: auto;
@@ -384,12 +386,22 @@ div.clearfix:after {
 * html .clearfix {
   height: 1%;
 }
+.uif-table-fixed {
+  width: 100%;
+  table-layout: fixed;
+}
 .uif-gridLayout th {
   /*  text-align: right;*/
 }
 .uif-gridLayout th[scope="col"] {
   text-align: left;
 }
+
+
+.uif-gridLayout th, .uif-tableCollectionLayout th {
+  background: @gray-lighter;
+}
+
 table.uif-gridLayout > tbody > tr > td.uif-inputField {
   white-space: nowrap;
 }
@@ -442,18 +454,19 @@ table.uif-tableCollectionLayout thead th.sorting, table.uif-tableCollectionLayou
   .table-hover;
   margin-bottom: 6px;
 }
+
 .uif-tableCollectionLayout input[type="text"] {
   margin-bottom: 0px;
+  width: 120px;
 }
 .uif-gridLayout th, .uif-tableCollectionLayout th {
-  background-color: @grayLighter;
+//background-color: @grayLighter;
 }
-.uif-gridLayout th[scope="row"] {
-  background-color: @grayLighter;
-  text-align: right;
-}
-.uif-gridLayout th[scope="row"] .uif-label {
+
+.uif-gridLayout th[scope="row"] label {
   padding-top: 4px;
+  float: right;
+  white-space: pre-wrap;
 }
 .uif-gridLayout td .uif-inputField input:first-child {
   margin-bottom: 0px;
@@ -555,6 +568,12 @@ tr.uif-groupTotalRow td, tr.uif-totalRow th {
 div.uif-calculationField, div.uif-calculationField input {
   text-align: right;
 }
+[data-role='totalValue'] {
+  display: inline;
+}
+.show-footer {
+  display: table-cell !important;
+}
 /* Document header info *******************************************************************************/
 .uif-viewHeader div.uif-docheader table {
   height: 60px;
@@ -563,7 +582,11 @@ div.uif-calculationField, div.uif-calculationField input {
   background-color: #FFFFFF;
 }
 .uif-maintenanceView .uif-viewHeader-contentWrapper {
-  min-height: 70px;
+  min-height: 75px;
+}
+
+.uif-maintenanceView .uif-viewHeader {
+  min-height: 75px;
 }
 /* Date-picker customizations *************************************************************************/
 
@@ -594,9 +617,6 @@ table.uif-gridLayout {
 
 table.uif-lightTable{width:100%;}
 
-table.uif-gridLayout th .uif-label {
-  /*  text-align: right;*/
-}
 table.dataTable tr.even {
   background-color: white;
 }
@@ -640,16 +660,16 @@ table.dataTable tr.uif-collectionDeleteHighlight td.sorting_1 {
   margin: 12px 0;
 }
 .dataTables_paginate a {
-  border-bottom-color: @tableBorder;
+  border-bottom-color: @gray-light;
   border-bottom-style: solid;
   border-bottom-width: 1px;
-  border-left-color: @tableBorder;
+  border-left-color:  @gray-light;
   border-left-style: solid;
   border-left-width: 1px;
-  border-right-color: @tableBorder;
+  border-right-color: @gray-light;
   border-right-style: none;
   border-right-width: 1px;
-  border-top-color: @tableBorder;
+  border-top-color: @gray-light;
   border-top-style: solid;
   border-top-width: 1px;
   padding-bottom: 3px;
@@ -658,26 +678,26 @@ table.dataTable tr.uif-collectionDeleteHighlight td.sorting_1 {
   padding-top: 3px;
 }
 .dataTables_paginate a.first.paginate_button {
-  border-bottom-left-radius: @borderRadiusSmall;
-  border-left-color: @tableBorder;
+//border-bottom-left-radius: @borderRadiusSmall;
+  border-left-color: @gray-light;
   border-left-style: solid;
   border-left-width: 1px;
-  border-top-left-radius: @borderRadiusSmall;
-  -moz-border-radius-bottomleft: @borderRadiusSmall;
-  -moz-border-radius-topleft: @borderRadiusSmall;
-  -webkit-border-bottom-left-radius: @borderRadiusSmall;
-  -webkit-border-top-left-radius: @borderRadiusSmall;
+//border-top-left-radius: @borderRadiusSmall;
+//-moz-border-radius-bottomleft: @borderRadiusSmall;
+//-moz-border-radius-topleft: @borderRadiusSmall;
+//-webkit-border-bottom-left-radius: @borderRadiusSmall;
+//-webkit-border-top-left-radius: @borderRadiusSmall;
 }
 .dataTables_paginate a.last.paginate_button {
-  border-bottom-right-radius: @borderRadiusSmall;
-  border-right-color: @tableBorder;
+//border-bottom-right-radius: @borderRadiusSmall;
+  border-right-color: @gray-light;
   border-right-style: solid;
   border-right-width: 1px;
-  border-top-right-radius: @borderRadiusSmall;
-  -moz-border-radius-bottomright: @borderRadiusSmall;
-  -moz-border-radius-topright: @borderRadiusSmall;
-  -webkit-border-bottom-right-radius: @borderRadiusSmall;
-  -webkit-border-top-right-radius: @borderRadiusSmall;
+//border-top-right-radius: @borderRadiusSmall;
+//-moz-border-radius-bottomright: @borderRadiusSmall;
+//-moz-border-radius-topright: @borderRadiusSmall;
+//-webkit-border-bottom-right-radius: @borderRadiusSmall;
+//-webkit-border-top-right-radius: @borderRadiusSmall;
 }
 .dataTables_paginate a.paginate_button_disabled {
   color: #999;
@@ -735,11 +755,11 @@ a.inlineBlock, span.inlineBlock {
 /** Block ui plugin customizations ***********************************************************************/
 
 div.blockOverlay {
-  background-color: black;
+  background-color: white;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 60) !important;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)" !important;
-  opacity: .60;
-  -moz-opacity: .60;
+  opacity: 0;
+  -moz-opacity: 0;
   z-index: 10100 !important;
 }
 div.blockElement {
@@ -750,7 +770,6 @@ div.blockElement {
   background-color: white;
   text-align: center;
   color: #000;
-  border: 3px solid #aaa;
   cursor: wait;
   z-index: 10101 !important;
 }
@@ -762,11 +781,21 @@ div.blockPage {
   left: 35%;
   text-align: center;
   color: #000;
-  border: 3px solid #aaa;
   background-color: white;
   cursor: wait;
   z-index: 10101 !important;
+  padding-bottom: 12px;
 }
+
+div.blockPage h1 {
+  font-size:20px;
+  line-height:28px;
+}
+
+div.blockPage h1 img {
+  margin-right: 10px;
+}
+
 /** Autocomplete customizations ************************************************************************/
 .ui-autocomplete {
   max-height: 100px;
@@ -1074,7 +1103,7 @@ li.uif-navigationItem-current a, li.uif-navigationItem-current a:hover {
 
 .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-error {
   .alert;
-  .alert-error;
+  .alert-danger;
 }
 .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning {
   .alert;
@@ -1289,14 +1318,19 @@ span.ui-spinner input {
 .fancybox-inner form {
   height: 100%;
 }
+
+.uif-lightbox {
+    max-width: 800px;
+}
+
 .overlay-fixed {
   opacity: 0.4 !important;
 }
 /***** Syntax Highlighter *********************************************************************/
-/*div.uif-syntaxHighlighter {*/
-/*max-height: 400px;*/
-/*overflow: auto;*/
-/*}*/
+div.uif-syntaxHighlighter {
+  max-height: 400px;
+  overflow: auto;
+}
 
 .uif-syntaxHighlighter li {
   list-style: decimal outside none;
@@ -1310,11 +1344,10 @@ span.ui-spinner input {
   line-height: 20px;
   margin: 0 0 10px;
   padding: 9.5px;
-  overflow: auto;
-  max-height: 600px;
+  width: 2000px;
 }
 .uif-syntaxHighlighter pre.prettyprint {
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 .uif-syntaxHighlighter pre code {
   background-color: transparent;
@@ -1326,7 +1359,7 @@ span.ui-spinner input {
   box-shadow: 40px 0 0 #FBFBFC inset, 41px 0 0 #ECECF0 inset;
 }
 .uif-syntaxHighlighter ol.linenums {
-  margin: 0 0 0 33px;
+  margin: 0;
 }
 .uif-syntaxHighlighter ol.linenums li {
   color: #BEBEC5;
@@ -1349,7 +1382,7 @@ ol.linenums li:nth-of-type(2n+1) {
   height: 26px;
   overflow: hidden;
   position: absolute;
-  right: 0;
+  right: 18px;
   width: 26px;
 }
 .uif-syntaxHighlighter:hover .uif-copyPaste {

@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,6 +16,16 @@
 
 -->
 <#macro uif_viewHeader element>
+
+    <#-- Return if all content is missing -->
+    <#if (!element.headerText?? || !element.headerText?has_content || element.headerText == '&nbsp;')
+        && !element.richHeaderMessage?? && !element.upperGroup??
+        && !element.lowerGroup?? && !element.rightGroup??
+        && (!element.supportTitleMessage?? || !element.supportTitleMessage.messageText?has_content)
+        && (!element.areaTitleMessage?? || !element.areaTitleMessage.messageText?has_content)
+        && (!element.metadataMessage?? || !element.metadataMessage.messageText?has_content)>
+        <#return>
+    </#if>
 
     <#if element.headerStyleClassesAsString?has_content>
         <#local styleClass="class=\"${element.headerStyleClassesAsString}\""/>
@@ -35,12 +45,18 @@
         <#local stickyDataAttribute="data-sticky='true'"/>
     </#if>
 
-    <div class="uif-viewHeader-contentWrapper" ${stickyDataAttribute}>
+    <#local renderContentAs="header"/>
 
+    <#-- Only render wrapper when upper and lower group content exist -->
+    <#if element.upperGroup?has_content || element.lowerGroup?has_content>
+        <#local renderContentAs="div"/>
+        <header class="${view.contentContainerClassesAsString} uif-viewHeader-contentWrapper" ${stickyDataAttribute}>
         <#-- upper group -->
         <@krad.template component=element.upperGroup/>
+    </#if>
 
-        <@krad.div component=element>
+        <#-- Main header content -->
+        <@krad.wrap renderAs="${renderContentAs}" component=element>
 
             <#if element.headerLevel?has_content && element.headerText?has_content && element.headerText != '&nbsp;'>
 
@@ -51,25 +67,25 @@
                     </#if>
 
                     <span class="uif-headerText-span">
-                            <#-- rich message support -->
-                            <#if element.richHeaderMessage?has_content>
-                                <@krad.template component=element.richHeaderMessage/>
-                            <#else>
-                            ${element.headerText}
-                            </#if>
-                        </span>
+                        <#-- rich message support -->
+                        <#if element.richHeaderMessage?has_content>
+                            <@krad.template component=element.richHeaderMessage/>
+                        <#else>
+                        ${element.headerText}
+                        </#if>
+                    </span>
 
                     <#if element.context['parent']?has_content>
                         <#local group=element.context['parent']/>
                         <@krad.template component=group.help/>
                     </#if>
 
-                    <span class="uif-supportTitle-wrapper">
-                        <#if element.supportTitleMessage?has_content && element.supportTitleMessage.messageText?has_content
-                         && element.supportTitleMessage.messageText != '&nbsp;'>
+                    <#if element.supportTitleMessage?has_content && element.supportTitleMessage.messageText?has_content
+                        && element.supportTitleMessage.messageText != '&nbsp;'>
+                        <span class="uif-supportTitle-wrapper">
                             <@krad.template component=element.supportTitleMessage/>
-                        </#if>
-                    </span>
+                        </span>
+                    </#if>
 
                 ${headerCloseTag}
 
@@ -81,11 +97,12 @@
                 <@krad.template component=element.rightGroup/>
             </#if>
 
-        </@krad.div>
+        </@krad.wrap>
 
-        <#-- lower group -->
-        <@krad.template component=element.lowerGroup/>
-
-    </div>
+    <#if element.upperGroup?has_content || element.lowerGroup?has_content>
+         <#-- lower group -->
+         <@krad.template component=element.lowerGroup/>
+      </header>
+    </#if>
 
 </#macro>

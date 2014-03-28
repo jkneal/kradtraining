@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 // global vars
 var jq = jQuery.noConflict();
 
 // clear out blockUI css, using css class overrides
 jQuery.blockUI.defaults.css = {};
 jQuery.blockUI.defaults.overlayCSS = {};
+
+// script cleanup flag
+var scriptCleanup;
 
 //stickyContent globals
 var stickyContent;
@@ -40,6 +42,11 @@ var clientErrorStorage = new Object();
 var summaryTextExistence = new Object();
 var clientErrorExistsCheck = false;
 var skipPageSetup = false;
+var groupValidationDefaults;
+var fieldValidationDefaults;
+
+// Action option defaults
+var actionDefaults;
 
 // dirty form state management
 var dirtyFormState;
@@ -92,6 +99,9 @@ jQuery(document).ready(function () {
     skipPageSetup = handlePageAndCacheRefreshing();
     dirtyFormState = new DirtyFormState();
 
+    // script cleanup setting
+    scriptCleanup = getConfigParam("scriptCleanup").toLowerCase() === "true";
+
     // buttons
     jQuery("input:submit, input:button, a.button, .uif-dialogButtons").button();
     jQuery(".uif-dialogButtons").next('label').addClass('uif-primaryDialogButton');
@@ -118,6 +128,7 @@ jQuery(document).ready(function () {
     });
 
     time(false, "viewSetup-phase-1");
+
     // show the page
     jQuery("#" + kradVariables.APP_ID).show();
 
@@ -131,6 +142,8 @@ jQuery(document).ready(function () {
 
     //disclosure handler setup
     setupDisclosureHandler();
+
+    setupHelperTextHandler();
 
     // setup the various event handlers for fields - THIS IS IMPORTANT
     initFieldHandlers();
@@ -147,6 +160,8 @@ jQuery(document).ready(function () {
     });
 
     time(false, "viewSetup-phase-2");
+
+
 });
 
 /**
@@ -158,7 +173,7 @@ function setupStickyHeaderAndFooter() {
     stickyContent = jQuery("[data-sticky='true']:visible");
     if (stickyContent.length) {
         stickyContent.each(function () {
-            jQuery(this).data("offset", jQuery(this).offset())
+            jQuery(this).data("offset", jQuery(this).offset());
         });
 
         stickyContentOffset = stickyContent.offset();
@@ -173,12 +188,14 @@ function setupStickyHeaderAndFooter() {
     initStickyFooterContent();
 
     //bind scroll and resize events to dynamically update sticky content positions
-    jQuery(window).bind("scroll", function () {
+    jQuery(window).unbind("scroll.sticky");
+    jQuery(window).bind("scroll.sticky", function () {
         handleStickyContent();
         handleStickyFooterContent();
     });
 
-    jQuery(window).bind("resize", function () {
+    jQuery(window).unbind("resize.sticky");
+    jQuery(window).bind("resize.sticky", function () {
         handleStickyContent();
         handleStickyFooterContent();
     });
@@ -204,16 +221,32 @@ function initFieldHandlers() {
     };
 
     //add global action handler
-    jQuery(document).on("click", "a[data-onclick], button[data-onclick], img[data-onclick], input[data-onclick]",
+    jQuery(document).on("click", "a[data-role='Action'], button[data-role='Action'], "
+            + "img[data-role='Action'], input[data-role='Action']",
             function (e) {
-                var functionData = jQuery(this).data("onclick");
+                e.preventDefault();
+                var action = jQuery(this);
+
+                // Disabled check
+                if(action.hasClass(kradVariables.DISABLED_CLASS)){
+                    return false;
+                }
+
+                initActionData(action);
+
+                // Dirty check (if enabled)
+                if (action.data(kradVariables.PERFORM_DIRTY_VALIDATION) ===  true && dirtyFormState.checkDirty(e)) {
+                    return;
+                }
+
+                var functionData = action.data(kradVariables.ACTION_ONCLICK_DATA);
                 eval("var actionFunction = function(e) {" + functionData + "};");
 
                 return actionFunction.call(this, e);
             });
 
     //add a focus handler for scroll manipulation when there is a sticky header or footer, so content stays in view
-    jQuery("#" + kradVariables.PAGE_CONTENT_WRAPPER).on("focus", "a[href], area[href], input:not([disabled]), "
+    jQuery("[data-role='Page']").on("focus", "a[href], area[href], input:not([disabled]), "
             + "select:not([disabled]), textarea:not([disabled]), button:not([disabled]), "
             + "iframe, object, embed, *[tabindex], *[contenteditable]",
             function () {
@@ -533,7 +566,7 @@ function initFieldHandlers() {
         refreshDatatableCellRedraw(this);
     });
 
-    jQuery(document).on("keyup", "table.dataTable div[data-role='InputField'][data-total='keyup'] :input", function () {
+    jQuery(document).on("input", "table.dataTable div[data-role='InputField'][data-total='keyup'] :input", function () {
         var input = this;
         delay(function () {
             refreshDatatableCellRedraw(input)
@@ -559,14 +592,15 @@ function setupDisclosureHandler() {
                 var animationSpeed = link.data("speed");
                 var linkId = link.attr("id");
                 var widgetId = link.data("widgetid");
+                var ajax = link.data("ajax");
 
                 if (isOpen == "true") {
                     disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, false);
 
                     disclosureContent.slideUp(animationSpeed);
 
-                    jQuery(this).find("#" + linkId + "_exp").hide();
-                    jQuery(this).find("#" + linkId + "_col").show();
+                    link.find("#" + linkId + "_exp").hide();
+                    link.find("#" + linkId + "_col").show();
 
                     setComponentState(widgetId, 'open', false);
                 }
@@ -574,16 +608,50 @@ function setupDisclosureHandler() {
                     disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, true);
 
                     //run scripts for previously hidden content
-                    runHiddenScripts(disclosureContent, true, true);
+                    runHiddenScripts(disclosureContent, true, false);
 
-                    disclosureContent.slideDown(animationSpeed);
-
-                    jQuery(this).find("#" + linkId + "_exp").show();
-                    jQuery(this).find("#" + linkId + "_col").hide();
+                    link.find("#" + linkId + "_exp").show();
+                    link.find("#" + linkId + "_col").hide();
 
                     setComponentState(widgetId, 'open', true);
+
+                    if (ajax && disclosureContent.data("role") == "placeholder") {
+                        // If there is a placeholder present, retrieve the new content
+                        showLoading("Loading...", disclosureContent, true);
+                        disclosureContent.show();
+
+                        // This a specialized methodToCall passed in for retrieving the originally generated component
+                        retrieveComponent(linkId.replace("_toggle", ""), null, null, null, true);
+                    }
+                    else{
+                        // If no ajax retrieval, slide down animationg
+                        disclosureContent.slideDown(animationSpeed);
+                    }
                 }
             });
+}
+
+/**
+ * Sets up focus and blur events for inputs with helper text.
+ */
+function setupHelperTextHandler() {
+    jQuery(document).on(kradVariables.EVENTS.UPDATE_CONTENT + " ready", function() {
+        if (jQuery('.uif-helperText').length) {
+            jQuery('.uif-helperText').slideUp();
+        }
+
+        jQuery('.has-helper').on('focus', function () {
+            if (jQuery(this).parent().find('.uif-helperText')) {
+                jQuery(this).parent().find('.uif-helperText').slideDown();
+            }
+        });
+
+        jQuery('.has-helper').on('blur', function () {
+            if (jQuery(this).parent().find('.uif-helperText')) {
+                jQuery(this).parent().find('.uif-helperText').slideUp();
+            }
+        });
+    });
 }
 
 /**
@@ -634,26 +702,42 @@ function setupPage(validate) {
     }
 
     // update the top group per page
-    var topGroupUpdate = jQuery("#" + kradVariables.TOP_GROUP_UPDATE).find("> div").detach();
+    var topGroupUpdateDiv = jQuery("#" + kradVariables.TOP_GROUP_UPDATE);
+    var topGroupUpdate = topGroupUpdateDiv.find(">").detach();
     if (topGroupUpdate.length && !initialViewLoad) {
-        jQuery("#Uif-TopGroupWrapper > div").replaceWith(topGroupUpdate);
+        jQuery("#Uif-TopGroupWrapper >").replaceWith(topGroupUpdate);
     }
+    topGroupUpdateDiv.remove();
 
     // update the view header per page
-    var viewHeaderUpdate = jQuery("#" + kradVariables.VIEW_HEADER_UPDATE).find(".uif-viewHeader").detach();
+    var headerUpdateDiv = jQuery("#" + kradVariables.VIEW_HEADER_UPDATE);
+    var viewHeaderUpdate = headerUpdateDiv.find(".uif-viewHeader").detach();
     if (viewHeaderUpdate.length && !initialViewLoad) {
         jQuery(".uif-viewHeader").replaceWith(viewHeaderUpdate);
     }
+    headerUpdateDiv.remove();
 
     originalPageTitle = document.title;
 
     setupImages();
 
     //reinitialize sticky footer content because page footer can be sticky
-    stickyFooterContent = jQuery("[data-sticky_footer='true']");
-    initStickyFooterContent();
-    handleStickyFooterContent();
-    initStickyContent();
+    jQuery("[data-role='Page']").on(kradVariables.EVENTS.ADJUST_STICKY, function(){
+        stickyFooterContent = jQuery("[data-sticky_footer='true']");
+        initStickyFooterContent();
+        handleStickyFooterContent();
+        initStickyContent();
+    });
+
+    // Initialize global validation defaults
+    if (groupValidationDefaults == undefined || fieldValidationDefaults == undefined) {
+        groupValidationDefaults = jQuery("[data-role='View']").data(kradVariables.GROUP_VALIDATION_DEFAULTS);
+        fieldValidationDefaults = jQuery("[data-role='View']").data(kradVariables.FIELD_VALIDATION_DEFAULTS);
+    }
+
+    if (actionDefaults == undefined) {
+        actionDefaults = jQuery("[data-role='View']").data(kradVariables.ACTION_DEFAULTS);
+    }
 
     //Reset summary state before processing each field - summaries are shown if server messages
     // or on client page validation
@@ -673,7 +757,7 @@ function setupPage(validate) {
 
     prevPageMessageTotal = 0;
     //skip input field iteration and validation message writing, if no server messages
-    var hasServerMessagesData = jQuery("[data-type='Page']").data(kradVariables.SERVER_MESSAGES);
+    var hasServerMessagesData = jQuery("[data-role='Page']").data(kradVariables.SERVER_MESSAGES);
     if (hasServerMessagesData) {
         //Handle messages at field, if any
         jQuery("div[data-role='InputField']").each(function () {
@@ -1056,7 +1140,7 @@ jQuery.fn.dataTableExt.afnSortData['dom-text'] = function (oSettings, iColumn, i
                 // find span for the data or input field and get its text
                 var inputField = jQuery(td).find('.uif-field');
                 if (inputField.length != 0) {
-                    value = jQuery.trim(inputField.find("span:first").text());
+                    value = jQuery.trim(inputField.text());
                 } else {
                     // just use the text within the cell
                     value = jQuery(td).text();
@@ -1183,7 +1267,7 @@ window.onerror = errorHandler;
 
 function errorHandler(msg, url, lno) {
     jQuery("#" + kradVariables.APP_ID).show();
-    jQuery("#" + kradVariables.PAGE_CONTENT_WRAPPER).show();
+    jQuery("[data-role='Page']").show();
     var context = getContext();
     context.unblockUI();
     var errorMessage = msg + '<br/>' + url + '<br/>' + lno;

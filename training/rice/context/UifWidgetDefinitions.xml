@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -63,19 +63,31 @@
     </property>
   </bean>
 
+  <bean id="Uif-DatePickerOnFocus" parent="Uif-DatePickerOnFocus-parentBean"/>
+  <bean id="Uif-DatePickerOnFocus-parentBean" abstract="true" scope="prototype" parent="Uif-DatePicker">
+    <property name="templateOptions">
+      <map>
+        <entry key="showAnim" value="slideDown"/>
+        <entry key="showButtonPanel" value="true"/>
+        <entry key="changeMonth" value="true"/>
+        <entry key="changeYear" value="true"/>
+      </map>
+    </property>
+  </bean>
+
   <bean id="Uif-LightBox" parent="Uif-LightBox-parentBean"/>
   <bean id="Uif-LightBox-parentBean" abstract="true" class="org.kuali.rice.krad.uif.widget.LightBox" scope="prototype"
         parent="Uif-WidgetBase">
-    <property name="template" value="/krad/WEB-INF/ftl/components/widget/lightBoxLink.ftl"/>
-    <property name="templateName" value="uif_lightBoxLink"/>
-    <property name="height" value="95%"/>
-    <property name="width" value="75%"/>
+    <property name="template" value="/krad/WEB-INF/ftl/components/widget/lightBox.ftl"/>
+    <property name="templateName" value="uif_lightBox"/>
+    <!--<property name="height" value="95%"/>-->
+    <!--<property name="width" value="75%"/>-->
     <property name="templateOptions">
       <map>
-        <entry key="fitToView" value="true"/>
-        <entry key="height" value="95%"/>
-        <entry key="width" value="75%"/>
-        <entry key="autoSize" value="false"/>
+        <!--<entry key="fitToView" value="true"/>-->
+        <!--<entry key="height" value="95%"/>-->
+        <!--<entry key="width" value="75%"/>-->
+        <entry key="autoSize" value="true"/>
         <entry key="openEffect" value="fade"/>
         <entry key="closeEffect" value="fade"/>
         <entry key="openSpeed" value="200"/>
@@ -84,12 +96,6 @@
         <entry key="type" value="iframe"/>
       </map>
     </property>
-  </bean>
-
-  <bean id="Uif-LightBoxPost" parent="Uif-LightBoxPost-parentBean"/>
-  <bean id="Uif-LightBoxPost-parentBean" parent="Uif-LightBox" abstract="true">
-    <property name="template" value="/krad/WEB-INF/ftl/components/widget/lightBoxPost.ftl"/>
-    <property name="templateName" value="uif_lightBoxPost"/>
   </bean>
 
   <bean id="Uif-RichTable" parent="Uif-RichTable-parentBean"/>
@@ -144,21 +150,17 @@
     <!-- TODO: change to use config krad.url -->
     <property name="baseLookupUrl" value="@{#ConfigProperties['application.url']}/kr-krad/lookup"/>
     <property name="multipleValuesSelect" value="false"/>
-    <property name="lightBoxLookup">
-      <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+    <property name="lightBox">
+      <bean parent="Uif-LightBox"/>
     </property>
     <property name="quickfinderAction">
-      <bean parent="Uif-ActionImage" p:methodToCall="performLookup">
-        <property name="actionImage">
-          <bean parent="Uif-QuickLookupImage"/>
-        </property>
-      </bean>
+      <bean parent="Uif-ActionLink" p:iconClass="icon-search" p:methodToCall="performLookup"
+            p:focusOnIdAfterSubmit="NEXT_INPUT" p:wrapperCssClasses="input-group-btn"/>
     </property>
     <property name="render" value="@{!#parent.readOnly}"/>
   </bean>
 
-  <bean id="Uif-QuickFinderByScript" parent="Uif-QuickFinder-parentBean"
-        p:lightBoxLookup.lookupReturnByScript="true"/>
+  <bean id="Uif-QuickFinderByScript" parent="Uif-QuickFinder-parentBean" p:returnByScript="true"/>
 
   <bean id="Uif-QuickLookupImage" parent="Uif-Image"
         p:source="@{#ConfigProperties['krad.externalizable.images.url']}searchicon.png"
@@ -209,8 +211,8 @@
         scope="prototype" parent="Uif-WidgetBase">
     <property name="template" value="/krad/WEB-INF/ftl/components/widget/disclosure.ftl"/>
     <property name="templateName" value="uif_disclosure"/>
-    <property name="collapseImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand.png"/>
-    <property name="expandImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse.png"/>
+    <property name="collapsedIconClass" value="icon-angle-right"/>
+    <property name="expandedIconClass" value="icon-angle-down"/>
     <property name="animationSpeed" value="500"/>
     <property name="defaultOpen" value="true"/>
   </bean>
@@ -246,6 +248,8 @@
       <map>
         <entry key="fadeIn" value="400"/>
         <entry key="fadeOut" value="800"/>
+        <entry key="centerX" value="true"/>
+        <entry key="centerY" value="true"/>
       </map>
     </property>
   </bean>
@@ -376,6 +380,17 @@
         <value>uif-helpImage</value>
       </list>
     </property>
+  </bean>
+
+  <bean id="Uif-Pager" parent="Uif-Pager-parentBean"/>
+  <bean id="Uif-Pager-parentBean" abstract="true" class="org.kuali.rice.krad.uif.widget.Pager" scope="prototype">
+    <property name="libraryCssClasses" value="pagination"/>
+    <property name="template" value="/krad/WEB-INF/ftl/components/widget/pager.ftl"/>
+    <property name="templateName" value="uif_pager"/>
+    <property name="currentPage" value="1"/>
+    <property name="maxNumberedLinksShown" value="5"/>
+    <property name="renderPrevNext" value="true"/>
+    <property name="renderFirstLast" value="true"/>
   </bean>
 
 </beans>
