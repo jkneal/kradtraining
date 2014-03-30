@@ -9,7 +9,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
+ 
 		<!--allows the supported database to be changed via parameter (ex: oracle 
 			to mysql) -->
 		<database.groupId>mysql</database.groupId>
@@ -24,7 +24,7 @@
 		<mysql.jdbc.version>5.1.18</mysql.jdbc.version>
 		<mysql.jdbc.artifactId>mysql-connector-java</mysql.jdbc.artifactId>
 
-		<rice.version>2.4.0-M5-r45649</rice.version>
+		<rice.version>2.5.0-M1-SNAPSHOT</rice.version>
 		<servlet-api.version>2.5</servlet-api.version>
 
 		<!--plugin versions -->
@@ -42,7 +42,7 @@
 		<maven.failsafe.skip>true</maven.failsafe.skip>
 		<plugin.compiler.source>1.6</plugin.compiler.source>
 		<plugin.compiler.target>1.6</plugin.compiler.target>
-		<tools.jar.path>${java.home}/../lib/tools.jar</tools.jar.path>
+		<tools.jar.path>${java.home}/lib/tools.jar</tools.jar.path>
 	</properties>
 
 	<build>
@@ -253,7 +253,7 @@
 	</repositories>
 
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-krad-data</artifactId>
@@ -279,7 +279,7 @@
 			<type>war</type>
 		</dependency>
 
-		<dependency>
+ 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-krad-development-tools</artifactId>
 			<version>${rice.version}</version>
@@ -302,7 +302,7 @@
 			<artifactId>rice-core-framework</artifactId>
 			<version>${rice.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-core-web</artifactId>

@@ -15,4 +15,4 @@
     limitations under the License.
 
 --%>
-<% response.sendRedirect("kr-krad/kradsampleapp?viewId=KradSampleAppHome&methodToCall=start"); %>
+<% response.sendRedirect("portal.do"); %>

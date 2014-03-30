@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/** Navigation */
 
 /**
  * Setup the breadcrumbs for this view by replacing the old breadcrumbs with the newest from the page
@@ -287,8 +286,8 @@ function markActiveMenuLink() {
  * @param summary - summary to be used in popout
  * @param constraint - constraint to be used in popout
  */
-function setupTextPopout(id, label, summary, constraint) {
-    var options = {label: label, summary: summary, constraint: constraint};
+function setupTextPopout(id, label, summary, constraint, readOnly) {
+    var options = {label: label, summary: summary, constraint: constraint, readOnly: readOnly};
     jQuery("#" + id).initPopoutText(options);
 }
 
@@ -570,7 +569,7 @@ function cleanupClosedLightboxForms() {
  * @param options -
  *          map of option settings (option name/value pairs) for the plugin
  */
-function createDatePicker(controlId, options) {
+function createDatePicker(controlId, options, disabled) {
     var fieldId = jQuery("#" + controlId).closest("div[data-role='InputField']").attr("id");
     jQuery(function () {
         var datePickerControl = jQuery("#" + controlId);
@@ -596,6 +595,10 @@ function createDatePicker(controlId, options) {
         //KULRICE-7261 fix date format passed back.  jquery expecting mm-dd-yy
         if (options.dateFormat == "mm-dd-yy" && datePickerControl[0].getAttribute("value").indexOf("/") != -1) {
             datePickerControl.datepicker('setDate', new Date(datePickerControl[0].getAttribute("value")));
+        }
+        if (disabled === true) {
+            datePickerControl.datepicker('disable');
+            datePickerControl.next(".ui-datepicker-trigger").css("cursor", "not-allowed");
         }
     });
 
@@ -798,7 +801,6 @@ function createTable(tableId, additionalOptions, groupingOptions) {
 
         //make sure scripts are run after table renders (must be done here for deferred rendering)
         runHiddenScripts(tableId, false, true);
-        initBubblePopups();
 
         //insure scripts (if any) are run on each draw, fixes bug with scripts lost when paging after a refresh
         jQuery(oTable).on("dataTables.tableDraw", function (event) {
@@ -964,7 +966,7 @@ function toggleColumnVisibility(tableId, columnId, bVisibility) {
     var oTable = getDataTableHandle(tableId);
     var columnIndex = jQuery(oTable).find('thead th' + columnId).index();
     var header = jQuery(oTable).find('thead th' + columnId);
-    var columns = jQuery(oTable).find('tbody td' + columnId);
+    var columns = jQuery(oTable).find('tr td:nth-child(' + (columnIndex+1) + ')');
     var footer = jQuery(oTable).find('tfoot th').eq(columnIndex);
     if (bVisibility) {
         header.show();
@@ -991,7 +993,8 @@ function toggleColumnVisibility(tableId, columnId, bVisibility) {
  */
 function hasVisibleElementsInColumn(tableId, columnId) {
     var oTable = getDataTableHandle(tableId);
-    var columns = jQuery(oTable).find('tbody td' + columnId);
+    var columnIndex = jQuery(oTable).find('thead th' + columnId).index();
+    var columns = jQuery(oTable).find('tr td:nth-child(' + (columnIndex+1) + ')');
     var isColumnsEmpty = true;
 
     jQuery.each(columns, function (index, td) {
@@ -1289,8 +1292,13 @@ function createSuggest(controlId, options, queryFieldId, queryParameters, localS
             queryData.queryTerm = request.term;
             queryData.queryFieldId = queryFieldId;
 
+            //If no queryTerm, exit, onBlur event has been fired with no content in the field
+            if (queryData.queryTerm === '') {
+                return;
+            }
+
             for (var parameter in queryParameters) {
-                queryData['queryParameter.' + parameter] = coerceValue(queryParameters[parameter]);
+                queryData['queryParameters.' + parameter] = coerceValue(queryParameters[parameter]);
             }
 
             jQuery.ajax({
@@ -1398,46 +1406,104 @@ function createSpinner(id, options) {
  * @param options - options for the tooltip
  */
 function createTooltip(id, text, options, onMouseHoverFlag, onFocusFlag) {
-    var elementInfo = getHoverElement(id);
-    var element = elementInfo.element;
+    //var elementInfo = getHoverElement(id);
+    //var element = elementInfo.element;
+    var tooltipElement = jQuery("#" + id);
 
-    options['innerHtml'] = text;
-    options['manageMouseEvents'] = false;
+    if (tooltipElement.is("header")) {
+        var innerHeaderSpan = tooltipElement.find("#" + id + "_header > .uif-headerText-span");
+        if (innerHeaderSpan.length == 1) {
+            tooltipElement = innerHeaderSpan;
+            options.container = jQuery("#" + id);
+        }
+    }
+
+    options.content = text;
+
     if (onFocusFlag) {
+
         // Add onfocus trigger
-        jQuery("#" + id).focus(function () {
-//            if (!jQuery("#" + id).IsBubblePopupOpen()) {
-            // TODO : use data attribute to check if control
+        tooltipElement.focus(function () {
             if (!isControlWithMessages(id)) {
-                jQuery("#" + id).SetBubblePopupOptions(options, true);
-                jQuery("#" + id).SetBubblePopupInnerHtml(options.innerHTML, true);
-                jQuery("#" + id).ShowBubblePopup();
+                var tooltipElement = jQuery(this);
+                var popoverData = tooltipElement.data(kradVariables.POPOVER_DATA);
+                if (!popoverData) {
+                    popoverData = initializeTooltip(tooltipElement, options);
+                }
+
+                if (!popoverData.shown) {
+                    popoverData.options.content = text;
+                    tooltipElement.popover("show");
+                    popoverData.shown = true;
+                }
             }
-//            }
         });
-        jQuery("#" + id).blur(function () {
-            jQuery("#" + id).HideBubblePopup();
+
+        tooltipElement.blur(function () {
+            if (!isControlWithMessages(id)) {
+                var tooltipElement = jQuery(this);
+                var popoverData = tooltipElement.data(kradVariables.POPOVER_DATA);
+
+                if (popoverData && popoverData.shown) {
+                    tooltipElement.popover("hide");
+                    popoverData.shown = false;
+                }
+            }
         });
     }
     if (onMouseHoverFlag) {
-        // Add mouse hover trigger
-        jQuery("#" + id).hover(function () {
-            if (!jQuery("#" + id).IsBubblePopupOpen()) {
-                if (!isControlWithMessages(id)) {
-                    jQuery("#" + id).SetBubblePopupOptions(options, true);
-                    jQuery("#" + id).SetBubblePopupInnerHtml(options.innerHTML, true);
-                    jQuery("#" + id).ShowBubblePopup();
+
+        tooltipElement.on("mouseover", function(){
+            if (!isControlWithMessages(id)) {
+                var tooltipElement = jQuery(this);
+                var popoverData = tooltipElement.data(kradVariables.POPOVER_DATA);
+                if (!popoverData) {
+                    popoverData = initializeTooltip(tooltipElement, options);
+                }
+
+                if (!popoverData.shown) {
+                    popoverData.options.content = text;
+                    tooltipElement.popover("show");
+                    popoverData.shown = true;
                 }
             }
-        }, function (event) {
-            if (!onFocusFlag || !jQuery("#" + id).is(":focus")) {
-                var result = mouseInTooltipCheck(event, id, element, this, elementInfo.type);
-                if (result) {
-                    mouseLeaveHideTooltip(id, jQuery("#" + id), element, elementInfo.type);
+        });
+
+        tooltipElement.on("mouseout", function(){
+            if (!isControlWithMessages(id) && !(onFocusFlag && jQuery("#" + id).is(":focus"))) {
+                var tooltipElement = jQuery(this);
+                var popoverData = tooltipElement.data(kradVariables.POPOVER_DATA);
+
+                if (popoverData && popoverData.shown) {
+                    tooltipElement.popover("hide");
+                    popoverData.shown = false;
                 }
             }
         });
     }
+}
+
+function initializeTooltip(tooltipElement, extendedOptions, additionalClasses) {
+    var classAttr = "popover";
+    if (additionalClasses) {
+        classAttr = classAttr + " " + additionalClasses;
+    }
+    var options = {
+            trigger:"manual",
+            placement: "auto top",
+            html: true,
+            animation: false,
+            template: '<div class="' + classAttr + '"><div class="arrow"></div><div class="popover-content"></div></div>'
+        };
+
+    if (extendedOptions) {
+        jQuery.extend(options, extendedOptions);
+    }
+
+    tooltipElement.popover(options);
+    tooltipElement.attr("data-hasTooltip", "true");
+
+    return tooltipElement.data(kradVariables.POPOVER_DATA);
 }
 
 /**
@@ -1449,7 +1515,7 @@ function isControlWithMessages(id) {
     // check if component is or contains a control
     if (jQuery("#" + id).is("[data-role='Control']")
             || (jQuery("#" + id).is("[data-role='InputField']") && jQuery("#" + id + "_control").is("[data-role='Control']"))) {
-        return hasMessage(id)
+        return hasMessage(id);
     }
     return false;
 }
@@ -1468,64 +1534,6 @@ function hasMessage(id) {
         return true;
     }
     return false;
-}
-
-/**
- * Workaround to prevent hiding the tooltip when the mouse actually may still be hovering over the field
- * correctly, checks to see if the mouseleave event was entering the tooltip and if so dont continue the
- * hide action, rather add a mouseleave handler that will only be invoked once for that segment, when this
- * is left the check occurs again, until the user has either left the tooltip or the field - then the tooltip
- * is hidden appropriately
- * @param event - mouseleave event
- * @param fieldId - id of the field this logic is being applied to
- * @param triggerElements - the elements that can trigger mouseover
- * @param callingElement - original element that invoked the mouseleave
- * @param type - type of the field
- */
-function mouseInTooltipCheck(event, fieldId, triggerElements, callingElement, type) {
-    if (event.relatedTarget &&
-            jQuery(event.relatedTarget).length &&
-            jQuery(event.relatedTarget).attr("class") != null &&
-            jQuery(event.relatedTarget).attr("class").indexOf("jquerybubblepopup") >= 0) {
-        //this bind is only every invoked once, then unbound - return false to stop hide
-        jQuery(event.relatedTarget).one("mouseleave", function (event) {
-            mouseInTooltipCheck(event, fieldId, triggerElements, callingElement, type);
-        });
-        return false;
-    }
-    //If target moving into is not a triggerElement for this hover
-    // and if the source of the event is not a trigger element
-    else if (!jQuery(event.relatedTarget).is(triggerElements) && !jQuery(event.target).is(triggerElements)) {
-        //hide the tooltip for the original element
-        mouseLeaveHideTooltip(fieldId, callingElement, triggerElements, type, true);
-        return true;
-    }
-    else {
-        return true;
-    }
-}
-
-/**
- * Method to hide the tooltip when the mouse leave event was successful for the field
- * @param id id of the field
- * @param currentElement the current element be iterated on
- * @param elements all elements within the hover set
- * @param type type of field
- */
-function mouseLeaveHideTooltip(id, currentElement, elements, type, force) {
-    var hide = true;
-    var tooltipElement = jQuery(currentElement);
-
-    if (type == "fieldset") {
-        //hide only if mouseleave is on fieldset not its internal radios/checkboxes
-        hide = force || jQuery(currentElement).is("fieldset");
-        tooltipElement = elements.filter("label:first");
-    }
-
-    //hide only if hide flag is true and the tooltip is open
-    if (hide && jQuery(tooltipElement).IsBubblePopupOpen()) {
-        hideTooltip(id);
-    }
 }
 
 /**
@@ -1622,13 +1630,13 @@ function executeFieldQuery(controlId, queryFieldId, queryParameters, queryMethod
 
     var queryParamLength = 0;
     for (var parameter in queryParameters) {
-        queryData['queryParameter.' + queryParameters[parameter]] = coerceValue(parameter);
+        queryData['queryParameters.' + queryParameters[parameter]] = coerceValue(parameter);
         queryParamLength++;
     }
 
     if (queryParamLength === 0) {
         for (var parameter in queryMethodArgs) {
-            queryData['queryParameter.' + queryMethodArgs[parameter]] = coerceValue(parameter);
+            queryData['queryParameters.' + queryMethodArgs[parameter]] = coerceValue(parameter);
         }
     }
 

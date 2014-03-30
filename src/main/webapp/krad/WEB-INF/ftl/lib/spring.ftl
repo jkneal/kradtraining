@@ -240,16 +240,24 @@
 -->
 <#macro formSingleSelect path options id="" attributes="">
     <@bind path/>
-
+    <#assign inGroup=false>
     <select id="${id!}" name="${status.expression}" ${attributes}>
        <#list options as option>
-          <#if option.location?has_content && option.location.href?has_content>
-              <option data-location="${option.location.href}"
-                      value="${option.key?html}"<@checkSelected option.key/>>${option.value?html}</option>
+          <#if option.label?has_content>
+               <#if inGroup>
+                   </optgroup>
+               </#if>
+               <optgroup label="${option.label?html}">
+               <#assign inGroup=true>
+          <#elseif option.location?has_content && option.location.href?has_content>
+              <option data-location="${option.location.href}" value="${option.key?html}"<@checkSelected option.key/>>${option.value?html}</option>
           <#else>
               <option value="${option.key?html}"<@checkSelected option.key/>>${option.value?html}</option>
           </#if>
        </#list>
+       <#if inGroup>
+           </optgroup>
+       </#if>
     </select>
 </#macro>
 
@@ -267,9 +275,18 @@
 <#macro formMultiSelect path options id="" attributes="">
     <@bind path/>
     <select multiple="multiple" id="${id!}" name="${status.expression}" ${attributes}>
+        <#assign inGroup=false>
         <#list options as option>
-        <#assign isSelected = contains(status.actualValue?default([""]), option.key)>
-        <option value="${option.key?html}"<#if isSelected> selected="selected"</#if>>${option.value?html}</option>
+            <#if option.label?has_content>
+                <#if inGroup>
+                    </optgroup>
+                </#if>
+                <optgroup label="${option.label?html}">
+                <#assign inGroup=true>
+            <#else>
+                <#assign isSelected = contains(status.actualValue?default([""]), option.key)>
+                <option value="${option.key?html}"<#if isSelected> selected="selected"</#if>>${option.value?html}</option>
+            </#if>
         </#list>
     </select>
     <input type="hidden" name="_${status.expression}" value="on"/>
@@ -328,14 +345,16 @@
     <#local controlId="${id}_${option_index}">
     <#local isSelected = contains(status.actualValue?default([""]), option.key)>
     <span class="uif-tooltip">
-    <input type="checkbox" id="${controlId}" name="${status.expression}" value="${option.key?html}"<#if isSelected> checked="checked"</#if> ${attributes}<@closeTag/>
-    <#if option.message.richMessage>
-        <label onclick="handleCheckboxLabelClick('${controlId}',event); return false;" for="${controlId}"><@krad.template component=option.message/></label>
-    <#else>
-        <label for="${controlId}">${option.value!}</label>
-    </#if>
+        <input type="checkbox" id="${controlId}" name="${status.expression}" value="${option.key?html}"<#if isSelected> checked="checked"</#if> ${attributes}<@closeTag/>
+        <#if option.message.richMessage>
+            <label onclick="handleCheckboxLabelClick('${controlId}',event); return false;" for="${controlId}"><@krad.template component=option.message/></label>
+        <#else>
+            <label for="${controlId}">${option.value!}</label>
+        </#if>
     </span>
-    ${separator}
+        <#if option_has_next>
+            ${separator}
+        </#if>
     </#list>
     <input type="hidden" name="_${status.expression}" value="on"/>
     <#-- End Kuali enhancements and changes -->

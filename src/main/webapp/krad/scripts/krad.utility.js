@@ -364,8 +364,7 @@ function runHiddenScripts(id, isSelector, skipValidationBubbling) {
 
         //Interpret new server message state for refreshed InputFields and write them out
         if (!skipValidationBubbling) {
-            //reinitialize BubblePopup
-            initBubblePopups();
+            pageValidationPhase = true;
 
             jQuery(selector).find("div[data-role='InputField']").andSelf().filter("div[data-role='InputField']").each(function () {
                 var id = jQuery(this).attr('id');
@@ -377,13 +376,11 @@ function runHiddenScripts(id, isSelector, skipValidationBubbling) {
             });
 
             writeMessagesForPage();
+            pageValidationPhase = false;
         }
     }
     else {
         evaluateScripts();
-
-        //reinitialize BubblePopup
-        initBubblePopups();
     }
 
     profile(false, "run-scripts:" + id);
@@ -848,23 +845,6 @@ function resizeTheRouteLogFrame() {
 }
 
 /**
- * Adds or adds value to the attribute on the element.
- *
- * @param id - element id
- * @param attributeName - name of the attribute to add/add to
- * @param attributeValue - value of the attribute
- * @param concatFlag - indicate if value should be added to current value
- */
-function addAttribute(id, attributeName, attributeValue, concatFlag) {
-    hasAttribute = jQuery("#" + id).is('[' + attributeName + ']');
-    if (concatFlag && hasAttribute) {
-        jQuery("#" + id).attr(attributeName, jQuery("#" + id).attr(attributeName) + " " + attributeValue);
-    } else {
-        jQuery("#" + id).attr(attributeName, attributeValue);
-    }
-}
-
-/**
  * Open new browser window for the specified help url
  *
  * The help window is positioned in the center of the screen and resized to 1/4th of the screen.
@@ -1028,7 +1008,7 @@ function addLineMouseOut(addButton, highlightItemClass) {
 function collectionLineChanged(inputField, highlightItemClass) {
     // This is not very good for performance but because dirty_form gets binded after this event so we need to trigger
     // the dirty_form check before checking for the dirty fields
-    jQuery(inputField).triggerHandler('blur');
+    jQuery(inputField).triggerHandler('change');
 
     // Get the innerlayout to see if we are dealing with table or stack group
     var innerLayout = jQuery(inputField).parents('.' + kradVariables.TABLE_COLLECTION_LAYOUT_CLASS
@@ -1040,8 +1020,10 @@ function collectionLineChanged(inputField, highlightItemClass) {
         var saveButton = row.find('.' + kradVariables.SAVE_LINE_ACTION_CLASS);
 
         if (enabled) {
+            saveButton.removeClass('disabled');
             saveButton.removeAttr('disabled');
         } else {
+            saveButton.addClass('disabled');
             saveButton.attr('disabled', 'disabled');
         }
 
@@ -1051,12 +1033,27 @@ function collectionLineChanged(inputField, highlightItemClass) {
         var saveButton = itemGroup.find('.' + kradVariables.SAVE_LINE_ACTION_CLASS);
 
         if (enabled) {
+            saveButton.removeClass('disabled');
             saveButton.removeAttr('disabled');
         } else {
+            saveButton.addClass('disabled');
             saveButton.attr('disabled', 'disabled');
         }
 
     }
+}
+
+/**
+ * Takes a string argument that contains javascript code and wraps in a function that accepts an
+ * event argument.
+ *
+ * @param source string containing event script
+ * @returns {Object} event handler function
+ */
+function wrapAsHandler(source) {
+    var script = "(function (e) { " + source + "})"
+
+    return eval(script);
 }
 
 /**
@@ -1087,20 +1084,13 @@ function showLightboxComponent(componentId, overrideOptions, alwaysRefresh) {
         }});
     }
 
-    if (jQuery('#' + componentId).length > 0 && !alwaysRefresh && !jQuery('#' + componentId).hasClass(kradVariables.CLASSES.PLACEHOLDER)) {
+    if (jQuery('#' + componentId).length > 0 && !alwaysRefresh
+            && !jQuery('#' + componentId).hasClass(kradVariables.CLASSES.PLACEHOLDER)) {
         _showLightboxComponentHelper(componentId, overrideOptions);
     } else {
-        var placeholderSpan = '<span id="' + componentId + '"class="' + kradVariables.CLASSES.PLACEHOLDER +
-                '" data-role="' + kradVariables.DATA_ROLES.PLACEHOLDER + '"></span>';
-        if (jQuery('#' + componentId).length == 0) {
-            jQuery('#' + kradVariables.IDS.DIALOGS).append(placeholderSpan);
-        } else {
-            jQuery('#' + componentId).replaceWith(placeholderSpan);
-        }
-
-        retrieveComponent(componentId, undefined, function () {
+        createPlaceholderAndRetrieve(componentId, function () {
             _showLightboxComponentHelper(componentId, overrideOptions);
-            }, {}, true);
+        });
     }
 }
 
@@ -1242,7 +1232,10 @@ function _initAndOpenLightbox(contentOptions, overrideOptions) {
 
     // Open the light box
     jQuery.fancybox(options);
-    setupLightboxForm();
+    //stop external content from being wrapped with kualiForm tag
+    if (!(contentOptions.type === "iframe")) {
+        setupLightboxForm();
+    }
 }
 
 /**
@@ -1866,11 +1859,30 @@ function _handleColData(rowObject, type, colName, newVal) {
         return;
     } else if (type === "display") {
         return colObj.render;
-    } else if (type === "sort" && colObj.val == null) {
-        return colObj.render;
+    } else if (type === "sort") {
+        var sortValue = colObj.val;
+        if (sortValue == null) {
+            sortValue = colObj.render;
+        }
+
+        if (colObj.render) {
+            var field = jQuery(colObj.render);
+            var isInput = field.is("[data-role='InputField']");
+
+            if (isInput) {
+                var id = field.attr("id");
+                var control = field.find("[data-control_for='" + id + "']");
+                if (control.length) {
+                    sortValue = coerceValue(control.attr("name"));
+                }
+            }
+        }
+
+        return sortValue;
     }
 
     return colObj.val;
+
 }
 
 function normalizeGroupString(sGroup) {
@@ -2666,4 +2678,10 @@ function formatHtml(html) {
     }
 
     return formatted;
+}
+
+function getGroupHeaderElement(groupId) {
+    var headerWrapper = jQuery("[data-header_for='" + groupId + "']");
+    var wrapperId = headerWrapper.attr("id");
+    return headerWrapper.find("#" + wrapperId + "_header");
 }

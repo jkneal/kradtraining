@@ -106,7 +106,7 @@
     <property name="templateOptions">
       <map>
         <entry key="bAutoWidth" value="false"/>
-        <entry key="sDom" value="fTlrtip"/>
+        <entry key="sDom" value="Tlrtip"/>
         <entry key="bRetrieve" value="true"/>
         <entry key="sPaginationType" value="full_numbers"/>
         <entry key="oTableTools"
@@ -114,8 +114,6 @@
       </map>
     </property>
     <property name="emptyTableMessage" value="No records found"/>
-    <property name="showSearchAndExportOptions" value="false"/>
-    <property name="showSearchOption" value="false"/>
     <property name="showExportOption" value="true"/>
     <property name="forceAoColumnDefsOverride" value="false"/>
   </bean>
@@ -133,7 +131,7 @@
   <bean id="Uif-ScrollableRichTable-parentBean" parent="Uif-RichTable-parentBean" scope="prototype">
     <property name="templateOptions">
       <map merge="true">
-        <entry key="sDom" value="fTrt"/>
+        <entry key="sDom" value="Trt"/>
         <entry key="bScrollInfinite" value="true"/>
         <entry key="bDeferRender" value="false"/>
         <entry key="bScrollCollapse" value="true"/>
@@ -211,8 +209,8 @@
         scope="prototype" parent="Uif-WidgetBase">
     <property name="template" value="/krad/WEB-INF/ftl/components/widget/disclosure.ftl"/>
     <property name="templateName" value="uif_disclosure"/>
-    <property name="collapsedIconClass" value="icon-angle-right"/>
-    <property name="expandedIconClass" value="icon-angle-down"/>
+    <property name="collapsedIconClass" value="icon-caret-right"/>
+    <property name="expandedIconClass" value="icon-caret-down"/>
     <property name="animationSpeed" value="500"/>
     <property name="defaultOpen" value="true"/>
   </bean>
@@ -319,18 +317,6 @@
   <bean id="Uif-Tooltip" parent="Uif-Tooltip-parentBean"/>
   <bean id="Uif-Tooltip-parentBean" abstract="true" class="org.kuali.rice.krad.uif.widget.Tooltip" scope="prototype">
     <property name="onMouseHover" value="true"/>
-    <property name="templateOptions">
-      <map>
-        <entry key="position" value="top"/>
-        <entry key="align" value="left"/>
-        <entry key="alwaysVisible" value="false"/>
-        <entry key="tail" value="{ align:'left', hidden: false }"/>
-        <entry key="themePath"
-               value="@{#ConfigProperties['application.url']}/plugins/tooltip/jquerybubblepopup-theme/"/>
-        <entry key="themeName" value="black"/>
-        <entry key="selectable" value="true"/>
-      </map>
-    </property>
   </bean>
 
   <bean id="Uif-TooltipHelp" parent="Uif-TooltipHelp-parentBean"/>

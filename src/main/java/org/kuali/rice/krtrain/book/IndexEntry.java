@@ -1,13 +1,13 @@
 package org.kuali.rice.krtrain.book;
 
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.DataObjectBase;
 
 /**
  * Index Entry Entity
  *
  * @author KRAD Training
  */
-public class IndexEntry extends PersistableBusinessObjectBase {
+public class IndexEntry extends DataObjectBase {
     private static final long serialVersionUID = 6574987035630737396L;
 
     private String term;
