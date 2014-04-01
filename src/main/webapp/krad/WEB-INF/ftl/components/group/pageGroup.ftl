@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -35,12 +35,19 @@
         </div>
     </#if>
 
-    <#include "group.ftl" parse=true/>
-    <@uif_group group=group/>
+    <@krad.groupWrap group=group>
+        <#if group.items?has_content>
+            <#-- invoke layout manager -->
+            <#local templateName=".main.${group.layoutManager.templateName}"/>
+            <#local templateParms="items=group.items manager=group.layoutManager container=group"/>
 
-    <!-- PAGE RELATED VARS -->
-    <#if KualiForm.view.renderForm>
-        <@spring.formHiddenInput id="pageId" path="KualiForm.view.currentPageId"/>
-    </#if>
+            <#dyncall templateName templateParms/>
+        </#if>
+
+        <!-- PAGE RELATED VARS -->
+        <#if KualiForm.view.renderForm>
+            <@spring.formHiddenInput id="pageId" path="KualiForm.pageId"/>
+        </#if>
+    </@krad.groupWrap>
 
 </#macro>
