@@ -1,6 +1,6 @@
 <!--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -77,7 +77,7 @@
       <bean parent="Uif-GridLayoutBase" p:numberOfColumns="4" p:applyDefaultCellWidths="false"/>
     </property>
     <property name="fieldBindingObjectPath" value="document"/>
-    <property name="validationMessages.render" value="false"/>
+    <property name="validationMessages.displayMessages" value="false"/>
   </bean>
 
   <bean id="Uif-DocumentOverviewSection" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="4"
@@ -85,11 +85,9 @@
     <property name="headerText" value="Document Overview"/>
     <property name="items">
       <list>
-        <bean parent="Uif-DocumentDescription" p:required="true" p:label="Description"
-              p:width="25%" p:fieldLabel.width="25%"/>
-        <bean parent="Uif-DocumentExplaination" p:rowSpan="2" p:fieldLabel.rowSpan="2"
-              p:width="40%" p:fieldLabel.width="10%"/>
-        <bean parent="Uif-OrganizationDocumentNumber" p:width="25%" p:fieldLabel.width="25%"/>
+        <bean parent="Uif-DocumentDescription" p:required="true" p:label="Description"/>
+        <bean parent="Uif-DocumentExplaination" p:rowSpan="2" p:fieldLabel.rowSpan="2"/>
+        <bean parent="Uif-OrganizationDocumentNumber"/>
       </list>
     </property>
     <property name="fieldBindingObjectPath" value="document.documentHeader"/>
@@ -109,7 +107,7 @@
         <bean parent="Uif-DataField" p:propertyName="notePostedTimestamp" p:readOnly="true"/>
         <bean parent="Uif-DataField" p:propertyName="authorUniversal.principalName" p:readOnly="true"/>
         <bean parent="Uif-InputField" p:propertyName="noteTopicText" p:render="@{#DocumentEntry.displayTopicFieldInNotes}"/>
-        <bean parent="Uif-InputField" p:propertyName="noteText" p:required="true" p:readOnly="@{#line.noteText != ''}"/>
+        <bean parent="Uif-InputField" p:propertyName="noteText" p:required="true" p:readOnly="@{!#isAddLine}"/>
         <bean parent="Uif-VerticalFieldGroup" p:label="Attached File" p:render="@{#DocumentEntry.allowsNoteAttachments}">
           <property name="items">
             <list>
@@ -208,9 +206,10 @@
                   <bean class="org.kuali.rice.krad.keyvalues.AdHocActionRequestCodesValuesFinder"/>
                 </property>
               </bean>
-              <bean parent="Uif-InputField" p:propertyName="name" p:label="Person" p:required="true">
+              <bean parent="Uif-InputField" p:propertyName="id" p:label="Person" p:required="true">
                 <property name="control">
-                  <bean parent="Uif-KimPersonControl" p:principalIdPropertyName="id" p:personNamePropertyName="person.name"/>
+                  <bean parent="Uif-KimPersonControl" p:personObjectPropertyName="person"
+                        p:principalIdPropertyName="person.principalId" p:personNamePropertyName="person.name"/>
                 </property>
               </bean>
             </list>

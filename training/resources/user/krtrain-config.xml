@@ -37,6 +37,6 @@
 
 	<param name="encryption.key">7IC64w6ksLU</param>
   
-    <param name="rice.kr.additionalSpringFiles">classpath:org/kuali/krad/devtools/datadictionary/ReloadingDataDictionarySpringBeans.xml</param>
+    <param name="rice.kr.additionalSpringFiles">classpath:org/kuali/rice/krad/devtools/datadictionary/ReloadingDataDictionarySpringBeans.xml</param>
 
 </config>
