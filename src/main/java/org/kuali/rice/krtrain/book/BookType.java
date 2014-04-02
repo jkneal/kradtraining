@@ -19,14 +19,14 @@
 package org.kuali.rice.krtrain.book;
 
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.DataObjectBase;
 
 /**
  * Book Type Entity
  *
  * @author KRAD Training
  */
-public class BookType extends PersistableBusinessObjectBase implements MutableInactivatable {
+public class BookType extends DataObjectBase implements MutableInactivatable {
     private static final long serialVersionUID = 8499633675478827977L;
 
     private String typeCode;
