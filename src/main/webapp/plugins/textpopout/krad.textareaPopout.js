@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 (function($) {
-	$.fn.initPopoutText = function(options, imageUrl){
+	$.fn.initPopoutText = function(options){
 		return this.each(function(){
-			
 			options = options || {};
+
 			//default setting
 			options = $.extend({
 				label: "",
 				summary: "",
-				constraint: ""
+				constraint: "",
+                readOnly: ""
 			}, options);
 			
 			var id= $(this).attr("id");
@@ -38,6 +39,7 @@
 			var labelHtml="";
 			var summaryHtml="";
 			var constraintHtml="";
+            var readOnly=options.readOnly;
 			if(options.label){
 				labelHtml = "<label for='textarea_popout_control'>"+options.label+"</label>";
 			}
@@ -48,7 +50,7 @@
 				constraintHtml="<span class='constraint'>" + options.constraint + "</span>";
 			}
 			
-			$(this).after('<a id="expand_btn_' + id + '" title="Expand"><img src="' + imageUrl + 'pencil_add.png" alt="Expand"/></a>');
+			$(this).after('<span class="input-group-btn"><a id="expand_btn_' + id + '" title="Expand" class="icon-edit-sign"></a></span>');
 			$(document).ready(function()
 			{
 				$("a#expand_btn_" + id).click(function(e){
@@ -58,25 +60,49 @@
 					if(!value){
 						value = "";
 					}
-					var options = {
-						content: "<div class='textarea_popout'>"+labelHtml+summaryHtml
-							+"<textarea id='textarea_popout_control'>"+value+"</textarea>"
-							+constraintHtml
-							+"<input id='done_btn' class='btn btn-primary done' type='button' value='Done'/></div>",
-                        afterShow: function(){
-							context("textarea#textarea_popout_control").focus();
-			    			context("#done_btn").click(function(e){
-			    				e.preventDefault();
-			    				obj.val(context("textarea#textarea_popout_control").val());
-			    				context.fancybox.close();
-			    				obj.valid();
-			    				obj.focus();
-			    			});
-						},
-						autoDimensions: true,
-						hideOnOverlayClick: false,
-						centerOnScroll: true
-					};
+
+                    if (readOnly === true) {
+
+                        var options = {
+                            content: "<div class='textarea_popout'>"+labelHtml+summaryHtml
+                                +"<textarea id='textarea_popout_control' readonly>"+value+"</textarea>"
+                                +constraintHtml
+                                +"<input id='done_btn' class='btn btn-primary done' type='button' value='Done'/></div>",
+                            afterShow: function(){
+                                context("textarea#textarea_popout_control").focus();
+                                context("#done_btn").click(function(e){
+                                    e.preventDefault();
+                                    obj.val(context("textarea#textarea_popout_control").val());
+                                    context.fancybox.close();
+                                    obj.valid();
+                                    obj.focus();
+                                });
+                            },
+                            autoDimensions: true,
+                            hideOnOverlayClick: false,
+                            centerOnScroll: true
+                        };
+                    } else {
+                        var options = {
+                            content: "<div class='textarea_popout'>"+labelHtml+summaryHtml
+                                    +"<textarea id='textarea_popout_control'>"+value+"</textarea>"
+                                    +constraintHtml
+                                    +"<input id='done_btn' class='btn btn-primary done' type='button' value='Done'/></div>",
+                            afterShow: function(){
+                                context("textarea#textarea_popout_control").focus();
+                                context("#done_btn").click(function(e){
+                                    e.preventDefault();
+                                    obj.val(context("textarea#textarea_popout_control").val());
+                                    context.fancybox.close();
+                                    obj.valid();
+                                    obj.focus();
+                                });
+                            },
+                            autoDimensions: true,
+                            hideOnOverlayClick: false,
+                            centerOnScroll: true
+                        };
+                    }
 
 	        		context.fancybox(options);
 

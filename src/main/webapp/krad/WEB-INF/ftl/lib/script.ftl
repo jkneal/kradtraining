@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,13 +16,5 @@
 
 -->
 <#macro script value component='' role="script">
-
-    <#if component?has_content && component.id?has_content>
-        <#local dataFor="data-for=\"${component.id}\""/>
-    </#if>
-
-    <#if value?has_content>
-        <input name="script" type="hidden" data-role="${role}" ${dataFor!} value="${value?html}"/>
-    </#if>
-
+	<#inline 'script' />
 </#macro>
