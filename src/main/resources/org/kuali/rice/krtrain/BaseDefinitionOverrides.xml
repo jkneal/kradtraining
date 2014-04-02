@@ -13,7 +13,6 @@
     <bean id="Uif-TrainingTheme" parent="Uif-KbootTheme">
       <property name="cssFiles">
         <list merge="true">
-          <value>bootflat/css/bootflat.css</value>
           <value>css/krtrain-theme.css</value>
         </list>
       </property>

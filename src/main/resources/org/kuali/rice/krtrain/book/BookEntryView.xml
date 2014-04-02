@@ -32,8 +32,7 @@
             </list>
         </property>
         <property name="applicationHeader">
-            <bean parent="Uif-HeaderBase" p:template="/WEB-INF/templates/ftl/applicationHeader.ftl"
-                  p:templateName="appheader"/>
+            <bean parent="Training-AppHeader" p:render="@{!renderedInLightBox}"/>
         </property>
         <property name="applicationFooter">
             <bean parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
@@ -191,7 +190,7 @@
                     </property>
                 </bean>
 
-                <bean id="isbn" parent="Uif-InputField-LabelRight" p:propertyName="isbn"
+                <bean id="isbn" parent="Uif-InputField" p:propertyName="isbn"
                       p:label="ISBN" p:instructionalText="Please enter the [b]newest ISBN[/b] number available">
                     <property name="help">
                         <bean parent="Uif-Help">
@@ -202,7 +201,7 @@
                 </bean>
 
                 <bean parent="Uif-DataField" p:propertyName="entryDate" p:bindingInfo.bindToForm="true"
-                      p:label="Entry Date" p:defaultValue="01/03/2013"/>
+                      p:label="Entry Date"/>
 
                 <bean parent="Uif-InputField" p:propertyName="edition" p:label="Edition"
                       p:propertyEditorClass="org.kuali.rice.krtrain.editors.EditionPropertyEditor"/>
@@ -373,10 +372,10 @@
         </property>
         <property name="items">
             <list>
-                <bean id="publisher" parent="Uif-InputField-LabelTop" p:propertyName="publisher"
+                <bean id="publisher" parent="Uif-InputField" p:propertyName="publisher"
                       p:label="Publisher"/>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherCode"
+                <bean parent="Uif-InputField" p:propertyName="publisherCode"
                       p:minLength="1" p:constraintText="#xxx format"
                       p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.PublisherCode"
                       p:dictionaryAttributeName="code" p:propertyNamesForAdditionalDisplay="pubCode.name">
@@ -437,14 +436,14 @@
                             <bean parent="Uif-VerticalBoxGroup" p:style="margin-right: 50px;">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherAddress"
+                                        <bean parent="Uif-InputField" p:propertyName="publisherAddress"
                                               p:label="Publisher Address">
                                             <property name="control">
                                                 <bean parent="Uif-MediumTextControl" p:watermarkText="street # name"/>
                                             </property>
                                         </bean>
 
-                                        <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherState"
+                                        <bean parent="Uif-InputField" p:propertyName="publisherState"
                                               p:label="Publisher State" p:readOnly="@{#empty(#dp.publisherAddress)}"
                                               p:refreshWhenChangedPropertyNames="#dp.publisherAddress">
                                             <property name="control">
@@ -452,7 +451,7 @@
                                             </property>
                                         </bean>
 
-                                        <bean parent="Uif-InputField-LabelTop" p:propertyName="publicationDate"
+                                        <bean parent="Uif-InputField" p:propertyName="publicationDate"
                                               p:label="Publisher Date">
                                             <property name="control">
                                                 <bean parent="Uif-DateControl">
@@ -477,7 +476,7 @@
                                   p:source="@{#ConfigProperties['application.url']}/images/publisher.png"
                                   p:altText="publisher logo" p:captionHeaderText="Publisher Logo"
                                   p:cutlineText="logo created by [i]entangled publishing[/i], [id=copyrightImage]2013"
-                                  p:render="@{#getParmInd('KR-SAP','BookEntry','RenderPublisherLogo')}">
+                                  p:render="@{#getParamAsBoolean('KR-SAP','BookEntry','RenderPublisherLogo')}">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>border-photo</value>
@@ -532,7 +531,7 @@
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krtrain.book.Author"
                               p:fieldConversions="authorId:authorId,authorName:authorName,email:email"
-                              p:lookupParameters="email:email" p:readOnlySearchFields="email"/>
+                              p:lookupParameters="email:email" p:readOnlyLookupFields="email"/>
                     </property>
                 </bean>
 
