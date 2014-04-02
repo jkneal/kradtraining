@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -22,8 +22,12 @@
 
 <#macro uif_text control field>
 
-    <#local attributes='size="${control.size!}" class="${control.styleClassesAsString!}"
-         tabindex="${control.tabIndex!}"  ${control.simpleDataAttributes!}'/>
+    <#local attributes='size="${control.size!}"
+        class="${control.styleClassesAsString!}" ${control.simpleDataAttributes!} '/>
+
+    <#if control.tabIndex != 0>
+        <#local attributes='${attributes} tabindex="${control.tabIndex!}"' />
+    </#if>
 
     <#if control.disabled>
         <#local attributes='${attributes} disabled="disabled"'/>
@@ -54,12 +58,18 @@
     <#if control.watermarkText?has_content>
         <@krad.script value="createWatermark('${control.id}', '${control.watermarkText?js_string}');"/>
     </#if>
+    <#if control.disabled>
+        <#local disabled="true"/>
+    <#else>
+        <#local disabled="false"/>
+    </#if>
 
     <#-- render date picker widget -->
-    <@krad.template component=control.datePicker componentId="${control.id}"/>
+    <#--<@krad.template component=control.datePicker componentId="${control.id}"/>-->
+    <@krad.template component=control.datePicker componentId="${control.id}" disabled=disabled/>
 
     <#if control.textExpand>
-        <@krad.script value="setupTextPopout('${control.id}', '${field.label!}', '${(field.instructionalMessage.messageText?js_string)!}', '${(field.constraintMessage.messageText?js_string)!}', '${ConfigProperties[\"krad.externalizable.images.url\"]}');" />
+        <@krad.script value="setupTextPopout('${control.id}', '${field.label!}', '${(field.instructionalMessage.messageText?js_string)!}', '${(field.constraintMessage.messageText?js_string)!}');" />
     </#if>
 
     <@krad.disable control=field.control type="text"/>

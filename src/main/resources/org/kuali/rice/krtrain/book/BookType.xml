@@ -41,7 +41,7 @@
   </bean>
 
   <bean id="BookType-active" parent="BookType-active-parentBean"/>
-  <bean id="BookType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+  <bean id="BookType-active-parentBean" abstract="true" parent="AttributeReference-activeIndicator">
       <property name="name" value="active"/>
   </bean>
 
