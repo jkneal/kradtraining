@@ -1,51 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
-
-    <bean id="Television" class="edu.myedu.sample.Television" scope="singleton">
-        <property name="brand" value="LG"/>
-        <property name="model" value="3605-m"/>
-        <property name="hdtv" value="true"/>
-        <property name="supportedFeatures">
-            <list>
-                <value>hdmiInput</value>
-                <value>remote</value>
-                <value>networkConnectivity</value>
-                <value>widescreen</value>
-            </list>
-        </property>
-        <property name="numberMenuOptions">
-            <map>
-                <entry key="display" value="3"/>
-                <entry key="color" value="5"/>
-                <entry key="sound" value="4"/>
-            </map>
-        </property>
-        <property name="speaker">
-            <ref bean="Speaker"/>
-        </property>
-    </bean>
-
-    <bean id="Television2" class="edu.myedu.sample.Television" scope="prototype">
-        <constructor-arg value="LG"/>
-        <constructor-arg value="3605-m"/>
-        <constructor-arg value="true"/>
-    </bean>
-
-    <bean id="Speaker" class="edu.myedu.sample.Speaker">
-        <property name="watts" value="50"/>
-        <property name="lowFreq" value="5"/>
-    </bean>
-
-    <bean id="Television3" parent="Television" class="edu.myedu.sample.Television"
-          p:model="8600-t">
-        <property name="supportedFeatures">
-            <list merge="true">
-                <value>highColor</value>
-            </list>
-        </property>
-    </bean>
-
+                    
+                    
 </beans>                    
