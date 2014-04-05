@@ -1,58 +1,141 @@
 package org.kuali.rice.krtrain.book;
 
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import java.util.*;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.DataObjectBase;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.kuali.rice.krad.data.jpa.converters.KualiDecimalConverter;
+import org.kuali.rice.krtrain.util.ListVarcharConverter;
 
 /**
  * Book Entity
  *
  * @author KRAD Training
  */
-public class Book extends PersistableBusinessObjectBase {
+@Entity
+@Table(name="KRTRAIN_BOOK_T")
+public class Book extends DataObjectBase {
     private static final long serialVersionUID = -1826848285097280432L;
 
+	@Id
+	@Column(name="ID")
+    @PortableSequenceGenerator(name = "krtrain_book_id_s")
+    @GeneratedValue(generator = "krtrain_book_id_s")
     private Long id;
+	
+	@Column(name = "TITLE")
    	private String title;
+	
+	@Column(name = "TYP_CD")
    	private String typeCode;
+	
+	@Column(name = "ISBN")
    	private String isbn;
+	
+	@Column(name = "PUB_NM")
    	private String publisher;
+	
+	@Column(name = "PUB_CD")
     private String publisherCode;
+	
+	@Column(name = "PUB_ADD")
     private String publisherAddress;
+	
+	@Column(name = "PUB_ST")
     private String publisherState;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "pub_dt")
    	private Date publicationDate;
+	
+	@Transient
     private int numberPublisherBooks;
+    
+    @Convert(converter = KualiDecimalConverter.class)
+    @Column(name = "price")
    	private KualiDecimal price;
+   	
+   	@Column(name = "SUMMARY")
     private String shortSummary;
+   	
+   	@Transient
     private String longSummary;
 
+   	@Transient
     private Map<String, Integer> ratings;
-
+    
+    @Column(name = "FICT")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean fiction;
+    
+    @Transient
     private boolean annual;
+    
+    @Transient
     private int edition;
+    
+    @Column(name = "BIND_TYP")
     private String bindingType;
 
+    @Transient
     private String coverArt;
+    
+    @Transient
     private String coverArtist;
+    
+    @Transient
     private byte[] coverImage;
 
+    @Transient
     private String preparerSignature;
+    
+    @Transient
     private int numberValidDays;
 
+    @Transient
     private String bookAwardOne;
+    
+    @Transient
     private String bookAwardTwo;
 
+    @Transient
     private List<String> wearAndTear;
+    
+    @Convert(converter = ListVarcharConverter.class)
+    @Column(name = "LANG")
     private List<String> languages;
+    
+    @Convert(converter = ListVarcharConverter.class)
+    @Column(name = "FORMATS")
     private List<String> availableFormats;
+    
+    @Transient
     private List<Integer> averageReview;
 
     private Author author;
+    
+    @Transient
     private PublisherCode pubCode;
 
     private List<IndexEntry> index;
+    
+    @Transient
     private List<Book> relatedBooks;
 
     public Book() {
