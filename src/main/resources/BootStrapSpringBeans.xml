@@ -58,6 +58,7 @@
 	
     <import resource="classpath:org/kuali/rice/krad/config/KRADDependentModuleCommonImports.xml" />
 	
+	<import resource="classpath:KradTrainingJpaSpringBeans.xml"/>
 	<import resource="classpath:KradTrainingModuleBeans.xml"/>
 
 </beans>
