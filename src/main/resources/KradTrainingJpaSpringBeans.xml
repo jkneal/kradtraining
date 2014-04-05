@@ -18,7 +18,9 @@
 		<value>org.kuali.rice.krtrain.book</value>
 	</util:list>
 
-	<util:list id="managedClassNames" />
+	<util:list id="managedClassNames">
+	    <value>org.kuali.rice.krtrain.util.ListVarcharConverter</value>
+	</util:list>
 	<util:list id="additionalMetadataProviders" />
 	<util:list id="springMetadataFileLocations" />
 

@@ -122,14 +122,12 @@ public class Book extends DataObjectBase {
     @Transient
     private List<String> wearAndTear;
     
-    @Transient
-//    @Convert(converter = ListVarcharConverter.class)
-//    @Column(name = "LANG")
+    @Convert(converter = ListVarcharConverter.class)
+    @Column(name = "LANG")
     private List<String> languages;
     
-    @Transient
-//    @Convert(converter = ListVarcharConverter.class)
-//    @Column(name = "FORMATS")
+    @Convert(converter = ListVarcharConverter.class)
+    @Column(name = "FORMATS")
     private List<String> availableFormats;
     
     @Transient
