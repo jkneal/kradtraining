@@ -26,14 +26,6 @@
                 <value>@{#ConfigProperties['application.url']}/js/krad-training.js</value>
             </list>
         </property>
-        <property name="applicationHeader">
-            <bean parent="Uif-HeaderBase" p:template="/WEB-INF/templates/ftl/applicationHeader.ftl"
-                  p:templateName="appheader"/>
-        </property>
-        <property name="applicationFooter">
-            <bean parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
-                  p:templateName="appfooter"/>
-        </property>
     </bean>
 
     <bean id="Krtrain-BookEntryPage1" parent="Uif-Page">

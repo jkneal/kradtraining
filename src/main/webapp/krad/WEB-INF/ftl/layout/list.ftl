@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -30,12 +30,43 @@
         <#local style="style=\"${manager.style}\""/>
     </#if>
 
-    <${listType!} id="${manager.id}" ${style!} ${styleClass!}>
-        <#list items as item>
-            <li>
+    <#local inList=false/>
+
+    <#list items as item>
+        <#-- if the item is a header, render outside the list -->
+        <#if HelperMethods.isHeader(item.getClass())>
+            <#if inList>
+                </${listType}>
+                <#local inList=false/>
+            </#if>
+
+            <@krad.template component=item/>
+        <#else>
+            <#if !inList>
+                <${listType} ${style!} ${styleClass!}>
+                <#local inList=true/>
+            </#if>
+
+            <#if item.wrapperCssClassesAsString?has_content>
+                <#local itemStyleClass="class=\"${item.wrapperCssClassesAsString}\""/>
+            <#else>
+                <#local itemStyleClass=""/>
+            </#if>
+
+            <#if item.wrapperStyle?has_content>
+                <#local itemStyle="style=\"${item.wrapperStyle}\""/>
+            <#else>
+                <#local itemStyle=""/>
+            </#if>
+
+            <li ${itemStyle!} ${itemStyleClass!}>
                 <@krad.template component=item/>
             </li>
-        </#list>
-    </${listType!}>
+        </#if>
+    </#list>
+
+    <#if inList>
+        </${listType}>
+    </#if>
 
 </#macro>

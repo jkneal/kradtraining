@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -20,18 +20,25 @@
 
  -->
 
+
 <#macro uif_fieldGroup field>
 
     <@krad.div component=field>
 
-        <@krad.fieldLbl field=field>
+    <#-- check to see if label exists and if it has been rendered in another field (grid layout)-->
+        <#local renderLabel=field.label?has_content && !field.labelRendered/>
 
-            <fieldset aria-labelledby="${field.id}_label" id="${field.id}_fieldset">
-                <legend style="display: none">${field.label!}</legend>
-                <@krad.template component=field.group/>
-            </fieldset>
+    <#-- render field label top -->
+        <#if renderLabel>
+            <@krad.template component=field.fieldLabel/>
+        </#if>
 
-        </@krad.fieldLbl>
+    <fieldset aria-labelledby="${field.id}_label" id="${field.id}_fieldset">
+        <legend style="display: none">${field.label!}</legend>
+        <@krad.template component=field.group/>
+    </fieldset>
+
+
 
     </@krad.div>
 
