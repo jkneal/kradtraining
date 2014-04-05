@@ -80,29 +80,7 @@
         </property>
     </bean>
 
-    <bean id="Uif-GlobalApplicationHeader" parent="Training-AppHeader" p:render="@{!renderedInLightBox}"/>
-
     <bean id="Uif-GlobalApplicationFooter" parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
           p:templateName="appfooter" p:render="@{!renderedInLightBox}"/>
-
-	<bean id="Training-AppHeader" parent="Uif-ApplicationHeaderBase">
-		<property name="applicationNavigation.brandImage">
-			<bean parent="Uif-Image"
-				p:source="@{#ConfigProperties['application.url']}/images/krad_logo.png" />
-		</property>
-
-		<property name="applicationNavigation.items">
-			<list>
-				<bean parent="Uif-MenuAction" p:actionLabel="Home"
-					p:actionUrl.href="@{#ConfigProperties['application.url']}/app/menu?viewId=Krtrain-MenuView&amp;methodToCall=start" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Home"
-					p:actionUrl.href="@{#ConfigProperties['application.url']}/app/menu?viewId=Krtrain-MenuView&amp;methodToCall=start" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Home"
-					p:actionUrl.href="@{#ConfigProperties['application.url']}/app/menu?viewId=Krtrain-MenuView&amp;methodToCall=start" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Home"
-					p:actionUrl.href="@{#ConfigProperties['application.url']}/app/menu?viewId=Krtrain-MenuView&amp;methodToCall=start" />
-			</list>
-		</property>
-	</bean>	
           
 </beans>
