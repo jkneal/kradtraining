@@ -1,98 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
 
-    <bean id="Krtrain-BookEntryViewMenu" parent="Uif-FormView" p:headerText="Book Entry Menu">
-        <property name="items">
-            <list>
-                <ref bean="Krtrain-BookEntryPage1"/>
-                <ref bean="Krtrain-BookEntryPage2"/>
-            </list>
-        </property>
-        <property name="navigation">
-            <ref bean="Krtrain-BookEntryMenuNavigation"/>
-        </property>
-        <property name="formClass" value="org.kuali.rice.krtrain.book.BookEntryForm"/>
-        <property name="additionalCssFiles">
-            <list>
-                <value>@{#ConfigProperties['application.url']}/css/krad-training.css</value>
-            </list>
-        </property>
-        <property name="additionalScriptFiles">
-            <list>
-                <value>@{#ConfigProperties['application.url']}/js/krad-training.js</value>
-            </list>
-        </property>
-        <property name="applicationHeader">
-            <bean parent="Uif-HeaderBase" p:template="/WEB-INF/templates/ftl/applicationHeader.ftl"
-                  p:templateName="appheader"/>
-        </property>
-        <property name="applicationFooter">
-            <bean parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
-                  p:templateName="appfooter"/>
-        </property>
-    </bean>
+	<bean id="Krtrain-BookEntryViewMenu" parent="Uif-FormView"
+		p:headerText="Book Entry Menu">
+		<property name="items">
+			<list>
+				<ref bean="Krtrain-BookEntryPage1" />
+				<ref bean="Krtrain-BookEntryPage2" />
+			</list>
+		</property>
+		<property name="navigation">
+			<ref bean="Krtrain-BookEntryMenuNavigation" />
+		</property>
+		<property name="formClass" value="org.kuali.rice.krtrain.book.BookEntryForm" />
+		<property name="additionalCssFiles">
+			<list>
+				<value>@{#ConfigProperties['application.url']}/css/krad-training.css
+				</value>
+			</list>
+		</property>
+		<property name="additionalScriptFiles">
+			<list>
+				<value>@{#ConfigProperties['application.url']}/js/krad-training.js
+				</value>
+			</list>
+		</property>
+	</bean>
 
-    <bean id="Krtrain-BookEntryPage1" parent="Uif-Page">
-        <property name="items">
-            <list>
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="items">
-                        <list>
-                            <bean id="titleLbl" parent="Uif-Label" p:labelText="Book Title"
-                                  p:labelForComponentId="title"/>
+	<bean id="Krtrain-BookEntryPage1" parent="Uif-Page">
+		<property name="items">
+			<list>
+				<bean id="typeCode" parent="Uif-InputField" p:propertyName="book.title"
+					p:label="Book Title" />
 
-                            <bean id="title" parent="Uif-InputField" p:propertyName="book.title"
-                                  p:fieldLabel.render="false"/>
-                        </list>
-                    </property>
-                </bean>
+				<bean id="typeCode" parent="Uif-InputField" p:propertyName="book.typeCode"
+					p:label="Book Type" p:enableAutoQuickfinder="false"/>
 
-                <bean id="typeCode" parent="Uif-InputField" p:propertyName="book.typeCode"
-                      p:label="Book Type" p:shortLabel="Bk Typ"/>
+				<bean id="isbn" parent="Uif-InputField" p:propertyName="book.isbn" />
 
-                 <bean id="isbn" parent="Uif-InputField-LabelRight" p:propertyName="book.isbn"
-                      p:label="ISBN"/>
+				<bean id="publisher" parent="Uif-InputField" p:propertyName="book.publisher"
+					p:label="Publisher" />
+			</list>
+		</property>
+	</bean>
 
-                <bean id="publisher" parent="Uif-InputField-LabelTop" p:propertyName="book.publisher"
-                      p:label="Publisher"/>
-            </list>
-        </property>
-    </bean>
+	<bean id="Krtrain-BookEntryPage2" parent="Uif-Page">
+	</bean>
 
-    <bean id="Krtrain-BookEntryPage2" parent="Uif-Page">
-    </bean>
+	<bean id="Krtrain-BookEntryMenuNavigation" parent="Uif-MenuNavigationGroup">
+		<property name="items">
+			<list>
+				<bean parent="Uif-HeaderTwo" p:headerText="Navigation" />
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage1"
+					p:actionLabel="Book Indexing" />
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage2"
+					p:actionLabel="Book Content" />
+			</list>
+		</property>
+	</bean>
 
-    <bean id="Krtrain-BookEntryMenuNavigation" parent="Uif-MenuNavigationGroup">
-        <property name="items">
-            <list>
-                <bean parent="Uif-HeaderTwo" p:headerText="Navigation"/>
-                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage1"
-                      p:actionLabel="Book Indexing"/>
-                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage2"
-                      p:actionLabel="Book Content"/>
-            </list>
-        </property>
-    </bean>
+	<bean id="Krtrain-BookEntryViewTabs" parent="Krtrain-BookEntryViewMenu"
+		p:headerText="Book Entry Tabs">
+		<property name="navigation">
+			<ref bean="Krtrain-BookEntryTabNavigation" />
+		</property>
+	</bean>
 
-    <bean id="Krtrain-BookEntryViewTabs" parent="Krtrain-BookEntryViewMenu" p:headerText="Book Entry Tabs">
-        <property name="navigation">
-            <ref bean="Krtrain-BookEntryTabNavigation"/>
-        </property>
-    </bean>
-
-    <bean id="Krtrain-BookEntryTabNavigation" parent="Uif-TabNavigationGroup">
-        <property name="items">
-            <list>
-                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage1"
-                      p:actionLabel="Book Indexing"/>
-                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage2"
-                      p:actionLabel="Book Content"/>
-            </list>
-        </property>
-    </bean>
+	<bean id="Krtrain-BookEntryTabNavigation" parent="Uif-TabNavigationGroup">
+		<property name="items">
+			<list>
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage1"
+					p:actionLabel="Book Indexing" />
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage2"
+					p:actionLabel="Book Content" />
+			</list>
+		</property>
+	</bean>
 
 </beans>                    
