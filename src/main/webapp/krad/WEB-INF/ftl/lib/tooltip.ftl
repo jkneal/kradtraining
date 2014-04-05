@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 
     <#if component.toolTip?? && component.toolTip.tooltipContent?has_content>
         <@script component=component value="createTooltip('${component.id}', '${component.toolTip.tooltipContent}', ${component.toolTip.templateOptionsJSString!''}, ${component.toolTip.onMouseHover?string}, ${component.toolTip.onFocus?string});" />
-        <@script component=component value="addAttribute('${component.id}', 'class', 'uif-tooltip', true);" />
     </#if>
 
 </#macro>
