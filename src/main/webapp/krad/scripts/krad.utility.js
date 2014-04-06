@@ -203,6 +203,19 @@ function findElement(selector) {
 }
 
 /**
+ * Finds element(s) within the given context that have the data role attribute equal to the given role.
+ *
+ * @param role data attribute role value to find
+ * @param $context (optional) content to find elements, if empty the entire document will be used
+ * @returns {*} found elements, if any
+ */
+function findByDataRole(role, $context) {
+    $context = $context || jQuery(document);
+
+    return $context.find("[" + kradVariables.ATTRIBUTES.DATA_ROLE + "='" + role + "']");
+}
+
+/**
  * Sets a configuration parameter that will be accessible with script
  *
  * <p>
@@ -494,7 +507,7 @@ function writeHiddenToForm(propertyName, propertyValue) {
     //removing because of performFinalize bug
     jQuery('input[name="' + escapeName(propertyName) + '"]').remove();
 
-    if (propertyValue.indexOf("'") != -1) {
+    if (propertyValue && typeof propertyValue === 'string' &&  propertyValue.indexOf("'") != -1) {
         jQuery("<input type='hidden' name='" + propertyName + "'" + ' value="' + propertyValue + '"/>').appendTo(jQuery("#formComplete"));
     } else {
         jQuery("<input type='hidden' name='" + propertyName + "' value='" + propertyValue + "'/>").appendTo(jQuery("#formComplete"));

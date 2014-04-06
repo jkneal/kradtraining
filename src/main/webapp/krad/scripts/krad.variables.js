@@ -35,6 +35,7 @@ JavascriptKradVariables.prototype = {
         DATA_RESPONSE_HANDLER: "data-response_handler",
         DATA_SHOW_HANDLER: "data-show_handler",
         DATA_HIDE_HANDLER: "data-hide_handler",
+        DATA_ROLE: "data-role",
         DISMISS_DIALOG_OPTION: "data-dismissdialogoption",
         DIALOG_ID: "data-dismissdialogid"
     },
@@ -44,7 +45,8 @@ JavascriptKradVariables.prototype = {
     CHANGE_COMPONENT_PROPERTIES: "changeProperties",
     CLASSES: {
         PLACEHOLDER: "uif-placeholder",
-        MODAL: "modal"
+        MODAL: "modal",
+        IN: "in"
     },
 
     CLEAR_FORM_METHOD_TO_CALL: "clearForm",
@@ -63,7 +65,9 @@ JavascriptKradVariables.prototype = {
     DATA_ROLES: {
         DISCLOSURE_LINK: "disclosureLink",
         PLACEHOLDER: "placeholder",
-        ACTION: "Action"
+        ACTION: "Action",
+        PROMPTTEXT: "prompttext",
+        DIALOGHEADER: "dialogheader"
     },
 
     DIALOG_DISMISS_OPTIONS: {
@@ -96,7 +100,9 @@ JavascriptKradVariables.prototype = {
 
     // constants for element ids
     IDS: {
-        DIALOGS: "Uif-Dialogs"
+        DIALOGS: "Uif-Dialogs",
+        DIALOG_OKCANCEL: "Uif-DialogGroup-OkCancel",
+        DIALOG_YESNO: "Uif-DialogGroup-YesNo"
     },
 
     // constants for id suffixes
