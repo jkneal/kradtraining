@@ -22,10 +22,10 @@
         </property>
         <property name="items">
             <list>
-                <bean id="publisher" parent="Uif-InputField-LabelTop" p:propertyName="publisher"
+                <bean id="publisher" parent="Uif-InputField" p:propertyName="publisher"
                       p:label="Publisher"/>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherCode"
+                <bean parent="Uif-InputField" p:propertyName="publisherCode"
                       p:minLength="1" p:constraintText="#xxx format"
                       p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.PublisherCode"
                       p:dictionaryAttributeName="code" p:propertyNamesForAdditionalDisplay="pubCode.name">
@@ -36,7 +36,7 @@
                     </property>
 
                     <property name="suggest">
-                        <bean parent="Uif-Suggest" p:sourcePropertyName="code"
+                        <bean parent="Uif-Suggest" p:valuePropertyName="code"
                               p:suggestQuery.dataObjectClassName="org.kuali.rice.krtrain.book.PublisherCode" />
                     </property>
                 </bean>
@@ -48,14 +48,14 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="viewPublisher"
-                              p:actionLabel="publisher summary" p:actionParameters="format:summary"
-                              p:refreshId="publisherGroup"
-                              p:successCallback="alert('publisher information retrieved');"/>
-
-                        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="viewPublisher"
-                              p:actionLabel="publisher details" p:actionParameters="format:detail"
-                              p:refreshId="publisherGroup"/>
+		                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="viewPublisher"
+		                      p:actionLabel="publisher summary" p:actionParameters="format:summary"
+		                      p:refreshId="publisherGroup"
+		                      p:successCallback="alert('publisher information retrieved');"/>
+		
+		                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="viewPublisher"
+		                      p:actionLabel="publisher details" p:actionParameters="format:detail"
+		                      p:refreshId="publisherGroup"/>
                     </list>
                 </property>
             </bean>
@@ -69,28 +69,25 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherAddress"
-                      p:label="Publisher Address">
+                <bean parent="Uif-InputField" p:propertyName="publisherAddress" p:label="Publisher Address">
                     <property name="control">
                         <bean parent="Uif-MediumTextControl" p:watermarkText="street # name"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherState"
-                      p:label="Publisher State">
+                <bean parent="Uif-InputField" p:propertyName="publisherState" p:label="Publisher State">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="2"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="publicationDate"
-                      p:label="Publisher Date">
+                <bean parent="Uif-InputField" p:propertyName="publicationDate" p:label="Publisher Date">
                     <property name="control">
                         <bean parent="Uif-DateControl"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/images/publisher.png"
+                <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['application.url']}/images/publisher.png"
                       p:altText="publisher logo" p:captionHeaderText="Publisher Logo"
                       p:cutlineText="logo created by [i]entangled publishing[/i], [id=copyrightImage]2013">
                     <property name="cssClasses">
@@ -135,7 +132,7 @@
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krtrain.book.Author"
                               p:fieldConversions="authorId:authorId,authorName:authorName,email:email"
-                              p:lookupParameters="email:email" p:readOnlySearchFields="email"/>
+                              p:lookupParameters="email:email" p:readOnlyLookupFields="email"/>
                     </property>
                 </bean>
 
@@ -160,13 +157,8 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="viewAuthorBooks"
-                              p:actionLabel="view author books" p:actionImagePlacement="RIGHT">
-                            <property name="actionImage">
-                                <bean parent="Uif-Image"
-                                      p:source="@{#ConfigProperties['application.url']}/images/book.png"/>
-                            </property>
-                        </bean>
+		                <bean parent="Uif-SecondaryActionButton" p:methodToCall="viewAuthorBooks"
+		                      p:actionLabel="view author books" p:iconClass="icon-books"/>
                     </list>
                 </property>
             </bean>
