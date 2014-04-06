@@ -117,23 +117,29 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="publisherAddress" p:label="Publisher Address">
-                    <property name="control">
-                        <bean parent="Uif-MediumTextControl" p:watermarkText="street # name"/>
-                    </property>
-                </bean>
-
-                <bean parent="Uif-InputField" p:propertyName="publisherState" p:label="Publisher State">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="2"/>
-                    </property>
-                </bean>
-
-                <bean parent="Uif-InputField" p:propertyName="publicationDate" p:label="Publisher Date">
-                    <property name="control">
-                        <bean parent="Uif-DateControl"/>
-                    </property>
-                </bean>
+			    <bean id="publisherGroup" parent="Uif-VerticalFieldGroup">
+			        <property name="items">
+			            <list>
+			                <bean parent="Uif-InputField" p:propertyName="publisherAddress" p:label="Publisher Address">
+			                    <property name="control">
+			                        <bean parent="Uif-MediumTextControl" p:watermarkText="street # name"/>
+			                    </property>
+			                </bean>
+			
+			                <bean parent="Uif-InputField" p:propertyName="publisherState" p:label="Publisher State">
+			                    <property name="control">
+			                        <bean parent="Uif-TextControl" p:size="2"/>
+			                    </property>
+			                </bean>
+			
+			                <bean parent="Uif-InputField" p:propertyName="publicationDate" p:label="Publisher Date">
+			                    <property name="control">
+			                        <bean parent="Uif-DateControl"/>
+			                    </property>
+			                </bean>
+			            </list>
+			        </property>
+			    </bean>
 
                 <bean parent="Uif-InputField" p:propertyName="shortSummary" p:label="Short Summary">
                     <property name="control">
