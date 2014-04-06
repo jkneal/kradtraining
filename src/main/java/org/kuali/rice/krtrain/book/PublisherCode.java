@@ -1,16 +1,27 @@
 package org.kuali.rice.krtrain.book;
 
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.kuali.rice.krad.bo.DataObjectBase;
 
 /**
  * Book Type Entity
  *
  * @author KRAD Training
  */
-public class PublisherCode extends PersistableBusinessObjectBase {
+@Entity
+@Table(name="KRTRAIN_PUB_CD_T")
+public class PublisherCode extends DataObjectBase {
     private static final long serialVersionUID = 1154874729429390726L;
 
+	@Id
+	@Column(name="PUB_CD")
     private String code;
+	
+	@Column(name="NM")
     private String name;
 
     public PublisherCode() {
