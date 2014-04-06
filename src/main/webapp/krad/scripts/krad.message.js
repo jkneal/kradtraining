@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,7 +101,7 @@ function showLoading(loadingMessage, elementToBlock, replaceElement, options) {
     }
 
     loadingContent = loadingContent.attr("alt", loadingMessage).get(0).outerHTML + " " + loadingMessage;
-    
+
     if (elementToBlock && elementToBlock.length) {
         if (replaceElement) {
             elementToBlock.html(loadingContent);
@@ -193,7 +193,7 @@ function createWatermark(id, watermark) {
  * @returns {Boolean} true if there was an incident, false otherwise
  */
 function checkForIncidentReport(content) {
-    var viewId = jQuery("#viewId", content);
+    var viewId = jQuery("input[name='" + kradVariables.VIEW_ID + "']", content);
     if (viewId.length && viewId.val() === kradVariables.INCIDENT_REPORT_VIEW_CLASS) {
         return true;
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -27,6 +27,12 @@
   <bean id="Uif-ControlBase" abstract="true" parent="Uif-ControlBase-parentBean"/>
   <bean id="Uif-ControlBase-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.ControlBase"
         parent="Uif-ComponentBase">
+    <property name="libraryCssClasses">
+      <list>
+        <value>form-control</value>
+        <value>input-sm</value>
+      </list>
+    </property>
     <property name="cssClasses">
       <list>
         <value>uif-control</value>
@@ -38,7 +44,7 @@
   </bean>
 
   <bean id="Uif-TextControl" parent="Uif-TextControl-parentBean"/>
-  <bean id="Uif-TextControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.TextControl"
+  <bean id="Uif-TextControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.TextControlBase"
         scope="prototype" parent="Uif-ControlBase">
     <property name="template" value="/krad/WEB-INF/ftl/components/control/text.ftl"/>
     <property name="templateName" value="uif_text"/>
@@ -94,6 +100,9 @@
         scope="prototype" parent="Uif-ControlBase">
     <property name="template" value="/krad/WEB-INF/ftl/components/control/checkbox.ftl"/>
     <property name="templateName" value="uif_checkbox"/>
+    <property name="libraryCssClasses">
+      <null/>
+    </property>
     <property name="cssClasses">
       <list>
         <value>uif-checkboxControl</value>
@@ -163,7 +172,7 @@
   </bean>
 
   <bean id="Uif-DropdownControl" parent="Uif-DropdownControl-parentBean"/>
-  <bean id="Uif-DropdownControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.SelectControl"
+  <bean id="Uif-DropdownControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.SelectControlBase"
         scope="prototype" parent="Uif-ControlBase" p:multiple="false">
     <property name="template" value="/krad/WEB-INF/ftl/components/control/select.ftl"/>
     <property name="templateName" value="uif_select"/>
@@ -176,7 +185,7 @@
   </bean>
 
   <bean id="Uif-MultiSelectControl" parent="Uif-MultiSelectControl-parentBean"/>
-  <bean id="Uif-MultiSelectControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.SelectControl"
+  <bean id="Uif-MultiSelectControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.SelectControlBase"
         scope="prototype" parent="Uif-ControlBase" p:multiple="true">
     <property name="template" value="/krad/WEB-INF/ftl/components/control/select.ftl"/>
     <property name="templateName" value="uif_select"/>
@@ -195,6 +204,9 @@
         scope="prototype" parent="Uif-ControlBase">
     <property name="template" value="/krad/WEB-INF/ftl/components/control/radioGroup.ftl"/>
     <property name="templateName" value="uif_radiobuttons"/>
+    <property name="libraryCssClasses">
+      <null/>
+    </property>
     <property name="fieldsetClasses">
       <list>
         <value>uif-verticalRadioFieldset</value>
@@ -215,6 +227,9 @@
     <property name="template" value="/krad/WEB-INF/ftl/components/control/radioGroup.ftl"/>
     <property name="templateName" value="uif_radiobuttons"/>
     <property name="delimiter" value="&amp;nbsp;"/>
+    <property name="libraryCssClasses">
+      <null/>
+    </property>
     <property name="fieldsetClasses">
       <list>
         <value>uif-horizontalRadioFieldset</value>
@@ -234,6 +249,9 @@
         scope="prototype" parent="Uif-ControlBase">
     <property name="template" value="/krad/WEB-INF/ftl/components/control/checkboxGroup.ftl"/>
     <property name="templateName" value="uif_checkboxes"/>
+    <property name="libraryCssClasses">
+      <null/>
+    </property>
     <property name="fieldsetClasses">
       <list>
         <value>uif-verticalCheckboxesFieldset</value>
@@ -254,6 +272,9 @@
     <property name="template" value="/krad/WEB-INF/ftl/components/control/checkboxGroup.ftl"/>
     <property name="templateName" value="uif_checkboxes"/>
     <property name="delimiter" value="&amp;nbsp;"/>
+    <property name="libraryCssClasses">
+      <null/>
+    </property>
     <property name="fieldsetClasses">
       <list>
         <value>uif-horizontalCheckboxesFieldset</value>
@@ -274,7 +295,6 @@
     <property name="templateName" value="uif_file"/>
     <property name="cssClasses">
       <list>
-
         <value>uif-fileControl</value>
       </list>
     </property>
@@ -293,16 +313,21 @@
     </property>
     <property name="cssClasses">
       <list>
-
         <value>uif-dateControl</value>
       </list>
     </property>
   </bean>
 
+  <bean id="Uif-DateControlOnFocus" parent="Uif-DateControlOnFocus-parentBean"/>
+  <bean id="Uif-DateControlOnFocus-parentBean" abstract="true" parent="Uif-DateControl">
+    <property name="datePicker">
+      <bean parent="Uif-DatePickerOnFocus"/>
+    </property>
+  </bean>
+
   <bean id="Uif-SpinnerControl" parent="Uif-SpinnerControl-parentBean"/>
   <bean id="Uif-SpinnerControl-parentBean" abstract="true" class="org.kuali.rice.krad.uif.control.SpinnerControl"
-        scope="prototype"
-        parent="Uif-SmallTextControl">
+        scope="prototype" parent="Uif-SmallTextControl">
     <property name="template" value="/krad/WEB-INF/ftl/components/control/spinner.ftl"/>
     <property name="templateName" value="uif_spinner"/>
     <property name="spinner">
@@ -310,7 +335,6 @@
     </property>
     <property name="cssClasses">
       <list>
-
         <value>uif-spinnerControl</value>
       </list>
     </property>
@@ -326,7 +350,6 @@
     <property name="selectedItemCssClass" value="uif-optionList-selectedItem"/>
     <property name="cssClasses">
       <list>
-
         <value>uif-optionList</value>
       </list>
     </property>
@@ -339,7 +362,6 @@
     <property name="templateName" value="uif_password"/>
     <property name="cssClasses">
       <list>
-
         <value>uif-passwordControl</value>
       </list>
     </property>
