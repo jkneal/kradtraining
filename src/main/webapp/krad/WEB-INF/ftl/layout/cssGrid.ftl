@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@
     this layout, either a fluid version (stretches and reacts to resizing the window) or fixed (does not change
     the size of the "cells").
  -->
+<#include "../components/element/label.ftl"/>
 
 <#macro uif_cssGrid items manager container>
     <#if manager.styleClassesAsString?has_content>
@@ -33,22 +34,20 @@
         <#local style="style=\"${manager.style}\""/>
     </#if>
 
+    <#local rowIndex = 0/>
+    <#local cellIndex = 0/>
 
-    <div id="${manager.id}_cssGridLayout" ${style!} ${styleClass!}>
+    <#list manager.rows as rowItems>
+        <div class="${manager.rowCssClassAttributes[rowIndex]}">
+            <#list rowItems as item>
+                <div class="${manager.cellCssClassAttributes[cellIndex]}">
+                    <@krad.template component=item/>
+                </div>
+                <#local cellIndex = cellIndex + 1/>
+            </#list>
+        </div>
 
-        <#local rowIndex = 0/>
-        <#local cellIndex = 0/>
-        <#list manager.rows as rowItems>
-            <div class="${manager.rowCssClassAttributes[rowIndex]}">
-                <#list rowItems as item>
-                    <div class="${manager.cellCssClassAttributes[cellIndex]}">
-                        <@krad.template component=item/>
-                    </div>
-                    <#local cellIndex = cellIndex + 1/>
-                </#list>
-            </div>
-            <#local rowIndex = rowIndex + 1/>
-        </#list>
+        <#local rowIndex = rowIndex + 1/>
+    </#list>
 
-    </div>
 </#macro>

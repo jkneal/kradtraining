@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,23 +16,17 @@
 
 -->
 <html>
-    <#-- need to render the pages errors since the component could have added errors for the page -->
-    <@krad.template component=view.currentPage.validationMessages includeSrc=true/>
-
     <#-- now render the updated component (or page) wrapped in an update div -->
-    <div id="${Component.id}_update">
-        <@krad.template componentUpdate=true component=Component/>
-
-        <@krad.script value="${KualiForm.lightboxScript!}" component=Component/>
+    <div id="${KualiForm.updateComponent.id}_update">
+        <@krad.template componentUpdate=true component=KualiForm.updateComponent/>
 
         <#-- show added growls -->
-        <@krad.script value="${KualiForm.growlScript!}" component=Component/>
+        <@krad.script value="${KualiForm.growlScript!}" component=KualiForm.updateComponent/>
 
         <#-- set focus if configured but do not perform jump -->
         <@krad.script value="jQuery(document).on(kradVariables.PAGE_LOAD_EVENT, function(){
                     performFocusAndJumpTo(${view.currentPage.autoFocus?string}, false, false, '${KualiForm.focusId!}',
-                        '', '');
-                    dirtyFormState.setDirty(${KualiForm.dirtyForm?string});
-                });" component=Component/>
+                        '', '');dirtyFormState.setDirty(${KualiForm.dirtyForm?string});});"
+                      component=KualiForm.updateComponent/>
     </div>
 </html>

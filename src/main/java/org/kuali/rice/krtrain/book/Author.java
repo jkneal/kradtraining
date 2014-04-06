@@ -1,24 +1,50 @@
 package org.kuali.rice.krtrain.book;
 
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.kuali.rice.krad.bo.DataObjectBase;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 /**
  * Author Entity
  *
  * @author KRAD Training
  */
-public class Author extends PersistableBusinessObjectBase {
+@Entity
+@Table(name="KRTRAIN_AUTHOR_T")
+public class Author extends DataObjectBase {
     private static final long serialVersionUID = 4875037872755501161L;
 
+	@Id
+	@Column(name="AUTHOR_ID")
+    @PortableSequenceGenerator(name = "KRTRAIN_AUTHOR_ID_S")
+    @GeneratedValue(generator = "KRTRAIN_AUTHOR_ID_S")
     private Long authorId;
+	
+    @Column(name = "NM")
    	private String authorName;
+    
+    @Column(name = "EMAIL")
    	private String email;
+    
+    @Column(name = "PHONE_NBR")
    	private String phoneNumber;
 
+    @Transient
     private int numberWrittenBooks;
+    
+    @Transient
     private int numberPublishedBooks;
 
+    @Transient
     private String city;
+    
+    @Transient
     private String state;
 
     public Author(){
