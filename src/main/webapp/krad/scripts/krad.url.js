@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /**
  * Collection of functions related to updating the request URL and refreshing for page
  * changes and back button support
@@ -50,7 +49,7 @@ function handlePageAndCacheRefreshing() {
         var refreshQueryString;
 
         // pick up form key for refresh call so we get the latest state
-        var formKeyField = jQuery("#" + kradVariables.FORM_KEY);
+        var formKeyField = jQuery("input[name='" + kradVariables.FORM_KEY + "']");
         if (formKeyField.length && formKeyField.val()) {
             refreshQueryString = getUrlQueryString(kradVariables.FORM_KEY, formKeyField.val(), refreshQueryString);
         }
@@ -66,7 +65,7 @@ function handlePageAndCacheRefreshing() {
     }
 
     // check whether the view is multi-page, if not we don't need to setup page URL handling
-    var singlePageView = (jQuery('#' + kradVariables.SINGLE_PAGE_VIEW).val() == "true");
+    var singlePageView = (jQuery("input[name='" + kradVariables.SINGLE_PAGE_VIEW + "']").val() == "true");
     if (singlePageView) {
         return false;
     }
@@ -171,16 +170,16 @@ function handlePageAndCacheRefreshing() {
  */
 function updateRequestUrl(pageId) {
 
-    var formKeyField = jQuery("#" + kradVariables.FORM_KEY);
+    var formKeyField = jQuery("input[name='" + kradVariables.FORM_KEY + "']");
 
     // generate unique cache key (only has to be unique with a given form key)
-    var disableCache = (jQuery('#' + kradVariables.DISABLE_BROWSER_CACHE).val() == "true");
+    var disableCache = (jQuery("input[name='" + kradVariables.DISABLE_BROWSER_CACHE + "']").val() == "true");
     if (disableCache) {
         var cacheKey = generateQuickGuid();
     }
 
     // check for single page views in which case we don't need to update URL with page id
-    var singlePageView = (jQuery('#' + kradVariables.SINGLE_PAGE_VIEW).val() == "true");
+    var singlePageView = (jQuery("input[name='" + kradVariables.SINGLE_PAGE_VIEW + "']").val() == "true");
 
     if (!disableCache && singlePageView) {
         // no URL updates needed
