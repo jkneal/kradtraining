@@ -5,7 +5,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <bean id="BookType" parent="BookType-parentBean"/>
-    <bean id="BookType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <bean id="BookType-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="dataObjectClass" value="org.kuali.rice.krtrain.book.BookType"/>
         <property name="objectLabel" value="Book Type"/>
         <property name="attributes">
@@ -48,21 +48,21 @@
         </property>
     </bean>
 
-    <bean id="BookType-description" parent="BookType-description-parentBean"/>
-    <bean id="BookType-description-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="description"/>
-        <property name="forceUppercase" value="false"/>
-        <property name="label" value="Book Type Description"/>
-        <property name="shortLabel" value="Typ Desc"/>
-        <property name="maxLength" value="300"/>
-        <property name="controlField">
-            <bean parent="Uif-MediumTextAreaControl"/>
-        </property>
-    </bean>
+  <bean id="BookType-description" parent="BookType-description-parentBean"/>
+  <bean id="BookType-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Book Type Description"/>
+    <property name="shortLabel" value="Typ Desc"/>
+    <property name="maxLength" value="300"/>
+    <property name="controlField">
+      <bean parent="Uif-MediumTextAreaControl"/>
+    </property>
+  </bean>
 
-    <bean id="BookType-active" parent="BookType-active-parentBean"/>
-    <bean id="BookType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
-        <property name="name" value="active"/>
-    </bean>
+  <bean id="BookType-active" parent="BookType-active-parentBean"/>
+  <bean id="BookType-active-parentBean" abstract="true" parent="AttributeReference-activeIndicator">
+      <property name="name" value="active"/>
+  </bean>
 
 </beans>
