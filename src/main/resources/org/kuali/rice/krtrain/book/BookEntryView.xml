@@ -1,67 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
 
-    <bean id="Krtrain-BookEntryViewMenu" parent="Uif-FormView" p:headerText="Book Entry Menu">
-        <property name="items">
-            <list>
-                <ref bean="Krtrain-BookEntryPage1"/>
-                <ref bean="Krtrain-BookEntryPage2"/>
-            </list>
-        </property>
-        <property name="navigation">
-            <ref bean="Krtrain-BookEntryMenuNavigation"/>
-        </property>
-        <property name="formClass" value="org.kuali.rice.krtrain.book.BookEntryForm"/>
-        <property name="additionalCssFiles">
-            <list>
-                <value>@{#ConfigProperties['application.url']}/css/krad-training.css</value>
-            </list>
-        </property>
-        <property name="additionalScriptFiles">
-            <list>
-                <value>@{#ConfigProperties['application.url']}/js/krad-training.js</value>
-            </list>
-        </property>
-        <property name="applicationHeader">
-            <bean parent="Uif-HeaderBase" p:template="/WEB-INF/templates/ftl/applicationHeader.ftl"
-                  p:templateName="appheader"/>
-        </property>
-        <property name="applicationFooter">
-            <bean parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
-                  p:templateName="appfooter"/>
-        </property>
-        <property name="defaultBindingObjectPath" value="book"/>
-    </bean>
+	<bean id="Krtrain-BookEntryViewMenu" parent="Uif-FormView"
+		p:headerText="Book Entry Menu">
+		<property name="items">
+			<list>
+				<ref bean="Krtrain-BookEntryPage1" />
+				<ref bean="Krtrain-BookEntryPage2" />
+			</list>
+		</property>
+		<property name="navigation">
+			<ref bean="Krtrain-BookEntryMenuNavigation" />
+		</property>
+		<property name="formClass" value="org.kuali.rice.krtrain.book.BookEntryForm" />
+		<property name="additionalCssFiles">
+			<list>
+				<value>@{#ConfigProperties['application.url']}/css/krad-training.css
+				</value>
+			</list>
+		</property>
+		<property name="additionalScriptFiles">
+			<list>
+				<value>@{#ConfigProperties['application.url']}/js/krad-training.js
+				</value>
+			</list>
+		</property>
+		<property name="defaultBindingObjectPath" value="book"/>
+	</bean>
 
-    <bean id="Krtrain-BookEntryPage1" parent="Uif-Page">
-        <property name="items">
-            <list>
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="items">
-                        <list>
-                            <bean id="titleLbl" parent="Uif-Label" p:labelText="Book Title"
-                                  p:labelForComponentId="title"/>
+	<bean id="Krtrain-BookEntryPage1" parent="Uif-Page">
+		<property name="items">
+			<list>
+				<bean id="typeCode" parent="Uif-InputField" p:propertyName="title"
+					p:label="Book Title" />
 
-                            <bean id="title" parent="Uif-InputField" p:propertyName="title"
-                                  p:fieldLabel.render="false"/>
-                        </list>
-                    </property>
-                </bean>
+				<bean id="typeCode" parent="Uif-InputField" p:propertyName="typeCode"
+					p:label="Book Type" p:enableAutoQuickfinder="false"/>
 
-                <bean id="typeCode" parent="Uif-InputField" p:propertyName="typeCode"
-                      p:label="Book Type" p:shortLabel="Bk Typ"/>
+				<bean id="isbn" parent="Uif-InputField" p:propertyName="isbn" />
 
-                <bean id="isbn" parent="Uif-InputField-LabelRight" p:propertyName="isbn"
-                      p:label="ISBN"/>
+				<bean id="publisher" parent="Uif-InputField" p:propertyName="publisher"
+					p:label="Publisher" />
 
-                <bean id="publisher" parent="Uif-InputField-LabelTop" p:propertyName="publisher"
-                      p:label="Publisher"/>
-
-                <bean parent="Uif-DataField" p:propertyName="entryDate" p:bindingInfo.bindToForm="true"
+			    <bean parent="Uif-DataField" p:propertyName="entryDate" p:bindingInfo.bindToForm="true"
                       p:label="Entry Date" p:defaultValue="01/03/2013"/>
 
                 <bean parent="Uif-InputField" p:propertyName="bindingType" p:label="Binding Type"
@@ -92,38 +77,38 @@
                 <bean parent="Uif-InputField" p:propertyName="wearAndTear" p:label="Wear and Tear" p:readOnly="true"
                       p:readOnlyListDisplayType="OL"/>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherCode" p:label="Publisher Code"
+                <bean parent="Uif-InputField" p:propertyName="publisherCode" p:label="Publisher Code"
                       p:minLength="1" p:maxLength="4">
                     <property name="control">
                         <bean parent="Uif-SmallTextControl"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherAddress" p:label="Publisher Address">
+                <bean parent="Uif-InputField" p:propertyName="publisherAddress" p:label="Publisher Address">
                     <property name="control">
                         <bean parent="Uif-MediumTextControl" p:watermarkText="street # name"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="publisherState" p:label="Publisher State">
+                <bean parent="Uif-InputField" p:propertyName="publisherState" p:label="Publisher State">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="2"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="publicationDate" p:label="Publisher Date">
+                <bean parent="Uif-InputField" p:propertyName="publicationDate" p:label="Publisher Date">
                     <property name="control">
                         <bean parent="Uif-DateControl"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="shortSummary" p:label="Short Summary">
+                <bean parent="Uif-InputField" p:propertyName="shortSummary" p:label="Short Summary">
                     <property name="control">
                         <bean parent="Uif-SmallTextAreaControl"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="longSummary" p:label="Long Summary">
+                <bean parent="Uif-InputField" p:propertyName="longSummary" p:label="Long Summary">
                     <property name="control">
                         <bean parent="Uif-TextAreaControl" p:rows="8" p:cols="80" p:textExpand="true"/>
                     </property>
@@ -135,9 +120,9 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="fiction" p:label="Fiction?">
+                <bean parent="Uif-InputField" p:propertyName="fiction">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
+                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="Fiction?"/>
                     </property>
                 </bean>
 
