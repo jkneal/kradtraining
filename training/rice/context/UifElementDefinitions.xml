@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -27,44 +27,25 @@
     <property name="readOnly" value="@{#parent.readOnly}"/>
   </bean>
 
+  <bean id="Uif-Div" abstract="true" parent="Uif-Div-parentBean"/>
+  <bean id="Uif-Div-parentBean" parent="Uif-ContentElementBase"
+        class="org.kuali.rice.krad.uif.element.Div">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/div.ftl"/>
+    <property name="templateName" value="uif_div"/>
+  </bean>
+
   <bean id="Uif-ValidationMessagesBase" parent="Uif-ValidationMessagesBase-parentBean"/>
   <bean id="Uif-ValidationMessagesBase-parentBean" abstract="true"
         class="org.kuali.rice.krad.uif.element.ValidationMessages"
         scope="prototype">
-    <property name="template" value="/krad/WEB-INF/ftl/components/element/validationMessages.ftl"/>
-    <property name="templateName" value="uif_validationMessages"/>
-    <!--By default not displayed - all display is handled by the framework - do not change-->
-    <property name="style" value="display: none;"/>
-    <property name="cssClasses">
-      <list>
-        <value>uif-validationMessages</value>
-      </list>
-    </property>
     <property name="displayMessages" value="true"/>
-    <property name="validationDataDefaults">
-      <map>
-        <entry key="summarize" value="true"/>
-        <entry key="displayMessages" value="true"/>
-        <entry key="collapseFieldMessages" value="true"/>
-        <entry key="showPageSummaryHeader" value="true"/>
-
-        <entry key="displayLabel" value="true"/>
-        <entry key="displayHeaderSummary" value="true"/>
-        <entry key="hasOwnMessages" value="false"/>
-        <entry key="pageLevel" value="false"/>
-        <entry key="forceShow" value="false"/>
-        <entry key="serverErrors" value="[]"/>
-        <entry key="serverWarnings" value="[]"/>
-        <entry key="serverInfo" value="[]"/>
-        <entry key="serverErrors" value="[]"/>
-      </map>
-    </property>
   </bean>
 
 
   <util:map id="Uif-GroupValidationMessages-DataDefaults">
     <entry key="summarize" value="true"/>
     <entry key="displayMessages" value="true"/>
+    <entry key="closeable" value="true"/>
     <entry key="collapseFieldMessages" value="true"/>
     <entry key="showPageSummaryHeader" value="true"/>
     <entry key="displayLabel" value="true"/>
@@ -107,11 +88,7 @@
   <bean id="Uif-GroupValidationMessages" parent="Uif-GroupValidationMessages-parentBean"/>
   <bean id="Uif-GroupValidationMessages-parentBean" parent="Uif-ValidationMessagesBase"
         class="org.kuali.rice.krad.uif.element.GroupValidationMessages">
-    <property name="cssClasses">
-      <list merge="true">
-        <value>uif-groupValidationMessages</value>
-      </list>
-    </property>
+    <property name="closeable" value="true"/>
     <property name="displayFieldLabelWithMessages" value="true"/>
     <property name="collapseAdditionalFieldLinkMessages" value="true"/>
     <property name="displayHeaderMessageSummary" value="true"/>
@@ -122,11 +99,6 @@
         class="org.kuali.rice.krad.uif.element.PageValidationMessages">
     <property name="displayHeaderMessageSummary" value="false"/>
     <property name="showPageSummaryHeader" value="true"/>
-    <property name="cssClasses">
-      <list merge="true">
-        <value>uif-pageValidationMessages</value>
-      </list>
-    </property>
     <property name="additionalKeysToMatch">
       <list>
         <value>GLOBAL_ERRORS</value>
@@ -163,6 +135,18 @@
     <property name="captionHeaderPlacementAboveImage" value="true"/>
   </bean>
 
+  <bean id="Uif-Icon" parent="Uif-Icon-parentBean"/>
+  <bean id="Uif-Icon-parentBean" abstract="true" class="org.kuali.rice.krad.uif.element.Icon"
+        parent="Uif-ContentElementBase" scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/icon.ftl"/>
+    <property name="templateName" value="uif_icon"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-icon</value>
+      </list>
+    </property>
+  </bean>
+
   <bean id="Uif-ImageCaptionHeader" parent="Uif-ImageCaptionHeader-parentBean"/>
   <bean id="Uif-ImageCaptionHeader-parentBean" abstract="true" parent="Uif-HeaderFour"/>
 
@@ -176,13 +160,15 @@
         parent="Uif-ContentElementBase" scope="prototype">
     <property name="template" value="/krad/WEB-INF/ftl/components/element/label.ftl"/>
     <property name="templateName" value="uif_label"/>
+    <property name="libraryCssClasses">
+      <list>
+        <value>clearfix</value>
+      </list>
+    </property>
     <property name="cssClasses">
       <list>
         <value>uif-label</value>
       </list>
-    </property>
-    <property name="requiredMessage">
-      <bean parent="Uif-RequiredMessage" p:render="false"/>
     </property>
   </bean>
 
@@ -197,6 +183,16 @@
       </list>
     </property>
     <property name="target" value="_self"/>
+  </bean>
+
+  <bean id="Uif-HeadLink" parent="Uif-HeadLink-parentBean"/>
+  <bean id="Uif-HeadLink-parentBean" abstract="true" class="org.kuali.rice.krad.uif.element.HeadLink"
+        parent="Uif-ContentElementBase" scope="prototype">
+  </bean>
+
+  <bean id="Uif-MetaTag" parent="Uif-MetaTag-parentBean"/>
+  <bean id="Uif-MetaTag-parentBean" abstract="true" class="org.kuali.rice.krad.uif.element.MetaTag"
+        parent="Uif-ContentElementBase" scope="prototype">
   </bean>
 
   <bean id="Uif-Space" parent="Uif-Space-parentBean"/>
@@ -250,6 +246,21 @@
     <property name="loadingMessageText" value="Loading..."/>
   </bean>
 
+  <util:map id="Uif-Action-DataDefaults">
+    <entry key="focusOnIdAfterSubmit" value="SELF"/>
+    <entry key="loadingMessage" value="Loading..."/>
+    <entry key="clearDirtyOnAction" value="false"/>
+    <entry key="dirtyOnAction" value="false"/>
+    <entry key="validate" value="false"/>
+    <entry key="performDirtyValidation" value="false"/>
+    <entry key="ajaxSubmit" value="true"/>
+    <entry key="disableBlocking" value="false"/>
+    <entry key="onClick" value="actionInvokeHandler(this);"/>
+    <entry key="submit_data" value="{}"/>
+    <entry key="focusId" value="SELF"/>
+    <entry key="jumpToId" value="SELF"/>
+  </util:map>
+
   <bean id="Uif-ActionImage" parent="Uif-ActionImage-parentBean"/>
   <bean id="Uif-ActionImage-parentBean" abstract="true" parent="Uif-Action">
     <property name="libraryCssClasses">
@@ -270,18 +281,13 @@
         <value>btn-primary</value>
       </list>
     </property>
-    <property name="cssClasses">
-      <list>
-        <value>uif-primaryActionButton</value>
-      </list>
-    </property>
   </bean>
 
   <bean id="Uif-SecondaryActionButton" parent="Uif-SecondaryActionButton-parentBean"/>
   <bean id="Uif-SecondaryActionButton-parentBean" abstract="true" parent="Uif-Action">
-    <property name="cssClasses">
-      <list>
-        <value>uif-secondaryActionButton</value>
+    <property name="libraryCssClasses">
+      <list merge="true">
+        <value>btn-default</value>
       </list>
     </property>
   </bean>
@@ -290,12 +296,7 @@
   <bean id="Uif-PrimaryActionButton-Small-parentBean" abstract="true" parent="Uif-PrimaryActionButton">
     <property name="libraryCssClasses">
       <list merge="true">
-        <value>btn-small</value>
-      </list>
-    </property>
-    <property name="cssClasses">
-      <list>
-        <value>uif-smallActionButton</value>
+        <value>btn-sm</value>
       </list>
     </property>
   </bean>
@@ -304,12 +305,7 @@
   <bean id="Uif-SecondaryActionButton-Small-parentBean" abstract="true" parent="Uif-SecondaryActionButton">
     <property name="libraryCssClasses">
       <list merge="true">
-        <value>btn-small</value>
-      </list>
-    </property>
-    <property name="cssClasses">
-      <list>
-        <value>uif-smallActionButton</value>
+        <value>btn-sm</value>
       </list>
     </property>
   </bean>
@@ -318,12 +314,7 @@
   <bean id="Uif-PrimaryActionButton-Mini-parentBean" abstract="true" parent="Uif-PrimaryActionButton">
     <property name="libraryCssClasses">
       <list merge="true">
-        <value>btn-mini</value>
-      </list>
-    </property>
-    <property name="cssClasses">
-      <list>
-        <value>uif-miniActionButton</value>
+        <value>btn-xs</value>
       </list>
     </property>
   </bean>
@@ -332,12 +323,7 @@
   <bean id="Uif-SecondaryActionButton-Mini-parentBean" abstract="true" parent="Uif-SecondaryActionButton">
     <property name="libraryCssClasses">
       <list merge="true">
-        <value>btn-mini</value>
-      </list>
-    </property>
-    <property name="cssClasses">
-      <list>
-        <value>uif-miniActionButton</value>
+        <value>btn-xs</value>
       </list>
     </property>
   </bean>
@@ -346,12 +332,7 @@
   <bean id="Uif-PrimaryActionButton-Large-parentBean" abstract="true" parent="Uif-PrimaryActionButton">
     <property name="libraryCssClasses">
       <list merge="true">
-        <value>btn-large</value>
-      </list>
-    </property>
-    <property name="cssClasses">
-      <list>
-        <value>uif-largeActionButton</value>
+        <value>btn-lg</value>
       </list>
     </property>
   </bean>
@@ -360,12 +341,7 @@
   <bean id="Uif-SecondaryActionButton-Large-parentBean" abstract="true" parent="Uif-SecondaryActionButton">
     <property name="libraryCssClasses">
       <list merge="true">
-        <value>btn-large</value>
-      </list>
-    </property>
-    <property name="cssClasses">
-      <list>
-        <value>uif-largeActionButton</value>
+        <value>btn-lg</value>
       </list>
     </property>
   </bean>
@@ -439,6 +415,42 @@
     </property>
   </bean>
 
+  <bean id="Uif-ProgressBar" parent="Uif-ProgressBar-parentBean"/>
+  <bean id="Uif-ProgressBar-parentBean" abstract="true" class="org.kuali.rice.krad.uif.element.ProgressBar"
+        parent="Uif-ContentElementBase" scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/progressBar.ftl"/>
+    <property name="templateName" value="uif_progressBar"/>
+    <property name="libraryCssClasses">
+      <list>
+        <value>progress</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-ProgressBar-Vertical" parent="Uif-ProgressBar-Vertical-parentBean"/>
+  <bean id="Uif-ProgressBar-Vertical-parentBean" abstract="true" parent="Uif-ProgressBar" scope="prototype">
+    <property name="vertical" value="true"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-progressBar-vertical</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-StepProgressBar" parent="Uif-StepProgressBar-parentBean"/>
+  <bean id="Uif-StepProgressBar-parentBean" abstract="true" class="org.kuali.rice.krad.uif.element.StepProgressBar"
+        parent="Uif-ContentElementBase" scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/element/stepProgressBar.ftl"/>
+    <property name="templateName" value="uif_stepProgressBar"/>
+    <property name="completeStep" value="SUCCESS"/>
+    <property name="verticalStepHeight" value="75"/>
+    <property name="libraryCssClasses">
+      <list>
+        <value>well</value>
+      </list>
+    </property>
+  </bean>
+
   <bean id="Uif-InstructionalMessage" parent="Uif-InstructionalMessage-parentBean"/>
   <bean id="Uif-InstructionalMessage-parentBean" abstract="true" parent="Uif-Message" scope="prototype">
     <property name="cssClasses">
@@ -453,16 +465,6 @@
     <property name="cssClasses">
       <list>
         <value>uif-constraintMessage</value>
-      </list>
-    </property>
-  </bean>
-
-  <bean id="Uif-RequiredMessage" parent="Uif-RequiredMessage-parentBean"/>
-  <bean id="Uif-RequiredMessage-parentBean" abstract="true" parent="Uif-Message" scope="prototype"
-        p:messageText="*">
-    <property name="cssClasses">
-      <list>
-        <value>uif-requiredMessage</value>
       </list>
     </property>
   </bean>
