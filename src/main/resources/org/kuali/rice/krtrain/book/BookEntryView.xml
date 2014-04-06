@@ -35,12 +35,12 @@
 	<bean id="Krtrain-BookEntryPage1" parent="Uif-Page">
 		<property name="items">
 			<list>
-				<bean id="typeCode" parent="Uif-InputField" p:propertyName="title"
+				<bean id="typeTitle" parent="Uif-InputField" p:propertyName="title"
 					p:label="Book Title" />
 
 				<bean id="typeCode" parent="Uif-InputField" p:propertyName="typeCode"
 					p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.BookType" p:enableAutoQuickfinder="false">
-					                    <property name="quickfinder">
+					<property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krtrain.book.BookType"
                               p:fieldConversions="typeCode:typeCode"/>
                     </property>
@@ -68,7 +68,7 @@
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krtrain.book.Author"
                               p:fieldConversions="authorId:authorId,authorName:authorName,email:email"
-                              p:lookupParameters="email:email" p:readOnlySearchFields="email"/>
+                              p:lookupParameters="email:email" p:readOnlyLookupFields="email"/>
                     </property>
                 </bean>
 
