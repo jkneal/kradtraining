@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -17,37 +17,34 @@
 -->
 <#macro uif_label element>
 
-    <#local label="${element.labelText}"/>
-    <#local colon=""/>
+    <#if element.labelText?has_content>
+        <#local label="${element.labelText}"/>
+        <#local colon=""/>
 
-    <#if element.renderColon>
-        <#local colon=":"/>
+        <#if element.renderColon>
+            <#local colon=":"/>
+        </#if>
+
+        <#if element.labelForComponentId?has_content>
+            <#local for='for="${element.labelForComponentId!}"'>
+        </#if>
+
+        <@compress single_line=true>
+            <label id="${element.id}" ${for!} ${krad.attrBuild(element)}
+                ${element.simpleDataAttributes!}>
+
+                <#if element.richLabelMessage?has_content>
+                    <@krad.template component=element.richLabelMessage/>${colon}
+                <#else>
+                    ${label}${colon}
+                </#if>
+
+                <#-- required indicator -->
+                <#if element.requiredIndicator?? && element.renderRequiredIndicator>
+                    <span class="uif-requiredMessage">${element.requiredIndicator!}</span>
+                </#if>
+
+            </label>
+        </@compress>
     </#if>
-
-    <#if element.title?has_content>
-        <#local title="title=\"${element.title}\""/>
-    </#if>
-
-    <@krad.span component=element>
-
-    <#-- required message left -->
-        <#if element.requiredMessagePlacement == 'LEFT'>
-            <@krad.template component=element.requiredMessage/>
-        </#if>
-
-    <label id="${element.id}" for="${element.labelForComponentId!}" ${title!} ${element.simpleDataAttributes!}>
-        <#if element.richLabelMessage?has_content>
-            <@krad.template component=element.richLabelMessage/>${colon}
-        <#else>
-            ${label}${colon}
-        </#if>
-    </label>
-
-    <#-- required message right -->
-        <#if element.requiredMessagePlacement == 'RIGHT'>
-            <@krad.template component=element.requiredMessage/>
-        </#if>
-
-    </@krad.span>
-
 </#macro>
