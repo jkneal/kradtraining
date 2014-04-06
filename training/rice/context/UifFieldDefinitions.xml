@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -18,8 +18,10 @@
 -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
   <!-- Base Fields -->
 
@@ -42,7 +44,7 @@
   </bean>
 
   <bean id="Uif-DataField" parent="Uif-DataField-parentBean"/>
-  <bean id="Uif-DataField-parentBean" abstract="true" class="org.kuali.rice.krad.uif.field.DataField"
+  <bean id="Uif-DataField-parentBean" abstract="true" class="org.kuali.rice.krad.uif.field.DataFieldBase"
         parent="Uif-FieldBase-withLabel">
     <property name="template" value="/krad/WEB-INF/ftl/components/field/dataInputField.ftl"/>
     <property name="templateName" value="uif_dataInputField"/>
@@ -55,36 +57,20 @@
     </property>
   </bean>
 
-  <bean id="Uif-DataField-LabelTop" parent="Uif-DataField-LabelTop-parentBean"/>
-  <bean id="Uif-DataField-LabelTop-parentBean" abstract="true" parent="Uif-DataField" p:labelPlacement="TOP"
-        p:fieldLabel.renderColon="false" p:fieldLabel.requiredMessagePlacement="RIGHT">
-    <property name="fieldLabel.cssClasses">
-      <list>
-        <value>uif-labelTop</value>
-      </list>
-    </property>
-  </bean>
-
-  <bean id="Uif-DataField-LabelRight" parent="Uif-DataField-LabelRight-parentBean"/>
-  <bean id="Uif-DataField-LabelRight-parentBean" abstract="true" parent="Uif-DataField" p:labelPlacement="RIGHT"
-        p:fieldLabel.renderColon="false" p:fieldLabel.requiredMessagePlacement="LEFT">
-    <property name="fieldLabel.cssClasses">
-      <list>
-        <value>uif-labelRight</value>
-      </list>
-    </property>
-  </bean>
 
   <bean id="Uif-DataField-withoutLabel" abstract="true" parent="Uif-DataField-withoutLabel-parentBean"/>
-  <bean id="Uif-DataField-withoutLabel-parentBean" abstract="true" class="org.kuali.rice.krad.uif.field.DataField"
-        parent="Uif-DataField">
+  <bean id="Uif-DataField-withoutLabel-parentBean" abstract="true" parent="Uif-DataField">
     <property name="fieldLabel">
       <null/>
     </property>
   </bean>
 
+  <bean id="Uif-DataField-condensedTable" abstract="true" parent="Uif-DataField-condensedTable-parentBean"/>
+  <bean id="Uif-DataField-condensedTable-parentBean" abstract="true" parent="Uif-DataField"
+        p:fieldLabel.renderColon="false" p:fieldLabel.wrapperCssClasses="col-md-3"/>
+
   <bean id="Uif-InputField" parent="Uif-InputField-parentBean"/>
-  <bean id="Uif-InputField-parentBean" abstract="true" class="org.kuali.rice.krad.uif.field.InputField"
+  <bean id="Uif-InputField-parentBean" abstract="true" class="org.kuali.rice.krad.uif.field.InputFieldBase"
         parent="Uif-DataField" scope="prototype">
     <property name="template" value="/krad/WEB-INF/ftl/components/field/dataInputField.ftl"/>
     <property name="templateName" value="uif_dataInputField"/>
@@ -93,47 +79,22 @@
         <value>uif-inputField</value>
       </list>
     </property>
+    <property name="postInputCssClasses">
+      <list>
+        <value>input-group-btn</value>
+      </list>
+    </property>
     <property name="readOnly" value="@{#parent.readOnly}"/>
     <property name="validationMessages">
       <bean parent="Uif-FieldValidationMessages"/>
     </property>
   </bean>
 
-  <bean id="Uif-InputField-LabelTop" parent="Uif-InputField-LabelTop-parentBean"/>
-  <bean id="Uif-InputField-LabelTop-parentBean" abstract="true" parent="Uif-InputField" p:labelPlacement="TOP"
-        p:fieldLabel.renderColon="false" p:fieldLabel.requiredMessagePlacement="RIGHT">
-    <property name="cssClasses">
-      <list>
-        <value>uif-inputField</value>
-        <value>uif-inputField-labelTop</value>
-      </list>
-    </property>
-    <property name="fieldLabel.cssClasses">
-      <list>
-        <value>uif-labelTop</value>
-      </list>
-    </property>
-  </bean>
 
-  <bean id="Uif-InputField-LabelRight" parent="Uif-InputField-LabelRight-parentBean"/>
-  <bean id="Uif-InputField-LabelRight-parentBean" abstract="true" parent="Uif-InputField" p:labelPlacement="RIGHT"
-        p:fieldLabel.renderColon="false" p:fieldLabel.requiredMessagePlacement="LEFT">
-    <property name="cssClasses">
-      <list>
-        <value>uif-inputField</value>
-        <value>uif-inputField-labelRight</value>
-      </list>
-    </property>
-    <property name="fieldLabel.cssClasses">
-      <list>
-        <value>uif-labelRight</value>
-      </list>
-    </property>
-  </bean>
 
   <bean id="Uif-LookupCriteriaInputField" parent="Uif-LookupCriteriaInputField-parentBean"/>
   <bean id="Uif-LookupCriteriaInputField-parentBean" abstract="true"
-        class="org.kuali.rice.krad.uif.field.LookupInputField"
+        class="org.kuali.rice.krad.lookup.LookupInputField"
         parent="Uif-InputField">
     <property name="cssClasses">
       <list>
@@ -175,6 +136,11 @@
         <value>uif-actionField</value>
       </list>
     </property>
+    <property name="wrapperCssClasses">
+      <list merge="true">
+        <util:constant static-field="org.kuali.rice.krad.uif.CssConstants.Classes.ACTION_COLUMN_STYLE_CLASS"/>
+      </list>
+    </property>
     <property name="action">
       <bean parent="Uif-ActionImage"/>
     </property>
@@ -208,7 +174,7 @@
     <property name="template" value="/krad/WEB-INF/ftl/components/field/colGroupingField.ftl"/>
     <property name="label" value="Group"/>
     <property name="templateName" value="uif_colGroupingField"/>
-    <property name="message.generateSpan" value="false"/>
+    <property name="message.renderWrapperTag" value="false"/>
   </bean>
 
   <bean id="Uif-LinkField" parent="Uif-LinkField-parentBean"/>
@@ -241,6 +207,28 @@
     </property>
   </bean>
 
+  <bean id="Uif-ProgressBarField" parent="Uif-ProgressBarField-parentBean"/>
+  <bean id="Uif-ProgressBarField-parentBean" abstract="true" class="org.kuali.rice.krad.uif.field.ProgressBarField"
+        parent="Uif-FieldBase-withLabel" scope="prototype">
+    <property name="template" value="/krad/WEB-INF/ftl/components/field/progressBarField.ftl"/>
+    <property name="templateName" value="uif_progressBarField"/>
+    <property name="cssClasses">
+      <list>
+        <value>uif-progressBarField</value>
+      </list>
+    </property>
+    <property name="progressBar">
+      <bean parent="Uif-ProgressBar"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-StepProgressBarField" parent="Uif-StepProgressBarField-parentBean"/>
+  <bean id="Uif-StepProgressBarField-parentBean" abstract="true" parent="Uif-ProgressBarField" scope="prototype">
+    <property name="progressBar">
+      <bean parent="Uif-StepProgressBar"/>
+    </property>
+  </bean>
+
   <bean id="Uif-SpaceField" parent="Uif-SpaceField-parentBean"/>
   <bean id="Uif-SpaceField-parentBean" abstract="true" class="org.kuali.rice.krad.uif.field.SpaceField"
         parent="Uif-FieldBase" scope="prototype">
@@ -253,7 +241,7 @@
     </property>
   </bean>
 
-  <bean id="Uif-CheckboxInputField" parent="Uif-InputField" p:labelPlacement="RIGHT">
+  <bean id="Uif-CheckboxInputField" parent="Uif-InputField">
     <property name="cssClasses">
       <list>
         <value>uif-inputField</value>
@@ -291,8 +279,7 @@
   </bean>
 
   <bean id="Uif-VerticalFieldGroup" parent="Uif-VerticalFieldGroup-parentBean"/>
-  <bean id="Uif-VerticalFieldGroup-parentBean" parent="Uif-FieldGroupBase"
-        p:group.layoutManager.orientation="VERTICAL">
+  <bean id="Uif-VerticalFieldGroup-parentBean" parent="Uif-FieldGroupBase">
     <property name="cssClasses">
       <list>
         <value>uif-verticalFieldGroup</value>
@@ -301,8 +288,7 @@
   </bean>
 
   <bean id="Uif-HorizontalFieldGroup" parent="Uif-HorizontalFieldGroup-parentBean"/>
-  <bean id="Uif-HorizontalFieldGroup-parentBean" parent="Uif-FieldGroupBase"
-        p:group.layoutManager.orientation="HORIZONTAL">
+  <bean id="Uif-HorizontalFieldGroup-parentBean" parent="Uif-FieldGroupBase">
     <property name="cssClasses">
       <list>
         <value>uif-horizontalFieldGroup</value>
@@ -310,6 +296,20 @@
     </property>
     <property name="group">
       <bean parent="Uif-HorizontalBoxGroup"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-CssGridFieldGroup" parent="Uif-CssGridFieldGroup-parentBean"/>
+  <bean id="Uif-CssGridFieldGroup-parentBean" parent="Uif-FieldGroupBase">
+    <property name="group">
+      <bean parent="Uif-CssGridGroup"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-SimpleFieldGroup" parent="Uif-SimpleFieldGroup-parentBean"/>
+  <bean id="Uif-SimpleFieldGroup-parentBean" parent="Uif-FieldGroupBase">
+    <property name="group">
+      <bean parent="Uif-SimpleGroup"/>
     </property>
   </bean>
 

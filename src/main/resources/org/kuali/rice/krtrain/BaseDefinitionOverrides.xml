@@ -13,8 +13,8 @@
     <bean id="Uif-TrainingTheme" parent="Uif-KbootTheme">
       <property name="cssFiles">
         <list merge="true">
+          <value>bootflat/css/bootflat.css</value>
           <value>css/krtrain-theme.css</value>
-          <value>css/styles.css</value>
         </list>
       </property>
     </bean>
@@ -59,10 +59,10 @@
         <property name="disclosure.render" value="true"/>
     </bean>
 
-	<bean id="Uif-Disclosure" parent="Uif-Disclosure-parentBean">
+<!-- 	<bean id="Uif-Disclosure" parent="Uif-Disclosure-parentBean">
 		<property name="collapseImageSrc" value="/images/h4_expand.png" />
 		<property name="expandImageSrc" value="/images/h4_collapse.png" />
-	</bean>
+	</bean> -->
 
     <bean id="Uif-GridFieldGroup" parent="Uif-GridFieldGroup-parentBean"/>
     <bean id="Uif-GridFieldGroup-parentBean" abstract="true" parent="Uif-FieldGroupBase">
@@ -80,10 +80,29 @@
         </property>
     </bean>
 
-    <bean id="Uif-GlobalApplicationHeader" parent="Uif-HeaderBase" p:template="/WEB-INF/templates/ftl/applicationHeader.ftl"
-          p:templateName="appheader" p:render="@{!renderedInLightBox}"/>
+    <bean id="Uif-GlobalApplicationHeader" parent="Training-AppHeader" p:render="@{!renderedInLightBox}"/>
 
     <bean id="Uif-GlobalApplicationFooter" parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
           p:templateName="appfooter" p:render="@{!renderedInLightBox}"/>
 
+	<bean id="Training-AppHeader" parent="Uif-ApplicationHeaderBase">
+		<property name="applicationNavigation.brandImage">
+			<bean parent="Uif-Image"
+				p:source="@{#ConfigProperties['application.url']}/images/krad_logo.png" />
+		</property>
+
+		<property name="applicationNavigation.items">
+			<list>
+				<bean parent="Uif-MenuAction" p:actionLabel="Home"
+					p:actionUrl.href="@{#ConfigProperties['application.url']}/app/menu?viewId=Krtrain-MenuView&amp;methodToCall=start" />
+				<bean parent="Uif-MenuAction" p:actionLabel="Doc Search"
+					p:actionUrl.href="@{#ConfigProperties['application.url']}/kew/DocumentSearch.do" />
+				<bean parent="Uif-MenuAction" p:actionLabel="Action List"
+					p:actionUrl.href="@{#ConfigProperties['application.url']}/kew/ActionList.do" />
+				<bean parent="Uif-MenuAction" p:actionLabel="Component Library"
+					p:actionUrl.href="http://env14.rice.kuali.org/kr-krad/kradsampleapp?viewId=KradSampleAppHome&amp;methodToCall=start" />
+			</list>
+		</property>
+	</bean>	
+          
 </beans>

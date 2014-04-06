@@ -1,6 +1,6 @@
 <%--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -150,7 +150,6 @@
 					</c:if>	
 					
 					<c:if test="${KualiForm.formKey!=''}">
-						<!-- KULRICE-8092: Enter key won't return values in Parameter Component in IE-->
 						<input name="" type="t" value="" style="display:none"/>
 						
 						<c:if test="${!empty KualiForm.backLocation}"><a
