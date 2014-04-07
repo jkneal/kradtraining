@@ -1,6 +1,6 @@
 <%--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ if (textAreaFieldLabel == null) {
 <c:set var="parameters"	value="<%=request.getParameterMap()%>" />
 
 <c:set var="textAreaAttributes"
-	value="${DataDictionary.AttributeReferenceElements.attributes}" />
+	value="${DataDictionary.AttributeReference.attributes}" />
 <c:if test="${empty textAreaFieldName}">
 	<c:set var="textAreaFieldName"
 		value="<%=request.getAttribute(KualiAction.TEXT_AREA_FIELD_NAME)%>" />

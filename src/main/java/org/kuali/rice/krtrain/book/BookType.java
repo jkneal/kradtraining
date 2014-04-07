@@ -18,20 +18,38 @@
  */
 package org.kuali.rice.krtrain.book;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.DataObjectBase;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 /**
  * Book Type Entity
  *
  * @author KRAD Training
  */
-public class BookType extends PersistableBusinessObjectBase implements MutableInactivatable {
+@Entity
+@Table(name="KRTRAIN_BOOK_TYP_T")
+public class BookType extends DataObjectBase implements MutableInactivatable {
     private static final long serialVersionUID = 8499633675478827977L;
 
+	@Id
+	@Column(name="TYP_CD")
     private String typeCode;
+	
+	@Column(name="NM")
     private String name;
+	
+	@Column(name="DESC_TXT")
     private String description;
+	
+	@Convert(converter = BooleanYNConverter.class)
+	@Column(name="ACTV_IND")
     private boolean active;
 
     public BookType() {
