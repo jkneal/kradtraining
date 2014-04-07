@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,6 +16,10 @@
 
 -->
 <#macro div component>
+	<#-- NOTICE: By KULRICE-10353 this method is duplicated, but not replaced, by
+			org.kuali.rice.krad.uif.freemarker.FreeMarkerInlineRenderUtils.renderOpenDiv() and
+			org.kuali.rice.krad.uif.freemarker.FreeMarkerInlineRenderUtils.renderCloseDiv().
+			When updating this template, also update those methods. -->
 
   <div id="${component.id!}" ${krad.attrBuild(component)} ${component.simpleDataAttributes}>
     <#nested/>
