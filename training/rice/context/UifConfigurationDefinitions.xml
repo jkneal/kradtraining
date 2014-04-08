@@ -1,6 +1,6 @@
 <!--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -20,11 +20,43 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+  <!-- Required indicators -->
+
+  <bean id="Uif-RequiredIndicator" class="java.lang.String">
+    <constructor-arg value="*"/>
+  </bean>
+
+  <bean id="Uif-RequiredIndicator-ForNextState" class="java.lang.String">
+    <constructor-arg value="**"/>
+  </bean>
+
   <!-- ComponentBase -->
 
   <bean id="Uif-ComponentBase" parent="Uif-ComponentBase-parentBean" abstract="true"/>
   <bean id="Uif-ComponentBase-parentBean" abstract="true" class="org.kuali.rice.krad.uif.component.ComponentBase"
         scope="prototype"/>
+
+  <!-- Component Security -->
+
+  <bean id="Uif-ComponentSecurity" parent="Uif-ComponentSecurity-parentBean"/>
+  <bean id="Uif-ComponentSecurity-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.component.ComponentSecurity" scope="prototype"/>
+
+  <bean id="Uif-FieldSecurity" parent="Uif-FieldSecurity-parentBean"/>
+  <bean id="Uif-FieldSecurity-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.field.FieldSecurity" scope="prototype"/>
+
+  <bean id="Uif-DataFieldSecurity" parent="Uif-DataFieldSecurity-parentBean"/>
+  <bean id="Uif-DataFieldSecurity-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.field.DataFieldSecurity" scope="prototype"/>
+
+  <bean id="Uif-CollectionGroupSecurity" parent="Uif-CollectionGroupSecurity-parentBean"/>
+  <bean id="Uif-CollectionGroupSecurity-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.container.CollectionGroupSecurity" scope="prototype"/>
+
+  <bean id="Uif-ActionSecurity" parent="Uif-ActionSecurity-parentBean"/>
+  <bean id="Uif-ActionSecurity-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.element.ActionSecurity" scope="prototype"/>
 
   <!-- Modifiers -->
 
@@ -69,6 +101,8 @@
       <bean parent="Uif-Url"/>
     </property>
   </bean>
+
+  <bean id="Uif-OptionGroupLabel" class="org.kuali.rice.krad.uif.util.UifOptionGroupLabel" scope="prototype"/>
 
   <bean id="Uif-ColumnCalculationInfo" class="org.kuali.rice.krad.uif.util.ColumnCalculationInfo" scope="prototype"
         abstract="true">
@@ -159,7 +193,7 @@
     <property name="minVersionSuffix" value="${rice.version}"/>
   </bean>
 
-  <bean id="Uif-BreadcrumbItem" class="org.kuali.rice.krad.uif.util.BreadcrumbItem" scope="prototype">
+  <bean id="Uif-BreadcrumbItem" class="org.kuali.rice.krad.uif.element.BreadcrumbItem" scope="prototype">
     <property name="template" value="/krad/WEB-INF/ftl/components/widget/breadcrumb.ftl"/>
     <property name="templateName" value="uif_breadcrumb"/>
     <property name="renderAsLink" value="true"/>
@@ -168,7 +202,7 @@
     </property>
   </bean>
 
-  <bean id="Uif-PageBreadcrumbOptions" class="org.kuali.rice.krad.uif.util.PageBreadcrumbOptions" scope="prototype">
+  <bean id="Uif-PageBreadcrumbOptions" class="org.kuali.rice.krad.uif.element.PageBreadcrumbOptions" scope="prototype">
     <property name="renderViewBreadcrumb" value="true"/>
     <property name="renderHomewardPathBreadcrumbs" value="true"/>
     <property name="renderPrePageBreadcrumbs" value="true"/>
@@ -177,7 +211,7 @@
   </bean>
 
 
-  <bean id="Uif-BreadcrumbOptions" class="org.kuali.rice.krad.uif.util.BreadcrumbOptions" scope="prototype">
+  <bean id="Uif-BreadcrumbOptions" class="org.kuali.rice.krad.uif.element.BreadcrumbOptions" scope="prototype">
   </bean>
 
   <bean id="Uif-Url" class="org.kuali.rice.krad.uif.util.UrlInfo" scope="prototype">
@@ -186,7 +220,6 @@
   </bean>
 
   <bean id="Uif-ParentLocation" class="org.kuali.rice.krad.uif.util.ParentLocation" scope="prototype">
-
     <property name="parentViewUrl">
       <bean parent="Uif-Url"/>
     </property>
@@ -200,6 +233,5 @@
       <bean parent="Uif-BreadcrumbItem"/>
     </property>
   </bean>
-
 
 </beans>

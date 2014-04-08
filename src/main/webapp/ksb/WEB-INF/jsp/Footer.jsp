@@ -1,6 +1,6 @@
 <%--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,4 +16,4 @@
 
 --%>
 <br><br>
-<div align="center" id="footer-copyright"> Copyright 2005-2007 The Kuali Foundation. All rights reserved.<BR/>Portions of Kuali Rice are copyrighted by other parties as described in the <a href="../acknowledgments.jsp">Acknowledgments</a> screen.</div>
+<div align="center" id="footer-copyright"> Copyright 2005-2014 The Kuali Foundation. All rights reserved.<BR/>Portions of Kuali Rice are copyrighted by other parties as described in the <a href="../acknowledgments.jsp">Acknowledgments</a> screen.</div>
