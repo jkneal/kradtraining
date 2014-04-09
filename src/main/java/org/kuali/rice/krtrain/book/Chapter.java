@@ -1,23 +1,56 @@
 package org.kuali.rice.krtrain.book;
 
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.kuali.rice.krad.bo.DataObjectBase;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 /**
  * Book Chapter Entity
  *
  * @author KRAD Training
  */
-public class Chapter extends PersistableBusinessObjectBase {
+@Entity
+@Table(name="KRTRAIN_CHAPTER_T")
+public class Chapter extends DataObjectBase {
     private static final long serialVersionUID = -7959433888441638987L;
 
+	@Id
+	@Column(name="BOOK_ID")
     private Long bookId;
+	
+	@Id
+	@Column(name="NUM")
     private int number;
+	
+	@Column(name="TITLE")
     private String title;
+	
+	@Column(name="PART")
     private String part;
+	
+	@Column(name="SUMM")
     private String summary;
+	
+	@Column(name="NUM_PAGES")
     private int numberPages;
+	
+	@Convert(converter = BooleanYNConverter.class)
+	@Column(name="REC")
     private boolean recap;
+	
+	@Column(name="REC_PAGE_NUM")
     private int recapPageNumber;
+	
+    @ManyToOne
+    @JoinColumn(name = "BOOK_ID" ,insertable=false, updatable=false)
+	private Book book;
 
     public Chapter() {
         super();
@@ -96,4 +129,12 @@ public class Chapter extends PersistableBusinessObjectBase {
     public void setRecapPageNumber(int recapPageNumber) {
         this.recapPageNumber = recapPageNumber;
     }
+
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
+	}
 }

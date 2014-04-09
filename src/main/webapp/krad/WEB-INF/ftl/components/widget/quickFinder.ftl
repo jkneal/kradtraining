@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -15,14 +15,13 @@
     limitations under the License.
 
 -->
-<#macro uif_quickFinder widget componentId>
-
 <#--
 Renders the lookup icon for a field
 -->
-    <@krad.template component=widget.quickfinderAction/>
 
-    <@krad.template component=widget.lightBoxLookup componentId="${widget.quickfinderAction.id}"/>
+<#macro uif_quickFinder widget componentId>
+
+    <@krad.template component=widget.quickfinderAction/>
 
 </#macro>
 

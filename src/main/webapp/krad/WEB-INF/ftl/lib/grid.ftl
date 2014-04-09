@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -15,12 +15,28 @@
     limitations under the License.
 
 -->
-<#macro grid items rowCssClasses=[] numberOfColumns=2 renderFirstRowHeader=false renderHeaderRow=false applyAlternatingRowStyles=false
+<#--
+    items=TableLayoutManager.getAllRowFields() returns List<Field>
+    numberOfColumns=GridLayoutManager.getNumberOfColumns()
+ -->
+
+<#macro grid items rowCssClasses=[] rowDataAttributes=[] numberOfColumns=2 renderFirstRowHeader=false renderHeaderRow=false applyAlternatingRowStyles=false
 applyDefaultCellWidths=true renderRowFirstCellHeader=false renderAlternatingHeaderColumns=false>
 
     <#if numberOfColumns == 0>
         <#return/>
     </#if>
+
+<#--
+rowCssClasses<br>
+<#list rowCssClasses as x>
+  ${x_index} => ${x}<br>
+</#list>
+rowDataAttributes<br>
+<#list rowDataAttributes as x>
+  ${x_index} => ${x}<br>
+</#list>
+ -->
 
     <#local defaultCellWidth=100/numberOfColumns/>
 
@@ -33,6 +49,8 @@ applyDefaultCellWidths=true renderRowFirstCellHeader=false renderAlternatingHead
     <#local splitter = ";"/>
     <#local columnArray=[]/>
     <#local columnLoopArray=""/>
+    <#local hasRowSpan=false/>
+    <#local hasColSpan=false/>
 
     <#local firstRow=true/>
 
@@ -63,10 +81,11 @@ applyDefaultCellWidths=true renderRowFirstCellHeader=false renderAlternatingHead
             </#if>
 
             <#local trClasses="${evenOddClass!} ${rowCssClasses[rowCount]!}"/>
+            <#local trDataAttributes="${rowDataAttributes[rowCount]!}"/>
             <#if trClasses?trim?has_content>
-                <tr class="${trClasses?trim}">
+                <tr class="${trClasses?trim}" ${trDataAttributes?trim}>
             <#else>
-                <tr>
+                <tr ${trDataAttributes?trim}>
             </#if>
 
             <#-- if alternating header columns, force first cell of row to be header -->
@@ -79,35 +98,38 @@ applyDefaultCellWidths=true renderRowFirstCellHeader=false renderAlternatingHead
         </#if>
 
         <#-- determine cell width by using default or configured width and round off to two decimal places-->
-        <#if item.cellWidth?has_content>
-            <#local cellWidth=item.cellWidth />
-        <#elseif applyDefaultCellWidths>
-            <#local width= (defaultCellWidth * item.colSpan)?number?string("0.##") />
-            <#local cellWidth="${width}%"/>
-        </#if>
-
         <#if cellWidth?has_content>
-            <#local cellWidth="width=\"${cellWidth}\""/>
+            <#local cellWidth="width=\"${item.cellWidth}\""/>
         </#if>
 
         <#local singleCellRow=(numberOfColumns == 1) || (item.colSpan == numberOfColumns)/>
-        <#local renderHeaderColumn=renderHeaderRow || (renderFirstRowHeader && firstRow)
-                 || ((renderFirstCellHeader || renderAlternateHeader) && !singleCellRow)/>
+        <#local renderHeaderColumn=renderHeaderRow || (renderFirstRowHeader && firstRow) || ((renderFirstCellHeader || renderAlternateHeader) && !singleCellRow)/>
 
         <#-- build cells for row if value @ columnArray itemIndex = 1 -->
         <#local index = columnArray[columnIndex]?number />
 
         <#local cellClassAttr=""/>
-        <#if item.cellStyleClassesAsString?has_content>
-            <#local cellClassAttr="class=\"${item.cellStyleClassesAsString}\""/>
+        <#if item.wrapperCssClassesAsString?has_content>
+            <#local cellClassAttr="class=\"${item.wrapperCssClassesAsString}\""/>
         </#if>
 
         <#local cellStyleAttr=""/>
-        <#if item.cellStyle?has_content>
-            <#local cellStyleAttr="style=\"${item.cellStyle}\""/>
+        <#if item.wrapperStyle?has_content>
+            <#local cellStyleAttr="style=\"${item.wrapperStyle}\""/>
         </#if>
 
         <#if (index == 1)>
+
+            <#if item.colSpan != 1 || hasColSpan>
+                <#local colSpan="colspan=\"${item.colSpan}\""/>
+                <#local hasColSpan=true/>
+            </#if>
+
+            <#if item.rowSpan != 1 || hasRowSpan>
+                <#local rowSpan="rowspan=\"${item.rowSpan}\""/>
+                <#local hasRowSpan=true/>
+            </#if>
+
             <#if renderHeaderColumn>
                 <#if renderHeaderRow || (renderFirstRowHeader && firstRow)>
                   <#local headerScope="col"/>
@@ -115,11 +137,11 @@ applyDefaultCellWidths=true renderRowFirstCellHeader=false renderAlternatingHead
                   <#local headerScope="row"/>
                 </#if>
 
-                <th scope="${headerScope}" ${cellWidth!} colspan="${item.colSpan}"
-                    rowspan="${item.rowSpan}" ${cellClassAttr!} ${cellStyleAttr!}><@template component=item/></th>
+                <th scope="${headerScope}" ${cellWidth!} ${colSpan!}
+                    ${rowSpan!} ${cellClassAttr!} ${cellStyleAttr!}><@template component=item/></th>
             <#else>
-                <td role="presentation" ${cellWidth!} colspan="${item.colSpan}"
-                    rowspan="${item.rowSpan}" ${cellClassAttr!} ${cellStyleAttr!}><@template component=item/></td>
+                <td ${cellWidth!} ${colSpan!}
+                    ${rowSpan!} ${cellClassAttr!} ${cellStyleAttr!}><@template component=item/></td>
             </#if>
 
             <#local columnLoopArray = columnLoopArray + item.rowSpan + splitter />
