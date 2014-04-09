@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
     <#local isOpen=widget.defaultOpen/>
 
     <@krad.script value="createDisclosure('${parent.id}', '${parent.header.id}', '${widget.id}', ${isOpen?string},
-          '${widget.collapseImageSrc}', '${widget.expandImageSrc}', ${widget.animationSpeed}, ${widget.renderImage?string});"/>
+          '${widget.collapsedIconClass}', '${widget.expandedIconClass}', ${widget.animationSpeed},
+          ${widget.renderIcon?string}, ${widget.ajaxRetrievalWhenOpened?string});"/>
 
 </#macro>

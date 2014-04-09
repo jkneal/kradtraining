@@ -1,6 +1,6 @@
 <!--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -77,7 +77,7 @@
       <bean parent="Uif-GridLayoutBase" p:numberOfColumns="4" p:applyDefaultCellWidths="false"/>
     </property>
     <property name="fieldBindingObjectPath" value="document"/>
-    <property name="validationMessages.render" value="false"/>
+    <property name="validationMessages.displayMessages" value="false"/>
   </bean>
 
   <bean id="Uif-DocumentOverviewSection" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="4"
@@ -85,11 +85,9 @@
     <property name="headerText" value="Document Overview"/>
     <property name="items">
       <list>
-        <bean parent="Uif-DocumentDescription" p:required="true" p:label="Description"
-              p:width="25%" p:fieldLabel.width="25%"/>
-        <bean parent="Uif-DocumentExplaination" p:rowSpan="2" p:fieldLabel.rowSpan="2"
-              p:width="40%" p:fieldLabel.width="10%"/>
-        <bean parent="Uif-OrganizationDocumentNumber" p:width="25%" p:fieldLabel.width="25%"/>
+        <bean parent="Uif-DocumentDescription" p:required="true" p:label="Description"/>
+        <bean parent="Uif-DocumentExplaination" p:rowSpan="2" p:fieldLabel.rowSpan="2"/>
+        <bean parent="Uif-OrganizationDocumentNumber"/>
       </list>
     </property>
     <property name="fieldBindingObjectPath" value="document.documentHeader"/>
@@ -109,7 +107,7 @@
         <bean parent="Uif-DataField" p:propertyName="notePostedTimestamp" p:readOnly="true"/>
         <bean parent="Uif-DataField" p:propertyName="authorUniversal.principalName" p:readOnly="true"/>
         <bean parent="Uif-InputField" p:propertyName="noteTopicText" p:render="@{#DocumentEntry.displayTopicFieldInNotes}"/>
-        <bean parent="Uif-InputField" p:propertyName="noteText" p:required="true" p:readOnly="@{#line.noteText != ''}"/>
+        <bean parent="Uif-InputField" p:propertyName="noteText" p:required="true" p:readOnly="@{!#isAddLine}"/>
         <bean parent="Uif-VerticalFieldGroup" p:label="Attached File" p:render="@{#DocumentEntry.allowsNoteAttachments}">
           <property name="items">
             <list>
@@ -120,7 +118,7 @@
                 </property>
               </bean>
               <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="cancelAttachment"
-                    p:actionLabel="cancel" p:title="Cancel Attachment"/>
+                    p:actionLabel="Cancel" p:title="Cancel Attachment"/>
             </list>
           </property>
           <property name="propertyReplacers">
@@ -131,7 +129,7 @@
                   <list>
                     <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="downloadAttachment"
                           p:ajaxSubmit="false"
-                          p:actionLabel="download attachment" p:title="download attachment"
+                          p:actionLabel="Download Attachment" p:title="Download Attachment"
                           p:disableBlocking="true"
                           p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);">
                             <property name="actionParameters">
@@ -140,11 +138,9 @@
                               </map>
                             </property>
                      </bean>
-
                     <bean parent="Uif-Message" p:messageText="@{#line.attachment?.attachmentFileName}"/>
                     <bean parent="Uif-Message"
                           p:messageText="(@{#line.attachment?.attachmentFileSizeWithUnits}, @{#line.attachment?.attachmentMimeTypeCode})"/>
-
                   </list>
                 </property>
               </bean>
@@ -167,18 +163,17 @@
       </list>
     </property>
     <property name="bindingInfo.bindingObjectPath" value="document"/>
-    <property name="disclosure.defaultOpen"
-              value="@{!document.notes.empty or #component.defaultOpen}"/>
+    <property name="disclosure.defaultOpen" value="@{!document.notes.empty or #component.defaultOpen}"/>
     <property name="validationMessages.additionalKeysToMatch" value="attachmentFile"/>
     <property name="addLineActions">
       <list>
-        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="insertNote" p:actionLabel="add" p:title="Add a Note"/>
+        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="insertNote" p:actionLabel="Add" p:title="Add a Note"/>
       </list>
     </property>
     <property name="lineActions">
       <list>
-        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteNote" p:actionLabel="delete" p:title="Delete a Note"/>
-        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="sendNoteWorkflowNotification" p:actionLabel="send"
+        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteNote" p:actionLabel="Delete" p:title="Delete a Note"/>
+        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="sendNoteWorkflowNotification" p:actionLabel="Send"
               p:title="Send FYI"
               p:render="@{#DocumentEntry.allowsNoteFYI and #actionFlags[#Constants.KUALI_ACTION_CAN_SEND_NOTE_FYI]}"/>
       </list>
@@ -208,9 +203,10 @@
                   <bean class="org.kuali.rice.krad.keyvalues.AdHocActionRequestCodesValuesFinder"/>
                 </property>
               </bean>
-              <bean parent="Uif-InputField" p:propertyName="name" p:label="Person" p:required="true">
+              <bean parent="Uif-InputField" p:propertyName="id" p:label="Person" p:required="true">
                 <property name="control">
-                  <bean parent="Uif-KimPersonControl" p:principalIdPropertyName="id" p:personNamePropertyName="person.name"/>
+                  <bean parent="Uif-KimPersonControl" p:personObjectPropertyName="person"
+                        p:principalIdPropertyName="person.principalId" p:personNamePropertyName="person.name"/>
                 </property>
               </bean>
             </list>
@@ -278,31 +274,39 @@
   <bean id="Uif-DocumentPageFooter" parent="Uif-FooterBase">
     <property name="items">
       <list>
-        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="performRouteReport" p:actionLabel="route report"
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="performRouteReport" p:actionLabel="Route Report"
               p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>
-        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="send adhoc"
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="Send Adhoc"
               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
-        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
         <bean parent="Uif-SaveAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
-        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="reload" p:actionLabel="reload"
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="reload" p:actionLabel="Reload"
               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>
-        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="blanketApprove" p:actionLabel="blanket approve" p:performClientSideValidation="true"
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="blanketApprove" p:actionLabel="Blanket Approve" p:performClientSideValidation="true"
               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
-        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="approve"  p:performClientSideValidation="true"
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="Approve" p:performClientSideValidation="true"
               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
-        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="disapprove"
-              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
-        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="fyi" p:actionLabel="fyi"
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="Disapprove"
+              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}">
+          <property name="confirmationDialog">
+            <bean id="DisapproveExplanationDialog" parent="Uif-DialogGroup-OkCancelExpl"
+                  p:promptText="Please provide an explanation for this action:"/>
+          </property>
+        </bean>
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="fyi" p:actionLabel="FYI"
               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
-        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge" p:actionLabel="acknowledge"
+        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge" p:actionLabel="Acknowledge"
               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
-        <bean parent="Uif-CancelAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-        <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="copy"
+        <bean parent="Uif-CancelAction" p:actionLabel="Cancel" p:methodToCall="refresh"
+              p:confirmationPromptText="Are you sure you want to cancel?" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+        <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="Copy"
               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
       </list>
     </property>
   </bean>
+
+  <bean id="DialogGroup-SensitiveData" parent="Uif-SensitiveData-DialogGroup"/>
 
   <bean id="Uif-TransactionalDocumentView" abstract="true" parent="Uif-TransactionalDocumentView-parentBean"/>
   <bean id="Uif-TransactionalDocumentView-parentBean" abstract="true"
@@ -326,7 +330,7 @@
           <list merge="true">
             <value>uif-documentNumber</value>
           </list>
-        </property>
+    </property>
   </bean>
 
   <bean id="Uif-DocumentStatus" parent="Uif-InputField" p:propertyName="documentHeader.workflowDocument.status"
@@ -335,7 +339,7 @@
           <list merge="true">
             <value>uif-documentStatus</value>
           </list>
-        </property>
+    </property>
   </bean>
 
   <bean id="Uif-DocumentInitiatorNetworkId" parent="Uif-InputField" p:propertyName="documentInitiatorNetworkId"
@@ -345,7 +349,7 @@
           <list merge="true">
             <value>uif-documentInitiatorNetworkId</value>
           </list>
-        </property>
+    </property>
   </bean>
 
   <bean id="Uif-DocumentCreateDate" parent="Uif-InputField" p:propertyName="documentCreateDate"
@@ -355,7 +359,7 @@
           <list merge="true">
             <value>uif-documentCreateDate</value>
           </list>
-        </property>
+    </property>
   </bean>
 
   <bean id="Uif-DocumentTemplateNumber" parent="Uif-InputField" p:propertyName="documentTemplateNumber"
@@ -364,7 +368,7 @@
           <list merge="true">
             <value>uif-documentTemplateNumber</value>
           </list>
-        </property>
+    </property>
   </bean>
 
   <bean id="Uif-DocumentDescription" parent="Uif-InputField" p:propertyName="documentDescription"
@@ -373,7 +377,7 @@
           <list merge="true">
             <value>uif-documentDescription</value>
           </list>
-        </property>
+    </property>
   </bean>
 
   <bean id="Uif-DocumentExplaination" parent="Uif-InputField" p:propertyName="explanation"
@@ -382,7 +386,7 @@
           <list merge="true">
             <value>uif-documentExplaination</value>
           </list>
-        </property>
+    </property>
   </bean>
 
   <bean id="Uif-OrganizationDocumentNumber" parent="Uif-InputField" p:propertyName="organizationDocumentNumber"
@@ -391,6 +395,6 @@
           <list merge="true">
             <value>uif-organizationDocumentNumber</value>
           </list>
-        </property>
+    </property>
   </bean>
 </beans>
