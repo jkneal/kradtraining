@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,34 +16,7 @@
 
 -->
 <#macro uif_collectionGroup group>
-
-    <@krad.groupWrap group=group>
-
-        <#-- render collection quickfinder -->
-        <@krad.template component=group.collectionLookup componentId="${group.id}"/>
-
-        <#if group.renderAddBlankLineButton && (group.addLinePlacement == 'TOP')>
-            <@krad.template component=group.addBlankLineAction/>
-        </#if>
-
-        <#if group.addViaLightBox && (group.addLinePlacement == 'TOP')>
-            <@krad.template component=group.addViaLightBoxAction/>
-        </#if>
-
-        <#-- invoke layout manager -->
-        <#local templateName=".main.${group.layoutManager.templateName}"/>
-        <#local templateParms="items=group.items manager=group.layoutManager container=group"/>
-
-        <#dyncall templateName templateParms/>
-
-        <#if group.renderAddBlankLineButton && (group.addLinePlacement == 'BOTTOM')>
-            <@krad.template component=group.addBlankLineAction/>
-        </#if>
-
-        <#if group.addViaLightBox && (group.addLinePlacement == 'BOTTOM')>
-            <@krad.template component=group.addViaLightBoxAction/>
-        </#if>
-
-    </@krad.groupWrap>
-
+    <@krad.wrap component=group renderAs="${group.wrapperTag}">
+	    <#inline 'collectionGroup' />
+    </@krad.wrap>
 </#macro>
