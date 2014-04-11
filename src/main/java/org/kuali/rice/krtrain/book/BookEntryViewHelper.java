@@ -1,13 +1,8 @@
 package org.kuali.rice.krtrain.book;
 
-import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Link;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * View helper service for the Book Entry view
@@ -21,5 +16,4 @@ public class BookEntryViewHelper extends ViewHelperServiceImpl {
         link.setLinkText("Author Blog");
         link.setHref("http://www.goodreads.com/author_blogs");
     }
-
 }
