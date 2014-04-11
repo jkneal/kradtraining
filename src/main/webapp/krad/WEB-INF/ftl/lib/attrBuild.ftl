@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -23,8 +23,11 @@ for style. The attribute strings can be referenced by the calling template throu
 variables -->
 
 <#function attrBuild component>
+	<#-- NOTICE: By KULRICE-10353 this method is duplicated, but not replaced, by
+			org.kuali.rice.krad.uif.freemarker.FreeMarkerInlineRenderUtils.renderAttrBuild().
+			When updating this template, also update that method. -->
 
-    <#if component.styleClassesAsString?has_content>
+    <#if component.cssClasses?has_content>
         <#local styleClass="class=\"${component.styleClassesAsString}\""/>
     </#if>
 
@@ -36,6 +39,14 @@ variables -->
         <#local title="title=\"${component.title}\""/>
     </#if>
 
-    <#return "${styleClass!} ${style!} ${title!}">
+    <#if component.role?has_content>
+        <#local role="role=\"${component.role}\""/>
+    </#if>
+
+    <#if component.ariaAttributes?has_content>
+        <#local ariaAttributes="${component.ariaAttributesAsString}"/>
+    </#if>
+
+    <#return "${styleClass!} ${style!} ${title!} ${role!} ${ariaAttributes!}">
 
 </#function>
