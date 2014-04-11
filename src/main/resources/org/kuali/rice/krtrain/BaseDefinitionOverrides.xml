@@ -13,6 +13,7 @@
     <bean id="Uif-TrainingTheme" parent="Uif-KbootTheme">
       <property name="cssFiles">
         <list merge="true">
+          <value>bootflat/css/bootflat.css</value>
           <value>css/krtrain-theme.css</value>
         </list>
       </property>
@@ -63,21 +64,25 @@
 		<property name="expandImageSrc" value="/images/h4_collapse.png" />
 	</bean> -->
 
-    <bean id="Uif-GridFieldGroup" parent="Uif-GridFieldGroup-parentBean"/>
-    <bean id="Uif-GridFieldGroup-parentBean" abstract="true" parent="Uif-FieldGroupBase">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-gridFieldGroup</value>
-            </list>
-        </property>
-        <property name="group">
-            <bean parent="Uif-GridGroup" p:layoutManager.renderAlternatingHeaderColumns="false">
-                <property name="componentModifiers">
-                    <list/>
-                </property>
-            </bean>
-        </property>
-    </bean>
+	<bean id="Uif-CssGridFieldGroup" parent="Uif-CssGridFieldGroup-parentBean" />
+	<bean id="Uif-CssGridFieldGroup-parentBean" abstract="true"
+		parent="Uif-FieldGroupBase">
+		<property name="group">
+			<bean parent="Uif-CssGridGroup" />
+		</property>
+	</bean>
+
+	<bean id="Uif-StackedCollectionLayoutBase" parent="Uif-StackedCollectionLayoutBase-parentBean"
+		p:renderLineActionsInHeader="false" />
+
+	<bean id="Uif-StackedCollectionGroup" parent="Uif-StackedCollectionGroup-parentBean">
+		<property name="lineActions">
+			<list>
+				<bean parent="Uif-DeleteLineAction" />
+				<bean parent="Uif-SaveLineAction" />
+			</list>
+		</property>
+	</bean>
 
     <bean id="Uif-GlobalApplicationHeader" parent="Training-AppHeader" p:render="@{!renderedInLightBox}"/>
 
@@ -94,12 +99,12 @@
 			<list>
 				<bean parent="Uif-MenuAction" p:actionLabel="Home"
 					p:actionUrl.href="@{#ConfigProperties['application.url']}/app/menu?viewId=Krtrain-MenuView&amp;methodToCall=start" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Home"
-					p:actionUrl.href="@{#ConfigProperties['application.url']}/app/menu?viewId=Krtrain-MenuView&amp;methodToCall=start" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Home"
-					p:actionUrl.href="@{#ConfigProperties['application.url']}/app/menu?viewId=Krtrain-MenuView&amp;methodToCall=start" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Home"
-					p:actionUrl.href="@{#ConfigProperties['application.url']}/app/menu?viewId=Krtrain-MenuView&amp;methodToCall=start" />
+				<bean parent="Uif-MenuAction" p:actionLabel="Doc Search"
+					p:actionUrl.href="@{#ConfigProperties['application.url']}/kew/DocumentSearch.do" />
+				<bean parent="Uif-MenuAction" p:actionLabel="Action List"
+					p:actionUrl.href="@{#ConfigProperties['application.url']}/kew/ActionList.do" />
+				<bean parent="Uif-MenuAction" p:actionLabel="Component Library"
+					p:actionUrl.href="http://env14.rice.kuali.org/kr-krad/kradsampleapp?viewId=KradSampleAppHome&amp;methodToCall=start" />
 			</list>
 		</property>
 	</bean>	

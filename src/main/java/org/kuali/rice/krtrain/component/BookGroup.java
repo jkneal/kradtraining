@@ -2,10 +2,13 @@ package org.kuali.rice.krtrain.component;
 
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.GroupBase;
+import org.kuali.rice.krad.uif.layout.BoxLayoutManager;
 import org.kuali.rice.krad.uif.util.LifecycleElement;
 
 /**
- * Group who items are rendered as a book page using the booklet widget.
+ * Group who items are rendered as a book page using the booklet widget
+ *
+ * @author KRAD Training
  */
 public class BookGroup extends GroupBase {
     private static final long serialVersionUID = 1221393415042482671L;
@@ -22,6 +25,10 @@ public class BookGroup extends GroupBase {
 
         // add CSS selectors for booklet plugin
         getLayoutManager().getCssClasses().add("b-load");
+        
+        if (getLayoutManager() instanceof BoxLayoutManager) {
+        	((BoxLayoutManager) getLayoutManager()).setRenderLayoutWrapper(true);
+        }
 
         for (Component component : getItems()) {
             component.getCssClasses().add("b-loadPage");
@@ -38,5 +45,4 @@ public class BookGroup extends GroupBase {
     public void setBooklet(Booklet booklet) {
         this.booklet = booklet;
     }
-    
 }

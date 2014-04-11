@@ -44,7 +44,6 @@
 		<config>training/rice/context/UifWidgetDefinitions.xml</config>
 		<config>src/main/resources/org/kuali/rice/krtrain/book/Chapter.xml</config>
 		<config>src/main/resources/org/kuali/rice/krtrain/book/BookTypeViews.xml</config>
-		<config>training/rice/context/AttributeReference.xml</config>
 	</configs>
 	<configSets>
 		<configSet>
@@ -89,7 +88,6 @@
 				<config>training/rice/context/UifWidgetDefinitions.xml</config>
 				<config>src/main/resources/org/kuali/rice/krtrain/book/Chapter.xml</config>
 				<config>src/main/resources/org/kuali/rice/krtrain/book/BookTypeViews.xml</config>
-				<config>training/rice/context/AttributeReference.xml</config>
 			</configs>
 			<profiles>
 			</profiles>

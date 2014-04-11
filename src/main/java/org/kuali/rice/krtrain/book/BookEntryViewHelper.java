@@ -34,7 +34,6 @@ public class BookEntryViewHelper extends ViewHelperServiceImpl {
             Group page = (Group) component;
 
             Group group = ComponentFactory.getVerticalBoxSection();
-
             group.setHeaderText("Top Book Awards");
 
             List<Component> groupItems = new ArrayList<Component>();

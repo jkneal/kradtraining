@@ -28,14 +28,14 @@
   <bean id="Uif-BackAction" parent="Uif-SecondaryActionButton" p:methodToCall="back"
         p:actionLabel="&lt; Back" p:performDirtyValidation="true"/>
 
-  <bean id="Uif-CancelAction" parent="Uif-ActionLink" p:methodToCall="cancel"
+  <bean id="Uif-CancelAction" parent="Uif-SecondaryActionButton" p:methodToCall="cancel"
         p:actionLabel="Cancel" p:performDirtyValidation="true" p:id="ucancel"/>
 
   <bean id="Uif-CheckFormAction" parent="Uif-SecondaryActionButton" p:methodToCall="checkForm"
         p:actionLabel="Check Form" p:loadingMessageText="Checking Form..." p:id="ucheck"/>
 
   <bean id="Uif-AddLineAction-parentBean" abstract="true" parent="Uif-PrimaryActionButton-Small"
-        p:methodToCall="addLine" p:actionLabel="add"
+        p:methodToCall="addLine" p:actionLabel="Add"
         p:actionEvent="addLine" p:loadingMessageText="Adding Line..." p:focusOnIdAfterSubmit="LINE_FIRST"
         p:performClientSideValidation="true" p:dirtyOnAction="true" p:id="@{#collectionGroup.id}_add"
         p:defaultEnterKeyAction="true" p:dialogDismissOption="REQUEST"/>
@@ -52,7 +52,7 @@
   </bean>
 
   <bean id="Uif-DeleteLineAction" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine"
-        p:actionLabel="delete"
+        p:actionLabel="Delete"
         p:onMouseOverScript="deleteLineMouseOver(this, 'uif-collectionDeleteHighlight');"
         p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
         p:onClickScript="writeCurrentPageToSession(this);" p:dirtyOnAction="true"
@@ -60,7 +60,7 @@
 
   <bean id="Uif-DeleteLineAction-IconOnly" parent="Uif-DeleteLineAction" p:actionLabel="" p:iconClass="icon-close"/>
 
-  <bean id="Uif-SaveLineAction" parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveLine" p:actionLabel="save"
+  <bean id="Uif-SaveLineAction" parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveLine" p:actionLabel="Save"
         p:render="@{#collectionGroup.renderSaveLineActions}" p:disabled="@{!isAddedCollectionItem(#line)}"
         p:performClientSideValidation="true" p:id="@{#collectionGroup.id}_save"
         p:onClickScript="writeCurrentPageToSession(this);">
@@ -151,7 +151,7 @@
   </bean>
 
   <bean id="Uif-HideInactiveCollectionItemsButton" parent="Uif-SecondaryActionButton-Small"
-        p:methodToCall="refresh" p:actionLabel="hide inactive" p:refreshId="@{#collectionGroup.id}"
+        p:methodToCall="refresh" p:actionLabel="Hide Inactive" p:refreshId="@{#collectionGroup.id}"
         p:preSubmitCall="setComponentState('@{#collectionGroup.id}','inactive', false);return true;">
     <property name="cssClasses">
       <list>
