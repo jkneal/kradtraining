@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -30,9 +30,22 @@
         <#local body="${element.linkText!}"/>
     </#if>
 
-    <a id="${element.id}" href="${element.href!}" target="${element.target!}"
-       ${krad.attrBuild(element)} ${tabindex!} ${element.simpleDataAttributes!}>${body!}</a>
-
+    <#if element.iconClass??>
+        <#if element.linkIconPlacement == 'ICON_ONLY'>
+            <#-- no span necessary, icon class is on the link -->
+            <a id="${element.id}" href="${element.href!}" target="${element.target!}"
+            ${krad.attrBuild(element)} ${tabindex!} ${element.simpleDataAttributes!}></a>
+        <#elseif element.linkIconPlacement == 'LEFT'>
+            <a id="${element.id}" href="${element.href!}" target="${element.target!}"
+            ${krad.attrBuild(element)} ${tabindex!} ${element.simpleDataAttributes!}><span class="${element.iconClass}"></span>${body!}</a>
+        <#elseif element.linkIconPlacement == 'RIGHT'>
+            <a id="${element.id}" href="${element.href!}" target="${element.target!}"
+            ${krad.attrBuild(element)} ${tabindex!} ${element.simpleDataAttributes!}>${body!}<span class="${element.iconClass}"></span></a>
+        </#if>
+    <#else>
+        <a id="${element.id}" href="${element.href!}" target="${element.target!}"
+        ${krad.attrBuild(element)} ${tabindex!} ${element.simpleDataAttributes!}>${body!}</a>
+    </#if>
     <@krad.template component=element.lightBox componentId="${element.id}"/>
 
 </#macro>
