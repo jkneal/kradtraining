@@ -1,18 +1,17 @@
 package org.kuali.rice.krtrain.component;
 
-import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.container.Group;
-import org.kuali.rice.krad.uif.field.InputField;
-import org.kuali.rice.krad.uif.modifier.ComponentModifierBase;
-import org.kuali.rice.krad.uif.util.ComponentUtils;
-import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.view.ViewModel;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.container.Group;
+import org.kuali.rice.krad.uif.field.InputField;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleUtils;
+import org.kuali.rice.krad.uif.modifier.ComponentModifierBase;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.uif.view.ViewModel;
 
 /**
  * Component modifier that tracks field value changes
@@ -25,7 +24,7 @@ public class AuditFieldModifier extends ComponentModifierBase {
     private static final String AUDIT_HIGHLIGHT_CSS_CLASS = "audit-changed";
     private static final String EXPANSION_DATA_KEY = "AuditData";
 
-    public void performModification(View view, Object model, Component component) {
+    public void performModification(Object model, Component component) {
         ViewModel viewModel = (ViewModel) model;
 
         Map<String, Object> initialValues = new HashMap<String, Object>();
@@ -40,7 +39,7 @@ public class AuditFieldModifier extends ComponentModifierBase {
         }
         Group group = (Group) component;
 
-        for (Component field : ComponentUtils.getComponentsOfTypeDeep(group, InputField.class)) {
+        for (Component field : ViewLifecycleUtils.getElementsOfTypeDeep(group, InputField.class)) {
             if (!(field instanceof InputField)) {
                 continue;
             }

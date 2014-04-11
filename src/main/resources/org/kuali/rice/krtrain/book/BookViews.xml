@@ -37,7 +37,7 @@
 			</list>
 		</property>
 		<property name="resultsGroup.layoutManager.rowDetailsGroup">
-            <bean parent="relatedBookChapters" p:disclosure.render="false"/>
+            <bean parent="relatedBookChapters"/>
         </property>
 	</bean>
 

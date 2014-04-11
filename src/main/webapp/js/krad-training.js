@@ -28,3 +28,7 @@ function checkReview() {
     }
 }
 
+function awardDialogHandler(event) {
+    alert('You selected award: ' + event.response);
+}
+
