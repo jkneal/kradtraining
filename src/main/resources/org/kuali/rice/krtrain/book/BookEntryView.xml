@@ -44,23 +44,6 @@
 			</list>
 		</property>
 		<property name="defaultBindingObjectPath" value="document.book"/>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveBook" p:actionLabel="save book"
-                              p:preSubmitCall="return promptBeforeSave();" p:loadingMessageText="Saving Book..."
-                              p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP" p:render="@{!view.readOnly}"
-                              p:disabled="@{#empty(#dp.title)}"/>
-
-                        <bean parent="Uif-PrimaryActionButton" p:actionScript="clearForm();" p:actionLabel="clear form"/>
-
-                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel"
-                              p:performDirtyValidation="true"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
         <property name="help">
           <bean parent="Uif-Help">
             <property name="externalHelpUrl" value="https://wiki.kuali.org"/>
