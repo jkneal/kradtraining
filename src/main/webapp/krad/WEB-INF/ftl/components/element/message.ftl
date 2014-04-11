@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -20,14 +20,15 @@
  -->
 
 <#macro uif_message element>
+
 <#--if there is messageComponentStructure specified use that because this is a rich message-->
     <#if element.messageComponentStructure?has_content>
-        <#if element.generateSpan>
-            <@krad.div component=element>
+        <#if element.renderWrapperTag>
+            <@krad.wrap component=element renderAs="${element.wrapperTag}">
                 <#list element.messageComponentStructure as messageElement>
                     <@krad.template component=messageElement/>
                 </#list>
-            </@krad.div>
+            </@krad.wrap>
         <#else>
             <#list element.messageComponentStructure as messageElement>
                 <@krad.template component=messageElement/>
@@ -35,8 +36,8 @@
         </#if>
     <#else>
     <#--generate wrapping span if true-->
-        <#if element.generateSpan>
-            <@krad.span component=element>${element.messageText!}</@krad.span>
+        <#if element.renderWrapperTag>
+            <@krad.wrap component=element renderAs="${element.wrapperTag}">${element.messageText!}</@krad.wrap>
         <#else>
         ${element.messageText!}
         </#if>

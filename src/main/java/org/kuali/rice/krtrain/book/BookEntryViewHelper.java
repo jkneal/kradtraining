@@ -1,5 +1,8 @@
 package org.kuali.rice.krtrain.book;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Link;
@@ -7,11 +10,8 @@ import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
-import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.uif.view.ViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * View helper service for the Book Entry view
@@ -27,24 +27,19 @@ public class BookEntryViewHelper extends ViewHelperServiceImpl {
     }
 
     @Override
-    protected void performCustomInitialization(View view, Component component) {
-        super.performCustomInitialization(view, component);
+    public void performCustomInitialization(LifecycleElement component) {
+        super.performCustomInitialization(component);
 
         if (component != null && ("Krtrain-BookEntryPage1".equals(component.getId()))) {
             Group page = (Group) component;
 
             Group group = ComponentFactory.getVerticalBoxSection();
-            view.assignComponentIds(group);
-
             group.setHeaderText("Top Book Awards");
 
             List<Component> groupItems = new ArrayList<Component>();
 
             InputField field = ComponentFactory.getInputField("bookAwardOne", "Award One");
-            view.assignComponentIds(field);
-
             InputField field2 = ComponentUtils.copy(field);
-            view.assignComponentIds(field2);
 
             field2.setPropertyName("bookAwardTwo");
             field2.setLabel("Award Two");
