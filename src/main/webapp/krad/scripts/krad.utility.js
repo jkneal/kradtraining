@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -181,6 +181,41 @@ function isPortalContainer(window) {
 }
 
 /**
+ * Attempts to find an element based on the given selector taking into consideration the portal.
+ *
+ * @param selector jquery selector to find element
+ * @returns jquery object for found element, or null if an element was not found
+ */
+function findElement(selector) {
+    var jqElement;
+
+    if (parent.jQuery('iframe[id*=easyXDM_]').length > 0) {
+        // portal and content on same domain
+        jqElement = top.jQuery('iframe[id*=easyXDM_]').contents().find('#' + kradVariables.PORTAL_IFRAME_ID).contents().find(selector);
+    } else if (parent.parent.jQuery('#' + kradVariables.PORTAL_IFRAME_ID).length > 0) {
+        // portal and content on different domain
+        jqElement = parent.parent.jQuery('#' + kradVariables.PORTAL_IFRAME_ID).contents().find(selector);
+    } else {
+        jqElement = top.jq(selector);
+    }
+
+    return jqElement;
+}
+
+/**
+ * Finds element(s) within the given context that have the data role attribute equal to the given role.
+ *
+ * @param role data attribute role value to find
+ * @param $context (optional) content to find elements, if empty the entire document will be used
+ * @returns {*} found elements, if any
+ */
+function findByDataRole(role, $context) {
+    $context = $context || jQuery(document);
+
+    return $context.find("[" + kradVariables.ATTRIBUTES.DATA_ROLE + "='" + role + "']");
+}
+
+/**
  * Sets a configuration parameter that will be accessible with script
  *
  * <p>
@@ -309,7 +344,7 @@ function getSerializedViewState() {
 
 // gets the the label for field with the corresponding id
 function getLabel(id) {
-    var label = jQuery("#" + id + "_label");
+    var label = jQuery("[data-label_for='" + id + "']");
     if (label) {
         return label.text();
     }
@@ -342,8 +377,7 @@ function runHiddenScripts(id, isSelector, skipValidationBubbling) {
 
         //Interpret new server message state for refreshed InputFields and write them out
         if (!skipValidationBubbling) {
-            //reinitialize BubblePopup
-            initBubblePopups();
+            pageValidationPhase = true;
 
             jQuery(selector).find("div[data-role='InputField']").andSelf().filter("div[data-role='InputField']").each(function () {
                 var id = jQuery(this).attr('id');
@@ -355,13 +389,11 @@ function runHiddenScripts(id, isSelector, skipValidationBubbling) {
             });
 
             writeMessagesForPage();
+            pageValidationPhase = false;
         }
     }
     else {
         evaluateScripts();
-
-        //reinitialize BubblePopup
-        initBubblePopups();
     }
 
     profile(false, "run-scripts:" + id);
@@ -423,30 +455,29 @@ function runScriptsForId(id) {
  * @param jqueryObj - a jquery object representing a hidden input element with a script in its value attribute
  */
 function evalHiddenScript(jqueryObj) {
-    if (jqueryObj.attr("name") === undefined || jqueryObj.closest("div[data-open='false']").length) {
+    if (jqueryObj.attr("name") === undefined || (jqueryObj.closest("[data-open]").length &&
+            jqueryObj.closest("[data-open]").attr("data-open") === "false")) {
         return;
     }
-    jqueryObj.attr("script", "first_run");
+
     jqueryObj.removeAttr("name");
-    eval(jqueryObj.val());
+    jqueryObj.attr("script", "first_run");
 
-}
+    var js = jqueryObj.val();
+    try {
+        eval(js);
+    } catch (err) {
+        if (err instanceof ReferenceError) {
+            throw new ReferenceError(err.message + " -> offending code: " + js, err.fileName, err.lineNumber);
+        } else {
+            throw err;
+        }
+    }
 
-/**
- * run hidden scripts again
- *
- * <p>This is needed in situations where due to some bugs in page refreshes or progressive rendering,
- * the hidden scripts may have run but not accomplished the desired results</p>
- */
-function runHiddenScriptsAgain() {
-    jQuery("input[data-role='dataScript']").each(function () {
-        eval(jQuery(this).val());
-        jQuery(this).removeAttr("script");
-    });
-    jQuery("input[script='first_run']").each(function () {
-        eval(jQuery(this).val());
-        jQuery(this).removeAttr("script");
-    });
+    // cleanup script for non-dev modes
+    if (scriptCleanup) {
+        jqueryObj.remove();
+    }
 }
 
 /**
@@ -476,7 +507,7 @@ function writeHiddenToForm(propertyName, propertyValue) {
     //removing because of performFinalize bug
     jQuery('input[name="' + escapeName(propertyName) + '"]').remove();
 
-    if (propertyValue.indexOf("'") != -1) {
+    if (propertyValue && typeof propertyValue === 'string' &&  propertyValue.indexOf("'") != -1) {
         jQuery("<input type='hidden' name='" + propertyName + "'" + ' value="' + propertyValue + '"/>').appendTo(jQuery("#formComplete"));
     } else {
         jQuery("<input type='hidden' name='" + propertyName + "' value='" + propertyValue + "'/>").appendTo(jQuery("#formComplete"));
@@ -498,41 +529,46 @@ function clearHiddens() {
  */
 function coerceValue(name) {
     var value = "";
-
     var nameSelect = "[name='" + escapeName(name) + "']";
 
-    // when group is opened in lightbox make sure to get the value from field in the lightbox
-    // if that field is in the lightbox
-    var parent = document;
-    if (jQuery(nameSelect, jQuery(".fancybox-wrap")).length) {
-        parent = jQuery(".fancybox-wrap");
+    var fancyBoxWrapper = jQuery(".fancybox-wrap");
+    var control;
+    // Attempt to get from fancybox first, if it exists
+    if (fancyBoxWrapper.length) {
+        control = jQuery(nameSelect, fancyBoxWrapper);
     }
 
-    if (jQuery(nameSelect + ":checkbox", parent).length == 1) {
-        value = jQuery(nameSelect + ":checked", parent).val();
+    // If no fancybox or control not in fancybox, get from document
+    if (control == null || control.length == 0) {
+        control = jQuery(nameSelect, document);
     }
-    else if (jQuery(nameSelect + ":checkbox", parent).length > 1) {
+
+    if (control.is(":checkbox") && control.length == 1) {
+        value = control.filter(":checked").val();
+    }
+    else if (control.is(":checkbox") && control.length > 1) {
         value = [];
-        jQuery(nameSelect + ":checked", parent).each(function () {
+        control.filter(":checked").each(function () {
             value.push(jQuery(this).val());
         });
     }
-    else if (jQuery(nameSelect + ":radio", parent).length) {
-        value = jQuery(nameSelect + ":checked", parent).val();
+    else if (control.is(":radio")) {
+        value = control.filter(":checked").val();
     }
-    else if (jQuery(nameSelect, parent).length) {
-        if (jQuery(nameSelect, parent).hasClass("watermark")) {
-            jQuery.watermark.hide(nameSelect, parent);
-            value = jQuery(nameSelect, parent).val();
-            jQuery.watermark.show(nameSelect, parent);
+    else if (control.length) {
+        if (control.hasClass("watermark")) {
+            jQuery.watermark.hide(control, parent);
+            value = control.val();
+            jQuery.watermark.show(control, parent);
         }
         else {
-            value = jQuery(nameSelect, parent).val();
+            value = control.val();
         }
     }
 
     if (value == null) {
         value = "";
+        return value;
     }
 
     // boolean matching
@@ -756,7 +792,7 @@ function jumpToElementById(id) {
 
 //Jump(scroll) to the top of the current screen
 function jumpToTop() {
-    if (!usePortalForContext() || jQuery("#fancybox-frame", parent.document).length) {
+    if (!usePortalForContext() || jQuery("#fancybox-frame", parent.document).length || !top.jQuery.scrollTo) {
         jQuery.scrollTo(0);
     }
     else {
@@ -822,23 +858,6 @@ function resizeTheRouteLogFrame() {
 }
 
 /**
- * Adds or adds value to the attribute on the element.
- *
- * @param id - element id
- * @param attributeName - name of the attribute to add/add to
- * @param attributeValue - value of the attribute
- * @param concatFlag - indicate if value should be added to current value
- */
-function addAttribute(id, attributeName, attributeValue, concatFlag) {
-    hasAttribute = jQuery("#" + id).is('[' + attributeName + ']');
-    if (concatFlag && hasAttribute) {
-        jQuery("#" + id).attr(attributeName, jQuery("#" + id).attr(attributeName) + " " + attributeValue);
-    } else {
-        jQuery("#" + id).attr(attributeName, attributeValue);
-    }
-}
-
-/**
  * Open new browser window for the specified help url
  *
  * The help window is positioned in the center of the screen and resized to 1/4th of the screen.
@@ -860,9 +879,15 @@ function openHelpWindow(url) {
     var windowUrl = url;
     var windowName = 'HelpWindow';
     var windowOptions = 'width=' + windowWidth + ',height=' + windowHeight + ',top=' + windowPositionX + ',left=' + windowPositionY + ',scrollbars=yes,resizable=yes';
+    var myWindow;
 
-    var myWindow = window.open('', windowName);
-    myWindow.close();
+    /* chrome will not allow a open,close,open */
+    var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+    if(!is_chrome) {
+        myWindow = window.open('', windowName);
+        myWindow.close();
+    }
+
     myWindow = window.open(windowUrl, windowName, windowOptions);
 }
 
@@ -924,10 +949,12 @@ function time(start, testingText) {
 function deleteLineMouseOver(deleteButton, highlightItemClass) {
     var innerLayout = jQuery(deleteButton).parents('.' + kradVariables.TABLE_COLLECTION_LAYOUT_CLASS
             + ', .' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).first().attr('class');
-    if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
-        jQuery(deleteButton).closest('tr').addClass(highlightItemClass);
-    } else {
-        jQuery(deleteButton).closest('.' + kradVariables.COLLECTION_ITEM_CLASS).addClass(highlightItemClass);
+    if (innerLayout) {
+        if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
+            jQuery(deleteButton).closest('tr').addClass(highlightItemClass);
+        } else {
+            jQuery(deleteButton).closest('.' + kradVariables.COLLECTION_ITEM_CLASS).addClass(highlightItemClass);
+        }
     }
 }
 
@@ -940,10 +967,12 @@ function deleteLineMouseOver(deleteButton, highlightItemClass) {
 function deleteLineMouseOut(deleteButton, highlightItemClass) {
     var innerLayout = jQuery(deleteButton).parents('.' + kradVariables.TABLE_COLLECTION_LAYOUT_CLASS
             + ', .' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).first().attr('class');
-    if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
-        jQuery(deleteButton).closest('tr').removeClass(highlightItemClass);
-    } else {
-        jQuery(deleteButton).closest('.' + kradVariables.COLLECTION_ITEM_CLASS).removeClass(highlightItemClass);
+    if (innerLayout) {
+        if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
+            jQuery(deleteButton).closest('tr').removeClass(highlightItemClass);
+        } else {
+            jQuery(deleteButton).closest('.' + kradVariables.COLLECTION_ITEM_CLASS).removeClass(highlightItemClass);
+        }
     }
 }
 
@@ -956,10 +985,12 @@ function deleteLineMouseOut(deleteButton, highlightItemClass) {
 function addLineMouseOver(addButton, highlightItemClass) {
     var innerLayout = jQuery(addButton).parents('.' + kradVariables.TABLE_COLLECTION_LAYOUT_CLASS
             + ', .' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).first().attr('class');
-    if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
-        jQuery(addButton).parent().find('table').addClass(highlightItemClass);
-    } else {
-        jQuery(addButton).parent().find('.' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).addClass(highlightItemClass).children().addClass(highlightItemClass);
+    if (innerLayout) {
+        if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
+            jQuery(addButton).parent().find('table').addClass(highlightItemClass);
+        } else {
+            jQuery(addButton).parent().find('.' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).addClass(highlightItemClass).children().addClass(highlightItemClass);
+        }
     }
 }
 
@@ -972,10 +1003,12 @@ function addLineMouseOver(addButton, highlightItemClass) {
 function addLineMouseOut(addButton, highlightItemClass) {
     var innerLayout = jQuery(addButton).parents('.' + kradVariables.TABLE_COLLECTION_LAYOUT_CLASS
             + ', .' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).first().attr('class');
-    if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
-        jQuery(addButton).parent().find('table').removeClass(highlightItemClass);
-    } else {
-        jQuery(addButton).parent().find('.' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).removeClass(highlightItemClass).children().removeClass(highlightItemClass);
+    if (innerLayout) {
+        if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
+            jQuery(addButton).parent().find('table').removeClass(highlightItemClass);
+        } else {
+            jQuery(addButton).parent().find('.' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).removeClass(highlightItemClass).children().removeClass(highlightItemClass);
+        }
     }
 }
 
@@ -988,7 +1021,7 @@ function addLineMouseOut(addButton, highlightItemClass) {
 function collectionLineChanged(inputField, highlightItemClass) {
     // This is not very good for performance but because dirty_form gets binded after this event so we need to trigger
     // the dirty_form check before checking for the dirty fields
-    jQuery(inputField).triggerHandler('blur');
+    jQuery(inputField).triggerHandler('change');
 
     // Get the innerlayout to see if we are dealing with table or stack group
     var innerLayout = jQuery(inputField).parents('.' + kradVariables.TABLE_COLLECTION_LAYOUT_CLASS
@@ -1000,8 +1033,10 @@ function collectionLineChanged(inputField, highlightItemClass) {
         var saveButton = row.find('.' + kradVariables.SAVE_LINE_ACTION_CLASS);
 
         if (enabled) {
+            saveButton.removeClass('disabled');
             saveButton.removeAttr('disabled');
         } else {
+            saveButton.addClass('disabled');
             saveButton.attr('disabled', 'disabled');
         }
 
@@ -1011,8 +1046,10 @@ function collectionLineChanged(inputField, highlightItemClass) {
         var saveButton = itemGroup.find('.' + kradVariables.SAVE_LINE_ACTION_CLASS);
 
         if (enabled) {
+            saveButton.removeClass('disabled');
             saveButton.removeAttr('disabled');
         } else {
+            saveButton.addClass('disabled');
             saveButton.attr('disabled', 'disabled');
         }
 
@@ -1020,36 +1057,53 @@ function collectionLineChanged(inputField, highlightItemClass) {
 }
 
 /**
- * Display the component of the id in a light box
+ * Takes a string argument that contains javascript code and wraps in a function that accepts an
+ * event argument.
  *
- * <p>
- * The specified component is used as the content of the fancy box.
- * The second argument is optional and allows the FancyBox options to be overridden.
- * </p>
+ * @param source string containing event script
+ * @returns {Object} event handler function
+ */
+function wrapAsHandler(source) {
+    var script = "(function (e) { " + source + "})"
+
+    return eval(script);
+}
+
+/**
+ * Display the component of the id in a light box.
+ *
+ * <p>The specified component is used as the content of the fancy box.
+ * The second argument is optional and allows the FancyBox options to be overridden.</p>
  *
  * @param componentId the id of the component that will be used for the lightbox content (usually a group id)
  * @param overrideOptions the map of option settings (option name/value pairs) for the plugin. This is optional.
+ * @param alwaysRefresh indicates even if the component is currently in the dom, its contents will be retrieved
+ * from the server
  */
-function showLightboxComponent(componentId, overrideOptions) {
+function showLightboxComponent(componentId, overrideOptions, alwaysRefresh) {
     if (overrideOptions === undefined) {
         overrideOptions = {};
     }
 
+    if (alwaysRefresh === undefined) {
+        alwaysRefresh = false;
+    }
+
     // set renderedInLightBox indicator and remove it when lightbox is closed
-    if (jQuery('#renderedInLightBox').val() != true) {
-        jQuery('#renderedInLightBox').val(true);
+    if (jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val() != true) {
+        jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val(true);
         _appendCallbackFunctions(overrideOptions, {afterClose: function () {
-            jQuery('#renderedInLightBox').val(false);
+            jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val(false);
         }});
     }
 
-    if (jQuery('#' + componentId).hasClass('uif-placeholder')) {
-        retrieveComponent(componentId, undefined, function () {
-            _showLightboxComponentHelper(componentId, overrideOptions);
-        }, {}, true);
-
-    } else {
+    if (jQuery('#' + componentId).length > 0 && !alwaysRefresh
+            && !jQuery('#' + componentId).hasClass(kradVariables.CLASSES.PLACEHOLDER)) {
         _showLightboxComponentHelper(componentId, overrideOptions);
+    } else {
+        createPlaceholderAndRetrieve(componentId, function () {
+            _showLightboxComponentHelper(componentId, overrideOptions);
+        });
     }
 }
 
@@ -1058,14 +1112,14 @@ function showLightboxComponent(componentId, overrideOptions) {
  */
 function _showLightboxComponentHelper(componentId, overrideOptions) {
     var component = jQuery("#" + componentId);
-    var cssDisplay = component.css("display");
+    var cssDisplay = "none";
 
     // suppress scrollbar when not needed, undo the div.clearfix hack (KULRICE-7467)
     if (component.attr("class")) {
         component.attr("class", component.attr("class").replace("clearfix", ""));
     }
 
-    component.find("div").each(function () {
+    component.find("div, section").each(function () {
         var classAttribute = jQuery(this).attr("class");
 
         if (classAttribute) {
@@ -1083,7 +1137,7 @@ function _showLightboxComponentHelper(componentId, overrideOptions) {
             jQuery("#" + componentId).css("display", cssDisplay);
             jQuery("#" + componentId + kradVariables.DIALOG_PLACEHOLDER).replaceWith(parent.jQuery("#" + componentId).detach());
 
-            jQuery("#renderedInLightBox").val(false);
+            jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val(false);
 
             activeDialogId = null;
         }});
@@ -1097,7 +1151,7 @@ function _showLightboxComponentHelper(componentId, overrideOptions) {
             jQuery("#" + componentId).css("display", cssDisplay);
             jQuery("#" + componentId + kradVariables.DIALOG_PLACEHOLDER).replaceWith(parent.jQuery("#" + componentId).detach());
 
-            jQuery("#renderedInLightBox").val(false);
+            jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val(false);
 
             activeDialogId = null;
         }});
@@ -1136,6 +1190,7 @@ function showLightboxContent(content, overrideOptions) {
         overrideOptions = {};
     }
 
+    jQuery(content).addClass("uif-lightbox");
     _initAndOpenLightbox({type: 'html', content: content}, overrideOptions);
 }
 
@@ -1171,13 +1226,12 @@ function showLightboxUrl(url, overrideOptions) {
  * @param overrideOptions the map of option settings (option name/value pairs) for the plugin. This is optional.
  */
 function _initAndOpenLightbox(contentOptions, overrideOptions) {
-    var options = {fitToView: true,
+    var options = { fitToView: true,
         openEffect: 'fade',
         closeEffect: 'fade',
         openSpeed: 200,
         closeSpeed: 200,
         minHeight: 10,
-        //minWidth: 10,
         helpers: {overlay: {css: {cursor: 'arrow'}, closeClick: false}}
     };
 
@@ -1191,14 +1245,17 @@ function _initAndOpenLightbox(contentOptions, overrideOptions) {
 
     // Open the light box
     jQuery.fancybox(options);
-    setupLightboxForm();
+    //stop external content from being wrapped with kualiForm tag
+    if (!(contentOptions.type === "iframe")) {
+        setupLightboxForm();
+    }
 }
 
 /**
  *  Wrap the div to display in the light box in a form and setup form for validation and dirty checks
  */
 function setupLightboxForm() {
-    jQuery(".fancybox-inner").children().wrap("<form style='margin:0; padding:0; overflow:auto;' id='kualiLightboxForm' class='uif-lightbox'>");
+    jQuery(".fancybox-inner").children().wrap("<form style='margin:0; padding:0; overflow:auto;' id='kualiLightboxForm'>");
 
     var kualiLightboxForm = jQuery('#kualiLightboxForm');
     setupValidator(kualiLightboxForm);
@@ -1208,15 +1265,9 @@ function setupLightboxForm() {
  * Closes any open lightbox
  */
 function closeLightbox() {
-    getContext().fancybox.close();
-}
-
-/**
- * Convenience method closes lightbox and reloads page
- */
-function closeLightboxReloadPage() {
-    closeLightbox();
-    top.window.location.reload(true);
+    if (getContext().fancybox) {
+        getContext().fancybox.close();
+    }
 }
 
 /**
@@ -1320,7 +1371,9 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
     var onePage = iStart == 0 && iEnd == aaData.length;
 
     if (onePage) {
-        footerRow.find("div[data-role='pageTotal'], label[data-role='pageTotal']").hide();
+        footerRow.find("[data-role='pageTotal'], label[data-role='pageTotal']").hide();
+    } else {
+        footerRow.find("[data-role='pageTotal'], label[data-role='pageTotal']").show();
     }
 
     var groupTotalRows = dataTable.find("tr[data-groupvalue]");
@@ -1329,9 +1382,9 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
     //Only calculate totals if no grouping or when there is grouping, wait for those rows to become
     //generated - avoids unnecessary totalling
     if (!hasGroups || (hasGroups && groupTotalRows.length)) {
-        var nCells = footerRow.find("th").has("div[data-role='totalsBlock']");
+        var nCells = footerRow.find("th").has("[data-role='totalsBlock']");
 
-        var groupLabel = footerRow.find("th:first span[data-role='groupTotalLabel']");
+        var groupLabel = footerRow.find("th:first [data-role='groupTotalLabel']");
         var hasTotalsInFooter = false;
 
         // Total each column in the columns list
@@ -1340,8 +1393,8 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
             var index = cell.index();
 
             //find the totalsBlocks in the column footer cell, and calculate the appropriate totals
-            jQuery("div[data-role='totalsBlock']", cell).each(function () {
-                var totalDiv = jQuery(this).find("div[data-role='total']");
+            jQuery("[data-role='totalsBlock']", cell).each(function () {
+                var totalDiv = jQuery(this).find("[data-role='total']");
                 var skipTotal = totalDiv.data(kradVariables.SKIP_TOTAL);
 
                 if (!skipTotal && totalDiv.length) {
@@ -1352,14 +1405,14 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
                     hasTotalsInFooter = true;
                 }
 
-                var pageTotalDiv = jQuery(this).find("div[data-role='pageTotal']");
+                var pageTotalDiv = jQuery(this).find("[data-role='pageTotal']");
                 if (!onePage && pageTotalDiv.length) {
                     calculateTotal(pageTotalDiv, iStart, iEnd, columns[c], aaData, aiDisplay);
                     hasTotalsInFooter = true;
                 }
 
                 if (groupTotalRows.length) {
-                    var groupTotalDiv = jQuery(this).find("div[data-role='groupTotal']");
+                    var groupTotalDiv = jQuery(this).find("[data-role='groupTotal']");
                     var rowIndex = 0;
                     //for each group total row calculate the group total for the column we are totalling
                     groupTotalRows.each(function () {
@@ -1429,6 +1482,7 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
         //Hide the footer row if no footer totals or page totals exist
         if (hasTotalsInFooter) {
             footerRow.show();
+            footerRow.find("th:hidden").addClass("show-footer");
         }
         else {
             footerRow.hide();
@@ -1508,7 +1562,7 @@ function calculateGroupTotal(cellsToTotal, totalTd, groupTotalDiv, rowIndex, col
         total = "N/A";
     }
 
-    var groupTotalDisplay = totalTd.find("div[data-role='groupTotal'][data-function='" + functionName + "']");
+    var groupTotalDisplay = totalTd.find("[data-role='groupTotal'][data-function='" + functionName + "']");
     //clone and append, if no place to display the total has been generated yet
     if (groupTotalDisplay.length == 0) {
         groupTotalDisplay = groupTotalDiv.clone();
@@ -1521,7 +1575,7 @@ function calculateGroupTotal(cellsToTotal, totalTd, groupTotalDiv, rowIndex, col
         groupTotalDisplay.show();
     }
 
-    var totalValueSpan = groupTotalDisplay.find("span[data-role='totalValue']");
+    var totalValueSpan = groupTotalDisplay.find("[data-role='totalValue']");
 
     if (totalValueSpan.length) {
         totalValueSpan.html(total);
@@ -1615,7 +1669,7 @@ function calculateTotal(totalDiv, start, end, currentColumn, aaData, aiDisplay) 
             total = "N/A";
         }
 
-        var totalValueSpan = totalDiv.find("span[data-role='totalValue']");
+        var totalValueSpan = totalDiv.find("[data-role='totalValue']");
 
         if (totalValueSpan.length) {
             totalValueSpan.html(total);
@@ -1758,10 +1812,9 @@ function coerceTableCellValue(element) {
         inputFieldValue = inputField.val();
     } else {
         // This might be after sorting or just read only
-        inputField = tdObject.find('span');
-        if (inputField.length > 0) {
+        if (tdObject.is("div[data-role='InputField']")) {
             // readonly fields
-            inputFieldValue = inputField.text().replace(/\s+/g, "");
+            inputFieldValue = getImmediateChildText(tdObject[0]).trim();
         } else {
             // after sorting
             inputFieldValue = element;
@@ -1781,6 +1834,17 @@ function coerceTableCellValue(element) {
     } else {
         return inputFieldValue;
     }
+}
+
+function getImmediateChildText(node) {
+  var text = "";
+  for (var child = node.firstChild; !!child; child = child.nextSibling) {
+    // nodeType 3 is a text node
+    if (child.nodeType === 3) {
+      text += child.nodeValue + " ";
+    }
+  }
+  return text;
 }
 
 /**
@@ -1808,11 +1872,30 @@ function _handleColData(rowObject, type, colName, newVal) {
         return;
     } else if (type === "display") {
         return colObj.render;
-    } else if (type === "sort" && colObj.val == null) {
-        return colObj.render;
+    } else if (type === "sort") {
+        var sortValue = colObj.val;
+        if (sortValue == null) {
+            sortValue = colObj.render;
+        }
+
+        if (colObj.render) {
+            var field = jQuery(colObj.render);
+            var isInput = field.is("[data-role='InputField']");
+
+            if (isInput) {
+                var id = field.attr("id");
+                var control = field.find("[data-control_for='" + id + "']");
+                if (control.length) {
+                    sortValue = coerceValue(control.attr("name"));
+                }
+            }
+        }
+
+        return sortValue;
     }
 
     return colObj.val;
+
 }
 
 function normalizeGroupString(sGroup) {
@@ -2261,7 +2344,7 @@ function initStickyContent(currentScroll) {
         currentScroll = jQuery(window).scrollTop();
     }
 
-    var topOffset = stickyContentOffset.top;
+    var topOffset = Math.round(stickyContentOffset.top);
 
     var totalHeight = 0;
     var margin = 0;
@@ -2269,35 +2352,38 @@ function initStickyContent(currentScroll) {
     var automateMargin = false;
     var innerNonStickyCount = 0;
 
+    var lastStickyContent;
     //fix each sticky piece of content
     stickyContent.each(function () {
         var height = jQuery(this).outerHeight();
         var thisOffset = jQuery(this).data("offset");
+        var thisOffsetTop = Math.round(thisOffset.top);
         jQuery(this).addClass(kradVariables.STICKY_CLASS);
 
-        if (thisOffset.top < 1) {
+        if (thisOffsetTop < 1) {
             automateMargin = true;
         }
 
         //scroll content with the scroll
         if (currentScroll > 0) {
-            jQuery(this).attr("style", "position:fixed; left: 0; top: " + (thisOffset.top - currentScroll) + "px;");
+            jQuery(this).attr("style", "position:fixed; left: 0; top: " + (thisOffsetTop - currentScroll) + "px;");
         }
         else {
-            jQuery(this).attr("style", "position:fixed; left: 0; top: " + thisOffset.top + "px;");
+            jQuery(this).attr("style", "position:fixed; left: 0; top: " + thisOffsetTop + "px;");
         }
 
         //this means there is inner non-sticky content in the header
-        if (thisOffset.top > topOffset) {
+        if (thisOffsetTop > topOffset) {
             margin = margin + totalHeight;
             innerNonStickyCount++;
-            topOffset = thisOffset.top;
+            topOffset = thisOffsetTop;
         }
 
         //set totalHeight of sticky elements, topOffset, and prevHeight
         totalHeight = totalHeight + height;
         topOffset = topOffset + height;
         prevHeight = height;
+        lastStickyContent = jQuery(this);
     });
 
     //Only adjust the margin if a sticky area exists in the top most area, and there is inner-non-sticky content
@@ -2317,11 +2403,20 @@ function initStickyContent(currentScroll) {
         }
 
         //move the navigation with total height of the header pieces - the scroll
-        navigation.attr("style", "position:fixed; top: " + (topOffset - currentScroll) + "px;");
+        // TODO support both absolute and fixed
+        //navigation.attr("style", "position:fixed; top: " + (topOffset - currentScroll) + "px;");
+        navigation.attr("style", "position:absolute;");
+    }
+
+    // Determine which div to apply the margin to by figuring out the first applicable div that exists after all
+    // the sticky content, in order to push down that content and content below it correctly
+    var applyMarginToContent = jQuery("[data-role='View'] > .uif-sticky:last").next();
+    if (applyMarginToContent.length == 0){
+        applyMarginToContent = jQuery("[data-role='View']");
     }
 
     //make the ViewContentWrapper margin-top reflect the visible header content pixel height
-    jQuery("#" + kradVariables.VIEW_CONTENT_WRAPPER).css("marginTop",
+    jQuery(applyMarginToContent).css("marginTop",
             (totalHeight + navigationHeightAdjust - margin) + "px");
 
     //set header height global
@@ -2338,7 +2433,7 @@ function handleStickyContent() {
         return;
     }
 
-    if (jQuery(window).scrollTop() >= stickyContentOffset.top) {
+    if (jQuery(window).scrollTop() >= Math.round(stickyContentOffset.top)) {
         var topOffset = 0;
         var navAdjust = 0;
 
@@ -2347,9 +2442,10 @@ function handleStickyContent() {
             var height = jQuery(this).outerHeight();
 
             var thisOffset = jQuery(this).data("offset");
+            var thisOffsetTop = Math.round(thisOffset.top);
             //content exist between this sticky and last sticky
-            if (thisOffset && thisOffset.top - jQuery(window).scrollTop() > topOffset) {
-                var diff = thisOffset.top - jQuery(window).scrollTop();
+            if (thisOffset && thisOffsetTop - jQuery(window).scrollTop() > topOffset) {
+                var diff = thisOffsetTop - jQuery(window).scrollTop();
                 jQuery(this).attr("style", "position:fixed; left: 0; top: " + diff + "px;");
                 navAdjust = diff + height;
             }
@@ -2363,12 +2459,16 @@ function handleStickyContent() {
         });
 
         //adjust the fixed nav position (if navigation exists)
-        jQuery("#" + kradVariables.NAVIGATION_ID).attr("style", "position:fixed; top: " +
-                (navAdjust) + "px;");
+        // TODO support both absolute and fixed
+        /* jQuery("#" + kradVariables.NAVIGATION_ID).attr("style", "position:fixed; top: " +
+                (navAdjust) + "px;");*/
+        var nav = jQuery("#" + kradVariables.NAVIGATION_ID);
+        nav.attr("style", "position:absolute;");
+
         currentHeaderHeight = navAdjust;
 
     }
-    else if (jQuery(window).scrollTop() < stickyContentOffset.top) {
+    else if (jQuery(window).scrollTop() < Math.round(stickyContentOffset.top)) {
         //the content is back to past the first sticky element (topmost)
         initStickyContent(jQuery(window).scrollTop());
     }
@@ -2388,7 +2488,6 @@ function initStickyFooterContent() {
 
     //calculate bottom offset in reverse order (bottom up)
     jQuery(stickyFooterContent.get().reverse()).each(function () {
-        var height = jQuery(this).outerHeight();
         jQuery(this).addClass("uif-stickyFooter");
 
         //special style for footers that are not the application footer
@@ -2397,6 +2496,7 @@ function initStickyFooterContent() {
         }
 
         jQuery(this).attr("style", "position:fixed; left: 0; bottom: " + bottomOffset + "px;");
+        var height = jQuery(this).outerHeight();
         bottomOffset = bottomOffset + height;
     });
     currentFooterHeight = bottomOffset;
@@ -2426,8 +2526,8 @@ function handleStickyFooterContent() {
     var scrollTop = jQuery(window).scrollTop();
 
     //reposition elements when the scroll exceeds the footer's top (and footer content exists)
-    if (windowHeight + scrollTop >= appFooterOffset.top && scrollTop != 0 && applicationFooter.height() > 0) {
-        var bottomOffset = (windowHeight + scrollTop) - appFooterOffset.top;
+    if (windowHeight + scrollTop >= Math.round(appFooterOffset.top) && scrollTop != 0 && applicationFooter.height() > 0) {
+        var bottomOffset = (windowHeight + scrollTop) - Math.round(appFooterOffset.top);
 
         jQuery(stickyFooterContent.get().reverse()).each(function () {
             var height = jQuery(this).outerHeight();
@@ -2496,32 +2596,6 @@ function displayCountdown(targetId, until, overrideOptions) {
 }
 
 /**
- * Enables the return selected button on the multi value lookup when at least one item is selected
- *
- * @param selectControl
- */
-function setMultivalueLookupReturnButton(selectControl) {
-    refreshDatatableCellRedraw(selectControl);
-
-    var oTable = getDataTableHandle(getParentRichTableId(selectControl));
-
-    var checked = false;
-    jQuery.each(getDataTablesColumnData(0, oTable), function (index, value) {
-        if (jQuery(':input:checked', value).length) {
-            checked = true;
-        }
-    });
-
-    if (checked) {
-        jQuery(':button.' + kradVariables.RETURN_SELECTED_ACTION_CLASS).removeAttr('disabled');
-        jQuery(':button.' + kradVariables.RETURN_SELECTED_ACTION_CLASS).removeClass('disabled');
-    } else {
-        jQuery(':button.' + kradVariables.RETURN_SELECTED_ACTION_CLASS).attr('disabled', 'disabled');
-    }
-
-}
-
-/**
  * Returns the table id of parent table of an element if it is a richtable
  *
  * @param childElement
@@ -2547,4 +2621,80 @@ function getDataTablesColumnData(columnIndex, oTable) {
     });
 
     return colData;
+}
+
+/**
+ * Formats an unformated html string by adding appropriate line breaks and spaces for indentation
+ *
+ * <p> Modified solution based on: http://stackoverflow.com/questions/376373/pretty-printing-xml-with-javascript </p>
+ *
+ * @param html the html string to format
+ * @returns {string} a formatted html string which can be use in pre tags
+ */
+function formatHtml(html) {
+    var reg = /(>)(<)(\/*)/g;
+    var wsexp = / *(.*) +\n/g;
+    var contexp = /(<.+>)(.+\n)/g;
+    html = html.replace(reg, '$1\n$2$3').replace(wsexp, '$1\n').replace(contexp, '$1\n$2');
+    var formatted = '';
+    var lines = html.split('\n');
+    var indent = 0;
+    var lastType = 'other';
+    // 4 types of tags - single, closing, opening, other (text, doctype, comment) - 4*4 = 16 transitions
+    var transitions = {
+        'single->single': 0,
+        'single->closing': -1,
+        'single->opening': 0,
+        'single->other': 0,
+        'closing->single': 0,
+        'closing->closing': -1,
+        'closing->opening': 0,
+        'closing->other': 0,
+        'opening->single': 1,
+        'opening->closing': 0,
+        'opening->opening': 1,
+        'opening->other': 1,
+        'other->single': 0,
+        'other->closing': -1,
+        'other->opening': 0,
+        'other->other': 0
+    };
+
+    for (var i = 0; i < lines.length; i++) {
+        var ln = lines[i];
+
+        // is this line a single tag? ex. <br />
+        var single = Boolean(ln.match(/<.+\/>/)) || ln.indexOf("<input") != -1;
+
+        // is this a closing tag? ex. </a>
+        var closing = Boolean(ln.match(/<\/.+>/));
+
+        // is this even a tag (that's not <!something>)
+        var opening = Boolean(ln.match(/<[^!].*>/));
+
+        var type = single ? 'single' : closing ? 'closing' : opening ? 'opening' : 'other';
+        var fromTo = lastType + '->' + type;
+        lastType = type;
+        var padding = '';
+
+
+        indent += transitions[fromTo];
+        for (var j = 0; j < indent; j++) {
+            padding += '   ';
+        }
+
+        if (fromTo == 'opening->closing')
+            // substr removes line break (\n) from prev loop
+            formatted = formatted.substr(0, formatted.length - 1) + ln + '\n';
+        else
+            formatted += padding + ln + '\n';
+    }
+
+    return formatted;
+}
+
+function getGroupHeaderElement(groupId) {
+    var headerWrapper = jQuery("[data-header_for='" + groupId + "']");
+    var wrapperId = headerWrapper.attr("id");
+    return headerWrapper.find("#" + wrapperId + "_header");
 }

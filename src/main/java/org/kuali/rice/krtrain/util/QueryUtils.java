@@ -11,6 +11,6 @@ import org.kuali.rice.krtrain.book.PublisherCode;
 public class QueryUtils {
 
     public static PublisherCode retrievePublisherCode(String pubCode) {
-   		return KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(PublisherCode.class, pubCode);
+   		return KRADServiceLocator.getDataObjectService().find(PublisherCode.class, pubCode);
    	}
 }

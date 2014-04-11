@@ -1,6 +1,6 @@
 <!--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-  <bean id="Uif-InquiryView" abstract="true" parent="Uif-InquiryView-parentBean"/>
+  <bean id="Uif-InquiryView" scope="prototype" parent="Uif-InquiryView-parentBean"/>
   <bean id="Uif-InquiryView-parentBean" abstract="true"
         class="org.kuali.rice.krad.uif.view.InquiryView" parent="Uif-FormView">
     <property name="cssClasses">
@@ -72,8 +72,9 @@
   <bean id="Uif-InquiryFooter" parent="Uif-FooterBase">
     <property name="items">
       <list>
-        <bean parent="Uif-PrimaryActionButton" p:methodToCall="export" p:actionLabel="export"
-              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EXPORT]}" p:disableBlocking="true"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="export" p:actionLabel="Export"
+              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EXPORT]}" p:disableBlocking="true"
+              p:ajaxSubmit="false"/>
         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
               p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
         <bean parent="Uif-BackAction" p:render="@{!#form.renderedInLightBox}"/>
