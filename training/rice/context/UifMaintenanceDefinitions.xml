@@ -1,6 +1,6 @@
 <!--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -54,60 +54,75 @@
 
   <bean id="Uif-MaintenanceGridGroup" abstract="true" parent="Uif-MaintenanceGridGroup-parentBean"/>
   <bean id="Uif-MaintenanceGridGroup-parentBean" parent="Uif-GridGroup">
-    <property name="layoutManager.numberOfColumns" value="@{maintenanceAction eq 'Edit' ? 3 : 2}"/>
-    <property name="layoutManager.renderFirstRowHeader" value="@{maintenanceAction eq 'Edit'}"/>
+    <property name="readOnly" value="@{maintenanceAction eq 'Delete' or #parent.readOnly}"/>
+    <property name="layoutManager.numberOfColumns"
+              value="@{maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy' ? 3 : 2}"/>
+    <property name="layoutManager.renderFirstRowHeader"
+              value="@{maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'}"/>
     <property name="componentModifiers">
       <list merge="true">
         <bean parent="Uif-MaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
-              p:runCondition="maintenanceAction eq 'Edit'"/>
+              p:runCondition="maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'"/>
       </list>
     </property>
   </bean>
 
   <bean id="Uif-MaintenanceHorizontalBoxGroup" abstract="true" parent="Uif-MaintenanceHorizontalBoxGroup-parentBean"/>
   <bean id="Uif-MaintenanceHorizontalBoxGroup-parentBean" parent="Uif-HorizontalBoxGroup">
+    <property name="readOnly" value="@{maintenanceAction eq 'Delete' or #parent.readOnly}"/>
     <property name="componentModifiers">
       <list merge="true">
         <bean parent="Uif-MaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
-              p:runCondition="maintenanceAction eq 'Edit'"/>
+              p:runCondition="maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'"/>
       </list>
     </property>
   </bean>
 
   <bean id="Uif-MaintenanceVerticalBoxGroup" abstract="true" parent="Uif-MaintenanceVerticalBoxGroup-parentBean"/>
   <bean id="Uif-MaintenanceVerticalBoxGroup-parentBean" parent="Uif-VerticalBoxGroup">
+    <property name="readOnly" value="@{maintenanceAction eq 'Delete' or #parent.readOnly}"/>
     <property name="componentModifiers">
       <list merge="true">
         <bean parent="Uif-MaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
-              p:runCondition="maintenanceAction eq 'Edit'"/>
+              p:runCondition="maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'"/>
       </list>
     </property>
   </bean>
 
   <bean id="Uif-MaintenanceGridSection" abstract="true" parent="Uif-MaintenanceGridSection-parentBean"/>
   <bean id="Uif-MaintenanceGridSection-parentBean" parent="Uif-Disclosure-GridSection">
-    <property name="layoutManager.numberOfColumns" value="@{maintenanceAction eq 'Edit' ? 3 : 2}"/>
-    <property name="layoutManager.renderFirstRowHeader" value="@{maintenanceAction eq 'Edit'}"/>
-    <property name="layoutManager.renderRowFirstCellHeader" value="@{maintenanceAction eq 'Edit'}"/>
-    <property name="layoutManager.renderAlternatingHeaderColumns" value="@{!(maintenanceAction eq 'Edit')}"/>
+    <property name="readOnly" value="@{maintenanceAction eq 'Delete' or #parent.readOnly}"/>
+    <property name="layoutManager.numberOfColumns"
+              value="@{maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy' ? 3 : 2}"/>
+    <property name="layoutManager.renderFirstRowHeader"
+              value="@{maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'}"/>
+    <property name="layoutManager.renderRowFirstCellHeader"
+              value="@{maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'}"/>
+    <property name="layoutManager.renderAlternatingHeaderColumns"
+              value="@{!(maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy')}"/>
     <property name="componentModifiers">
       <list merge="true">
         <bean parent="Uif-MaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
-              p:runCondition="maintenanceAction eq 'Edit'"/>
+              p:runCondition="maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'"/>
       </list>
     </property>
   </bean>
 
   <bean id="Uif-MaintenanceGridSubSection" abstract="true" parent="Uif-MaintenanceGridSubSection-parentBean"/>
   <bean id="Uif-MaintenanceGridSubSection-parentBean" parent="Uif-Disclosure-GridSubSection">
-    <property name="layoutManager.numberOfColumns" value="@{maintenanceAction eq 'Edit' ? 3 : 2}"/>
-    <property name="layoutManager.renderFirstRowHeader" value="@{maintenanceAction eq 'Edit'}"/>
-    <property name="layoutManager.renderRowFirstCellHeader" value="@{maintenanceAction eq 'Edit'}"/>
-    <property name="layoutManager.renderAlternatingHeaderColumns" value="@{!(maintenanceAction eq 'Edit')}"/>
+    <property name="readOnly" value="@{maintenanceAction eq 'Delete' or #parent.readOnly}"/>
+    <property name="layoutManager.numberOfColumns"
+              value="@{maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy' ? 3 : 2}"/>
+    <property name="layoutManager.renderFirstRowHeader"
+              value="@{maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'}"/>
+    <property name="layoutManager.renderRowFirstCellHeader"
+              value="@{maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'}"/>
+    <property name="layoutManager.renderAlternatingHeaderColumns"
+              value="@{!(maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy')}"/>
     <property name="componentModifiers">
       <list merge="true">
         <bean parent="Uif-MaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
-              p:runCondition="maintenanceAction eq 'Edit'"/>
+              p:runCondition="maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'"/>
       </list>
     </property>
   </bean>
@@ -115,20 +130,22 @@
   <bean id="Uif-MaintenanceHorizontalBoxSection" abstract="true"
         parent="Uif-MaintenanceHorizontalBoxSection-parentBean"/>
   <bean id="Uif-MaintenanceHorizontalBoxSection-parentBean" parent="Uif-Disclosure-HorizontalBoxSection">
+    <property name="readOnly" value="@{maintenanceAction eq 'Delete' or #parent.readOnly}"/>
     <property name="componentModifiers">
       <list merge="true">
         <bean parent="Uif-MaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
-              p:runCondition="maintenanceAction eq 'Edit'"/>
+              p:runCondition="maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'"/>
       </list>
     </property>
   </bean>
 
   <bean id="Uif-MaintenanceVerticalBoxSection" abstract="true" parent="Uif-MaintenanceVerticalBoxSection-parentBean"/>
   <bean id="Uif-MaintenanceVerticalBoxSection-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+    <property name="readOnly" value="@{maintenanceAction eq 'Delete' or #parent.readOnly}"/>
     <property name="componentModifiers">
       <list merge="true">
         <bean parent="Uif-MaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
-              p:runCondition="maintenanceAction eq 'Edit'"/>
+              p:runCondition="maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'"/>
       </list>
     </property>
   </bean>
@@ -136,10 +153,11 @@
   <bean id="Uif-MaintenanceHorizontalBoxSubSection" abstract="true"
         parent="Uif-MaintenanceHorizontalBoxSubSection-parentBean"/>
   <bean id="Uif-MaintenanceHorizontalBoxSubSection-parentBean" parent="Uif-Disclosure-HorizontalBoxSubSection">
+    <property name="readOnly" value="@{maintenanceAction eq 'Delete' or #parent.readOnly}"/>
     <property name="componentModifiers">
       <list merge="true">
         <bean parent="Uif-MaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
-              p:runCondition="maintenanceAction eq 'Edit'"/>
+              p:runCondition="maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'"/>
       </list>
     </property>
   </bean>
@@ -147,10 +165,11 @@
   <bean id="Uif-MaintenanceVerticalBoxSubSection" abstract="true"
         parent="Uif-MaintenanceVerticalBoxSubSection-parentBean"/>
   <bean id="Uif-MaintenanceVerticalBoxSubSection-parentBean" parent="Uif-Disclosure-VerticalBoxSubSection">
+    <property name="readOnly" value="@{maintenanceAction eq 'Delete' or #parent.readOnly}"/>
     <property name="componentModifiers">
       <list merge="true">
         <bean parent="Uif-MaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
-              p:runCondition="maintenanceAction eq 'Edit'"/>
+              p:runCondition="maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'"/>
       </list>
     </property>
   </bean>
@@ -158,16 +177,21 @@
   <bean id="Uif-MaintenanceStackedCollectionSection" abstract="true"
         parent="Uif-MaintenanceStackedCollectionSection-parentBean"/>
   <bean id="Uif-MaintenanceStackedCollectionSection-parentBean" parent="Uif-Disclosure-StackedCollectionSection">
+    <property name="readOnly" value="@{maintenanceAction eq 'Delete' or #parent.readOnly}"/>
     <property name="layoutManager.lineGroupPrototype">
       <bean parent="Uif-CollectionGridItem">
-        <property name="layoutManager.numberOfColumns" value="@{maintenanceAction eq 'Edit' ? 3 : 2}"/>
-        <property name="layoutManager.renderFirstRowHeader" value="@{maintenanceAction eq 'Edit'}"/>
-        <property name="layoutManager.renderRowFirstCellHeader" value="@{maintenanceAction eq 'Edit'}"/>
-        <property name="layoutManager.renderAlternatingHeaderColumns" value="@{!(maintenanceAction eq 'Edit')}"/>
+        <property name="layoutManager.numberOfColumns"
+                  value="@{maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy' ? 3 : 2}"/>
+        <property name="layoutManager.renderFirstRowHeader"
+                  value="@{maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'}"/>
+        <property name="layoutManager.renderRowFirstCellHeader"
+                  value="@{maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'}"/>
+        <property name="layoutManager.renderAlternatingHeaderColumns"
+                  value="@{!(maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy')}"/>
         <property name="componentModifiers">
           <list merge="true">
             <bean parent="Uif-MaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
-                  p:runCondition="maintenanceAction eq 'Edit'"/>
+                  p:runCondition="maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'"/>
           </list>
         </property>
       </bean>
@@ -182,16 +206,21 @@
         parent="Uif-MaintenanceStackedSubCollection-WithinSection-parentBean"/>
   <bean id="Uif-MaintenanceStackedSubCollection-WithinSection-parentBean"
         parent="Uif-Disclosure-StackedSubCollection-WithinSection">
+    <property name="readOnly" value="@{maintenanceAction eq 'Delete' or #parent.readOnly}"/>
     <property name="layoutManager.lineGroupPrototype">
       <bean parent="Uif-CollectionGridItem">
-        <property name="layoutManager.numberOfColumns" value="@{maintenanceAction eq 'Edit' ? 3 : 2}"/>
-        <property name="layoutManager.renderFirstRowHeader" value="@{maintenanceAction eq 'Edit'}"/>
-        <property name="layoutManager.renderRowFirstCellHeader" value="@{maintenanceAction eq 'Edit'}"/>
-        <property name="layoutManager.renderAlternatingHeaderColumns" value="@{!(maintenanceAction eq 'Edit')}"/>
+        <property name="layoutManager.numberOfColumns"
+                  value="@{maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy' ? 3 : 2}"/>
+        <property name="layoutManager.renderFirstRowHeader"
+                  value="@{maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'}"/>
+        <property name="layoutManager.renderRowFirstCellHeader"
+                  value="@{maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'}"/>
+        <property name="layoutManager.renderAlternatingHeaderColumns"
+                  value="@{!(maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy')}"/>
         <property name="componentModifiers">
           <list merge="true">
             <bean parent="Uif-MaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
-                  p:runCondition="maintenanceAction eq 'Edit'"/>
+                  p:runCondition="maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy'"/>
           </list>
         </property>
       </bean>
@@ -205,16 +234,18 @@
   <bean id="Uif-MaintenanceTableCollectionSection" abstract="true"
         parent="Uif-MaintenanceTableCollectionSection-parentBean"/>
   <bean id="Uif-MaintenanceTableCollectionSection-parentBean" parent="Uif-Disclosure-TableCollectionSection">
+    <property name="readOnly" value="@{maintenanceAction eq 'Delete' or #parent.readOnly}"/>
     <property name="activeCollectionFilter">
       <bean class="org.kuali.rice.krad.uif.container.MaintenanceActiveCollectionFilter"
             p:oldBindingObjectPath="document.oldMaintainableObject.dataObject"/>
     </property>
   </bean>
 
-  <bean id="Uif-MaintenanceTableSubCollection-withinSection" abstract="true"
-        parent="Uif-MaintenanceTableSubCollection-withinSection-parentBean"/>
-  <bean id="Uif-MaintenanceTableSubCollection-withinSection-parentBean"
+  <bean id="Uif-MaintenanceTableSubCollection-WithinSection" abstract="true"
+        parent="Uif-MaintenanceTableSubCollection-WithinSection-parentBean"/>
+  <bean id="Uif-MaintenanceTableSubCollection-WithinSection-parentBean"
         parent="Uif-Disclosure-TableSubCollection-WithinSection">
+    <property name="readOnly" value="@{maintenanceAction eq 'Delete' or #parent.readOnly}"/>
     <property name="activeCollectionFilter">
       <bean class="org.kuali.rice.krad.uif.container.MaintenanceActiveCollectionFilter"
             p:oldBindingObjectPath="document.oldMaintainableObject.dataObject"/>

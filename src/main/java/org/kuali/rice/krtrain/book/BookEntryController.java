@@ -12,6 +12,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.UifControllerBase;
+import org.kuali.rice.krad.web.form.DialogResponse;
 import org.kuali.rice.krad.web.controller.TransactionalDocumentControllerBase;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.stereotype.Controller;
@@ -167,25 +169,18 @@ public class BookEntryController extends TransactionalDocumentControllerBase {
     @RequestMapping(params = "methodToCall=saveBook")
     public ModelAndView saveBook(@ModelAttribute("KualiForm") BookEntryForm form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) {
-
-        GlobalVariables.getMessageMap().putInfoForSectionId(KRADConstants.GLOBAL_MESSAGES,
-                "method.invoked", "saveBook");
-
-        if (!hasDialogBeenAnswered(SAVE_OVERRIDE_DIALOG, form)) {
-            return showDialog(SAVE_OVERRIDE_DIALOG, form, request, response);
+        DialogResponse saveDialogResponse = form.getDialogResponse(SAVE_OVERRIDE_DIALOG);
+        if (saveDialogResponse == null) {
+            return showDialog(SAVE_OVERRIDE_DIALOG, true, form);
         }
 
-        boolean continueSave = getBooleanDialogResponse(SAVE_OVERRIDE_DIALOG, form, request, response);
-
+        boolean continueSave = saveDialogResponse.getResponseAsBoolean();
         if (continueSave) {
             GlobalVariables.getMessageMap().addGrowlMessage("Save Action", "book.saved", ((BookEntryDocument) form.getDocument()).getBook().getTitle());
         }
 
-        form.getDialogManager().removeDialog(SAVE_OVERRIDE_DIALOG);
-
         return getUIFModelAndView(form);
     }
-
 
     @RequestMapping(params = "methodToCall=viewRatings")
     public ModelAndView viewRatings(@ModelAttribute("KualiForm") BookEntryForm form, BindingResult result,
