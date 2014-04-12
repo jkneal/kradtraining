@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -17,6 +17,16 @@
 -->
 <#macro uif_viewHeader element>
 
+    <#-- Return if all content is missing -->
+    <#if (!element.headerText?? || !element.headerText?has_content || element.headerText == '&nbsp;')
+        && !element.richHeaderMessage?? && !element.upperGroup??
+        && !element.lowerGroup?? && !element.rightGroup??
+        && (!element.supportTitleMessage?? || !element.supportTitleMessage.messageText?has_content)
+        && (!element.areaTitleMessage?? || !element.areaTitleMessage.messageText?has_content)
+        && (!element.metadataMessage?? || !element.metadataMessage.messageText?has_content)>
+        <#return>
+    </#if>
+
     <#if element.headerStyleClassesAsString?has_content>
         <#local styleClass="class=\"${element.headerStyleClassesAsString}\""/>
     </#if>
@@ -26,23 +36,32 @@
     </#if>
 
     <#if element.headerLevel?has_content>
-        <#local headerOpenTag="<${element.headerLevel} ${style!} ${styleClass!}>"/>
+        <#local headerOpenTag="<${element.headerLevel} id=\"${element.id}_header\" ${style!} ${styleClass!}>"/>
         <#local headerCloseTag="</${element.headerLevel}>"/>
     </#if>
-
+<#--
     <#local stickyDataAttribute=""/>
     <#if element.sticky>
         <#local stickyDataAttribute="data-sticky='true'"/>
-    </#if>
+    </#if>-->
 
-    <div class="uif-viewHeader-contentWrapper" ${stickyDataAttribute}>
-
-        <#-- upper group -->
+    <#-- Only render wrapper when upper and lower group content exist -->
+<#--    <#if element.upperGroup?has_content || element.lowerGroup?has_content>
+        <#local renderContentAs="div"/>
+        <header class="${view.contentContainerClassesAsString} uif-viewHeader-contentWrapper" ${stickyDataAttribute}>
+        &lt;#&ndash; upper group &ndash;&gt;
         <@krad.template component=element.upperGroup/>
+    </#if>-->
 
-        <@krad.div component=element>
+        <#-- Main header content -->
+        <@krad.wrap renderAs="header" component=element>
 
             <#if element.headerLevel?has_content && element.headerText?has_content && element.headerText != '&nbsp;'>
+
+                <#if element.rightGroup?has_content && element.rightGroup.render && element.upperGroup?has_content
+                    && element.upperGroup.render>
+                    <div class="uif-header-inner">
+                </#if>
 
                 ${headerOpenTag}
 
@@ -51,25 +70,25 @@
                     </#if>
 
                     <span class="uif-headerText-span">
-                            <#-- rich message support -->
-                            <#if element.richHeaderMessage?has_content>
-                                <@krad.template component=element.richHeaderMessage/>
-                            <#else>
-                            ${element.headerText}
-                            </#if>
-                        </span>
+                        <#-- rich message support -->
+                        <#if element.richHeaderMessage?has_content>
+                            <@krad.template component=element.richHeaderMessage/>
+                        <#else>
+                        ${element.headerText}
+                        </#if>
+                    </span>
 
                     <#if element.context['parent']?has_content>
                         <#local group=element.context['parent']/>
                         <@krad.template component=group.help/>
                     </#if>
 
-                    <span class="uif-supportTitle-wrapper">
-                        <#if element.supportTitleMessage?has_content && element.supportTitleMessage.messageText?has_content
-                         && element.supportTitleMessage.messageText != '&nbsp;'>
+                    <#if element.supportTitleMessage?has_content && element.supportTitleMessage.messageText?has_content
+                        && element.supportTitleMessage.messageText != '&nbsp;'>
+                        <span class="uif-supportTitle-wrapper">
                             <@krad.template component=element.supportTitleMessage/>
-                        </#if>
-                    </span>
+                        </span>
+                    </#if>
 
                 ${headerCloseTag}
 
@@ -79,13 +98,16 @@
 
                 <#-- right group -->
                 <@krad.template component=element.rightGroup/>
+
+                <#if element.rightGroup?has_content && element.rightGroup.render && element.upperGroup?has_content
+                    && element.upperGroup.render>
+                    </div>
+                </#if>
+
+                <@krad.template component=element.lowerGroup/>
+
             </#if>
 
-        </@krad.div>
-
-        <#-- lower group -->
-        <@krad.template component=element.lowerGroup/>
-
-    </div>
+        </@krad.wrap>
 
 </#macro>
