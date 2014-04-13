@@ -15,13 +15,11 @@
     limitations under the License.
 
 -->
-<#macro uif_inquiry widget componentId body='' readOnly=false>
+<html>
 
-    <#--
-    Renders an inquiry link for a field value
-    -->
-    <#if readOnly=true>
-        <@krad.template component=widget.inquiryLink body=body/>
-    </#if>
+   <#-- render the updated dialogwrapped in an update div -->
+   <div id="${KualiForm.updateComponent.id}_update">
+      <@krad.template componentUpdate=true component=KualiForm.updateComponent/>
+   </div>
 
-</#macro>
+</html>
