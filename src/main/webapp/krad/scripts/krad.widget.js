@@ -148,38 +148,28 @@ function setupLocationSelect(controlId) {
 }
 
 /**
- * Renders a navigation group for the list with the given id. Helper methods are
- * called based on the type to implement a certain style of navigation.
+ * Initializes the tab menu to give the active style to the current page, if given, otherwise the first the first
+ * tabe is given the active style
  *
- * @param listId -
- *          unique id for the unordered list
- * @param navigationType -
- *          the navigation style to render
+ * @param {string} listId the id of the ul element for this tab menu
+ * @param {string=} currentPage
  */
-function createNavigation(listId, navigationType, options) {
-    if (navigationType == "VERTICAL_MENU") {
-        createVerticalMenu(listId, options);
-    }
-    else if (navigationType == "TAB_MENU") {
-        createTabMenu(listId, options);
-    }
-}
-
-function createTabMenu(listId, options) {
+function initTabMenu(listId, currentPage) {
     jQuery(document).ready(function () {
-        jQuery("#" + listId).tabMenu(options);
-    });
-}
+        var $nav = jQuery("#" + listId);
+        $nav.find("li").removeClass("active");
 
-/**
- * Uses jQuery menu plug-in to build a menu for the list with the given id
- *
- * @param listId -
- *          unique id for the unordered list
- */
-function createVerticalMenu(listId, options) {
-    jQuery(document).ready(function () {
-        jQuery("#" + listId).navMenu(options);
+        var firstItem = $nav.find("li:first");
+        var currentTab = firstItem.find("a");
+
+        if(currentPage){
+            currentTab = $nav.find("a[name='" + currentPage + "']");
+
+        }
+
+        if(currentTab){
+            currentTab.closest("li").addClass("active");
+        }
     });
 }
 
@@ -1187,43 +1177,6 @@ function createAccordion(id, options, active) {
 
     jQuery("#" + id + " > ul").accordion(options);
     //jQuery("#id > ul").accordion("option", "active", active);
-}
-
-/**
- * Create a tab group for the div given by the element id using the jQuery UI tab plugin
- * (http://api.jqueryui.com/tabs/)
- *
- * @param id id of the element the tabs should be created for
- * @param widgetId id for the tabs widget
- * @param options object of options for tabs plugin (see plugin documentation for valid options)
- * @param position position of tabs related to group content, options are TOP, BOTTOM, RIGHT, or LEFT
- */
-function createTabs(id, widgetId, options, position) {
-    var tabs = jQuery("#" + id + "_tabs").tabs(options);
-
-    // when active tab changes we need to update the client side state
-    tabs.on("tabsactivate", function (event, ui) {
-        var activeTabId = ui.newPanel.attr('id');
-        activeTabId = activeTabId.replace(/_tab$/, "");
-
-        setComponentState(widgetId, 'activeTab', activeTabId);
-    });
-
-    if (position == "BOTTOM") {
-        tabs.addClass("ui-tabs-bottom");
-        jQuery(".ui-tabs-bottom .ui-tabs-nav, .ui-tabs-bottom .ui-tabs-nav > *")
-                .removeClass("ui-corner-all ui-corner-top")
-                .addClass("ui-corner-bottom");
-        jQuery(".ui-tabs-bottom .ui-tabs-nav").appendTo(".ui-tabs-bottom");
-    }
-    else if (position == "RIGHT") {
-        tabs.addClass('ui-tabs-vertical ui-tabs-vertical-right ui-helper-clearfix');
-        tabs.find("> ul > li").removeClass('ui-corner-top').addClass('ui-corner-right');
-    }
-    else if (position == "LEFT") {
-        tabs.addClass("ui-tabs-vertical ui-tabs-vertical-left ui-helper-clearfix");
-        tabs.find("> ul > li").removeClass("ui-corner-top").addClass("ui-corner-left");
-    }
 }
 
 /**
