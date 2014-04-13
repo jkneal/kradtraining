@@ -65,6 +65,11 @@
         </property>
       </bean>
     </property>
+    <property name="dataAttributes">
+       <map merge="true">
+         <entry key="role" value="dialogheader"/>
+       </map>
+    </property>
   </bean>
 
   <bean id="Uif-DialogFooter" parent="Uif-DialogFooter-parentBean"/>
@@ -95,12 +100,12 @@
         <value>uif-dialogPrompt</value>
       </list>
     </property>
-    <property name="message.dataAttributes" value="prompt:true"/>
+    <property name="message.dataAttributes" value="role:prompttext"/>
   </bean>
 
   <!-- property name is defaulted by dialog group to dialogExplanations['dialogid'], can be
   overridden if necessary -->
-  <bean id="Uif-DialogExplanation" parent="Uif-InputField" p:required="true">
+  <bean id="Uif-DialogExplanation" parent="Uif-InputField" p:required="true" p:readOnly="false">
     <property name="control">
       <bean parent="Uif-TextAreaControl"/>
     </property>
@@ -119,6 +124,7 @@
 
   <bean id="Uif-DialogGroup-OkCancel" parent="Uif-DialogGroup">
     <property name="headerText" value="Please Confirm to Continue"/>
+    <property name="promptText" value="Select OK to continue"/>
     <property name="footer.items">
       <list>
         <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"/>
@@ -135,6 +141,7 @@
 
   <bean id="Uif-DialogGroup-YesNo" parent="Uif-DialogGroup">
     <property name="headerText" value="Please Select"/>
+    <property name="promptText" value="Are you sure you wish to continue?"/>
     <property name="footer.items">
       <list>
         <bean parent="Uif-DialogDismissButton" p:actionLabel="No"/>
@@ -147,49 +154,16 @@
       <property name="footer.cssClasses" value="uif-footer"/>
   </bean>
 
-  <bean id="Uif-ActionConfirmation" parent="Uif-DialogGroup-YesNo">
-    <property name="headerText" value="Please Confirm to Continue"/>
-  </bean>
-
-  <bean id="Uif-ActionConfirmationExpl" parent="Uif-DialogGroup-OkCancel">
-    <property name="headerText" value="Please Confirm to Continue"/>
-    <property name="explanation">
-      <bean parent="Uif-DialogExplanation"/>
-    </property>
-    <property name="footer.items">
-      <list>
-        <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"/>
-        <bean parent="Uif-DialogConfirmButton" p:actionLabel="OK"/>
-      </list>
-    </property>
-  </bean>
-
-  <bean id="Uif-WizardGroup" parent="Uif-WizardGroup-parentBean"/>
-  <bean id="Uif-WizardGroup-parentBean" abstract="true" class="org.kuali.rice.krad.uif.container.WizardGroup"
-        parent="Uif-DialogGroup">
-    <property name="cancelAction">
-      <bean parent="Uif-SecondaryActionButton" p:dialogDismissOption="IMMEDIATE" p:actionLabel="Cancel"/>
-    </property>
-    <property name="backAction">
-      <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go back"/>
-    </property>
-    <property name="continueAction">
-      <bean parent="Uif-PrimaryActionButton" p:actionLabel="Continue..." p:performClientSideValidation="true"/>
-    </property>
-    <property name="finishAction">
-      <bean parent="Uif-PrimaryActionButton" p:dialogDismissOption="REQUEST" p:actionLabel="Finish"/>
-    </property>
-  </bean>
-
-  <bean id="Uif-SensitiveData-DialogGroup" parent="Uif-DialogGroup">
+  <bean id="Uif-SensitiveData-DialogGroup" parent="Uif-DialogGroup-YesNo">
     <property name="headerText" value="Warning: Sensitive Data"/>
     <property name="items">
       <list>
         <bean id="imageWarning" parent="Uif-ImageField" p:width="75px" p:height="75px"
               p:source="@{#ConfigProperties['krad.externalizable.images.url']}warning.png"/>
+        <bean parent="Uif-DialogPrompt"
+              p:messageText="Potentially sensitive data was found on the document. Do you wish to continue?"/>
       </list>
     </property>
-    <property name="promptText" value="Potentially sensitive data was found on the document. Do you wish to continue?"/>
   </bean>
 
   <bean id="Uif-SessionTimeoutWarning-DialogGroup" parent="Uif-DialogGroup">

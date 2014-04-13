@@ -2384,15 +2384,13 @@ function initStickyContent(currentScroll) {
     var navigation = jQuery("#" + kradVariables.NAVIGATION_ID);
     var navigationHeightAdjust = 0;
 
-    if (navigation.length) {
-        if (navigation.is(".tab-navigation-block")) {
-            navigationHeightAdjust = navigation.height();
-        }
+    if (navigation.length && navigation.has(".nav-tabs").length === 0) {
+        navigation.attr("style", "position:absolute;");
 
         //move the navigation with total height of the header pieces - the scroll
         // TODO support both absolute and fixed
         //navigation.attr("style", "position:fixed; top: " + (topOffset - currentScroll) + "px;");
-        navigation.attr("style", "position:absolute;");
+
     }
 
     // Determine which div to apply the margin to by figuring out the first applicable div that exists after all
@@ -2450,7 +2448,9 @@ function handleStickyContent() {
         /* jQuery("#" + kradVariables.NAVIGATION_ID).attr("style", "position:fixed; top: " +
                 (navAdjust) + "px;");*/
         var nav = jQuery("#" + kradVariables.NAVIGATION_ID);
-        nav.attr("style", "position:absolute;");
+        if (nav.length && nav.has(".nav-tabs").length === 0) {
+            nav.attr("style", "position:absolute;");
+        }
 
         currentHeaderHeight = navAdjust;
 
