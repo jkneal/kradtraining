@@ -35,7 +35,7 @@
 	<bean id="Krtrain-BookEntryPage1" parent="Uif-Page">
 		<property name="items">
 			<list>
-				<bean id="typeCode" parent="Uif-InputField" p:propertyName="title"
+				<bean id="typeTitle" parent="Uif-InputField" p:propertyName="title"
 					p:label="Book Title" />
 
 				<bean id="typeCode" parent="Uif-InputField" p:propertyName="typeCode"
@@ -173,7 +173,6 @@
     <bean id="Krtrain-BookEntryMenuNavigation" parent="Uif-MenuNavigationGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-HeaderTwo" p:headerText="Navigation"/>
                 <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage1"
                       p:actionLabel="Book Indexing"/>
                 <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage2"
