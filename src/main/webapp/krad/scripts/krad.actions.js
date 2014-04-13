@@ -180,8 +180,6 @@ function validate($group) {
             cascadeOpen(jQuery(this));
         });
 
-        showClientSideErrorNotification();
-
         if (!$group) {
             jumpToTop();
             jQuery(".uif-pageValidationMessages li.uif-errorMessageItem:first > a").focus();
@@ -223,7 +221,6 @@ function _validateForm() {
     // Finally, write the result of the validation messages
     writeMessagesForPage();
     pageValidationPhase = false;
-
 
     return validForm;
 }
@@ -370,10 +367,8 @@ function validateAddLine(collectionGroupId) {
 
     var controlsToValidate = jQuery(addControls, collectionGroup);
 
-    var valid = validateLineFields(controlsToValidate);
+    var valid = validateLineFields(controlsToValidate, false);
     if (!valid) {
-        showClientSideErrorNotification();
-
         return false;
     }
 
@@ -389,10 +384,8 @@ function validateAddLine(collectionGroupId) {
 function validateLine(collectionName, lineIndex) {
     var controlsToValidate = jQuery("[name^='" + collectionName + "[" + lineIndex + "]']");
 
-    var valid = validateLineFields(controlsToValidate);
+    var valid = validateLineFields(controlsToValidate, true);
     if (!valid) {
-        showClientSideErrorNotification();
-
         return false;
     }
 
@@ -405,8 +398,9 @@ function validateLine(collectionName, lineIndex) {
  *
  * @param controlsToValidate - list of controls (jQuery wrapping objects) that should be validated
  */
-function validateLineFields(controlsToValidate) {
+function validateLineFields(controlsToValidate, writePageMessages) {
     var valid = true;
+    var invalidId = "";
 
     // skip completely if client validation is off
     if (!validateClient) {
@@ -455,6 +449,9 @@ function validateLineFields(controlsToValidate) {
 
         if (!validValue) {
             valid = false;
+            if (invalidId.length == 0) {
+                invalidId = this.id;
+            }
         }
 
         control.addClass("ignoreValid");
@@ -466,12 +463,16 @@ function validateLineFields(controlsToValidate) {
     // Message summaries are going to be shown
     messageSummariesShown = tempMessagesSummariesShown;
 
-    if (messageSummariesShown) {
+    if (writePageMessages && messageSummariesShown) {
         // Finally, write the result of the validation messages
         writeMessagesForPage();
     }
 
     jQuery.watermark.showAll();
+
+    if (invalidId.length != 0) {
+        jQuery("#" + invalidId).focus();
+    }
 
     return valid;
 }
