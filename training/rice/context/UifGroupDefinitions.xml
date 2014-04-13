@@ -651,19 +651,6 @@
 
   <!--Navigation groups -->
 
-  <bean id="Uif-NavigationGroupBase" abstract="true" parent="Uif-NavigationGroupBase-parentBean"/>
-  <bean id="Uif-NavigationGroupBase-parentBean" abstract="true"
-        class="org.kuali.rice.krad.uif.container.NavigationGroup"
-        scope="prototype">
-    <property name="template" value="/krad/WEB-INF/ftl/components/group/navigationGroup.ftl"/>
-    <property name="templateName" value="uif_navigationGroup"/>
-    <property name="cssClasses">
-      <list>
-        <value>uif-navigationGroup</value>
-      </list>
-    </property>
-  </bean>
-
   <bean id="Uif-SidebarNavigationGroup" parent="Uif-SidebarNavigationGroup-parentBean"/>
   <bean id="Uif-SidebarNavigationGroup-parentBean" abstract="true"
         class="org.kuali.rice.krad.uif.container.SidebarNavigationGroup"
@@ -683,16 +670,20 @@
 
   <bean id="Uif-MenuNavigationGroup" parent="Uif-MenuNavigationGroup-parentBean"/>
   <bean id="Uif-MenuNavigationGroup-parentBean" abstract="true" parent="Uif-SidebarNavigationGroup">
+    <!-- this is an alias bean for sidebar navigation group -->
   </bean>
 
   <bean id="Uif-TabNavigationGroup" parent="Uif-TabNavigationGroup-parentBean"/>
-  <bean id="Uif-TabNavigationGroup-parentBean" abstract="true" parent="Uif-NavigationGroupBase">
-    <property name="cssClasses">
+  <bean id="Uif-TabNavigationGroup-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.container.TabNavigationGroup">
+    <property name="libraryCssClasses">
       <list>
-        <value>uif-tabNavigationGroup</value>
+        <value>nav</value>
+        <value>nav-tabs</value>
       </list>
     </property>
-    <property name="navigationType" value="TAB_MENU"/>
+    <property name="template" value="/krad/WEB-INF/ftl/components/group/tabNavigationGroup.ftl"/>
+    <property name="templateName" value="uif_tabNavigationGroup"/>
   </bean>
 
   <!-- Tree group and sections -->
