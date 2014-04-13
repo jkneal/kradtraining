@@ -21,10 +21,10 @@
 		<junit.version>4.10</junit.version>
 		<oracle.jdbc.version>10.2.0.3.0</oracle.jdbc.version>
 		<oracle.jdbc.artifactId>ojdbc14</oracle.jdbc.artifactId>
-		<mysql.jdbc.version>5.1.18</mysql.jdbc.version>
+		<mysql.jdbc.version>5.1.24</mysql.jdbc.version>
 		<mysql.jdbc.artifactId>mysql-connector-java</mysql.jdbc.artifactId>
 
-		<rice.version>2.5.0-TRAIN</rice.version>
+		<rice.version>2.5.0-M2-SNAPSHOT</rice.version>
 		<servlet-api.version>2.5</servlet-api.version>
 
 		<!--plugin versions -->
@@ -227,18 +227,6 @@
 	</profiles>
 
 	<repositories>
-		<repository>
-			<id>kuali.public.nexus</id>
-			<name>Nexus Public Repository Manager</name>
-			<url>http://nexus.kuali.org/content/groups/public</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-
 		<repository>
 			<id>kuali.nexus</id>
 			<name>Nexus Repository Manager</name>
