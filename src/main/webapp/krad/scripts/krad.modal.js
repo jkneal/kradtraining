@@ -97,8 +97,6 @@ function dismissDialog(dialogId, $action) {
         return;
     }
 
-    $dialog.modal('hide');
-
     // trigger the dialog response event if necessary
     if ($action && $action.is("[" + kradVariables.ATTRIBUTES.DATA_RESPONSE + "]")) {
         var dialogResponseEvent = jQuery.Event(kradVariables.EVENTS.DIALOG_RESPONSE);
@@ -109,24 +107,48 @@ function dismissDialog(dialogId, $action) {
 
         $dialog.trigger(dialogResponseEvent);
     }
+
+    $dialog.modal('hide');
 }
 
+/**
+ * Indicates whether the given jQuery object represents a modal dialog that is currently open.
+ *
+ * @param $element jQuery object to check
+ * @returns {boolean} true if element is an open modal, false if not
+ */
 function isDisplayedModal($element) {
-    if ($element.hasClass('modal') && $element.hasClass('in')) {
+    if ($element.hasClass(kradVariables.CLASSES.MODAL) && $element.hasClass(kradVariables.CLASSES.IN)) {
         return true;
     }
 
     return false;
 }
 
-function confirm(confirmText, options) {
-    var $protoDialog = jQuery('#' + 'Uif-DialogGroup-OkCancel');
+/**
+ * Invoked to show a confirmation dialog created dynamically.
+ *
+ * <p>Similar to showDialog, except the dialog is created on the fly from a prototype. For simple confirmation
+ * dialogs, this is a much lighter weight method since the unique dialog content doesn't have to present on the
+ * view. In particular, for confirmations on collection actions this method should be used if possible.</p>
+ *
+ * @param confirmText text to display as the dialog prompt
+ * @param headerText (optional) text to display as the dialog header
+ * @param options (optional) options for the modal dialog, see showDialog for more information
+ * @param protoDialodId id for a dialog to use as a prototype, must either be a valid dom element or valid component
+ * id in the UIF dictionary, default to KradVariables.IDS.DIALOG_YESNO
+ */
+function confirmDialog(confirmText, headerText, options, protoDialogId) {
+    protoDialogId = protoDialogId || kradVariables.IDS.DIALOG_YESNO;
+
+    var $protoDialog = jQuery('#' + protoDialogId);
 
     options = options || {};
 
+    // retrieve the dialog contents from the server, if necessary
     if (($protoDialog.length === 0) || $protoDialog.hasClass(kradVariables.CLASSES.PLACEHOLDER)) {
-        createPlaceholderAndRetrieve('Uif-DialogGroup-OkCancel', function () {
-            confirm(confirmText, options);
+        createPlaceholderAndRetrieve(protoDialogId, function () {
+            confirm(confirmText, headerText, options);
         });
 
         return;
@@ -135,12 +157,33 @@ function confirm(confirmText, options) {
     var $dialog = $protoDialog.clone();
 
     // adjust the id so it doesn't conflict with the proto dialog
-    var dialogId = 'Uif-DialogGroup-OkCancel' + 'tmp';
+    var dialogId = protoDialogId + 'tmp';
     $dialog.attr(kradVariables.ATTRIBUTES.ID, dialogId);
 
-    // update the dialog prompt text
+    var dialogPrompt = findByDataRole(kradVariables.DATA_ROLES.PROMPTTEXT, $dialog);
+    if (dialogPrompt && (dialogPrompt.length > 0)) {
+        dialogPrompt.text(confirmText);
+    }
+    else {
+        throw new Error("Unable to set dialog confirm text");
+    }
+
+    if (headerText) {
+        var dialogHeaderText = findByDataRole(kradVariables.DATA_ROLES.DIALOGHEADER, $dialog);
+        if (dialogHeaderText && (dialogHeaderText.length > 0)) {
+            dialogHeaderText.find(":header").text(headerText);
+        }
+        else {
+            throw new Error("Unable to set dialog header text");
+        }
+    }
 
     jQuery('body').append($dialog);
+
+    // handler to clear out the dialog after it is closed
+    $dialog.bind(kradVariables.EVENTS.HIDE_MODAL, function (event) {
+        $dialog.remove();
+    });
 
     showDialog(dialogId, options);
 }
@@ -265,6 +308,7 @@ function handleServerDialogResponse(event) {
     request.additionalData.returnDialogId = event.dialogId;
     request.additionalData.returnDialogResponse = dialogResponse;
     request.additionalData.returnFromDialog = true;
+    request.confirmDialogId = null;
 
     request.send();
 }

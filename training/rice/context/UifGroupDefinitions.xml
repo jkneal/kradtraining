@@ -217,22 +217,12 @@
     <property name="header">
       <bean parent="Uif-SectionHeader"/>
     </property>
-    <property name="cssClasses">
-      <list>
-        <value>uif-cssGridSection</value>
-      </list>
-    </property>
   </bean>
 
   <bean id="Uif-CssGridSubSection" parent="Uif-CssGridSubSection-parentBean"/>
   <bean id="Uif-CssGridSubSection-parentBean" abstract="true" parent="Uif-CssGridGroup" scope="prototype">
     <property name="header">
       <bean parent="Uif-SubSectionHeader"/>
-    </property>
-    <property name="cssClasses">
-      <list>
-        <value>uif-cssGridSubSection</value>
-      </list>
     </property>
   </bean>
 
@@ -282,6 +272,100 @@
     <property name="layoutManager">
       <bean parent="Uif-CssGridLabelColumnLayout" p:numberOfLabelColumns="3"/>
     </property>
+  </bean>
+
+  <bean id="Uif-Disclosure-CssGridSection" parent="Uif-Disclosure-CssGridSection-parentBean"/>
+  <bean id="Uif-Disclosure-CssGridSection-parentBean" abstract="true" parent="Uif-CssGridSection" scope="prototype">
+    <property name="cssClasses">
+      <list>
+        <value>uif-disclosure</value>
+      </list>
+    </property>
+    <property name="disclosure.render" value="true"/>
+
+  </bean>
+
+  <bean id="Uif-Disclosure-CssGridSubSection" parent="Uif-Disclosure-CssGridSubSection-parentBean"/>
+  <bean id="Uif-Disclosure-CssGridSubSection-parentBean" abstract="true" parent="Uif-CssGridSubSection"
+        scope="prototype">
+    <property name="cssClasses">
+      <list>
+        <value>uif-disclosure</value>
+      </list>
+    </property>
+    <property name="disclosure.render" value="true"/>
+  </bean>
+
+  <bean id="Uif-Disclosure-CssGridSection-1FieldLabelColumn"
+        parent="Uif-Disclosure-CssGridSection-1FieldLabelColumn-parentBean"/>
+  <bean id="Uif-Disclosure-CssGridSection-1FieldLabelColumn-parentBean" abstract="true"
+        parent="Uif-CssGridSection-1FieldLabelColumn" scope="prototype">
+    <property name="cssClasses">
+      <list>
+        <value>uif-disclosure</value>
+      </list>
+    </property>
+    <property name="disclosure.render" value="true"/>
+  </bean>
+
+  <bean id="Uif-Disclosure-CssGridSection-2FieldLabelColumn"
+        parent="Uif-Disclosure-CssGridSection-2FieldLabelColumn-parentBean"/>
+  <bean id="Uif-Disclosure-CssGridSection-2FieldLabelColumn-parentBean" abstract="true"
+        parent="Uif-CssGridSection-2FieldLabelColumn" scope="prototype">
+    <property name="cssClasses">
+      <list>
+        <value>uif-disclosure</value>
+      </list>
+    </property>
+    <property name="disclosure.render" value="true"/>
+  </bean>
+
+  <bean id="Uif-Disclosure-CssGridSection-3FieldLabelColumn"
+        parent="Uif-Disclosure-CssGridSection-3FieldLabelColumn-parentBean"/>
+  <bean id="Uif-Disclosure-CssGridSection-3FieldLabelColumn-parentBean" abstract="true"
+        parent="Uif-CssGridSection-3FieldLabelColumn" scope="prototype">
+    <property name="cssClasses">
+      <list>
+        <value>uif-disclosure</value>
+      </list>
+    </property>
+    <property name="disclosure.render" value="true"/>
+  </bean>
+
+  <bean id="Uif-Disclosure-CssGridSubSection-1FieldLabelColumn"
+        parent="Uif-Disclosure-CssGridSection-1FieldLabelColumn-parentBean"/>
+  <bean id="Uif-Disclosure-CssGridSubSection-1FieldLabelColumn-parentBean" abstract="true"
+        parent="Uif-CssGridSubSection-1FieldLabelColumn" scope="prototype">
+    <property name="cssClasses">
+      <list>
+        <value>uif-disclosure</value>
+      </list>
+    </property>
+    <property name="disclosure.render" value="true"/>
+  </bean>
+
+  <bean id="Uif-Disclosure-CssGridSubSection-2FieldLabelColumn"
+        parent="Uif-Disclosure-CssGridSubSection-2FieldLabelColumn-parentBean"/>
+  <bean id="Uif-Disclosure-CssGridSubSection-2FieldLabelColumn-parentBean" abstract="true"
+        parent="Uif-CssGridSubSection-2FieldLabelColumn" scope="prototype">
+    <property name="cssClasses">
+      <list>
+        <value>uif-disclosure</value>
+      </list>
+    </property>
+    <property name="disclosure.render" value="true"/>
+  </bean>
+
+  <bean id="Uif-Disclosure-CssGridSubSection-3FieldLabelColumn"
+        parent="Uif-Disclosure-CssGridSubSection-3FieldLabelColumn-parentBean"/>
+  <bean id="Uif-Disclosure-CssGridSubSection-3FieldLabelColumn-parentBean" abstract="true"
+        parent="Uif-CssGridSubSection-3FieldLabelColumn" scope="prototype">
+    <property name="cssClasses">
+      <list>
+        <value>uif-disclosure</value>
+      </list>
+    </property>
+    <property name="disclosure.render" value="true"/>
   </bean>
 
   <!--GridLayout Group & Sections -->
@@ -567,19 +651,6 @@
 
   <!--Navigation groups -->
 
-  <bean id="Uif-NavigationGroupBase" abstract="true" parent="Uif-NavigationGroupBase-parentBean"/>
-  <bean id="Uif-NavigationGroupBase-parentBean" abstract="true"
-        class="org.kuali.rice.krad.uif.container.NavigationGroup"
-        scope="prototype">
-    <property name="template" value="/krad/WEB-INF/ftl/components/group/navigationGroup.ftl"/>
-    <property name="templateName" value="uif_navigationGroup"/>
-    <property name="cssClasses">
-      <list>
-        <value>uif-navigationGroup</value>
-      </list>
-    </property>
-  </bean>
-
   <bean id="Uif-SidebarNavigationGroup" parent="Uif-SidebarNavigationGroup-parentBean"/>
   <bean id="Uif-SidebarNavigationGroup-parentBean" abstract="true"
         class="org.kuali.rice.krad.uif.container.SidebarNavigationGroup"
@@ -599,16 +670,20 @@
 
   <bean id="Uif-MenuNavigationGroup" parent="Uif-MenuNavigationGroup-parentBean"/>
   <bean id="Uif-MenuNavigationGroup-parentBean" abstract="true" parent="Uif-SidebarNavigationGroup">
+    <!-- this is an alias bean for sidebar navigation group -->
   </bean>
 
   <bean id="Uif-TabNavigationGroup" parent="Uif-TabNavigationGroup-parentBean"/>
-  <bean id="Uif-TabNavigationGroup-parentBean" abstract="true" parent="Uif-NavigationGroupBase">
-    <property name="cssClasses">
+  <bean id="Uif-TabNavigationGroup-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.container.TabNavigationGroup">
+    <property name="libraryCssClasses">
       <list>
-        <value>uif-tabNavigationGroup</value>
+        <value>nav</value>
+        <value>nav-tabs</value>
       </list>
     </property>
-    <property name="navigationType" value="TAB_MENU"/>
+    <property name="template" value="/krad/WEB-INF/ftl/components/group/tabNavigationGroup.ftl"/>
+    <property name="templateName" value="uif_tabNavigationGroup"/>
   </bean>
 
   <!-- Tree group and sections -->
