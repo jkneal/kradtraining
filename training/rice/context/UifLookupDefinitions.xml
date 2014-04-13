@@ -1,6 +1,6 @@
 <!--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-  <bean id="Uif-LookupView" abstract="true" parent="Uif-LookupView-parentBean"/>
+  <bean id="Uif-LookupView" parent="Uif-LookupView-parentBean"/>
   <bean id="Uif-LookupView-parentBean" abstract="true"
-        class="org.kuali.rice.krad.uif.view.LookupView" parent="Uif-FormView">
+        class="org.kuali.rice.krad.lookup.LookupView" parent="Uif-FormView">
     <property name="cssClasses">
       <list merge="true">
         <value>uif-lookupView</value>
@@ -33,14 +33,14 @@
     <property name="presentationControllerClass"
               value="org.kuali.rice.krad.lookup.LookupViewPresentationControllerBase"/>
     <property name="authorizerClass" value="org.kuali.rice.krad.lookup.LookupViewAuthorizerBase"/>
-    <property name="formClass" value="org.kuali.rice.krad.web.form.LookupForm"/>
+    <property name="formClass" value="org.kuali.rice.krad.lookup.LookupForm"/>
     <property name="singlePageView" value="true"/>
     <property name="maintenanceUrlMapping" value="maintenance"/>
     <property name="page">
       <bean parent="Uif-LookupPage"/>
     </property>
     <property name="footer">
-      <bean parent="Uif-FooterBase"/>
+      <bean parent="Uif-LookupView-Footer"/>
     </property>
     <property name="criteriaGroup">
       <bean parent="Uif-LookupCriteriaGroup"/>
@@ -53,6 +53,38 @@
     </property>
     <property name="rangedToMessage">
       <bean parent="Uif-Message" p:messageText="to"/>
+    </property>
+    <property name="help">
+      <bean parent="Uif-Help">
+        <property name="helpDefinition">
+          <bean parent="HelpDefinition" p:parameterNamespace="KR-KRAD" p:parameterName="DEFAULT_HELP_URL"
+                p:parameterDetailType="Lookup"/>
+        </property>
+      </bean>
+    </property>
+    <property name="additionalScriptFiles">
+      <list>
+        <value>krad/scripts/krad.lookup.js</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-LookupView-Footer" parent="Uif-FooterBase" p:render="@{#view.hideCriteriaOnSearch}">
+    <property name="items">
+      <list>
+        <bean parent="Uif-SecondaryActionButton" p:methodToCall="refresh" p:actionLabel="Refine Search"
+              p:additionalSubmitData="displayResults:false" p:iconClass="icon-chevron-left" p:ajaxSubmit="false"
+              p:render="@{displayResults}"/>
+        <bean parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
+              p:render="@{!renderedInLightBox and displayResults}"/>
+        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:render="@{renderedInLightBox and displayResults}"
+              p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+        <bean parent="Uif-SecondaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"
+              p:refreshId="uLookupCriteria" p:render="@{!displayResults}" p:ajaxSubmit="false"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"
+              p:additionalSubmitData="displayResults:true" p:ajaxSubmit="@{!#view.hideCriteriaOnSearch}"
+              p:render="@{!displayResults}"/>
+      </list>
     </property>
   </bean>
 
@@ -77,8 +109,21 @@
     </property>
   </bean>
 
+  <bean id="Uif-LookupPageHeader" parent="Uif-PageHeader">
+    <property name="rightGroup">
+      <bean parent="Uif-LookupPageHeaderGroup"/>
+    </property>
+  </bean>
 
-  <bean id="Uif-LookupCriteriaGroup" parent="Uif-GridGroup">
+  <bean id="Uif-LookupPageHeaderGroup" parent="Uif-HeaderRightGroup">
+    <property name="items">
+      <list>
+        <bean parent="Uif-Lookup-MaintenanceCreateLink"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-LookupCriteriaGroup" parent="Uif-GridGroup" p:id="uLookupCriteria">
     <property name="headerText" value="Lookup Criteria"/>
     <property name="fieldBindingObjectPath" value="lookupCriteria"/>
     <property name="layoutManager.numberOfColumns" value="2"/>
@@ -95,60 +140,27 @@
     <property name="header.cssClasses" value="uif-hideHeaderText"/>
     <property name="validationMessages.displayHeaderMessageSummary" value="false"/>
     <property name="layoutManager.renderSequenceField" value="false"/>
-    <property name="renderLineActions" value="@{(!#view.suppressActions and view.showMaintenanceLinks) or
-           (!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks)}"/>
+    <property name="renderLineActions" value="@{#view.renderResultActions}"/>
     <property name="layoutManager.actionColumnPlacement" value="LEFT"/>
-    <property name="layoutManager.selectFieldPrototype.finalizeMethodToCall" value="setMultiValueLookupSelect"/>
-    <property name="layoutManager.selectFieldPrototype.control.onChangeScript"
-              value="setMultivalueLookupReturnButton(this)"/>
+    <property name="layoutManager.selectFieldPrototype.finalizeMethodToCall" value="buildMultiValueSelectField"/>
     <property name="renderAddLine" value="false"/>
-    <property name="readOnly" value="false"/>
     <property name="includeLineSelectionField" value="@{#view.multipleValuesSelect}"/>
     <property name="header.lowerGroup">
       <bean parent="Uif-VerticalBoxGroup"/>
     </property>
     <property name="lineActions">
       <list>
-        <bean parent="Uif-ActionLink" p:order="10">
-          <property name="actionLabel" value="edit"/>
-          <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
-          <property name="finalizeMethodAdditionalArguments">
-            <list>
-              <value>maintenanceEdit</value>
-            </list>
-          </property>
-          <property name="render"
-                    value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
-        </bean>
-        <bean parent="Uif-ActionLink" p:order="20">
-          <property name="actionLabel" value="copy"/>
-          <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
-          <property name="finalizeMethodAdditionalArguments">
-            <list>
-              <value>maintenanceCopy</value>
-            </list>
-          </property>
-          <property name="render"
-                    value="@{#ViewHelper.allowsMaintenanceNewOrCopyAction() and view.showMaintenanceLinks}"/>
-        </bean>
-        <bean parent="Uif-ActionLink" p:order="30">
-          <property name="actionLabel" value="delete"/>
-          <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
-          <property name="finalizeMethodAdditionalArguments">
-            <list>
-              <value>maintenanceDelete</value>
-            </list>
-          </property>
-          <property name="render"
-                    value="@{#ViewHelper.allowsMaintenanceDeleteAction(#line) and view.showMaintenanceLinks}"/>
-        </bean>
-        <bean parent="Uif-ActionLink">
-          <property name="actionLabel" value="Return Value"/>
-          <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
-          <property name="render"
-                    value="@{!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks}"/>
-        </bean>
+        <bean parent="Uif-Lookup-MaintenanceEditLink" p:order="10"/>
+        <bean parent="Uif-Lookup-MaintenanceCopyLink" p:order="20"/>
+        <bean parent="Uif-Lookup-MaintenanceDeleteLink" p:order="30"/>
+        <bean parent="Uif-Lookup-MaintenanceReturnLink"/>
       </list>
+    </property>
+    <property name="dataAttributes">
+      <map merge="true">
+        <entry key="lookupresultscount" value="@{#form.lookupResults ne null ? #form.lookupResults.size() : 0}"/>
+        <entry key="selectedlinecount" value="@{#form.selectedLookupResultsCache.size()}"/>
+      </map>
     </property>
     <property name="validationMessages.additionalKeysToMatch">
       <list merge="true">
@@ -157,37 +169,55 @@
     </property>
     <property name="footer">
       <bean parent="Uif-LookupResultsFooter"
-            p:render="@{#view.multipleValuesSelect and (lookupResults != null) and !lookupResults.empty}"/>
+            p:render="@{#view.multipleValuesSelect and !#emptyList(lookupResults)}"/>
     </property>
   </bean>
 
-  <bean id="Uif-LookupPageHeader" parent="Uif-PageHeader">
-    <property name="lowerGroup">
-      <bean parent="Uif-LookupPageHeaderGroup"/>
-    </property>
-  </bean>
-
-  <bean id="Uif-LookupPageHeaderGroup" parent="Uif-ActionsGroup">
-    <property name="cssClasses">
-      <list merge="true">
-        <value>uif-rightAligned-headerFieldGroup</value>
-      </list>
-    </property>
-    <property name="items">
+  <bean id="Uif-Lookup-MaintenanceEditLink" parent="Uif-Link">
+    <property name="linkText" value="edit"/>
+    <property name="finalizeMethodToCall" value="buildMaintenanceActionLink"/>
+    <property name="finalizeMethodAdditionalArguments">
       <list>
-        <bean parent="Uif-CreateNewLink"/>
+        <value>maintenanceEdit</value>
       </list>
     </property>
+    <property name="render"
+              value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and #view.renderMaintenanceLinks}"/>
   </bean>
 
-  <bean id="Uif-CreateNewLink" parent="Uif-ActionLink" p:actionLabel="Create New"
-        p:render="@{!#view.suppressActions and #view.showMaintenanceLinks and #ViewHelper.allowsMaintenanceNewOrCopyAction()}">
-    <property name="cssClasses">
-      <list merge="true">
-        <value>uif-createNewLink</value>
+  <bean id="Uif-Lookup-MaintenanceCopyLink" parent="Uif-Link">
+    <property name="linkText" value="copy"/>
+    <property name="finalizeMethodToCall" value="buildMaintenanceActionLink"/>
+    <property name="finalizeMethodAdditionalArguments">
+      <list>
+        <value>maintenanceCopy</value>
       </list>
     </property>
-    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+    <property name="render"
+              value="@{#ViewHelper.allowsMaintenanceNewOrCopyAction() and #view.renderMaintenanceLinks}"/>
+  </bean>
+
+  <bean id="Uif-Lookup-MaintenanceDeleteLink" parent="Uif-Link">
+    <property name="linkText" value="delete"/>
+    <property name="finalizeMethodToCall" value="buildMaintenanceActionLink"/>
+    <property name="finalizeMethodAdditionalArguments">
+      <list>
+        <value>maintenanceDelete</value>
+      </list>
+    </property>
+    <property name="render"
+              value="@{#ViewHelper.allowsMaintenanceDeleteAction(#line) and #view.renderMaintenanceLinks}"/>
+  </bean>
+
+  <bean id="Uif-Lookup-MaintenanceReturnLink" parent="Uif-Link">
+    <property name="linkText" value="return value"/>
+    <property name="finalizeMethodToCall" value="buildReturnUrlForResult"/>
+    <property name="render" value="@{#view.renderReturnLink}"/>
+  </bean>
+
+  <bean id="Uif-Lookup-MaintenanceCreateLink" parent="Uif-Link" p:linkText="Create New"
+        p:render="@{#view.renderMaintenanceLinks and #ViewHelper.allowsMaintenanceNewOrCopyAction()}">
+    <property name="finalizeMethodToCall" value="buildMaintenanceActionLink"/>
     <property name="finalizeMethodAdditionalArguments">
       <list>
         <value>start</value>
@@ -198,12 +228,14 @@
   <bean id="Uif-LookupCriteriaFooter" parent="Uif-FooterBase">
     <property name="items">
       <list>
-        <bean parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
-        <bean parent="Uif-PrimaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"/>
-        <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
+        <bean parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
               p:render="@{!#form.renderedInLightBox}"/>
-        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
+        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
               p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"
+              p:refreshId="uLookupCriteria" p:ajaxSubmit="false"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"
+              p:additionalSubmitData="displayResults:true" p:ajaxSubmit="@{!#view.hideCriteriaOnSearch}"/>
       </list>
     </property>
   </bean>
@@ -211,37 +243,14 @@
   <bean id="Uif-LookupResultsFooter" parent="Uif-FooterBase">
     <property name="items">
       <list>
-        <bean parent="Uif-PrimaryActionButton" p:methodToCall="selectAllPages" p:actionLabel="select all from all pages"
-              p:actionScript="selectAllPagesLines('@{#collectionGroup.id}');"/>
-        <bean parent="Uif-PrimaryActionButton" p:methodToCall="deselectAllPages"
-              p:actionLabel="deselect all from all pages"
-              p:actionScript="deselectAllPagesLines('@{#collectionGroup.id}');"/>
-        <bean parent="Uif-PrimaryActionButton" p:methodToCall="selectAllPage" p:actionLabel="select all from this page"
-              p:actionScript="selectAllLines('@{#collectionGroup.id}');"/>
-        <bean parent="Uif-PrimaryActionButton" p:methodToCall="deselectAllPage"
-              p:actionLabel="deselect all from this page"
-              p:actionScript="deselectAllLines('@{#collectionGroup.id}');"/>
-        <bean parent="Uif-PrimaryActionButton"
-              p:ajaxSubmit="true" p:render="@{#form.renderedInLightBox}"
-              p:preSubmitCall="setMultiValueReturnTarget();return true;"
-              p:successCallback="closeLightboxReloadPage();" p:errorCallback="closeLightbox()"
-              p:methodToCall="returnSelected" p:actionLabel="return selected" p:disabled="true">
+          <bean parent="Uif-PrimaryActionButton" p:methodToCall="returnSelected" p:actionLabel="return selected"
+              p:preSubmitCall="setupMultiValueReturn();return true;" p:disabled="@{#form.selectedLookupResultsCache.size() == 0}" p:ajaxSubmit="false">
           <property name="cssClasses">
             <list merge="true">
               <value>uif-returnSelectedAction</value>
             </list>
           </property>
         </bean>
-        <bean parent="Uif-PrimaryActionButton"
-              p:ajaxSubmit="false" p:render="@{!#form.renderedInLightBox}"
-              p:methodToCall="returnSelected" p:actionLabel="return selected" p:disabled="true">
-          <property name="cssClasses">
-            <list merge="true">
-              <value>uif-returnSelectedAction</value>
-            </list>
-          </property>
-       </bean>
-
       </list>
     </property>
   </bean>

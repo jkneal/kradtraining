@@ -31,7 +31,7 @@
         <@krad.script value="${KualiForm.growlScript!}" component=KualiForm.updateComponent/>
 
         <#-- set focus and perform jump to -->
-        <@krad.script value="jQuery(document).on(kradVariables.PAGE_LOAD_EVENT, function(){
+        <@krad.script value="jQuery(document).on('pageUpdateComplete', function(){
                 performFocusAndJumpTo(${view.currentPage.autoFocus?string}, true, true, '${KualiForm.focusId!}',
                     '${KualiForm.jumpToId!}', '${KualiForm.jumpToName!}');
                 dirtyFormState.setDirty(${KualiForm.dirtyForm?string});

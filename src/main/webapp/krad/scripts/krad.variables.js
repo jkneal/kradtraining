@@ -186,7 +186,6 @@ JavascriptKradVariables.prototype = {
     TOP_GROUP_UPDATE: "Uif-TopGroupUpdate",
     TABLE_COLLECTION_LAYOUT_CLASS: "uif-tableCollectionLayout",
     TAB_GROUP_CLASS: "Uif-TabGroup",
-    TAB_MENU_CLASS: "uif-tabMenu",
     TOGGLE_ARROW_CLASS: "arrow",
     TOOLTIP_CLASS: "uif-tooltip",
     VALIDATION_IMAGE_CLASS: "uif-validationImage",
@@ -218,7 +217,7 @@ JavascriptKradVariables.prototype = {
         ADJUST_STICKY : "adjuststicky"  + JavascriptKradVariables.EVENT_NAMESPACE,
         DIALOG_RESPONSE : "dialogresponse." + JavascriptKradVariables.EVENT_NAMESPACE,
         UPDATE_CONTENT : "updatecontent." + JavascriptKradVariables.EVENT_NAMESPACE,
-        PAGE_UPDATE_COMPLETE : "pageUpdateComplete" + JavascriptKradVariables.EVENT_NAMESPACE,
+        PAGE_UPDATE_COMPLETE : "pageUpdateComplete." + JavascriptKradVariables.EVENT_NAMESPACE,
         SHOW_MODAL : "show.bs.modal",
         HIDE_MODAL : "hide.bs.modal"
     }

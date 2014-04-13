@@ -19,6 +19,65 @@
       </property>
     </bean>
 
+	<bean id="DummyLoginView" parent="Uif-FormView">
+		<property name="title" value="LoginTitle" />
+		<property name="formClass" value="org.kuali.rice.krad.web.login.DummyLoginForm" />
+		<property name="breadcrumbs.render" value="false" />
+		<property name="header.render" value="false" />
+		<property name="items">
+			<list>
+				<bean id="LoginPage" parent="Uif-Page"
+					p:layoutManager.orientation="VERTICAL" p:disclosure.render="false">
+					<property name="items">
+						<list>
+							<bean parent="Uif-VerticalBoxGroup" p:cssClasses="group-border">
+								<property name="items">
+									<list>
+										<ref bean="DummyLoginViewHeadings" />
+										<ref bean="LoginSection" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="DummyLoginViewHeadings" parent="Uif-VerticalBoxSection">
+		<property name="header.render" value="false" />
+		<property name="header.rightGroup">
+			<bean parent="Uif-HeaderRightGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-Message" p:messageText="@{#ConfigProperties['version']} " />
+						<bean parent="Uif-Message"
+							p:messageText="@{#ConfigProperties['datasource.ojb.platform']}" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="Uif-Lookup-MaintenanceCreateLink" parent="Uif-Link"
+		p:linkText="Create New"
+		p:render="@{#view.renderMaintenanceLinks and #ViewHelper.allowsMaintenanceNewOrCopyAction()}">
+		<property name="finalizeMethodToCall" value="buildMaintenanceActionLink" />
+		<property name="finalizeMethodAdditionalArguments">
+			<list>
+				<value>start</value>
+			</list>
+		</property>
+		<property name="cssClasses">
+			<list merge="true">
+				<value>btn</value>
+				<value>btn-default</value>
+				<value>btn-xs</value>
+			</list>
+		</property>
+	</bean>
+
     <bean id="Uif-SectionBase" parent="Uif-GroupBase" scope="prototype">
         <property name="cssClasses">
             <list merge="true">
@@ -64,21 +123,25 @@
 		<property name="expandImageSrc" value="/images/h4_collapse.png" />
 	</bean> -->
 
-    <bean id="Uif-GridFieldGroup" parent="Uif-GridFieldGroup-parentBean"/>
-    <bean id="Uif-GridFieldGroup-parentBean" abstract="true" parent="Uif-FieldGroupBase">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-gridFieldGroup</value>
-            </list>
-        </property>
-        <property name="group">
-            <bean parent="Uif-GridGroup" p:layoutManager.renderAlternatingHeaderColumns="false">
-                <property name="componentModifiers">
-                    <list/>
-                </property>
-            </bean>
-        </property>
-    </bean>
+	<bean id="Uif-CssGridFieldGroup" parent="Uif-CssGridFieldGroup-parentBean" />
+	<bean id="Uif-CssGridFieldGroup-parentBean" abstract="true"
+		parent="Uif-FieldGroupBase">
+		<property name="group">
+			<bean parent="Uif-CssGridGroup" />
+		</property>
+	</bean>
+
+	<bean id="Uif-StackedCollectionLayoutBase" parent="Uif-StackedCollectionLayoutBase-parentBean"
+		p:renderLineActionsInHeader="false" />
+
+	<bean id="Uif-StackedCollectionGroup" parent="Uif-StackedCollectionGroup-parentBean">
+		<property name="lineActions">
+			<list>
+				<bean parent="Uif-DeleteLineAction" />
+				<bean parent="Uif-SaveLineAction" />
+			</list>
+		</property>
+	</bean>
 
     <bean id="Uif-GlobalApplicationFooter" parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
           p:templateName="appfooter" p:render="@{!renderedInLightBox}"/>

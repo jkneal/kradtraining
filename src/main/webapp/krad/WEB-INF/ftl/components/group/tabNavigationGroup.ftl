@@ -15,13 +15,19 @@
     limitations under the License.
 
 -->
-<#macro uif_inquiry widget componentId body='' readOnly=false>
+<#-- renders standard unordered list and calls doNavigation function -->
 
-    <#--
-    Renders an inquiry link for a field value
-    -->
-    <#if readOnly=true>
-        <@krad.template component=widget.inquiryLink body=body/>
-    </#if>
+<#macro uif_tabNavigationGroup group currentPageId>
+
+    <!-- NAVIGATION -->
+    <@krad.wrap component=group renderAs="ul">
+        <#list group.items as item>
+            <li>
+                <@krad.template component=item/>
+            </li>
+        </#list>
+    </@krad.wrap>
+
+    <@krad.script value="initTabMenu('${group.id}', '${currentPageId!}');"/>
 
 </#macro>
