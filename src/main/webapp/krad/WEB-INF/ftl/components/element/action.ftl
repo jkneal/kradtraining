@@ -76,8 +76,8 @@
     <#else>
 
     <#--determine if input of type image should be rendered-->
-        <#if element.actionImage?? && element.actionImage.render && (!imagePlacement?has_content
-        || (imagePlacement == 'IMAGE_ONLY'))>
+        <#if element.actionImage?? && element.actionImage.source?? && element.actionImage.render &&
+        (!imagePlacement?has_content || (imagePlacement == 'IMAGE_ONLY'))>
 
         <input type="image" id="${element.id}" ${disabled!}
                src="${element.actionImage.source}"
