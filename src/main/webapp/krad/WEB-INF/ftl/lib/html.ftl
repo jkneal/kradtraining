@@ -34,7 +34,7 @@
 
     <title>
         <#if view.applicationTitleText?has_content>
-            ${view.applicationTitleText}
+           ${view.applicationTitleText}
         </#if>
     </title>
 
