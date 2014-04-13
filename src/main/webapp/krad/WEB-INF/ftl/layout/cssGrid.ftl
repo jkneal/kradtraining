@@ -26,14 +26,6 @@
 <#include "../components/element/label.ftl"/>
 
 <#macro uif_cssGrid items manager container>
-    <#if manager.styleClassesAsString?has_content>
-        <#local styleClass="class=\"${manager.styleClassesAsString}\""/>
-    </#if>
-
-    <#if manager.style?has_content>
-        <#local style="style=\"${manager.style}\""/>
-    </#if>
-
     <#local rowIndex = 0/>
     <#local cellIndex = 0/>
 
