@@ -23,6 +23,7 @@ a {
     padding: 3px;
     background-color: #F3F3F3;
     border-color: #DDDDDD;
+    margin-left: 10px;
 }
 
 .message-highlight {
@@ -116,3 +117,4 @@ a {
 .focused-label {
 	background-color: blue;
 }
+
