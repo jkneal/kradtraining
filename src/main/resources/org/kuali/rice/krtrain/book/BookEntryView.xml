@@ -137,9 +137,9 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="fiction" p:label="Fiction?">
+                <bean parent="Uif-InputField" p:propertyName="fiction">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
+                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="Fiction?"/>
                     </property>
                 </bean>
 
@@ -301,7 +301,6 @@
     <bean id="Krtrain-BookEntryMenuNavigation" parent="Uif-MenuNavigationGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-HeaderTwo" p:headerText="Navigation"/>
                 <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage1"
                       p:actionLabel="Book Indexing"/>
                 <bean parent="Uif-NavigationActionLink" p:navigateToPageId="Krtrain-BookEntryPage2"
