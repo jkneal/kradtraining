@@ -24153,7 +24153,7 @@ $.widget( "ui.tabs", {
 			this.tabs.eq( 0 ).attr( "tabIndex", 0 );
 		} else {
 			this.active
-				.addClass( "ui-tabs-active ui-state-active" )
+				.addClass( "active" )
 				.attr({
 					"aria-selected": "true",
 					tabIndex: 0
@@ -24171,11 +24171,11 @@ $.widget( "ui.tabs", {
 		var that = this;
 
 		this.tablist = this._getList()
-			.addClass( "ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" )
+			.addClass( "nav nav-tabs" )
 			.attr( "role", "tablist" );
 
 		this.tabs = this.tablist.find( "> li:has(a[href])" )
-			.addClass( "ui-state-default ui-corner-top" )
+			.addClass( "" )
 			.attr({
 				role: "tab",
 				tabIndex: -1
@@ -24228,7 +24228,7 @@ $.widget( "ui.tabs", {
 		});
 
 		this.panels
-			.addClass( "ui-tabs-panel ui-widget-content ui-corner-bottom" )
+			.addClass( "" )
 			.attr( "role", "tabpanel" );
 	},
 
@@ -24395,7 +24395,7 @@ $.widget( "ui.tabs", {
 		}
 
 		function show() {
-			eventData.newTab.closest( "li" ).addClass( "ui-tabs-active ui-state-active" );
+			eventData.newTab.closest( "li" ).addClass( "active" );
 
 			if ( toShow.length && that.options.show ) {
 				that._show( toShow, that.options.show, complete );
@@ -24408,11 +24408,11 @@ $.widget( "ui.tabs", {
 		// start out by hiding, then showing, then completing
 		if ( toHide.length && this.options.hide ) {
 			this._hide( toHide, this.options.hide, function() {
-				eventData.oldTab.closest( "li" ).removeClass( "ui-tabs-active ui-state-active" );
+				eventData.oldTab.closest( "li" ).removeClass( "active" );
 				show();
 			});
 		} else {
-			eventData.oldTab.closest( "li" ).removeClass( "ui-tabs-active ui-state-active" );
+			eventData.oldTab.closest( "li" ).removeClass( "active" );
 			toHide.hide();
 			show();
 		}
@@ -25134,7 +25134,7 @@ if ( $.uiBackCompat !== false ) {
 			}
 
 			function show() {
-				eventData.newTab.closest( "li" ).addClass( "ui-tabs-active ui-state-active" );
+				eventData.newTab.closest( "li" ).addClass( "active" );
 
 				if ( toShow.length && fx.show ) {
 					toShow
@@ -25150,11 +25150,11 @@ if ( $.uiBackCompat !== false ) {
 			// start out by hiding, then showing, then completing
 			if ( toHide.length && fx.hide ) {
 				toHide.animate( fx.hide, fx.hide.duration, function() {
-					eventData.oldTab.closest( "li" ).removeClass( "ui-tabs-active ui-state-active" );
+					eventData.oldTab.closest( "li" ).removeClass( "active" );
 					show();
 				});
 			} else {
-				eventData.oldTab.closest( "li" ).removeClass( "ui-tabs-active ui-state-active" );
+				eventData.oldTab.closest( "li" ).removeClass( "active" );
 				toHide.hide();
 				show();
 			}
@@ -25549,16 +25549,16 @@ $.widget( "ui.tooltip", {
 }( jQuery ) );
 /*
  * File:        jquery.dataTables.js
- * Version:     1.7.5
+ * Version:     1.9.X
  * Description: Paginate, search and sort HTML tables
  * Author:      Allan Jardine (www.sprymedia.co.uk)
- * Created:     28/3/2008
+ * Created:     unknown
  * Language:    Javascript
  * License:     GPL v2 or BSD 3 point style
  * Project:     Mtaala
  * Contact:     allan.jardine@sprymedia.co.uk
  *
- * Copyright 2008-2010 Allan Jardine, all rights reserved.
+ * Copyright 2008-2014 Allan Jardine, all rights reserved.
  *
  * This source file is free software, under either the GPL v2 license or a
  * BSD style license, as supplied with this software.
@@ -37619,13 +37619,2137 @@ $.widget( "ui.tooltip", {
 	 *  @param {object} o DataTables settings object {@link DataTable.models.oSettings}
 	 */
 }(jQuery, window, document, undefined));
-/**
- * Copyright (c) 2007-2012 Ariel Flesler - aflesler(at)gmail(dot)com | http://flesler.blogspot.com
- * Dual licensed under MIT and GPL.
- * @author Ariel Flesler
- * @version 1.4.3.1
+/*!
+ * Bootstrap v3.1.1 (http://getbootstrap.com)
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
-;(function($){var h=$.scrollTo=function(a,b,c){$(window).scrollTo(a,b,c)};h.defaults={axis:'xy',duration:parseFloat($.fn.jquery)>=1.3?0:1,limit:true};h.window=function(a){return $(window)._scrollable()};$.fn._scrollable=function(){return this.map(function(){var a=this,isWin=!a.nodeName||$.inArray(a.nodeName.toLowerCase(),['iframe','#document','html','body'])!=-1;if(!isWin)return a;var b=(a.contentWindow||a).document||a.ownerDocument||a;return/webkit/i.test(navigator.userAgent)||b.compatMode=='BackCompat'?b.body:b.documentElement})};$.fn.scrollTo=function(e,f,g){if(typeof f=='object'){g=f;f=0}if(typeof g=='function')g={onAfter:g};if(e=='max')e=9e9;g=$.extend({},h.defaults,g);f=f||g.duration;g.queue=g.queue&&g.axis.length>1;if(g.queue)f/=2;g.offset=both(g.offset);g.over=both(g.over);return this._scrollable().each(function(){if(e==null)return;var d=this,$elem=$(d),targ=e,toff,attr={},win=$elem.is('html,body');switch(typeof targ){case'number':case'string':if(/^([+-]=)?\d+(\.\d+)?(px|%)?$/.test(targ)){targ=both(targ);break}targ=$(targ,this);if(!targ.length)return;case'object':if(targ.is||targ.style)toff=(targ=$(targ)).offset()}$.each(g.axis.split(''),function(i,a){var b=a=='x'?'Left':'Top',pos=b.toLowerCase(),key='scroll'+b,old=d[key],max=h.max(d,a);if(toff){attr[key]=toff[pos]+(win?0:old-$elem.offset()[pos]);if(g.margin){attr[key]-=parseInt(targ.css('margin'+b))||0;attr[key]-=parseInt(targ.css('border'+b+'Width'))||0}attr[key]+=g.offset[pos]||0;if(g.over[pos])attr[key]+=targ[a=='x'?'width':'height']()*g.over[pos]}else{var c=targ[pos];attr[key]=c.slice&&c.slice(-1)=='%'?parseFloat(c)/100*max:c}if(g.limit&&/^\d+$/.test(attr[key]))attr[key]=attr[key]<=0?0:Math.min(attr[key],max);if(!i&&g.queue){if(old!=attr[key])animate(g.onAfterFirst);delete attr[key]}});animate(g.onAfter);function animate(a){$elem.animate(attr,f,g.easing,a&&function(){a.call(this,e,g)})}}).end()};h.max=function(a,b){var c=b=='x'?'Width':'Height',scroll='scroll'+c;if(!$(a).is('html,body'))return a[scroll]-$(a)[c.toLowerCase()]();var d='client'+c,html=a.ownerDocument.documentElement,body=a.ownerDocument.body;return Math.max(html[scroll],body[scroll])-Math.min(html[d],body[d])};function both(a){return typeof a=='object'?a:{top:a,left:a}}})(jQuery);/*!
+
+if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript requires jQuery') }
+
+/* ========================================================================
+ * Bootstrap: transition.js v3.1.1
+ * http://getbootstrap.com/javascript/#transitions
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
+  // ============================================================
+
+  function transitionEnd() {
+    var el = document.createElement('bootstrap')
+
+    var transEndEventNames = {
+      'WebkitTransition' : 'webkitTransitionEnd',
+      'MozTransition'    : 'transitionend',
+      'OTransition'      : 'oTransitionEnd otransitionend',
+      'transition'       : 'transitionend'
+    }
+
+    for (var name in transEndEventNames) {
+      if (el.style[name] !== undefined) {
+        return { end: transEndEventNames[name] }
+      }
+    }
+
+    return false // explicit for ie8 (  ._.)
+  }
+
+  // http://blog.alexmaccaw.com/css-transitions
+  $.fn.emulateTransitionEnd = function (duration) {
+    var called = false, $el = this
+    $(this).one($.support.transition.end, function () { called = true })
+    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
+    setTimeout(callback, duration)
+    return this
+  }
+
+  $(function () {
+    $.support.transition = transitionEnd()
+  })
+
+}(jQuery);
+
+/* ========================================================================
+ * Bootstrap: alert.js v3.1.1
+ * http://getbootstrap.com/javascript/#alerts
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // ALERT CLASS DEFINITION
+  // ======================
+
+  var dismiss = '[data-dismiss="alert"]'
+  var Alert   = function (el) {
+    $(el).on('click', dismiss, this.close)
+  }
+
+  Alert.prototype.close = function (e) {
+    var $this    = $(this)
+    var selector = $this.attr('data-target')
+
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+    }
+
+    var $parent = $(selector)
+
+    if (e) e.preventDefault()
+
+    if (!$parent.length) {
+      $parent = $this.hasClass('alert') ? $this : $this.parent()
+    }
+
+    $parent.trigger(e = $.Event('close.bs.alert'))
+
+    if (e.isDefaultPrevented()) return
+
+    $parent.removeClass('in')
+
+    function removeElement() {
+      $parent.trigger('closed.bs.alert').remove()
+    }
+
+    $.support.transition && $parent.hasClass('fade') ?
+      $parent
+        .one($.support.transition.end, removeElement)
+        .emulateTransitionEnd(150) :
+      removeElement()
+  }
+
+
+  // ALERT PLUGIN DEFINITION
+  // =======================
+
+  var old = $.fn.alert
+
+  $.fn.alert = function (option) {
+    return this.each(function () {
+      var $this = $(this)
+      var data  = $this.data('bs.alert')
+
+      if (!data) $this.data('bs.alert', (data = new Alert(this)))
+      if (typeof option == 'string') data[option].call($this)
+    })
+  }
+
+  $.fn.alert.Constructor = Alert
+
+
+  // ALERT NO CONFLICT
+  // =================
+
+  $.fn.alert.noConflict = function () {
+    $.fn.alert = old
+    return this
+  }
+
+
+  // ALERT DATA-API
+  // ==============
+
+  $(document).on('click.bs.alert.data-api', dismiss, Alert.prototype.close)
+
+}(jQuery);
+
+/* ========================================================================
+ * Bootstrap: button.js v3.1.1
+ * http://getbootstrap.com/javascript/#buttons
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // BUTTON PUBLIC CLASS DEFINITION
+  // ==============================
+
+  var Button = function (element, options) {
+    this.$element  = $(element)
+    this.options   = $.extend({}, Button.DEFAULTS, options)
+    this.isLoading = false
+  }
+
+  Button.DEFAULTS = {
+    loadingText: 'loading...'
+  }
+
+  Button.prototype.setState = function (state) {
+    var d    = 'disabled'
+    var $el  = this.$element
+    var val  = $el.is('input') ? 'val' : 'html'
+    var data = $el.data()
+
+    state = state + 'Text'
+
+    if (!data.resetText) $el.data('resetText', $el[val]())
+
+    $el[val](data[state] || this.options[state])
+
+    // push to event loop to allow forms to submit
+    setTimeout($.proxy(function () {
+      if (state == 'loadingText') {
+        this.isLoading = true
+        $el.addClass(d).attr(d, d)
+      } else if (this.isLoading) {
+        this.isLoading = false
+        $el.removeClass(d).removeAttr(d)
+      }
+    }, this), 0)
+  }
+
+  Button.prototype.toggle = function () {
+    var changed = true
+    var $parent = this.$element.closest('[data-toggle="buttons"]')
+
+    if ($parent.length) {
+      var $input = this.$element.find('input')
+      if ($input.prop('type') == 'radio') {
+        if ($input.prop('checked') && this.$element.hasClass('active')) changed = false
+        else $parent.find('.active').removeClass('active')
+      }
+      if (changed) $input.prop('checked', !this.$element.hasClass('active')).trigger('change')
+    }
+
+    if (changed) this.$element.toggleClass('active')
+  }
+
+
+  // BUTTON PLUGIN DEFINITION
+  // ========================
+
+  var old = $.fn.button
+
+  $.fn.button = function (option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.button')
+      var options = typeof option == 'object' && option
+
+      if (!data) $this.data('bs.button', (data = new Button(this, options)))
+
+      if (option == 'toggle') data.toggle()
+      else if (option) data.setState(option)
+    })
+  }
+
+  $.fn.button.Constructor = Button
+
+
+  // BUTTON NO CONFLICT
+  // ==================
+
+  $.fn.button.noConflict = function () {
+    $.fn.button = old
+    return this
+  }
+
+
+  // BUTTON DATA-API
+  // ===============
+
+  $(document).on('click.bs.button.data-api', '[data-toggle^=button]', function (e) {
+    var $btn = $(e.target)
+    if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
+    $btn.button('toggle')
+    e.preventDefault()
+  })
+
+}(jQuery);
+
+/* ========================================================================
+ * Bootstrap: carousel.js v3.1.1
+ * http://getbootstrap.com/javascript/#carousel
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // CAROUSEL CLASS DEFINITION
+  // =========================
+
+  var Carousel = function (element, options) {
+    this.$element    = $(element)
+    this.$indicators = this.$element.find('.carousel-indicators')
+    this.options     = options
+    this.paused      =
+    this.sliding     =
+    this.interval    =
+    this.$active     =
+    this.$items      = null
+
+    this.options.pause == 'hover' && this.$element
+      .on('mouseenter', $.proxy(this.pause, this))
+      .on('mouseleave', $.proxy(this.cycle, this))
+  }
+
+  Carousel.DEFAULTS = {
+    interval: 5000,
+    pause: 'hover',
+    wrap: true
+  }
+
+  Carousel.prototype.cycle =  function (e) {
+    e || (this.paused = false)
+
+    this.interval && clearInterval(this.interval)
+
+    this.options.interval
+      && !this.paused
+      && (this.interval = setInterval($.proxy(this.next, this), this.options.interval))
+
+    return this
+  }
+
+  Carousel.prototype.getActiveIndex = function () {
+    this.$active = this.$element.find('.item.active')
+    this.$items  = this.$active.parent().children()
+
+    return this.$items.index(this.$active)
+  }
+
+  Carousel.prototype.to = function (pos) {
+    var that        = this
+    var activeIndex = this.getActiveIndex()
+
+    if (pos > (this.$items.length - 1) || pos < 0) return
+
+    if (this.sliding)       return this.$element.one('slid.bs.carousel', function () { that.to(pos) })
+    if (activeIndex == pos) return this.pause().cycle()
+
+    return this.slide(pos > activeIndex ? 'next' : 'prev', $(this.$items[pos]))
+  }
+
+  Carousel.prototype.pause = function (e) {
+    e || (this.paused = true)
+
+    if (this.$element.find('.next, .prev').length && $.support.transition) {
+      this.$element.trigger($.support.transition.end)
+      this.cycle(true)
+    }
+
+    this.interval = clearInterval(this.interval)
+
+    return this
+  }
+
+  Carousel.prototype.next = function () {
+    if (this.sliding) return
+    return this.slide('next')
+  }
+
+  Carousel.prototype.prev = function () {
+    if (this.sliding) return
+    return this.slide('prev')
+  }
+
+  Carousel.prototype.slide = function (type, next) {
+    var $active   = this.$element.find('.item.active')
+    var $next     = next || $active[type]()
+    var isCycling = this.interval
+    var direction = type == 'next' ? 'left' : 'right'
+    var fallback  = type == 'next' ? 'first' : 'last'
+    var that      = this
+
+    if (!$next.length) {
+      if (!this.options.wrap) return
+      $next = this.$element.find('.item')[fallback]()
+    }
+
+    if ($next.hasClass('active')) return this.sliding = false
+
+    var e = $.Event('slide.bs.carousel', { relatedTarget: $next[0], direction: direction })
+    this.$element.trigger(e)
+    if (e.isDefaultPrevented()) return
+
+    this.sliding = true
+
+    isCycling && this.pause()
+
+    if (this.$indicators.length) {
+      this.$indicators.find('.active').removeClass('active')
+      this.$element.one('slid.bs.carousel', function () {
+        var $nextIndicator = $(that.$indicators.children()[that.getActiveIndex()])
+        $nextIndicator && $nextIndicator.addClass('active')
+      })
+    }
+
+    if ($.support.transition && this.$element.hasClass('slide')) {
+      $next.addClass(type)
+      $next[0].offsetWidth // force reflow
+      $active.addClass(direction)
+      $next.addClass(direction)
+      $active
+        .one($.support.transition.end, function () {
+          $next.removeClass([type, direction].join(' ')).addClass('active')
+          $active.removeClass(['active', direction].join(' '))
+          that.sliding = false
+          setTimeout(function () { that.$element.trigger('slid.bs.carousel') }, 0)
+        })
+        .emulateTransitionEnd($active.css('transition-duration').slice(0, -1) * 1000)
+    } else {
+      $active.removeClass('active')
+      $next.addClass('active')
+      this.sliding = false
+      this.$element.trigger('slid.bs.carousel')
+    }
+
+    isCycling && this.cycle()
+
+    return this
+  }
+
+
+  // CAROUSEL PLUGIN DEFINITION
+  // ==========================
+
+  var old = $.fn.carousel
+
+  $.fn.carousel = function (option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.carousel')
+      var options = $.extend({}, Carousel.DEFAULTS, $this.data(), typeof option == 'object' && option)
+      var action  = typeof option == 'string' ? option : options.slide
+
+      if (!data) $this.data('bs.carousel', (data = new Carousel(this, options)))
+      if (typeof option == 'number') data.to(option)
+      else if (action) data[action]()
+      else if (options.interval) data.pause().cycle()
+    })
+  }
+
+  $.fn.carousel.Constructor = Carousel
+
+
+  // CAROUSEL NO CONFLICT
+  // ====================
+
+  $.fn.carousel.noConflict = function () {
+    $.fn.carousel = old
+    return this
+  }
+
+
+  // CAROUSEL DATA-API
+  // =================
+
+  $(document).on('click.bs.carousel.data-api', '[data-slide], [data-slide-to]', function (e) {
+    var $this   = $(this), href
+    var $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
+    var options = $.extend({}, $target.data(), $this.data())
+    var slideIndex = $this.attr('data-slide-to')
+    if (slideIndex) options.interval = false
+
+    $target.carousel(options)
+
+    if (slideIndex = $this.attr('data-slide-to')) {
+      $target.data('bs.carousel').to(slideIndex)
+    }
+
+    e.preventDefault()
+  })
+
+  $(window).on('load', function () {
+    $('[data-ride="carousel"]').each(function () {
+      var $carousel = $(this)
+      $carousel.carousel($carousel.data())
+    })
+  })
+
+}(jQuery);
+
+/* ========================================================================
+ * Bootstrap: collapse.js v3.1.1
+ * http://getbootstrap.com/javascript/#collapse
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // COLLAPSE PUBLIC CLASS DEFINITION
+  // ================================
+
+  var Collapse = function (element, options) {
+    this.$element      = $(element)
+    this.options       = $.extend({}, Collapse.DEFAULTS, options)
+    this.transitioning = null
+
+    if (this.options.parent) this.$parent = $(this.options.parent)
+    if (this.options.toggle) this.toggle()
+  }
+
+  Collapse.DEFAULTS = {
+    toggle: true
+  }
+
+  Collapse.prototype.dimension = function () {
+    var hasWidth = this.$element.hasClass('width')
+    return hasWidth ? 'width' : 'height'
+  }
+
+  Collapse.prototype.show = function () {
+    if (this.transitioning || this.$element.hasClass('in')) return
+
+    var startEvent = $.Event('show.bs.collapse')
+    this.$element.trigger(startEvent)
+    if (startEvent.isDefaultPrevented()) return
+
+    var actives = this.$parent && this.$parent.find('> .panel > .in')
+
+    if (actives && actives.length) {
+      var hasData = actives.data('bs.collapse')
+      if (hasData && hasData.transitioning) return
+      actives.collapse('hide')
+      hasData || actives.data('bs.collapse', null)
+    }
+
+    var dimension = this.dimension()
+
+    this.$element
+      .removeClass('collapse')
+      .addClass('collapsing')
+      [dimension](0)
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.$element
+        .removeClass('collapsing')
+        .addClass('collapse in')
+        [dimension]('auto')
+      this.transitioning = 0
+      this.$element.trigger('shown.bs.collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
+
+    this.$element
+      .one($.support.transition.end, $.proxy(complete, this))
+      .emulateTransitionEnd(350)
+      [dimension](this.$element[0][scrollSize])
+  }
+
+  Collapse.prototype.hide = function () {
+    if (this.transitioning || !this.$element.hasClass('in')) return
+
+    var startEvent = $.Event('hide.bs.collapse')
+    this.$element.trigger(startEvent)
+    if (startEvent.isDefaultPrevented()) return
+
+    var dimension = this.dimension()
+
+    this.$element
+      [dimension](this.$element[dimension]())
+      [0].offsetHeight
+
+    this.$element
+      .addClass('collapsing')
+      .removeClass('collapse')
+      .removeClass('in')
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.transitioning = 0
+      this.$element
+        .trigger('hidden.bs.collapse')
+        .removeClass('collapsing')
+        .addClass('collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    this.$element
+      [dimension](0)
+      .one($.support.transition.end, $.proxy(complete, this))
+      .emulateTransitionEnd(350)
+  }
+
+  Collapse.prototype.toggle = function () {
+    this[this.$element.hasClass('in') ? 'hide' : 'show']()
+  }
+
+
+  // COLLAPSE PLUGIN DEFINITION
+  // ==========================
+
+  var old = $.fn.collapse
+
+  $.fn.collapse = function (option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.collapse')
+      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
+
+      if (!data && options.toggle && option == 'show') option = !option
+      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  $.fn.collapse.Constructor = Collapse
+
+
+  // COLLAPSE NO CONFLICT
+  // ====================
+
+  $.fn.collapse.noConflict = function () {
+    $.fn.collapse = old
+    return this
+  }
+
+
+  // COLLAPSE DATA-API
+  // =================
+
+  $(document).on('click.bs.collapse.data-api', '[data-toggle=collapse]', function (e) {
+    var $this   = $(this), href
+    var target  = $this.attr('data-target')
+        || e.preventDefault()
+        || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
+    var $target = $(target)
+    var data    = $target.data('bs.collapse')
+    var option  = data ? 'toggle' : $this.data()
+    var parent  = $this.attr('data-parent')
+    var $parent = parent && $(parent)
+
+    if (!data || !data.transitioning) {
+      if ($parent) $parent.find('[data-toggle=collapse][data-parent="' + parent + '"]').not($this).addClass('collapsed')
+      $this[$target.hasClass('in') ? 'addClass' : 'removeClass']('collapsed')
+    }
+
+    $target.collapse(option)
+  })
+
+}(jQuery);
+
+/* ========================================================================
+ * Bootstrap: dropdown.js v3.1.1
+ * http://getbootstrap.com/javascript/#dropdowns
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // DROPDOWN CLASS DEFINITION
+  // =========================
+
+  var backdrop = '.dropdown-backdrop'
+  var toggle   = '[data-toggle=dropdown]'
+  var Dropdown = function (element) {
+    $(element).on('click.bs.dropdown', this.toggle)
+  }
+
+  Dropdown.prototype.toggle = function (e) {
+    var $this = $(this)
+
+    if ($this.is('.disabled, :disabled')) return
+
+    var $parent  = getParent($this)
+    var isActive = $parent.hasClass('open')
+
+    clearMenus()
+
+    if (!isActive) {
+      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
+        // if mobile we use a backdrop because click events don't delegate
+        $('<div class="dropdown-backdrop"/>').insertAfter($(this)).on('click', clearMenus)
+      }
+
+      var relatedTarget = { relatedTarget: this }
+      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
+
+      if (e.isDefaultPrevented()) return
+
+      $parent
+        .toggleClass('open')
+        .trigger('shown.bs.dropdown', relatedTarget)
+
+      $this.focus()
+    }
+
+    return false
+  }
+
+  Dropdown.prototype.keydown = function (e) {
+    if (!/(38|40|27)/.test(e.keyCode)) return
+
+    var $this = $(this)
+
+    e.preventDefault()
+    e.stopPropagation()
+
+    if ($this.is('.disabled, :disabled')) return
+
+    var $parent  = getParent($this)
+    var isActive = $parent.hasClass('open')
+
+    if (!isActive || (isActive && e.keyCode == 27)) {
+      if (e.which == 27) $parent.find(toggle).focus()
+      return $this.click()
+    }
+
+    var desc = ' li:not(.divider):visible a'
+    var $items = $parent.find('[role=menu]' + desc + ', [role=listbox]' + desc)
+
+    if (!$items.length) return
+
+    var index = $items.index($items.filter(':focus'))
+
+    if (e.keyCode == 38 && index > 0)                 index--                        // up
+    if (e.keyCode == 40 && index < $items.length - 1) index++                        // down
+    if (!~index)                                      index = 0
+
+    $items.eq(index).focus()
+  }
+
+  function clearMenus(e) {
+    $(backdrop).remove()
+    $(toggle).each(function () {
+      var $parent = getParent($(this))
+      var relatedTarget = { relatedTarget: this }
+      if (!$parent.hasClass('open')) return
+      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+      if (e.isDefaultPrevented()) return
+      $parent.removeClass('open').trigger('hidden.bs.dropdown', relatedTarget)
+    })
+  }
+
+  function getParent($this) {
+    var selector = $this.attr('data-target')
+
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
+    }
+
+    var $parent = selector && $(selector)
+
+    return $parent && $parent.length ? $parent : $this.parent()
+  }
+
+
+  // DROPDOWN PLUGIN DEFINITION
+  // ==========================
+
+  var old = $.fn.dropdown
+
+  $.fn.dropdown = function (option) {
+    return this.each(function () {
+      var $this = $(this)
+      var data  = $this.data('bs.dropdown')
+
+      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
+      if (typeof option == 'string') data[option].call($this)
+    })
+  }
+
+  $.fn.dropdown.Constructor = Dropdown
+
+
+  // DROPDOWN NO CONFLICT
+  // ====================
+
+  $.fn.dropdown.noConflict = function () {
+    $.fn.dropdown = old
+    return this
+  }
+
+
+  // APPLY TO STANDARD DROPDOWN ELEMENTS
+  // ===================================
+
+  $(document)
+    .on('click.bs.dropdown.data-api', clearMenus)
+    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+    .on('keydown.bs.dropdown.data-api', toggle + ', [role=menu], [role=listbox]', Dropdown.prototype.keydown)
+
+}(jQuery);
+
+/* ========================================================================
+ * Bootstrap: modal.js v3.1.1
+ * http://getbootstrap.com/javascript/#modals
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // MODAL CLASS DEFINITION
+  // ======================
+
+  var Modal = function (element, options) {
+    this.options   = options
+    this.$element  = $(element)
+    this.$backdrop =
+    this.isShown   = null
+
+    if (this.options.remote) {
+      this.$element
+        .find('.modal-content')
+        .load(this.options.remote, $.proxy(function () {
+          this.$element.trigger('loaded.bs.modal')
+        }, this))
+    }
+  }
+
+  Modal.DEFAULTS = {
+    backdrop: true,
+    keyboard: true,
+    show: true
+  }
+
+  Modal.prototype.toggle = function (_relatedTarget) {
+    return this[!this.isShown ? 'show' : 'hide'](_relatedTarget)
+  }
+
+  Modal.prototype.show = function (_relatedTarget) {
+    var that = this
+    var e    = $.Event('show.bs.modal', { relatedTarget: _relatedTarget })
+
+    this.$element.trigger(e)
+
+    if (this.isShown || e.isDefaultPrevented()) return
+
+    this.isShown = true
+
+    this.escape()
+
+    this.$element.on('click.dismiss.bs.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
+
+    this.backdrop(function () {
+      var transition = $.support.transition && that.$element.hasClass('fade')
+
+      if (!that.$element.parent().length) {
+        that.$element.appendTo(document.body) // don't move modals dom position
+      }
+
+      that.$element
+        .show()
+        .scrollTop(0)
+
+      if (transition) {
+        that.$element[0].offsetWidth // force reflow
+      }
+
+      that.$element
+        .addClass('in')
+        .attr('aria-hidden', false)
+
+      that.enforceFocus()
+
+      var e = $.Event('shown.bs.modal', { relatedTarget: _relatedTarget })
+
+      transition ?
+        that.$element.find('.modal-dialog') // wait for modal to slide in
+          .one($.support.transition.end, function () {
+            that.$element.focus().trigger(e)
+          })
+          .emulateTransitionEnd(300) :
+        that.$element.focus().trigger(e)
+    })
+  }
+
+  Modal.prototype.hide = function (e) {
+    if (e) e.preventDefault()
+
+    e = $.Event('hide.bs.modal')
+
+    this.$element.trigger(e)
+
+    if (!this.isShown || e.isDefaultPrevented()) return
+
+    this.isShown = false
+
+    this.escape()
+
+    $(document).off('focusin.bs.modal')
+
+    this.$element
+      .removeClass('in')
+      .attr('aria-hidden', true)
+      .off('click.dismiss.bs.modal')
+
+    $.support.transition && this.$element.hasClass('fade') ?
+      this.$element
+        .one($.support.transition.end, $.proxy(this.hideModal, this))
+        .emulateTransitionEnd(300) :
+      this.hideModal()
+  }
+
+  Modal.prototype.enforceFocus = function () {
+    $(document)
+      .off('focusin.bs.modal') // guard against infinite focus loop
+      .on('focusin.bs.modal', $.proxy(function (e) {
+        if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
+          this.$element.focus()
+        }
+      }, this))
+  }
+
+  Modal.prototype.escape = function () {
+    if (this.isShown && this.options.keyboard) {
+      this.$element.on('keyup.dismiss.bs.modal', $.proxy(function (e) {
+        e.which == 27 && this.hide()
+      }, this))
+    } else if (!this.isShown) {
+      this.$element.off('keyup.dismiss.bs.modal')
+    }
+  }
+
+  Modal.prototype.hideModal = function () {
+    var that = this
+    this.$element.hide()
+    this.backdrop(function () {
+      that.removeBackdrop()
+      that.$element.trigger('hidden.bs.modal')
+    })
+  }
+
+  Modal.prototype.removeBackdrop = function () {
+    this.$backdrop && this.$backdrop.remove()
+    this.$backdrop = null
+  }
+
+  Modal.prototype.backdrop = function (callback) {
+    var animate = this.$element.hasClass('fade') ? 'fade' : ''
+
+    if (this.isShown && this.options.backdrop) {
+      var doAnimate = $.support.transition && animate
+
+      this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
+        .appendTo(document.body)
+
+      this.$element.on('click.dismiss.bs.modal', $.proxy(function (e) {
+        if (e.target !== e.currentTarget) return
+        this.options.backdrop == 'static'
+          ? this.$element[0].focus.call(this.$element[0])
+          : this.hide.call(this)
+      }, this))
+
+      if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
+
+      this.$backdrop.addClass('in')
+
+      if (!callback) return
+
+      doAnimate ?
+        this.$backdrop
+          .one($.support.transition.end, callback)
+          .emulateTransitionEnd(150) :
+        callback()
+
+    } else if (!this.isShown && this.$backdrop) {
+      this.$backdrop.removeClass('in')
+
+      $.support.transition && this.$element.hasClass('fade') ?
+        this.$backdrop
+          .one($.support.transition.end, callback)
+          .emulateTransitionEnd(150) :
+        callback()
+
+    } else if (callback) {
+      callback()
+    }
+  }
+
+
+  // MODAL PLUGIN DEFINITION
+  // =======================
+
+  var old = $.fn.modal
+
+  $.fn.modal = function (option, _relatedTarget) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.modal')
+      var options = $.extend({}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option)
+
+      if (!data) $this.data('bs.modal', (data = new Modal(this, options)))
+      if (typeof option == 'string') data[option](_relatedTarget)
+      else if (options.show) data.show(_relatedTarget)
+    })
+  }
+
+  $.fn.modal.Constructor = Modal
+
+
+  // MODAL NO CONFLICT
+  // =================
+
+  $.fn.modal.noConflict = function () {
+    $.fn.modal = old
+    return this
+  }
+
+
+  // MODAL DATA-API
+  // ==============
+
+  $(document).on('click.bs.modal.data-api', '[data-toggle="modal"]', function (e) {
+    var $this   = $(this)
+    var href    = $this.attr('href')
+    var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
+    var option  = $target.data('bs.modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
+
+    if ($this.is('a')) e.preventDefault()
+
+    $target
+      .modal(option, this)
+      .one('hide', function () {
+        $this.is(':visible') && $this.focus()
+      })
+  })
+
+  $(document)
+    .on('show.bs.modal', '.modal', function () { $(document.body).addClass('modal-open') })
+    .on('hidden.bs.modal', '.modal', function () { $(document.body).removeClass('modal-open') })
+
+}(jQuery);
+
+/* ========================================================================
+ * Bootstrap: tooltip.js v3.1.1
+ * http://getbootstrap.com/javascript/#tooltip
+ * Inspired by the original jQuery.tipsy by Jason Frame
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // TOOLTIP PUBLIC CLASS DEFINITION
+  // ===============================
+
+  var Tooltip = function (element, options) {
+    this.type       =
+    this.options    =
+    this.enabled    =
+    this.timeout    =
+    this.hoverState =
+    this.$element   = null
+
+    this.init('tooltip', element, options)
+  }
+
+  Tooltip.DEFAULTS = {
+    animation: true,
+    placement: 'top',
+    selector: false,
+    template: '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+    trigger: 'hover focus',
+    title: '',
+    delay: 0,
+    html: false,
+    container: false
+  }
+
+  Tooltip.prototype.init = function (type, element, options) {
+    this.enabled  = true
+    this.type     = type
+    this.$element = $(element)
+    this.options  = this.getOptions(options)
+
+    var triggers = this.options.trigger.split(' ')
+
+    for (var i = triggers.length; i--;) {
+      var trigger = triggers[i]
+
+      if (trigger == 'click') {
+        this.$element.on('click.' + this.type, this.options.selector, $.proxy(this.toggle, this))
+      } else if (trigger != 'manual') {
+        var eventIn  = trigger == 'hover' ? 'mouseenter' : 'focusin'
+        var eventOut = trigger == 'hover' ? 'mouseleave' : 'focusout'
+
+        this.$element.on(eventIn  + '.' + this.type, this.options.selector, $.proxy(this.enter, this))
+        this.$element.on(eventOut + '.' + this.type, this.options.selector, $.proxy(this.leave, this))
+      }
+    }
+
+    this.options.selector ?
+      (this._options = $.extend({}, this.options, { trigger: 'manual', selector: '' })) :
+      this.fixTitle()
+  }
+
+  Tooltip.prototype.getDefaults = function () {
+    return Tooltip.DEFAULTS
+  }
+
+  Tooltip.prototype.getOptions = function (options) {
+    options = $.extend({}, this.getDefaults(), this.$element.data(), options)
+
+    if (options.delay && typeof options.delay == 'number') {
+      options.delay = {
+        show: options.delay,
+        hide: options.delay
+      }
+    }
+
+    return options
+  }
+
+  Tooltip.prototype.getDelegateOptions = function () {
+    var options  = {}
+    var defaults = this.getDefaults()
+
+    this._options && $.each(this._options, function (key, value) {
+      if (defaults[key] != value) options[key] = value
+    })
+
+    return options
+  }
+
+  Tooltip.prototype.enter = function (obj) {
+    var self = obj instanceof this.constructor ?
+      obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type)
+
+    clearTimeout(self.timeout)
+
+    self.hoverState = 'in'
+
+    if (!self.options.delay || !self.options.delay.show) return self.show()
+
+    self.timeout = setTimeout(function () {
+      if (self.hoverState == 'in') self.show()
+    }, self.options.delay.show)
+  }
+
+  Tooltip.prototype.leave = function (obj) {
+    var self = obj instanceof this.constructor ?
+      obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type)
+
+    clearTimeout(self.timeout)
+
+    self.hoverState = 'out'
+
+    if (!self.options.delay || !self.options.delay.hide) return self.hide()
+
+    self.timeout = setTimeout(function () {
+      if (self.hoverState == 'out') self.hide()
+    }, self.options.delay.hide)
+  }
+
+  Tooltip.prototype.show = function () {
+    var e = $.Event('show.bs.' + this.type)
+
+    if (this.hasContent() && this.enabled) {
+      this.$element.trigger(e)
+
+      if (e.isDefaultPrevented()) return
+      var that = this;
+
+      var $tip = this.tip()
+
+      this.setContent()
+
+      if (this.options.animation) $tip.addClass('fade')
+
+      var placement = typeof this.options.placement == 'function' ?
+        this.options.placement.call(this, $tip[0], this.$element[0]) :
+        this.options.placement
+
+      var autoToken = /\s?auto?\s?/i
+      var autoPlace = autoToken.test(placement)
+      if (autoPlace) placement = placement.replace(autoToken, '') || 'top'
+
+      $tip
+        .detach()
+        .css({ top: 0, left: 0, display: 'block' })
+        .addClass(placement)
+
+      this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
+
+      var pos          = this.getPosition()
+      var actualWidth  = $tip[0].offsetWidth
+      var actualHeight = $tip[0].offsetHeight
+
+      if (autoPlace) {
+        var $parent = this.$element.parent()
+
+        var orgPlacement = placement
+        var docScroll    = document.documentElement.scrollTop || document.body.scrollTop
+        var parentWidth  = this.options.container == 'body' ? window.innerWidth  : $parent.outerWidth()
+        var parentHeight = this.options.container == 'body' ? window.innerHeight : $parent.outerHeight()
+        var parentLeft   = this.options.container == 'body' ? 0 : $parent.offset().left
+
+        placement = placement == 'bottom' && pos.top   + pos.height  + actualHeight - docScroll > parentHeight  ? 'top'    :
+                    placement == 'top'    && pos.top   - docScroll   - actualHeight < 0                         ? 'bottom' :
+                    placement == 'right'  && pos.right + actualWidth > parentWidth                              ? 'left'   :
+                    placement == 'left'   && pos.left  - actualWidth < parentLeft                               ? 'right'  :
+                    placement
+
+        $tip
+          .removeClass(orgPlacement)
+          .addClass(placement)
+      }
+
+      var calculatedOffset = this.getCalculatedOffset(placement, pos, actualWidth, actualHeight)
+
+      this.applyPlacement(calculatedOffset, placement)
+      this.hoverState = null
+
+      var complete = function() {
+        that.$element.trigger('shown.bs.' + that.type)
+      }
+
+      $.support.transition && this.$tip.hasClass('fade') ?
+        $tip
+          .one($.support.transition.end, complete)
+          .emulateTransitionEnd(150) :
+        complete()
+    }
+  }
+
+  Tooltip.prototype.applyPlacement = function (offset, placement) {
+    var replace
+    var $tip   = this.tip()
+    var width  = $tip[0].offsetWidth
+    var height = $tip[0].offsetHeight
+
+    // manually read margins because getBoundingClientRect includes difference
+    var marginTop = parseInt($tip.css('margin-top'), 10)
+    var marginLeft = parseInt($tip.css('margin-left'), 10)
+
+    // we must check for NaN for ie 8/9
+    if (isNaN(marginTop))  marginTop  = 0
+    if (isNaN(marginLeft)) marginLeft = 0
+
+    offset.top  = offset.top  + marginTop
+    offset.left = offset.left + marginLeft
+
+    // $.fn.offset doesn't round pixel values
+    // so we use setOffset directly with our own function B-0
+    $.offset.setOffset($tip[0], $.extend({
+      using: function (props) {
+        $tip.css({
+          top: Math.round(props.top),
+          left: Math.round(props.left)
+        })
+      }
+    }, offset), 0)
+
+    $tip.addClass('in')
+
+    // check to see if placing tip in new offset caused the tip to resize itself
+    var actualWidth  = $tip[0].offsetWidth
+    var actualHeight = $tip[0].offsetHeight
+
+    if (placement == 'top' && actualHeight != height) {
+      replace = true
+      offset.top = offset.top + height - actualHeight
+    }
+
+    if (/bottom|top/.test(placement)) {
+      var delta = 0
+
+      if (offset.left < 0) {
+        delta       = offset.left * -2
+        offset.left = 0
+
+        $tip.offset(offset)
+
+        actualWidth  = $tip[0].offsetWidth
+        actualHeight = $tip[0].offsetHeight
+      }
+
+      this.replaceArrow(delta - width + actualWidth, actualWidth, 'left')
+    } else {
+      this.replaceArrow(actualHeight - height, actualHeight, 'top')
+    }
+
+    if (replace) $tip.offset(offset)
+  }
+
+  Tooltip.prototype.replaceArrow = function (delta, dimension, position) {
+    this.arrow().css(position, delta ? (50 * (1 - delta / dimension) + '%') : '')
+  }
+
+  Tooltip.prototype.setContent = function () {
+    var $tip  = this.tip()
+    var title = this.getTitle()
+
+    $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'text'](title)
+    $tip.removeClass('fade in top bottom left right')
+  }
+
+  Tooltip.prototype.hide = function () {
+    var that = this
+    var $tip = this.tip()
+    var e    = $.Event('hide.bs.' + this.type)
+
+    function complete() {
+      if (that.hoverState != 'in') $tip.detach()
+      that.$element.trigger('hidden.bs.' + that.type)
+    }
+
+    this.$element.trigger(e)
+
+    if (e.isDefaultPrevented()) return
+
+    $tip.removeClass('in')
+
+    $.support.transition && this.$tip.hasClass('fade') ?
+      $tip
+        .one($.support.transition.end, complete)
+        .emulateTransitionEnd(150) :
+      complete()
+
+    this.hoverState = null
+
+    return this
+  }
+
+  Tooltip.prototype.fixTitle = function () {
+    var $e = this.$element
+    if ($e.attr('title') || typeof($e.attr('data-original-title')) != 'string') {
+      $e.attr('data-original-title', $e.attr('title') || '').attr('title', '')
+    }
+  }
+
+  Tooltip.prototype.hasContent = function () {
+    return this.getTitle()
+  }
+
+  Tooltip.prototype.getPosition = function () {
+    var el = this.$element[0]
+    return $.extend({}, (typeof el.getBoundingClientRect == 'function') ? el.getBoundingClientRect() : {
+      width: el.offsetWidth,
+      height: el.offsetHeight
+    }, this.$element.offset())
+  }
+
+  Tooltip.prototype.getCalculatedOffset = function (placement, pos, actualWidth, actualHeight) {
+    return placement == 'bottom' ? { top: pos.top + pos.height,   left: pos.left + pos.width / 2 - actualWidth / 2  } :
+           placement == 'top'    ? { top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2  } :
+           placement == 'left'   ? { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth } :
+        /* placement == 'right' */ { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width   }
+  }
+
+  Tooltip.prototype.getTitle = function () {
+    var title
+    var $e = this.$element
+    var o  = this.options
+
+    title = $e.attr('data-original-title')
+      || (typeof o.title == 'function' ? o.title.call($e[0]) :  o.title)
+
+    return title
+  }
+
+  Tooltip.prototype.tip = function () {
+    return this.$tip = this.$tip || $(this.options.template)
+  }
+
+  Tooltip.prototype.arrow = function () {
+    return this.$arrow = this.$arrow || this.tip().find('.tooltip-arrow')
+  }
+
+  Tooltip.prototype.validate = function () {
+    if (!this.$element[0].parentNode) {
+      this.hide()
+      this.$element = null
+      this.options  = null
+    }
+  }
+
+  Tooltip.prototype.enable = function () {
+    this.enabled = true
+  }
+
+  Tooltip.prototype.disable = function () {
+    this.enabled = false
+  }
+
+  Tooltip.prototype.toggleEnabled = function () {
+    this.enabled = !this.enabled
+  }
+
+  Tooltip.prototype.toggle = function (e) {
+    var self = e ? $(e.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type) : this
+    self.tip().hasClass('in') ? self.leave(self) : self.enter(self)
+  }
+
+  Tooltip.prototype.destroy = function () {
+    clearTimeout(this.timeout)
+    this.hide().$element.off('.' + this.type).removeData('bs.' + this.type)
+  }
+
+
+  // TOOLTIP PLUGIN DEFINITION
+  // =========================
+
+  var old = $.fn.tooltip
+
+  $.fn.tooltip = function (option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.tooltip')
+      var options = typeof option == 'object' && option
+
+      if (!data && option == 'destroy') return
+      if (!data) $this.data('bs.tooltip', (data = new Tooltip(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  $.fn.tooltip.Constructor = Tooltip
+
+
+  // TOOLTIP NO CONFLICT
+  // ===================
+
+  $.fn.tooltip.noConflict = function () {
+    $.fn.tooltip = old
+    return this
+  }
+
+}(jQuery);
+
+/* ========================================================================
+ * Bootstrap: popover.js v3.1.1
+ * http://getbootstrap.com/javascript/#popovers
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // POPOVER PUBLIC CLASS DEFINITION
+  // ===============================
+
+  var Popover = function (element, options) {
+    this.init('popover', element, options)
+  }
+
+  if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
+
+  Popover.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
+    placement: 'right',
+    trigger: 'click',
+    content: '',
+    template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+  })
+
+
+  // NOTE: POPOVER EXTENDS tooltip.js
+  // ================================
+
+  Popover.prototype = $.extend({}, $.fn.tooltip.Constructor.prototype)
+
+  Popover.prototype.constructor = Popover
+
+  Popover.prototype.getDefaults = function () {
+    return Popover.DEFAULTS
+  }
+
+  Popover.prototype.setContent = function () {
+    var $tip    = this.tip()
+    var title   = this.getTitle()
+    var content = this.getContent()
+
+    $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
+    $tip.find('.popover-content')[ // we use append for html objects to maintain js events
+      this.options.html ? (typeof content == 'string' ? 'html' : 'append') : 'text'
+    ](content)
+
+    $tip.removeClass('fade top bottom left right in')
+
+    // IE8 doesn't accept hiding via the `:empty` pseudo selector, we have to do
+    // this manually by checking the contents.
+    if (!$tip.find('.popover-title').html()) $tip.find('.popover-title').hide()
+  }
+
+  Popover.prototype.hasContent = function () {
+    return this.getTitle() || this.getContent()
+  }
+
+  Popover.prototype.getContent = function () {
+    var $e = this.$element
+    var o  = this.options
+
+    return $e.attr('data-content')
+      || (typeof o.content == 'function' ?
+            o.content.call($e[0]) :
+            o.content)
+  }
+
+  Popover.prototype.arrow = function () {
+    return this.$arrow = this.$arrow || this.tip().find('.arrow')
+  }
+
+  Popover.prototype.tip = function () {
+    if (!this.$tip) this.$tip = $(this.options.template)
+    return this.$tip
+  }
+
+
+  // POPOVER PLUGIN DEFINITION
+  // =========================
+
+  var old = $.fn.popover
+
+  $.fn.popover = function (option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.popover')
+      var options = typeof option == 'object' && option
+
+      if (!data && option == 'destroy') return
+      if (!data) $this.data('bs.popover', (data = new Popover(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  $.fn.popover.Constructor = Popover
+
+
+  // POPOVER NO CONFLICT
+  // ===================
+
+  $.fn.popover.noConflict = function () {
+    $.fn.popover = old
+    return this
+  }
+
+}(jQuery);
+
+/* ========================================================================
+ * Bootstrap: scrollspy.js v3.1.1
+ * http://getbootstrap.com/javascript/#scrollspy
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // SCROLLSPY CLASS DEFINITION
+  // ==========================
+
+  function ScrollSpy(element, options) {
+    var href
+    var process  = $.proxy(this.process, this)
+
+    this.$element       = $(element).is('body') ? $(window) : $(element)
+    this.$body          = $('body')
+    this.$scrollElement = this.$element.on('scroll.bs.scroll-spy.data-api', process)
+    this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+    this.selector       = (this.options.target
+      || ((href = $(element).attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
+      || '') + ' .nav li > a'
+    this.offsets        = $([])
+    this.targets        = $([])
+    this.activeTarget   = null
+
+    this.refresh()
+    this.process()
+  }
+
+  ScrollSpy.DEFAULTS = {
+    offset: 10
+  }
+
+  ScrollSpy.prototype.refresh = function () {
+    var offsetMethod = this.$element[0] == window ? 'offset' : 'position'
+
+    this.offsets = $([])
+    this.targets = $([])
+
+    var self     = this
+    var $targets = this.$body
+      .find(this.selector)
+      .map(function () {
+        var $el   = $(this)
+        var href  = $el.data('target') || $el.attr('href')
+        var $href = /^#./.test(href) && $(href)
+
+        return ($href
+          && $href.length
+          && $href.is(':visible')
+          && [[ $href[offsetMethod]().top + (!$.isWindow(self.$scrollElement.get(0)) && self.$scrollElement.scrollTop()), href ]]) || null
+      })
+      .sort(function (a, b) { return a[0] - b[0] })
+      .each(function () {
+        self.offsets.push(this[0])
+        self.targets.push(this[1])
+      })
+  }
+
+  ScrollSpy.prototype.process = function () {
+    var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+    var scrollHeight = this.$scrollElement[0].scrollHeight || this.$body[0].scrollHeight
+    var maxScroll    = scrollHeight - this.$scrollElement.height()
+    var offsets      = this.offsets
+    var targets      = this.targets
+    var activeTarget = this.activeTarget
+    var i
+
+    if (scrollTop >= maxScroll) {
+      return activeTarget != (i = targets.last()[0]) && this.activate(i)
+    }
+
+    if (activeTarget && scrollTop <= offsets[0]) {
+      return activeTarget != (i = targets[0]) && this.activate(i)
+    }
+
+    for (i = offsets.length; i--;) {
+      activeTarget != targets[i]
+        && scrollTop >= offsets[i]
+        && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+        && this.activate( targets[i] )
+    }
+  }
+
+  ScrollSpy.prototype.activate = function (target) {
+    this.activeTarget = target
+
+    $(this.selector)
+      .parentsUntil(this.options.target, '.active')
+      .removeClass('active')
+
+    var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+    var active = $(selector)
+      .parents('li')
+      .addClass('active')
+
+    if (active.parent('.dropdown-menu').length) {
+      active = active
+        .closest('li.dropdown')
+        .addClass('active')
+    }
+
+    active.trigger('activate.bs.scrollspy')
+  }
+
+
+  // SCROLLSPY PLUGIN DEFINITION
+  // ===========================
+
+  var old = $.fn.scrollspy
+
+  $.fn.scrollspy = function (option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.scrollspy')
+      var options = typeof option == 'object' && option
+
+      if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  $.fn.scrollspy.Constructor = ScrollSpy
+
+
+  // SCROLLSPY NO CONFLICT
+  // =====================
+
+  $.fn.scrollspy.noConflict = function () {
+    $.fn.scrollspy = old
+    return this
+  }
+
+
+  // SCROLLSPY DATA-API
+  // ==================
+
+  $(window).on('load', function () {
+    $('[data-spy="scroll"]').each(function () {
+      var $spy = $(this)
+      $spy.scrollspy($spy.data())
+    })
+  })
+
+}(jQuery);
+
+/* ========================================================================
+ * Bootstrap: tab.js v3.1.1
+ * http://getbootstrap.com/javascript/#tabs
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // TAB CLASS DEFINITION
+  // ====================
+
+  var Tab = function (element) {
+    this.element = $(element)
+  }
+
+  Tab.prototype.show = function () {
+    var $this    = this.element
+    var $ul      = $this.closest('ul:not(.dropdown-menu)')
+    var selector = $this.data('target')
+
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
+    }
+
+    if ($this.parent('li').hasClass('active')) return
+
+    var previous = $ul.find('.active:last a')[0]
+    var e        = $.Event('show.bs.tab', {
+      relatedTarget: previous
+    })
+
+    $this.trigger(e)
+
+    if (e.isDefaultPrevented()) return
+
+    var $target = $(selector)
+
+    this.activate($this.parent('li'), $ul)
+    this.activate($target, $target.parent(), function () {
+      $this.trigger({
+        type: 'shown.bs.tab',
+        relatedTarget: previous
+      })
+    })
+  }
+
+  Tab.prototype.activate = function (element, container, callback) {
+    var $active    = container.find('> .active')
+    var transition = callback
+      && $.support.transition
+      && $active.hasClass('fade')
+
+    function next() {
+      $active
+        .removeClass('active')
+        .find('> .dropdown-menu > .active')
+        .removeClass('active')
+
+      element.addClass('active')
+
+      if (transition) {
+        element[0].offsetWidth // reflow for transition
+        element.addClass('in')
+      } else {
+        element.removeClass('fade')
+      }
+
+      if (element.parent('.dropdown-menu')) {
+        element.closest('li.dropdown').addClass('active')
+      }
+
+      callback && callback()
+    }
+
+    transition ?
+      $active
+        .one($.support.transition.end, next)
+        .emulateTransitionEnd(150) :
+      next()
+
+    $active.removeClass('in')
+  }
+
+
+  // TAB PLUGIN DEFINITION
+  // =====================
+
+  var old = $.fn.tab
+
+  $.fn.tab = function ( option ) {
+    return this.each(function () {
+      var $this = $(this)
+      var data  = $this.data('bs.tab')
+
+      if (!data) $this.data('bs.tab', (data = new Tab(this)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  $.fn.tab.Constructor = Tab
+
+
+  // TAB NO CONFLICT
+  // ===============
+
+  $.fn.tab.noConflict = function () {
+    $.fn.tab = old
+    return this
+  }
+
+
+  // TAB DATA-API
+  // ============
+
+  $(document).on('click.bs.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
+    e.preventDefault()
+    $(this).tab('show')
+  })
+
+}(jQuery);
+
+/* ========================================================================
+ * Bootstrap: affix.js v3.1.1
+ * http://getbootstrap.com/javascript/#affix
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // AFFIX CLASS DEFINITION
+  // ======================
+
+  var Affix = function (element, options) {
+    this.options = $.extend({}, Affix.DEFAULTS, options)
+    this.$window = $(window)
+      .on('scroll.bs.affix.data-api', $.proxy(this.checkPosition, this))
+      .on('click.bs.affix.data-api',  $.proxy(this.checkPositionWithEventLoop, this))
+
+    this.$element     = $(element)
+    this.affixed      =
+    this.unpin        =
+    this.pinnedOffset = null
+
+    this.checkPosition()
+  }
+
+  Affix.RESET = 'affix affix-top affix-bottom'
+
+  Affix.DEFAULTS = {
+    offset: 0
+  }
+
+  Affix.prototype.getPinnedOffset = function () {
+    if (this.pinnedOffset) return this.pinnedOffset
+    this.$element.removeClass(Affix.RESET).addClass('affix')
+    var scrollTop = this.$window.scrollTop()
+    var position  = this.$element.offset()
+    return (this.pinnedOffset = position.top - scrollTop)
+  }
+
+  Affix.prototype.checkPositionWithEventLoop = function () {
+    setTimeout($.proxy(this.checkPosition, this), 1)
+  }
+
+  Affix.prototype.checkPosition = function () {
+    if (!this.$element.is(':visible')) return
+
+    var scrollHeight = $(document).height()
+    var scrollTop    = this.$window.scrollTop()
+    var position     = this.$element.offset()
+    var offset       = this.options.offset
+    var offsetTop    = offset.top
+    var offsetBottom = offset.bottom
+
+    if (this.affixed == 'top') position.top += scrollTop
+
+    if (typeof offset != 'object')         offsetBottom = offsetTop = offset
+    if (typeof offsetTop == 'function')    offsetTop    = offset.top(this.$element)
+    if (typeof offsetBottom == 'function') offsetBottom = offset.bottom(this.$element)
+
+    var affix = this.unpin   != null && (scrollTop + this.unpin <= position.top) ? false :
+                offsetBottom != null && (position.top + this.$element.height() >= scrollHeight - offsetBottom) ? 'bottom' :
+                offsetTop    != null && (scrollTop <= offsetTop) ? 'top' : false
+
+    if (this.affixed === affix) return
+    if (this.unpin) this.$element.css('top', '')
+
+    var affixType = 'affix' + (affix ? '-' + affix : '')
+    var e         = $.Event(affixType + '.bs.affix')
+
+    this.$element.trigger(e)
+
+    if (e.isDefaultPrevented()) return
+
+    this.affixed = affix
+    this.unpin = affix == 'bottom' ? this.getPinnedOffset() : null
+
+    this.$element
+      .removeClass(Affix.RESET)
+      .addClass(affixType)
+      .trigger($.Event(affixType.replace('affix', 'affixed')))
+
+    if (affix == 'bottom') {
+      this.$element.offset({ top: scrollHeight - offsetBottom - this.$element.height() })
+    }
+  }
+
+
+  // AFFIX PLUGIN DEFINITION
+  // =======================
+
+  var old = $.fn.affix
+
+  $.fn.affix = function (option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.affix')
+      var options = typeof option == 'object' && option
+
+      if (!data) $this.data('bs.affix', (data = new Affix(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  $.fn.affix.Constructor = Affix
+
+
+  // AFFIX NO CONFLICT
+  // =================
+
+  $.fn.affix.noConflict = function () {
+    $.fn.affix = old
+    return this
+  }
+
+
+  // AFFIX DATA-API
+  // ==============
+
+  $(window).on('load', function () {
+    $('[data-spy="affix"]').each(function () {
+      var $spy = $(this)
+      var data = $spy.data()
+
+      data.offset = data.offset || {}
+
+      if (data.offsetBottom) data.offset.bottom = data.offsetBottom
+      if (data.offsetTop)    data.offset.top    = data.offsetTop
+
+      $spy.affix(data)
+    })
+  })
+
+}(jQuery);
+/*
+ * Copyright 2005-2014 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+;(function( $ ){
+
+    var $scrollTo = $.scrollTo = function( target, duration, settings ){
+        $(window).scrollTo( target, duration, settings );
+    };
+
+    $scrollTo.defaults = {
+        axis:'xy',
+        duration: parseFloat($.fn.jquery) >= 1.3 ? 0 : 1,
+        limit:true
+    };
+
+    // Returns the element that needs to be animated to scroll the window.
+    // Kept for backwards compatibility (specially for localScroll & serialScroll)
+    $scrollTo.window = function( scope ){
+        return $(window)._scrollable();
+    };
+
+    // Hack, hack, hack :)
+    // Returns the real elements to scroll (supports window/iframes, documents and regular nodes)
+    $.fn._scrollable = function(){
+        return this.map(function(){
+            var elem = this,
+                    isWin = !elem.nodeName || $.inArray( elem.nodeName.toLowerCase(), ['iframe','#document','html','body'] ) != -1;
+
+            if( !isWin )
+                return elem;
+
+            var doc = (elem.contentWindow || elem).document || elem.ownerDocument || elem;
+
+            return /webkit/i.test(navigator.userAgent) || doc.compatMode == 'BackCompat' ?
+                    doc.body :
+                    doc.documentElement;
+        });
+    };
+
+    $.fn.scrollTo = function( target, duration, settings ){
+        if( typeof duration == 'object' ){
+            settings = duration;
+            duration = 0;
+        }
+        if( typeof settings == 'function' )
+            settings = { onAfter:settings };
+
+        if( target == 'max' )
+            target = 9e9;
+
+        settings = $.extend( {}, $scrollTo.defaults, settings );
+        // Speed is still recognized for backwards compatibility
+        duration = duration || settings.duration;
+        // Make sure the settings are given right
+        settings.queue = settings.queue && settings.axis.length > 1;
+
+        if( settings.queue )
+        // Let's keep the overall duration
+            duration /= 2;
+        settings.offset = both( settings.offset );
+        settings.over = both( settings.over );
+
+        return this._scrollable().each(function(){
+            // Null target yields nothing, just like jQuery does
+            if (target == null) return;
+
+            var elem = this,
+                    $elem = $(elem),
+                    targ = target, toff, attr = {},
+                    win = $elem.is('html,body');
+
+            switch( typeof targ ){
+                // A number will pass the regex
+                case 'number':
+                case 'string':
+                    if( /^([+-]=?)?\d+(\.\d+)?(px|%)?$/.test(targ) ){
+                        targ = both( targ );
+                        // We are done
+                        break;
+                    }
+                    // Relative selector, no break!
+                    targ = $(targ,this);
+                    if (!targ.length) return;
+                case 'object':
+                    // DOMElement / jQuery
+                    if( targ.is || targ.style )
+                    // Get the real position of the target
+                        toff = (targ = $(targ)).offset();
+            }
+            $.each( settings.axis.split(''), function( i, axis ){
+                var Pos	= axis == 'x' ? 'Left' : 'Top',
+                        pos = Pos.toLowerCase(),
+                        key = 'scroll' + Pos,
+                        old = elem[key],
+                        max = $scrollTo.max(elem, axis);
+
+                if( toff ){// jQuery / DOMElement
+                    attr[key] = toff[pos] + ( win ? 0 : old - $elem.offset()[pos] );
+
+                    // If it's a dom element, reduce the margin
+                    if( settings.margin ){
+                        attr[key] -= parseInt(targ.css('margin'+Pos)) || 0;
+                        attr[key] -= parseInt(targ.css('border'+Pos+'Width')) || 0;
+                    }
+
+                    attr[key] += settings.offset[pos] || 0;
+
+                    if( settings.over[pos] )
+                    // Scroll to a fraction of its width/height
+                        attr[key] += targ[axis=='x'?'width':'height']() * settings.over[pos];
+                }else{
+                    var val = targ[pos];
+                    // Handle percentage values
+                    attr[key] = val.slice && val.slice(-1) == '%' ?
+                            parseFloat(val) / 100 * max
+                            : val;
+                }
+
+                // Number or 'number'
+                if( settings.limit && /^\d+$/.test(attr[key]) )
+                // Check the limits
+                    attr[key] = attr[key] <= 0 ? 0 : Math.min( attr[key], max );
+
+                // Queueing axes
+                if( !i && settings.queue ){
+                    // Don't waste time animating, if there's no need.
+                    if( old != attr[key] )
+                    // Intermediate animation
+                        animate( settings.onAfterFirst );
+                    // Don't animate this axis again in the next iteration.
+                    delete attr[key];
+                }
+            });
+
+            animate( settings.onAfter );
+
+            function animate( callback ){
+                $elem.animate( attr, duration, settings.easing, callback && function(){
+                    callback.call(this, targ, settings);
+                });
+            };
+
+        }).end();
+    };
+
+    // Max scrolling position, works on quirks mode
+    // It only fails (not too badly) on IE, quirks mode.
+    $scrollTo.max = function( elem, axis ){
+        var Dim = axis == 'x' ? 'Width' : 'Height',
+                scroll = 'scroll'+Dim;
+
+        if( !$(elem).is('html,body') )
+            return elem[scroll] - $(elem)[Dim.toLowerCase()]();
+
+        var size = 'client' + Dim,
+                html = elem.ownerDocument.documentElement,
+                body = elem.ownerDocument.body;
+
+        return Math.max( html[scroll], body[scroll] )
+                - Math.min( html[size]  , body[size]   );
+    };
+
+    function both( val ){
+        return typeof val == 'object' ? val : { top:val, left:val };
+    };
+
+})( jQuery );/*!
  * jQuery Form Plugin
  * version: 3.31.0-2013.03.27
  * @requires jQuery v1.5 or later
@@ -40358,257 +42482,7 @@ Globalize.culture = function( cultureSelector ) {
 };
 
 }( this ));
-/*
- * Copyright 2005-2013 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl2.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(function ($) {
-    $.fn.selectMenuItem = function (options) {
-        return this.each(function () {
-            options = options || {};
-            //default setting
-            options = $.extend({
-                selectPage:"",
-                resetPageMargin: false
-            }, options);
-
-            //if(options.resetPageMargin)
-
-            if (options.selectPage) {
-                var old = $(this).find("li.uif-navigationItem-current");
-                if(old.length){
-                    old.removeClass("uif-navigationItem-current");
-                }
-
-                var current = $(this).find("a[name='" + options.selectPage + "']");
-                if (current.length) {
-                    current.parent().addClass("uif-navigationItem-current");
-                }
-            }
-        });
-    }
-
-    $.fn.navMenu = function (options) {
-        return this.each(function () {
-            options = options || {};
-            //default setting
-            options = $.extend({
-                defaultSelectFirst:true,
-                currentPage:"",
-                animate:false,
-                slideout:true
-            }, options);
-
-            //element id strings
-            var id = $(this).parent().attr('id');
-            var list_elements = "#" + id + " li";
-            var link_elements = list_elements + " a";
-
-            //Styling
-            $(this).parent().addClass("uif-navigation");
-
-            //Plain menu
-            $("li", this).addClass("uif-navigationItem");
-            $(this).addClass("uif-navigationMenu");
-            $(this).wrap("<div class='uif-navigationMenu-wrapper'/>");
-
-            var menuWidth = $(".uif-navigation").outerWidth(true);
-
-            if (options.slideout) {
-                $(this).before("<a id='uif-collapseLink' class='uif-collapseLink' "
-                        + "alt='Close Navigation'>Collapse Navigation</a>");
-                $(".uif-navigationMenu-wrapper").before("<a id='uif-collapseSmall' "
-                        + "style='position: absolute; left:" + menuWidth + "px; "
-                        + "margin-right: 5px; margin-left: 5px; margin-top:-2px;'"
-                        + "class='uif-collapseLink' alt='Close Navigation'><<</a>");
-            }
-
-            if (options.defaultSelectFirst && !options.currentPage) {
-                $(link_elements).first().parent().addClass("uif-navigationItem-current");
-            }
-
-            if (options.currentPage) {
-                var current = $(this).find("a[name='" + options.currentPage + "']");
-                if (current) {
-                    current.parent().addClass("uif-navigationItem-current");
-                }
-            }
-
-            //automatic width calculations for page margin
-            var slideIconWidth = $("#uif-collapseSmall").outerWidth(true);
-            var currentPageMarginLeft = $(".uif-pageContentWrapper").css("margin-left");
-            var pageMarginLeft;
-            var collapsedPageMargin;
-            if(currentPageMarginLeft && currentPageMarginLeft != "auto"){
-                pageMarginLeft = (menuWidth + slideIconWidth + parseInt(currentPageMarginLeft)) + "px";
-                collapsedPageMargin = (slideIconWidth + parseInt(currentPageMarginLeft)) + "px";
-            }
-            else{
-                pageMarginLeft = (menuWidth + slideIconWidth) + "px";
-                collapsedPageMargin = (slideIconWidth) + "px";
-            }
-
-            $(".uif-pageContentWrapper").css("margin-left", pageMarginLeft);
-
-            //Handlers and animation
-            $(document).ready(function () {
-                $(link_elements).each(function (i) {
-                    $(this).click(
-                            function () {
-                                $("uif-navigationMenu li.uif-navigationItem-current").removeClass(
-                                        "uif-navigationItem-current");
-                                $(this).addClass("uif-navigationItem-current");
-                            });
-                });
-
-                if (options.slideout) {
-                    //Slideout animation
-                    var inProcess = false;
-
-
-                    $(".uif-collapseLink").click(function () {
-                        if ($(".uif-navigationMenu-wrapper").is(":visible") && !inProcess) {
-                            inProcess = true;
-
-
-                            $(".uif-navigationMenu-wrapper").hide("slide", {direction:"left"}, 1000);
-                            $("#uif-collapseSmall").animate({left:"0px"}, 1000);
-                            $(".uif-pageContentWrapper").animate({marginLeft: collapsedPageMargin}, 1000, function () {
-                                inProcess = false;
-                                $("#uif-collapseSmall").html(">>");
-                            });
-                        }
-                        else if (!inProcess) {
-                            inProcess = true;
-
-                            $(".uif-navigationMenu-wrapper").show("slide", {direction:"left"}, 1000);
-                            $("#uif-collapseSmall").animate({left: menuWidth + "px"}, 1000);
-                            $(".uif-pageContentWrapper").animate({marginLeft: pageMarginLeft}, 1000, function () {
-                                inProcess = false;
-                                $("#uif-collapseSmall").html("<<");
-                            });
-                        }
-                    });
-                }
-            });
-        });
-    }
-})(jQuery);/*
- * Copyright 2005-2013 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl2.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(function($) {
-	$.fn.selectTab = function(options){
-		return this.each(function(){
-			options = options || {};
-			//default setting
-			options = $.extend({
-				selectPage: ""
-			}, options);
-			
-			if(options.selectPage){
-                var oldTab = $(this).find(".ui-state-active");
-                if(oldTab.length){
-                    oldTab.removeClass("ui-state-active");
-                }
-
-				var currentTab = $(this).find("a[name='" + options.selectPage + "']");
-				if(currentTab.length){
-					currentTab.parent().addClass("ui-state-active");
-				}
-			}
-		});
-	}
-	
-	$.fn.tabMenu = function(options){
-		return this.each(function(){
-			options = options || {};
-			//default setting
-			options = $.extend({
-				defaultSelectFirst: true,
-				currentPage: ""
-			}, options);
-			
-			//element id strings
-			var id = $(this).parent().attr('id');
-			var list_elements = "#" + id + " li";
-			var link_elements = list_elements + " a";
-			
-			//Styling
-			$(this).parent().addClass("ui-tabs tab-navigation-block");
-			$(this).addClass("ui-helper-reset ui-helper-clearfix uif-tabMenu");
-			$(list_elements).addClass("ui-state-default ui-corner-top");
-			if(options.currentPage){
-				var currentTab = $(this).find("a[name='" + options.currentPage + "']");
-				if(currentTab){
-					currentTab.closest("li").addClass("ui-state-active");
-				}
-			}
-			//Handlers and animation
-			$(document).ready(function()
-			{
-					$(link_elements).each(function(i)
-					{
-						if(i == 0 && options.defaultSelectFirst && !options.currentPage){
-							$(this).closest("li").addClass("ui-state-active");
-						}
-						$(this).focus(
-						function()
-						{
-							$(this).closest("li").addClass("ui-state-focus");
-						});
-
-                        $(this).click(
-						function()
-						{
-							$(link_elements).each(function(){$(this).closest("li").removeClass("ui-state-active")});
-							$(this).closest("li").addClass("ui-state-active");
-						});
-				
-						$(this).hover(
-						function()
-						{
-							$(this).closest("li").addClass("ui-state-hover");
-						},		
-						function()
-						{
-							$(this).closest("li").removeClass("ui-state-hover");
-						});
-				
-
-				
-						$(this).blur(
-						function()
-						{
-							$(this).closest("li").removeClass("ui-state-focus");
-						});
-					});
-			});
-		});
-	}
-})(jQuery);/**
+/**
  * jGrowl 1.2.5
  *
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -40937,8 +42811,397 @@ Globalize.culture = function( cultureSelector ) {
 	/** Reference the Defaults Object for compatibility with older versions of jGrowl **/
 	$.jGrowl.defaults = $.fn.jGrowl.prototype.defaults;
 
-})(jQuery);/*
- * Copyright 2005-2013 The Kuali Foundation
+})(jQuery);/* ========================================================================
+* Extends Bootstrap v3.1.1
+
+* Copyright (c) <2014> eBay Software Foundation
+
+* All rights reserved.
+
+* Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+* Neither the name of eBay or any of its subsidiaries or affiliates nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+* ======================================================================== */
+
+/**
+ * This file is customized for kuali usage and will be updated to include additional customizations.  DO NOT remove
+ * commented code.
+ */
+
+// Tab Extension
+// ==============================
+jQuery(document).ready(function(){
+    jQuery.fn.tab.Constructor.prototype.keydown = function (e) {
+        var $this = jQuery(this);
+        var $items;
+        var $ul = $this.closest('ul[role=tablist] ');
+        var index;
+        var k = e.which || e.keyCode;
+
+        $this = jQuery(this);
+        if (!/(37|38|39|40)/.test(k)) return;
+
+        $items = $ul.find('[role=tab]:visible');
+        index = $items.index($items.filter(':focus'));
+
+        if (k == 38 || k == 37) index--;                         // up & left
+        if (k == 39 || k == 40) index++;                        // down & right
+
+        if (index < 0) index = $items.length - 1;
+        if (index == $items.length) index = 0;
+
+        var nextTab = $items.eq(index);
+        if (nextTab.attr('role') === 'tab') {
+
+            nextTab.tab('show').focus(); //Comment this line for dynamically loaded tabPabels, to save Ajax requests on arrow key navigation
+
+        }
+        // nextTab.focus()
+
+        e.preventDefault();
+        e.stopPropagation();
+    };
+
+    jQuery(document).on('keydown.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', jQuery.fn.tab.Constructor.prototype.keydown);
+
+    var tabactivate = jQuery.fn.tab.Constructor.prototype.activate;
+
+    jQuery.fn.tab.Constructor.prototype.activate = function (element, container, callback) {
+        var $active = container.find('> .active');
+        $active.find('[data-toggle=tab]').attr({ 'tabIndex': '-1', 'aria-selected': false, 'aria-expanded': false });
+        $active.filter('.tab-pane').attr({ 'aria-hidden': true, 'tabIndex': '-1' });
+
+        tabactivate.apply(this, arguments);
+
+        element.addClass('active')
+        element.find('[data-toggle=tab]').attr({ 'tabIndex': '0', 'aria-selected': true, 'aria-expanded': true });
+        element.filter('.tab-pane').attr({ 'aria-hidden': false, 'tabIndex': '0' });
+    };
+});
+
+/*(function($) {
+  "use strict";
+
+  var uniqueId = function(prefix) {
+      return (prefix || 'ui-id') + '-' + Math.floor((Math.random()*1000)+1)
+  }
+
+  // Alert Extension
+  // ===============================
+
+    $('.alert').attr('role', 'alert')
+    $('.close').removeAttr('aria-hidden').wrapInner('<span aria-hidden="true"></span>').append('<span class="sr-only">Close</span>')
+
+  // TOOLTIP Extension
+  // ===============================
+
+    var showTooltip =    $.fn.tooltip.Constructor.prototype.show
+        , hideTooltip =    $.fn.tooltip.Constructor.prototype.hide
+
+    $.fn.tooltip.Constructor.prototype.show = function () {
+        showTooltip.apply(this, arguments)
+        var $tip = this.tip()
+            , tooltipID = $tip.attr('id') || uniqueId('ui-tooltip')
+        $tip.attr({'role':'tooltip','id' : tooltipID})
+        this.$element.attr('aria-describedby', tooltipID)
+    }
+
+    $.fn.tooltip.Constructor.prototype.hide = function () {
+        hideTooltip.apply(this, arguments)
+        removeMultiValAttributes(this.$element, 'aria-describedby', this.tip().attr('id'))
+        return this
+    }
+
+  // Popover Extension
+  // ===============================
+    var showPopover =   $.fn.popover.Constructor.prototype.setContent
+      , hideTPopover =   $.fn.popover.Constructor.prototype.hide
+
+    $.fn.popover.Constructor.prototype.setContent = function(){
+      showPopover.apply(this, arguments)
+      var $tip = this.tip()
+        , tooltipID = $tip.attr('id') || uniqueId('ui-tooltip')
+      $tip.attr({'role':'alert','id' : tooltipID})
+      this.$element.attr('aria-describedby', tooltipID)
+      this.$element.focus()
+    }
+    $.fn.popover.Constructor.prototype.hide =  function(){
+        hideTooltip.apply(this, arguments)
+        removeMultiValAttributes(this.$element, 'aria-describedby', this.tip().attr('id'))
+    }
+
+  //Modal Extension
+    $('.modal-dialog').attr( {'role' : 'document'})
+    var modalhide =   $.fn.modal.Constructor.prototype.hide
+    $.fn.modal.Constructor.prototype.hide = function(){
+       var modalOpener = this.$element.parent().find('[data-target="#' + this.$element.attr('id') + '"]')
+       modalhide.apply(this, arguments)
+       modalOpener.focus()
+    }
+
+  // DROPDOWN Extension
+  // ===============================
+
+    var toggle   = '[data-toggle=dropdown]'
+      , $par
+      , firstItem
+      , focusDelay = 200
+      , menus = $(toggle).parent().find('ul').attr('role','menu')
+      , lis = menus.find('li').attr('role','presentation')
+
+    lis.find('a').attr({'role':'menuitem', 'tabIndex':'-1'})
+    $(toggle).attr({ 'aria-haspopup':'true', 'aria-expanded': 'false'})
+
+    $(toggle).parent().on('shown.bs.dropdown',function(e){
+      $par = $(this)
+      var $toggle = $par.find(toggle)
+      $toggle.attr('aria-expanded','true')
+
+      setTimeout(function(){
+            firstItem = $('.dropdown-menu [role=menuitem]:visible', $par)[0]
+            try{ firstItem.focus()} catch(ex) {}
+      }, focusDelay)
+    })
+
+    $(toggle).parent().on('hidden.bs.dropdown',function(e){
+      $par = $(this)
+      var $toggle = $par.find(toggle)
+      $toggle.attr('aria-expanded','false')
+    })
+
+    //Adding Space Key Behaviour, opens on spacebar
+    $.fn.dropdown.Constructor.prototype.keydown = function (e) {
+      var  $par
+        , firstItem
+      if (!/(32)/.test(e.keyCode)) return
+        $par = $(this).parent()
+        $(this).trigger ("click")
+        e.preventDefault() && e.stopPropagation()
+    }
+
+    $(document)
+      .on('focusout.dropdown.data-api', '.dropdown-menu', function(e){
+        var $this = $(this)
+                    , that = this
+        setTimeout(function() {
+         if(!$.contains(that, document.activeElement)){
+          $this.parent().removeClass('open')
+          $this.parent().find('[data-toggle=dropdown]').attr('aria-expanded','false')
+         }
+        }, 150)
+       })
+      .on('keydown.bs.dropdown.data-api', toggle + ', [role=menu]' , $.fn.dropdown.Constructor.prototype.keydown)
+
+
+
+
+  // Collapse Extension
+  // ===============================
+
+      var $colltabs =  $('[data-toggle="collapse"]')
+      $colltabs.attr({ 'role':'tab', 'aria-selected':'false', 'aria-expanded':'false' })
+      $colltabs.each(function( index ) {
+        var colltab = $(this)
+        , collpanel = (colltab.attr('data-target')) ? $(colltab.attr('data-target')) : $(colltab.attr('href'))
+        , parent  = colltab.attr('data-parent')
+        , collparent = parent && $(parent)
+        , collid = colltab.attr('id') || uniqueId('ui-collapse')
+
+        $(collparent).find('div:not(.collapse,.panel-body), h4').attr('role','presentation')
+
+          colltab.attr('id', collid)
+          if(collparent){
+            collparent.attr({ 'role' : 'tablist', 'aria-multiselectable' : 'true' })
+            if(collpanel.hasClass('in')){
+              colltab.attr({ 'aria-controls': colltab.attr('href').substr(1), 'aria-selected':'true', 'aria-expanded':'true', 'tabindex':'0' })
+              collpanel.attr({ 'role':'tabpanel', 'tabindex':'0', 'aria-labelledby':collid, 'aria-hidden':'false' })
+            }else{
+              colltab.attr({'aria-controls' : colltab.attr('href').substr(1), 'tabindex':'-1' })
+              collpanel.attr({ 'role':'tabpanel', 'tabindex':'-1', 'aria-labelledby':collid, 'aria-hidden':'true' })
+            }
+          }
+      })
+
+    var collToggle = $.fn.collapse.Constructor.prototype.toggle
+    $.fn.collapse.Constructor.prototype.toggle = function(){
+        var prevTab = this.$parent && this.$parent.find('[aria-expanded="true"]') , href
+
+        if(prevTab){
+          var prevPanel = prevTab.attr('data-target') || (href = prevTab.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')
+          , $prevPanel = $(prevPanel)
+          , $curPanel = this.$element
+          , par = this.$parent
+          , curTab
+
+        if (this.$parent) curTab = this.$parent.find('[data-toggle=collapse][href="#' + this.$element.attr('id') + '"]')
+
+        collToggle.apply(this, arguments)
+
+        if ($.support.transition) {
+          this.$element.one($.support.transition.end, function(){
+
+              prevTab.attr({ 'aria-selected':'false','aria-expanded':'false', 'tabIndex':'-1' })
+              $prevPanel.attr({ 'aria-hidden' : 'true','tabIndex' : '-1'})
+
+              curTab.attr({ 'aria-selected':'true','aria-expanded':'true', 'tabIndex':'0' })
+
+              if($curPanel.hasClass('in')){
+                $curPanel.attr({ 'aria-hidden' : 'false','tabIndex' : '0' })
+              }else{
+                curTab.attr({ 'aria-selected':'false','aria-expanded':'false'})
+                $curPanel.attr({ 'aria-hidden' : 'true','tabIndex' : '-1' })
+              }
+          })
+        }
+      }else{
+        collToggle.apply(this, arguments)
+      }
+    }
+
+    $.fn.collapse.Constructor.prototype.keydown = function (e) {
+      var $this = $(this)
+      , $items
+      , $tablist = $this.closest('div[role=tablist] ')
+      , index
+      , k = e.which || e.keyCode
+
+      $this = $(this)
+      if (!/(32|37|38|39|40)/.test(k)) return
+      if(k==32) $this.click()
+
+      $items = $tablist.find('[role=tab]')
+      index = $items.index($items.filter(':focus'))
+
+      if (k == 38 || k == 37) index--                                        // up & left
+      if (k == 39 || k == 40) index++                        // down & right
+      if(index < 0) index = $items.length -1
+      if(index == $items.length) index = 0
+
+      $items.eq(index).focus()
+
+      e.preventDefault()
+      e.stopPropagation()
+
+    }
+
+    $(document).on('keydown.collapse.data-api','[data-toggle="collapse"]' ,  $.fn.collapse.Constructor.prototype.keydown)
+
+  // Carousel Extension
+  // ===============================
+
+      $('.carousel').each(function (index) {
+        var $this = $(this)
+          , prev = $this.find('[data-slide="prev"]')
+          , next = $this.find('[data-slide="next"]')
+          , $options = $this.find('.item')
+          , $listbox = $options.parent()
+
+        $this.attr( { 'data-interval' : 'false', 'data-wrap' : 'false' } )
+        $listbox.attr('role', 'listbox')
+        $options.attr('role', 'option')
+
+        var spanPrev = document.createElement('span')
+        spanPrev.setAttribute('class', 'sr-only')
+        spanPrev.innerHTML='Previous'
+
+        var spanNext = document.createElement('span')
+        spanNext.setAttribute('class', 'sr-only')
+        spanNext.innerHTML='Next'
+
+        prev.attr('role', 'button')
+        next.attr('role', 'button')
+
+        prev.append(spanPrev)
+        next.append(spanNext)
+
+        $options.each(function () {
+          var item = $(this)
+          if(item.hasClass('active')){
+            item.attr({ 'aria-selected': 'true', 'tabindex' : '0' })
+          }else{
+            item.attr({ 'aria-selected': 'false', 'tabindex' : '-1' })
+          }
+        })
+      })
+
+      var slideCarousel = $.fn.carousel.Constructor.prototype.slide
+      $.fn.carousel.Constructor.prototype.slide = function (type, next) {
+        var $active = this.$element.find('.item.active')
+          , $next = next || $active[type]()
+
+        slideCarousel.apply(this, arguments)
+
+      $active
+        .one($.support.transition.end, function () {
+        $active.attr({'aria-selected':false, 'tabIndex': '-1'})
+        $next.attr({'aria-selected':true, 'tabIndex': '0'})
+        //.focus()
+       })
+      }
+
+    $.fn.carousel.Constructor.prototype.keydown = function (e) {
+     var $this = $(this)
+      , $ul = $this.closest('div[role=listbox]')
+      , $items = $ul.find('[role=option]')
+      , $parent = $ul.parent()
+      , k = e.which || e.keyCode
+      , index
+      , i
+
+      if (!/(37|38|39|40)/.test(k)) return
+
+      index = $items.index($items.filter('.active'))
+      if (k == 37 || k == 38) {                           //  Up
+        $parent.carousel('prev')
+        index--
+        if(index < 0) index = $items.length -1
+        else  $this.prev().focus()
+
+      }
+      if (k == 39 || k == 40) {                          // Down
+        $parent.carousel('next')
+        index++
+        if(index == $items.length) index = 0
+        else  {
+          $this.one($.support.transition.end, function () {
+            $this.next().focus()
+          })
+        }
+
+      }
+
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    $(document).on('keydown.carousel.data-api', 'div[role=option]', $.fn.carousel.Constructor.prototype.keydown)
+
+  // GENERAL UTILITY FUNCTIONS
+  // ===============================
+
+    var removeMultiValAttributes = function (el, attr, val) {
+     var describedby = (el.attr( attr ) || "").split( /\s+/ )
+        , index = $.inArray(val, describedby)
+     if ( index !== -1 ) {
+       describedby.splice( index, 1 )
+     }
+     describedby = $.trim( describedby.join( " " ) )
+     if (describedby ) {
+       el.attr( attr, describedby )
+     } else {
+      el.removeAttr( attr )
+     }
+    }
+
+
+})(jQuery);*/
+;/*
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40953,15 +43216,16 @@ Globalize.culture = function( cultureSelector ) {
  * limitations under the License.
  */
 (function($) {
-	$.fn.initPopoutText = function(options, imageUrl){
+	$.fn.initPopoutText = function(options){
 		return this.each(function(){
-			
 			options = options || {};
+
 			//default setting
 			options = $.extend({
 				label: "",
 				summary: "",
-				constraint: ""
+				constraint: "",
+                readOnly: ""
 			}, options);
 			
 			var id= $(this).attr("id");
@@ -40977,6 +43241,7 @@ Globalize.culture = function( cultureSelector ) {
 			var labelHtml="";
 			var summaryHtml="";
 			var constraintHtml="";
+            var readOnly=options.readOnly;
 			if(options.label){
 				labelHtml = "<label for='textarea_popout_control'>"+options.label+"</label>";
 			}
@@ -40987,7 +43252,7 @@ Globalize.culture = function( cultureSelector ) {
 				constraintHtml="<span class='constraint'>" + options.constraint + "</span>";
 			}
 			
-			$(this).after('<a id="expand_btn_' + id + '" title="Expand"><img src="' + imageUrl + 'pencil_add.png" alt="Expand"/></a>');
+			$(this).after('<span class="input-group-btn"><a id="expand_btn_' + id + '" title="Expand" class="icon-edit-sign"></a></span>');
 			$(document).ready(function()
 			{
 				$("a#expand_btn_" + id).click(function(e){
@@ -40997,25 +43262,49 @@ Globalize.culture = function( cultureSelector ) {
 					if(!value){
 						value = "";
 					}
-					var options = {
-						content: "<div class='textarea_popout'>"+labelHtml+summaryHtml
-							+"<textarea id='textarea_popout_control'>"+value+"</textarea>"
-							+constraintHtml
-							+"<input id='done_btn' class='btn btn-primary done' type='button' value='Done'/></div>",
-                        afterShow: function(){
-							context("textarea#textarea_popout_control").focus();
-			    			context("#done_btn").click(function(e){
-			    				e.preventDefault();
-			    				obj.val(context("textarea#textarea_popout_control").val());
-			    				context.fancybox.close();
-			    				obj.valid();
-			    				obj.focus();
-			    			});
-						},
-						autoDimensions: true,
-						hideOnOverlayClick: false,
-						centerOnScroll: true
-					};
+
+                    if (readOnly === true) {
+
+                        var options = {
+                            content: "<div class='textarea_popout'>"+labelHtml+summaryHtml
+                                +"<textarea id='textarea_popout_control' readonly>"+value+"</textarea>"
+                                +constraintHtml
+                                +"<input id='done_btn' class='btn btn-primary done' type='button' value='Done'/></div>",
+                            afterShow: function(){
+                                context("textarea#textarea_popout_control").focus();
+                                context("#done_btn").click(function(e){
+                                    e.preventDefault();
+                                    obj.val(context("textarea#textarea_popout_control").val());
+                                    context.fancybox.close();
+                                    obj.valid();
+                                    obj.focus();
+                                });
+                            },
+                            autoDimensions: true,
+                            hideOnOverlayClick: false,
+                            centerOnScroll: true
+                        };
+                    } else {
+                        var options = {
+                            content: "<div class='textarea_popout'>"+labelHtml+summaryHtml
+                                    +"<textarea id='textarea_popout_control'>"+value+"</textarea>"
+                                    +constraintHtml
+                                    +"<input id='done_btn' class='btn btn-primary done' type='button' value='Done'/></div>",
+                            afterShow: function(){
+                                context("textarea#textarea_popout_control").focus();
+                                context("#done_btn").click(function(e){
+                                    e.preventDefault();
+                                    obj.val(context("textarea#textarea_popout_control").val());
+                                    context.fancybox.close();
+                                    obj.valid();
+                                    obj.focus();
+                                });
+                            },
+                            autoDimensions: true,
+                            hideOnOverlayClick: false,
+                            centerOnScroll: true
+                        };
+                    }
 
 	        		context.fancybox(options);
 
@@ -43214,184 +45503,6 @@ function sz(el, p) {
 };
 
 })(jQuery);
-/*
- * jQuery JSON Plugin
- * version: 2.1 (2009-08-14)
- *
- * This document is licensed as free software under the terms of the
- * MIT License: http://www.opensource.org/licenses/mit-license.php
- *
- * Brantley Harris wrote this plugin. It is based somewhat on the JSON.org
- * website's http://www.json.org/json2.js, which proclaims:
- * "NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.", a sentiment that
- * I uphold.
- *
- * It is also influenced heavily by MochiKit's serializeJSON, which is
- * copyrighted 2005 by Bob Ippolito.
- */
-
-(function($) {
-    /** jQuery.toJSON( json-serializble )
-        Converts the given argument into a JSON respresentation.
-
-        If an object has a "toJSON" function, that will be used to get the representation.
-        Non-integer/string keys are skipped in the object, as are keys that point to a function.
-
-        json-serializble:
-            The *thing* to be converted.
-     **/
-    $.toJSON = function(o)
-    {
-        if (typeof(JSON) == 'object' && JSON.stringify)
-            return JSON.stringify(o);
-        
-        var type = typeof(o);
-    
-        if (o === null)
-            return "null";
-    
-        if (type == "undefined")
-            return undefined;
-        
-        if (type == "number" || type == "boolean")
-            return o + "";
-    
-        if (type == "string")
-            return $.quoteString(o);
-    
-        if (type == 'object')
-        {
-            if (typeof o.toJSON == "function") 
-                return $.toJSON( o.toJSON() );
-            
-            if (o.constructor === Date)
-            {
-                var month = o.getUTCMonth() + 1;
-                if (month < 10) month = '0' + month;
-
-                var day = o.getUTCDate();
-                if (day < 10) day = '0' + day;
-
-                var year = o.getUTCFullYear();
-                
-                var hours = o.getUTCHours();
-                if (hours < 10) hours = '0' + hours;
-                
-                var minutes = o.getUTCMinutes();
-                if (minutes < 10) minutes = '0' + minutes;
-                
-                var seconds = o.getUTCSeconds();
-                if (seconds < 10) seconds = '0' + seconds;
-                
-                var milli = o.getUTCMilliseconds();
-                if (milli < 100) milli = '0' + milli;
-                if (milli < 10) milli = '0' + milli;
-
-                return '"' + year + '-' + month + '-' + day + 'T' +
-                             hours + ':' + minutes + ':' + seconds + 
-                             '.' + milli + 'Z"'; 
-            }
-
-            if (o.constructor === Array) 
-            {
-                var ret = [];
-                for (var i = 0; i < o.length; i++)
-                    ret.push( $.toJSON(o[i]) || "null" );
-
-                return "[" + ret.join(",") + "]";
-            }
-        
-            var pairs = [];
-            for (var k in o) {
-                var name;
-                var type = typeof k;
-
-                if (type == "number")
-                    name = '"' + k + '"';
-                else if (type == "string")
-                    name = $.quoteString(k);
-                else
-                    continue;  //skip non-string or number keys
-            
-                if (typeof o[k] == "function") 
-                    continue;  //skip pairs where the value is a function.
-            
-                var val = $.toJSON(o[k]);
-            
-                pairs.push(name + ":" + val);
-            }
-
-            return "{" + pairs.join(", ") + "}";
-        }
-    };
-
-    /** jQuery.evalJSON(src)
-        Evaluates a given piece of json source.
-     **/
-    $.evalJSON = function(src)
-    {
-        if (typeof(JSON) == 'object' && JSON.parse)
-            return JSON.parse(src);
-        return eval("(" + src + ")");
-    };
-    
-    /** jQuery.secureEvalJSON(src)
-        Evals JSON in a way that is *more* secure.
-    **/
-    $.secureEvalJSON = function(src)
-    {
-        if (typeof(JSON) == 'object' && JSON.parse)
-            return JSON.parse(src);
-        
-        var filtered = src;
-        filtered = filtered.replace(/\\["\\\/bfnrtu]/g, '@');
-        filtered = filtered.replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']');
-        filtered = filtered.replace(/(?:^|:|,)(?:\s*\[)+/g, '');
-        
-        if (/^[\],:{}\s]*$/.test(filtered))
-            return eval("(" + src + ")");
-        else
-            throw new SyntaxError("Error parsing JSON, source is not valid.");
-    };
-
-    /** jQuery.quoteString(string)
-        Returns a string-repr of a string, escaping quotes intelligently.  
-        Mostly a support function for toJSON.
-    
-        Examples:
-            >>> jQuery.quoteString("apple")
-            "apple"
-        
-            >>> jQuery.quoteString('"Where are we going?", she asked.')
-            "\"Where are we going?\", she asked."
-     **/
-    $.quoteString = function(string)
-    {
-        if (string.match(_escapeable))
-        {
-            return '"' + string.replace(_escapeable, function (a) 
-            {
-                var c = _meta[a];
-                if (typeof c === 'string') return c;
-                c = a.charCodeAt();
-                return '\\u00' + Math.floor(c / 16).toString(16) + (c % 16).toString(16);
-            }) + '"';
-        }
-        return '"' + string + '"';
-    };
-    
-    var _escapeable = /["\\\x00-\x1f\x7f-\x9f]/g;
-    
-    var _meta = {
-        '\b': '\\b',
-        '\t': '\\t',
-        '\n': '\\n',
-        '\f': '\\f',
-        '\r': '\\r',
-        '"' : '\\"',
-        '\\': '\\\\'
-    };
-})(jQuery);
 /*!
  * jQuery Color Animations v@VERSION
  * http://jquery.com/
@@ -44049,6 +46160,865 @@ colors = jQuery.Color.names = {
 
 })( jQuery );
 /*
+ * jQuery JSON Plugin
+ * version: 2.1 (2009-08-14)
+ *
+ * This document is licensed as free software under the terms of the
+ * MIT License: http://www.opensource.org/licenses/mit-license.php
+ *
+ * Brantley Harris wrote this plugin. It is based somewhat on the JSON.org
+ * website's http://www.json.org/json2.js, which proclaims:
+ * "NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.", a sentiment that
+ * I uphold.
+ *
+ * It is also influenced heavily by MochiKit's serializeJSON, which is
+ * copyrighted 2005 by Bob Ippolito.
+ */
+
+(function($) {
+    /** jQuery.toJSON( json-serializble )
+        Converts the given argument into a JSON respresentation.
+
+        If an object has a "toJSON" function, that will be used to get the representation.
+        Non-integer/string keys are skipped in the object, as are keys that point to a function.
+
+        json-serializble:
+            The *thing* to be converted.
+     **/
+    $.toJSON = function(o)
+    {
+        if (typeof(JSON) == 'object' && JSON.stringify)
+            return JSON.stringify(o);
+        
+        var type = typeof(o);
+    
+        if (o === null)
+            return "null";
+    
+        if (type == "undefined")
+            return undefined;
+        
+        if (type == "number" || type == "boolean")
+            return o + "";
+    
+        if (type == "string")
+            return $.quoteString(o);
+    
+        if (type == 'object')
+        {
+            if (typeof o.toJSON == "function") 
+                return $.toJSON( o.toJSON() );
+            
+            if (o.constructor === Date)
+            {
+                var month = o.getUTCMonth() + 1;
+                if (month < 10) month = '0' + month;
+
+                var day = o.getUTCDate();
+                if (day < 10) day = '0' + day;
+
+                var year = o.getUTCFullYear();
+                
+                var hours = o.getUTCHours();
+                if (hours < 10) hours = '0' + hours;
+                
+                var minutes = o.getUTCMinutes();
+                if (minutes < 10) minutes = '0' + minutes;
+                
+                var seconds = o.getUTCSeconds();
+                if (seconds < 10) seconds = '0' + seconds;
+                
+                var milli = o.getUTCMilliseconds();
+                if (milli < 100) milli = '0' + milli;
+                if (milli < 10) milli = '0' + milli;
+
+                return '"' + year + '-' + month + '-' + day + 'T' +
+                             hours + ':' + minutes + ':' + seconds + 
+                             '.' + milli + 'Z"'; 
+            }
+
+            if (o.constructor === Array) 
+            {
+                var ret = [];
+                for (var i = 0; i < o.length; i++)
+                    ret.push( $.toJSON(o[i]) || "null" );
+
+                return "[" + ret.join(",") + "]";
+            }
+        
+            var pairs = [];
+            for (var k in o) {
+                var name;
+                var type = typeof k;
+
+                if (type == "number")
+                    name = '"' + k + '"';
+                else if (type == "string")
+                    name = $.quoteString(k);
+                else
+                    continue;  //skip non-string or number keys
+            
+                if (typeof o[k] == "function") 
+                    continue;  //skip pairs where the value is a function.
+            
+                var val = $.toJSON(o[k]);
+            
+                pairs.push(name + ":" + val);
+            }
+
+            return "{" + pairs.join(", ") + "}";
+        }
+    };
+
+    /** jQuery.evalJSON(src)
+        Evaluates a given piece of json source.
+     **/
+    $.evalJSON = function(src)
+    {
+        if (typeof(JSON) == 'object' && JSON.parse)
+            return JSON.parse(src);
+        return eval("(" + src + ")");
+    };
+    
+    /** jQuery.secureEvalJSON(src)
+        Evals JSON in a way that is *more* secure.
+    **/
+    $.secureEvalJSON = function(src)
+    {
+        if (typeof(JSON) == 'object' && JSON.parse)
+            return JSON.parse(src);
+        
+        var filtered = src;
+        filtered = filtered.replace(/\\["\\\/bfnrtu]/g, '@');
+        filtered = filtered.replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']');
+        filtered = filtered.replace(/(?:^|:|,)(?:\s*\[)+/g, '');
+        
+        if (/^[\],:{}\s]*$/.test(filtered))
+            return eval("(" + src + ")");
+        else
+            throw new SyntaxError("Error parsing JSON, source is not valid.");
+    };
+
+    /** jQuery.quoteString(string)
+        Returns a string-repr of a string, escaping quotes intelligently.  
+        Mostly a support function for toJSON.
+    
+        Examples:
+            >>> jQuery.quoteString("apple")
+            "apple"
+        
+            >>> jQuery.quoteString('"Where are we going?", she asked.')
+            "\"Where are we going?\", she asked."
+     **/
+    $.quoteString = function(string)
+    {
+        if (string.match(_escapeable))
+        {
+            return '"' + string.replace(_escapeable, function (a) 
+            {
+                var c = _meta[a];
+                if (typeof c === 'string') return c;
+                c = a.charCodeAt();
+                return '\\u00' + Math.floor(c / 16).toString(16) + (c % 16).toString(16);
+            }) + '"';
+        }
+        return '"' + string + '"';
+    };
+    
+    var _escapeable = /["\\\x00-\x1f\x7f-\x9f]/g;
+    
+    var _meta = {
+        '\b': '\\b',
+        '\t': '\\t',
+        '\n': '\\n',
+        '\f': '\\f',
+        '\r': '\\r',
+        '"' : '\\"',
+        '\\': '\\\\'
+    };
+})(jQuery);
+/*
+ * File:        jquery.dataTables.grouping.js
+ * Version:     1.2.7.
+ * Author:      Jovan Popovic
+ *
+ * Copyright 2012 Jovan Popovic, all rights reserved.
+ *
+ * This source file is free software, under either the GPL v2 license or a
+ * BSD style license, as supplied with this software.
+ *
+ * This source file is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
+ * Parameters:
+ * @iGroupingColumnIndex                                 Integer             Index of the column that will be used for grouping - default 0
+ * @sGroupingColumnSortDirection                         Enumeration         Sort direction of the group
+ * @iGroupingOrderByColumnIndex                          Integer             Index of the column that will be used for ordering groups
+ * @sGroupingClass                                       String              Class that will be associated to the group row. Default - "group"
+ * @bSetGroupingClassOnTR                                Boolean             If set class will be set to the TR instead of the TD withing the grouping TR
+ * @bHideGroupingColumn                                  Boolean             Hide column used for grouping once results are grouped. Default - true
+ * @bHideGroupingOrderByColumn                           Boolean             Hide column used for ordering groups once results are grouped. Default - true
+ * @sGroupBy                                             Enumeration         Type of grouping that should be applied. Values "name"(default), "letter", "year"
+ * @sGroupLabelPrefix                                    String              Prefix that will be added to each group cell
+ * @bExpandableGrouping                                  Boolean             Attach expand/collapse handlers to the grouping rows
+ * @bExpandSingleGroup                                   Boolean             Use accordon grouping
+ * @iExpandGroupOffset                                   Integer             Number of pixels to set scroll position above the currently selected group. If -1 scroll will be alligned to the table
+ * General settings
+ * @sDateFormat: "dd/MM/yyyy"                            String              Date format used for grouping
+ * @sEmptyGroupLabel                                     String              Lable that will be placed as group if grouping cells are empty. Default "-"
+
+ * Parameters used in the second level grouping
+ * @iGroupingColumnIndex2                                Integer             Index of the secondary column that will be used for grouping - default 0
+ * @sGroupingColumnSortDirection2                        Enumeration         Sort direction of the secondary group
+ * @iGroupingOrderByColumnIndex2                         Integer             Index of the column that will be used for ordering secondary groups
+ * @sGroupingClass2                                      String              Class that will be associated to the secondary group row. Default "subgroup"
+ * @bHideGroupingColumn2                                 Boolean             Hide column used for secondary grouping once results are grouped. Default - true,
+ * @bHideGroupingOrderByColumn2                          Boolean             Hide column used for ordering secondary groups once results are grouped. Default - true,
+ * @sGroupBy2                                            Enumeration         Type of grouping that should be applied to secondary column. Values "name"(default), "letter", "year",
+ * @sGroupLabelPrefix2                                   String              Prefix that will be added to each secondary group cell
+ * @fnOnGrouped                                          Function            Function that is called when grouping is finished. Function has no parameters.
+ */
+(function ($) {
+
+    $.fn.rowGrouping = function (options) {
+
+        function _fnOnGrouped() {
+
+        }
+
+        function _fnOnGroupCreated(oGroup, sGroup, iLevel) {
+            ///<summary>
+            ///Function called when a new grouping row is created(it should be overriden in properties)
+            ///</summary>
+        }
+
+        function _fnOnGroupCompleted(oGroup, sGroup, iLevel) {
+            ///<summary>
+            ///Function called when a new grouping row is created(it should be overriden in properties)
+            ///</summary>
+        }
+
+        function _getMonthName(iMonth) {
+            var asMonths = ["January", "February", "March", "April", "May", "June", "Jully", "August", "September", "October", "November", "December"];
+            return asMonths[iMonth - 1];
+        }
+
+        var defaults = {
+
+            iGroupingColumnIndex:0,
+            sGroupingColumnSortDirection:"",
+            iGroupingOrderByColumnIndex:-1,
+            sGroupingClass:"group",
+            bHideGroupingColumn:true,
+            bHideGroupingOrderByColumn:true,
+            sGroupBy:"name",
+            sGroupLabelPrefix:"",
+            fnGroupLabelFormat:function (label) {
+                return label;
+            },
+            bExpandableGrouping:false,
+            bExpandSingleGroup:false,
+            iExpandGroupOffset:100,
+            asExpandedGroups:null,
+
+            sDateFormat:"dd/MM/yyyy",
+            sEmptyGroupLabel:"-",
+            bSetGroupingClassOnTR:false,
+
+            iGroupingColumnIndex2:-1,
+            sGroupingColumnSortDirection2:"",
+            iGroupingOrderByColumnIndex2:-1,
+            sGroupingClass2:"subgroup",
+            bHideGroupingColumn2:true,
+            bHideGroupingOrderByColumn2:true,
+            sGroupBy2:"name",
+            sGroupLabelPrefix2:"",
+            fnGroupLabelFormat2:function (label) {
+                return label;
+            },
+            bExpandableGrouping2:false,
+
+            fnOnGrouped:_fnOnGrouped,
+
+            fnOnGroupCreated:_fnOnGroupCreated,
+            fnOnGroupCompleted:_fnOnGroupCompleted,
+
+            oHideEffect:null, // { method: "hide", duration: "fast", easing: "linear" },
+            oShowEffect:null, //{ method: "show", duration: "slow", easing: "linear" }
+
+            bUseFilteringForGrouping:false, // This is still work in progress option
+            bGenerateGroupTotalRows: false /* kuali customization */
+        };
+        return this.each(function (index, elem) {
+
+            var oTable = $(elem).dataTable();
+
+            var aoGroups = new Array();
+            $(this).dataTableExt.aoGroups = aoGroups;
+
+            function fnCreateGroupRow(sGroupCleaned, sGroup, iColspan) {
+                var nGroup = document.createElement('tr');
+                var nCell = document.createElement('td');
+                nGroup.id = "group-id-" + oTable.attr("id") + "_" + sGroupCleaned;
+
+                var oGroup = { id:nGroup.id, key:sGroupCleaned, text:sGroup, level:0, groupItemClass:".group-item-" + sGroupCleaned, dataGroup:sGroupCleaned, aoSubgroups:new Array() };
+
+                if (properties.bSetGroupingClassOnTR) {
+                    nGroup.className = properties.sGroupingClass + " " + sGroupCleaned;
+                } else {
+                    nCell.className = properties.sGroupingClass + " " + sGroupCleaned;
+                }
+
+                nCell.colSpan = iColspan;
+                nCell.innerHTML = properties.sGroupLabelPrefix + properties.fnGroupLabelFormat(sGroup == "" ? properties.sEmptyGroupLabel : sGroup, oGroup);
+                if (properties.bExpandableGrouping) {
+
+                    if (!_fnIsGroupCollapsed(sGroupCleaned)) {
+                        nCell.className += " expanded-group";
+                        oGroup.state = "expanded";
+                    } else {
+                        nCell.className += " collapsed-group";
+                        oGroup.state = "collapsed";
+                    }
+                    nCell.className += " group-item-expander";
+                    $(nCell).attr('data-group', oGroup.dataGroup); //Fix provided by mssskhalsa (Issue 5)
+                    $(nCell).attr("data-group-level", oGroup.level);
+                    $(nCell).click(_fnOnGroupClick);
+                }
+                nGroup.appendChild(nCell);
+                aoGroups[sGroupCleaned] = oGroup;
+                oGroup.nGroup = nGroup;
+                properties.fnOnGroupCreated(oGroup, sGroupCleaned, 1);
+                return oGroup;
+            }
+
+            function _fnCreateGroup2Row(sGroup2, sGroupLabel, iColspan, oParentGroup) {
+
+                var nGroup2 = document.createElement('tr');
+                nGroup2.id = oParentGroup.id + "_" + sGroup2;
+                var nCell2 = document.createElement('td');
+                var dataGroup = oParentGroup.dataGroup + '_' + sGroup2;
+
+                oGroup = { id:nGroup2.id, key:sGroup2, text:sGroupLabel, level:oParentGroup.level + 1, groupItemClass:".group-item-" + dataGroup,
+                    dataGroup:dataGroup, aoSubgroups:new Array()
+                };
+
+                if (properties.bSetGroupingClassOnTR) {
+                    nGroup2.className = properties.sGroupingClass2 + " " + sGroup2;
+                } else {
+                    nCell2.className = properties.sGroupingClass2 + " " + sGroup2;
+                }
+
+                nCell2.colSpan = iColspan;
+                nCell2.innerHTML = properties.sGroupLabelPrefix2 + properties.fnGroupLabelFormat2(sGroupLabel == "" ? properties.sEmptyGroupLabel : sGroupLabel, oGroup);
+
+                if (properties.bExpandableGrouping) {
+
+                    nGroup2.className += " group-item-" + oParentGroup.dataGroup;
+                }
+
+                if (properties.bExpandableGrouping && properties.bExpandableGrouping2) {
+
+                    if (!_fnIsGroupCollapsed(oGroup.dataGroup)) {
+                        nCell2.className += " expanded-group";
+                        oGroup.state = "expanded";
+                    } else {
+                        nCell2.className += " collapsed-group";
+                        oGroup.state = "collapsed";
+                    }
+                    nCell2.className += " group-item-expander";
+                    $(nCell2).attr('data-group', oGroup.dataGroup);
+                    $(nCell2).attr("data-group-level", oGroup.level);
+                    $(nCell2).click(_fnOnGroupClick);
+                }
+
+                nGroup2.appendChild(nCell2);
+
+                oParentGroup.aoSubgroups[oGroup.dataGroup] = oGroup;
+                aoGroups[oGroup.dataGroup] = oGroup;
+                oGroup.nGroup = nGroup2;
+                properties.fnOnGroupCreated(oGroup, sGroup2, 2);
+                return oGroup;
+            }
+
+            function _fnIsGroupCollapsed(sGroup) {
+                if (aoGroups[sGroup] != null)
+                    return (aoGroups[sGroup].state == "collapsed");
+                else
+                if (sGroup.indexOf("_") > -1)
+                    true;
+                else
+                if (bInitialGrouping && (asExpandedGroups == null || asExpandedGroups.length == 0))
+                    return false;// initially if asExpandedGroups is empty - no one is collapsed
+                else
+                    return ($.inArray(sGroup, asExpandedGroups) == -1); //the last chance check asExpandedGroups
+            }
+
+            function _fnGetYear(x) {
+                if (x.length < (iYearIndex + iYearLength))
+                    return x;
+                else
+                    return x.substr(iYearIndex, iYearLength);
+            }
+
+            function _fnGetGroupByName(x) {
+                return x;
+            }
+
+            function _fnGetGroupByLetter(x) {
+                return x.substr(0, 1);
+            }
+
+            function _fnGetGroupByYear(x) {
+                return _fnGetYear(x);
+                //return Date.parseExact(x, properties.sDateFormat).getFullYear();//slooooow
+            }
+
+            function _fnGetGroupByYearMonth(x) {
+                //var date = Date.parseExact(x, "dd/MM/yyyy");
+                //return date.getFullYear() + " / " + date.getMonthName();
+                //return x.substr(iYearIndex, iYearLength) + '/' + x.substr(iMonthIndex, iMonthLength);
+                return x.substr(iYearIndex, iYearLength) + ' ' + _getMonthName(x.substr(iMonthIndex, iMonthLength));
+            }
+
+            function _fnGetCleanedGroup(sGroup) {
+
+                if (sGroup === "") return "-";
+                return sGroup.toLowerCase().replace(/[^a-zA-Z0-9\u0080-\uFFFF]+/g, "-"); //fix for unicode characters (Issue 23)
+                //return sGroup.toLowerCase().replace(/\W+/g, "-"); //Fix provided by bmathews (Issue 7)
+            }
+
+            function _rowGroupingRowFilter(oSettings, aData, iDataIndex) {
+                ///<summary>Used to expand/collapse groups with DataTables filtering</summary>
+                if (oSettings.nTable.id !== oTable[0].id) return true;
+                var sColData = aData[properties.iGroupingColumnIndex];
+                if (typeof sColData === "undefined")
+                    sColData = aData[oSettings.aoColumns[properties.iGroupingColumnIndex].mDataProp];
+                if (_fnIsGroupCollapsed(_fnGetCleanedGroup(sColData))) {
+                    if (oTable.fnIsOpen(oTable.fnGetNodes(iDataIndex))) {
+                        if (properties.fnOnRowClosed != null) {
+                            properties.fnOnRowClosed(this); //    $(this.cells[0].children[0]).attr('src', '../../Images/details.png');
+                        }
+                        oTable.fnClose(oTable.fnGetNodes(iDataIndex));
+                    }
+                    return false;
+                }
+                ;
+                return true;
+            } //end of function _rowGroupingRowFilter
+
+            function fnExpandGroup(sGroup) {
+                ///<summary>Expand group if expanadable grouping is used</summary>
+
+                aoGroups[sGroup].state = "expanded";
+
+                $("td[data-group^='" + sGroup + "']").removeClass("collapsed-group");
+                $("td[data-group^='" + sGroup + "']").addClass("expanded-group");
+
+                if (properties.bUseFilteringForGrouping) {
+                    oTable.fnDraw();
+                    return;//Because rows are expanded with _rowGroupingRowFilter function
+                }
+
+                if (jQuery.inArray(sGroup, asExpandedGroups) == -1)
+                    asExpandedGroups.push(sGroup);
+
+                if (properties.oHideEffect != null)
+                    $(".group-item-" + sGroup, oTable)
+                            [properties.oShowEffect.method](properties.oShowEffect.duration,
+                            properties.oShowEffect.easing,
+                            function () {
+                            });
+                else
+                    $(".group-item-" + sGroup, oTable).show();
+
+            } //end of function fnExpandGroup
+
+            function fnCollapseGroup(sGroup) {
+                ///<summary>Collapse group if expanadable grouping is used</summary>
+
+                aoGroups[sGroup].state = "collapsed";
+                $("td[data-group^='" + sGroup + "']").removeClass("expanded-group");
+                $("td[data-group^='" + sGroup + "']").addClass("collapsed-group");
+
+                if (properties.bUseFilteringForGrouping) {
+                    oTable.fnDraw();
+                    return;//Because rows are expanded with _rowGroupingRowFilter function
+                }
+                //var index = $.inArray(sGroup, asExpandedGroups);
+                //asExpandedGroups.splice(index, 1);
+
+                $('.group-item-' + sGroup).each(function () {
+                    //Issue 24 - Patch provided by Bob Graham
+                    if (oTable.fnIsOpen(this)) {
+                        if (properties.fnOnRowClosed != null) {
+                            properties.fnOnRowClosed(this); //    $(this.cells[0].children[0]).attr('src', '../../Images/details.png');
+                        }
+                        oTable.fnClose(this);
+                    }
+                });
+
+                if (properties.oHideEffect != null)
+                    $(".group-item-" + sGroup, oTable)
+                            [properties.oHideEffect.method](properties.oHideEffect.duration,
+                            properties.oHideEffect.easing,
+                            function () {
+                            });
+                else
+                    $(".group-item-" + sGroup, oTable).hide();
+
+            } //end of function fnCollapseGroup
+
+            function _fnOnGroupClick(e) {
+                ///<summary>
+                ///Function that is called when user click on the group cell in order to
+                ///expand of collapse group
+                ///</summary>
+
+                //var sGroup = $(this).attr("rel");
+                var sGroup = $(this).attr("data-group");
+                var iGroupLevel = $(this).attr("data-group-level");
+
+                var bIsExpanded = !_fnIsGroupCollapsed(sGroup);
+                if (properties.bExpandSingleGroup) {
+                    if (!bIsExpanded) {
+                        var sCurrentGroup = $("td.expanded-group").attr("data-group");
+                        fnCollapseGroup(sCurrentGroup);
+                        fnExpandGroup(sGroup);
+
+                        if (properties.iExpandGroupOffset != -1) {
+                            var position = $("#group-id-" + oTable.attr("id") + "-" + sGroup).offset().top - properties.iExpandGroupOffset;
+                            window.scroll(0, position);
+                        } else {
+                            var position = oTable.offset().top;
+                            window.scroll(0, position);
+                        }
+                    }
+                } else {
+                    if (bIsExpanded) {
+                        fnCollapseGroup(sGroup);
+                    } else {
+                        fnExpandGroup(sGroup);
+                    }
+                }
+                e.preventDefault();
+
+            }
+
+            ; //end function _fnOnGroupClick
+
+            function _fnDrawCallBackWithGrouping(oSettings) {
+
+                if (oTable.fnSettings().oFeatures.bServerSide)
+                    bInitialGrouping = true;
+                var bUseSecondaryGrouping = false;
+
+                if (properties.iGroupingColumnIndex2 != -1)
+                    bUseSecondaryGrouping = true;
+
+                //-----Start grouping
+
+                if (oSettings.aiDisplayMaster.length == 0) { //aiDisplay
+                    return;
+                }
+
+                var nTrs = $('tbody tr', oTable);
+                var iColspan = 0; //nTrs[0].getElementsByTagName('td').length;
+                for (var iColIndex = 0; iColIndex < oSettings.aoColumns.length; iColIndex++) {
+                    if (oSettings.aoColumns[iColIndex].bVisible)
+                        iColspan += 1;
+                }
+                var sLastGroup = null;
+                var sLastGroup2 = null;
+                if (oSettings.aiDisplay.length > 0) {
+                    for (var i = 0; i < nTrs.length; i++) {
+
+                        var iDisplayIndex = oSettings._iDisplayStart + i;
+                        if (oTable.fnSettings().oFeatures.bServerSide)
+                            iDisplayIndex = i;
+                        var sGroupData = "";
+                        var sGroup = null;
+                        var sGroupData2 = "";
+                        var sGroup2 = null;
+
+                        //Issue 31 - Start fix provided by Fabien Taysse 
+//                      sGroupData = oSettings.aoData[oSettings.aiDisplay[iDisplayIndex]]._aData[properties.iGroupingColumnIndex];
+//                      if (sGroupData == undefined)
+//                          sGroupData = oSettings.aoData[oSettings.aiDisplay[iDisplayIndex]]._aData[oSettings.aoColumns[properties.iGroupingColumnIndex].mDataProp];
+                        sGroupData = this.fnGetData(nTrs[i], properties.iGroupingColumnIndex);
+                        //Issue 31 - End fix provided by Fabien Taysse 
+
+                        var sGroup = sGroupData;
+                        if (properties.sGroupBy != "year")
+                            sGroup = fnGetGroup(sGroupData);
+
+                        if (bUseSecondaryGrouping) {
+                            sGroupData2 = oSettings.aoData[oSettings.aiDisplay[iDisplayIndex]]._aData[properties.iGroupingColumnIndex2];
+                            if (sGroupData2 == undefined)
+                                sGroupData2 = oSettings.aoData[oSettings.aiDisplay[iDisplayIndex]]._aData[oSettings.aoColumns[properties.iGroupingColumnIndex2].mDataProp];
+                            if (properties.sGroupBy2 != "year")
+                                sGroup2 = fnGetGroup(sGroupData2);
+                        }
+
+                        if (sLastGroup == null || _fnGetCleanedGroup(sGroup) != _fnGetCleanedGroup(sLastGroup)) { // new group encountered (or first of group)
+                            var sGroupCleaned = _fnGetCleanedGroup(sGroup);
+
+                            if (sLastGroup != null) {
+                                properties.fnOnGroupCompleted(aoGroups[_fnGetCleanedGroup(sLastGroup)]);
+                            }
+
+                            if (properties.bAddAllGroupsAsExpanded && jQuery.inArray(sGroupCleaned, asExpandedGroups) == -1)
+                                asExpandedGroups.push(sGroupCleaned);
+
+                            var oGroup = fnCreateGroupRow(sGroupCleaned, sGroup, iColspan);
+                            var nGroup = oGroup.nGroup;
+
+                            /* Kuali customization */
+                            if(i != 0 && properties.bGenerateGroupTotalRows){
+                                var groupValue = _fnGetCleanedGroup(sLastGroup);
+                                var totalTr = jQuery("<tr class='uif-groupTotalRow' data-groupvalue='" + groupValue
+                                        + "'></tr>");
+                                for(var j=0; j < iColspan; j++){
+                                    totalTr.append("<td></td>");
+                                }
+                                jQuery(nTrs[i]).before(totalTr);
+                            }
+                            /* Kuali end customization */
+
+                            if (nTrs[i].parentNode != null){
+                                nTrs[i].parentNode.insertBefore(nGroup, nTrs[i]);
+                            }
+                            else{
+                                $(nTrs[i]).before(nGroup);
+                            }
+                            $(nTrs[i]).attr("data-group", oGroup.dataGroup);
+                            sLastGroup = sGroup;
+                            sLastGroup2 = null; //to reset second level grouping
+
+                        } // end if (sLastGroup == null || sGroup != sLastGroup)
+
+                        if (properties.bExpandableGrouping) {
+                            $(nTrs[i]).addClass("group-item-" + sGroupCleaned);
+                            if (_fnIsGroupCollapsed(sGroupCleaned) && !properties.bUseFilteringForGrouping) {
+                                $(nTrs[i]).hide();
+                            }
+                        }
+
+                        if (bUseSecondaryGrouping) {
+
+                            if (sLastGroup2 == null || _fnGetCleanedGroup(sGroup2) != _fnGetCleanedGroup(sLastGroup2)) {
+                                var sGroup2Id = _fnGetCleanedGroup(sGroup) + '-' + _fnGetCleanedGroup(sGroup2);
+                                var oGroup2 = _fnCreateGroup2Row(sGroup2Id, sGroup2, iColspan, aoGroups[sGroupCleaned])
+                                var nGroup2 = oGroup2.nGroup;
+                                nTrs[i].parentNode.insertBefore(nGroup2, nTrs[i]);
+
+                                sLastGroup2 = sGroup2;
+                            }
+
+                            $(nTrs[i]).attr("data-group", oGroup2.dataGroup)
+                                    .addClass("group-item-" + oGroup2.dataGroup);
+                        } //end if (bUseSecondaryGrouping)
+
+                    } // end for (var i = 0; i < nTrs.length; i++)
+                    /* Kuali customization */
+                    if(properties.bGenerateGroupTotalRows){
+                        var groupValue = _fnGetCleanedGroup(sLastGroup);
+                        var totalTr = jQuery("<tr class='uif-groupTotalRow' data-groupvalue='" + groupValue
+                                + "'></tr>");
+                        for(var j=0; j < iColspan; j++){
+                            totalTr.append("<td></td>");
+                        }
+                        $('tbody', oTable).append(totalTr);
+                        oTable.fnCallFooterCallback();
+                    }
+                    /* Kuali end customization */
+                }
+                ; // if (oSettings.aiDisplay.length > 0)
+
+                if (sLastGroup != null) {
+                    properties.fnOnGroupCompleted(aoGroups[_fnGetCleanedGroup(sLastGroup)]);
+                }
+
+                //-----End grouping
+                properties.fnOnGrouped(aoGroups);
+
+                bInitialGrouping = false;
+
+            }
+
+            ; // end of _fnDrawCallBackWithGrouping = function (oSettings)
+
+            //var oTable = this;
+            var iYearIndex = 6;
+            var iYearLength = 4;
+            var asExpandedGroups = new Array();
+            var bInitialGrouping = true;
+
+            var properties = $.extend(defaults, options);
+
+            if (properties.iGroupingOrderByColumnIndex == -1) {
+                properties.bCustomColumnOrdering = false;
+                properties.iGroupingOrderByColumnIndex = properties.iGroupingColumnIndex;
+            } else {
+                properties.bCustomColumnOrdering = true;
+            }
+
+            if (properties.sGroupingColumnSortDirection == "") {
+                if (properties.sGroupBy == "year")
+                    properties.sGroupingColumnSortDirection = "desc";
+                else
+                    properties.sGroupingColumnSortDirection = "asc";
+            }
+
+            if (properties.iGroupingOrderByColumnIndex2 == -1) {
+                properties.bCustomColumnOrdering2 = false;
+                properties.iGroupingOrderByColumnIndex2 = properties.iGroupingColumnIndex2;
+            } else {
+                properties.bCustomColumnOrdering2 = true;
+            }
+
+            if (properties.sGroupingColumnSortDirection2 == "") {
+                if (properties.sGroupBy2 == "year")
+                    properties.sGroupingColumnSortDirection2 = "desc";
+                else
+                    properties.sGroupingColumnSortDirection2 = "asc";
+            }
+
+            iYearIndex = properties.sDateFormat.toLowerCase().indexOf('yy');
+            iYearLength = properties.sDateFormat.toLowerCase().lastIndexOf('y') - properties.sDateFormat.toLowerCase().indexOf('y') + 1;
+
+            iMonthIndex = properties.sDateFormat.toLowerCase().indexOf('mm');
+            iMonthLength = properties.sDateFormat.toLowerCase().lastIndexOf('m') - properties.sDateFormat.toLowerCase().indexOf('m') + 1;
+
+            var fnGetGroup = _fnGetGroupByName;
+            switch (properties.sGroupBy) {
+                case "letter":
+                    fnGetGroup = _fnGetGroupByLetter;
+                    break;
+                case "year":
+                    fnGetGroup = _fnGetGroupByYear;
+                    break;
+                case "month":
+                    fnGetGroup = _fnGetGroupByYearMonth;
+                    break;
+                default:
+                    fnGetGroup = _fnGetGroupByName;
+                    break;
+            }
+
+            if (properties.asExpandedGroups != null) {
+                if (properties.asExpandedGroups == "NONE") {
+                    properties.asExpandedGroups = [];
+                    asExpandedGroups = properties.asExpandedGroups;
+                    bInitialGrouping = false;
+                } else if (properties.asExpandedGroups == "ALL") {
+                    properties.bAddAllGroupsAsExpanded = true;
+                } else if (properties.asExpandedGroups.constructor == String) {
+                    var currentGroup = properties.asExpandedGroups;
+                    properties.asExpandedGroups = new Array();
+                    properties.asExpandedGroups.push(_fnGetCleanedGroup(currentGroup));
+                    asExpandedGroups = properties.asExpandedGroups;
+                    bInitialGrouping = false;
+                } else if (properties.asExpandedGroups.constructor == Array) {
+                    for (var i = 0; i < properties.asExpandedGroups.length; i++) {
+                        asExpandedGroups.push(_fnGetCleanedGroup(properties.asExpandedGroups[i]));
+                        if (properties.bExpandSingleGroup)
+                            break;
+                    }
+                    bInitialGrouping = false;
+                }
+            } else {
+                properties.asExpandedGroups = new Array();
+                properties.bAddAllGroupsAsExpanded = true;
+            }
+            if (properties.bExpandSingleGroup) {
+                var nTrs = $('tbody tr', oTable);
+                sGroupData = oTable.fnGetData(nTrs[0], properties.iGroupingColumnIndex);
+
+                var sGroup = sGroupData;
+                if (properties.sGroupBy != "year")
+                    sGroup = fnGetGroup(sGroupData);
+
+                var sGroupCleaned = _fnGetCleanedGroup(sGroup);
+                properties.asExpandedGroups = new Array();
+                properties.asExpandedGroups.push(sGroupCleaned);
+
+            }
+
+            oTable.fnSetColumnVis(properties.iGroupingColumnIndex, !properties.bHideGroupingColumn);
+            if (properties.bCustomColumnOrdering) {
+                oTable.fnSetColumnVis(properties.iGroupingOrderByColumnIndex, !properties.bHideGroupingOrderByColumn);
+            }
+            if (properties.iGroupingColumnIndex2 != -1) {
+                oTable.fnSetColumnVis(properties.iGroupingColumnIndex2, !properties.bHideGroupingColumn2);
+            }
+            if (properties.bCustomColumnOrdering2) {
+                oTable.fnSetColumnVis(properties.iGroupingOrderByColumnIndex2, !properties.bHideGroupingOrderByColumn2);
+            }
+            oTable.fnSettings().aoDrawCallback.push({
+                "fn":_fnDrawCallBackWithGrouping,
+                "sName":"fnRowGrouping"
+            });
+
+            var aaSortingFixed = new Array();
+            aaSortingFixed.push([properties.iGroupingOrderByColumnIndex, properties.sGroupingColumnSortDirection]);
+            if (properties.iGroupingColumnIndex2 != -1) {
+                aaSortingFixed.push([properties.iGroupingOrderByColumnIndex2, properties.sGroupingColumnSortDirection2]);
+            } // end of if (properties.iGroupingColumnIndex2 != -1)
+
+            oTable.fnSettings().aaSortingFixed = aaSortingFixed;
+            //Old way
+            //oTable.fnSettings().aaSortingFixed = [[properties.iGroupingOrderByColumnIndex, properties.sGroupingColumnSortDirection]];
+
+            switch (properties.sGroupBy) {
+                case "name":
+                    break;
+
+                case "letter":
+
+                    /* Create an array with the values of all the input boxes in a column */
+                    oTable.fnSettings().aoColumns[properties.iGroupingOrderByColumnIndex].sSortDataType = "rg-letter";
+                    $.fn.dataTableExt.afnSortData['rg-letter'] = function (oSettings, iColumn) {
+                        var aData = [];
+                        $('td:eq(' + iColumn + ')', oSettings.oApi._fnGetTrNodes(oSettings)).each(function () {
+                            aData.push(_fnGetGroupByLetter(this.innerHTML));
+                        });
+                        return aData;
+                    }
+
+                    break;
+
+                case "year":
+                    /* Create an array with the values of all the input boxes in a column */
+                    oTable.fnSettings().aoColumns[properties.iGroupingOrderByColumnIndex].sSortDataType = "rg-date";
+                    $.fn.dataTableExt.afnSortData['rg-date'] = function (oSettings, iColumn) {
+                        var aData = [];
+                        var nTrs = oSettings.oApi._fnGetTrNodes(oSettings);
+                        for (i = 0; i < nTrs.length; i++) {
+                            aData.push(_fnGetYear(oTable.fnGetData(nTrs[i], iColumn)));
+                        }
+
+                        /*
+                         $('td:eq(' + iColumn + ')', oSettings.oApi._fnGetTrNodes(oSettings)).each(function () {
+                         aData.push(_fnGetYear(this.innerHTML));
+                         });
+                         */
+                        return aData;
+                    }
+                    break;
+                default:
+                    break;
+
+            } // end of switch (properties.sGroupBy)
+
+            if (properties.bUseFilteringForGrouping)
+                $.fn.dataTableExt.afnFiltering.push(_rowGroupingRowFilter);
+
+            oTable.fnDraw();
+
+        });
+    };
+})(jQuery);/*
  * File:        TableTools.js
  * Version:     2.0.0
  * Description: Tools and buttons for DataTables
@@ -46363,688 +49333,7 @@ else
 }
 
 })(jQuery, window, document);
-/*
- * File:        jquery.dataTables.grouping.js
- * Version:     1.2.7.
- * Author:      Jovan Popovic
- *
- * Copyright 2012 Jovan Popovic, all rights reserved.
- *
- * This source file is free software, under either the GPL v2 license or a
- * BSD style license, as supplied with this software.
- *
- * This source file is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
- * Parameters:
- * @iGroupingColumnIndex                                 Integer             Index of the column that will be used for grouping - default 0
- * @sGroupingColumnSortDirection                         Enumeration         Sort direction of the group
- * @iGroupingOrderByColumnIndex                          Integer             Index of the column that will be used for ordering groups
- * @sGroupingClass                                       String              Class that will be associated to the group row. Default - "group"
- * @bSetGroupingClassOnTR                                Boolean             If set class will be set to the TR instead of the TD withing the grouping TR
- * @bHideGroupingColumn                                  Boolean             Hide column used for grouping once results are grouped. Default - true
- * @bHideGroupingOrderByColumn                           Boolean             Hide column used for ordering groups once results are grouped. Default - true
- * @sGroupBy                                             Enumeration         Type of grouping that should be applied. Values "name"(default), "letter", "year"
- * @sGroupLabelPrefix                                    String              Prefix that will be added to each group cell
- * @bExpandableGrouping                                  Boolean             Attach expand/collapse handlers to the grouping rows
- * @bExpandSingleGroup                                   Boolean             Use accordon grouping
- * @iExpandGroupOffset                                   Integer             Number of pixels to set scroll position above the currently selected group. If -1 scroll will be alligned to the table
- * General settings
- * @sDateFormat: "dd/MM/yyyy"                            String              Date format used for grouping
- * @sEmptyGroupLabel                                     String              Lable that will be placed as group if grouping cells are empty. Default "-"
-
- * Parameters used in the second level grouping
- * @iGroupingColumnIndex2                                Integer             Index of the secondary column that will be used for grouping - default 0
- * @sGroupingColumnSortDirection2                        Enumeration         Sort direction of the secondary group
- * @iGroupingOrderByColumnIndex2                         Integer             Index of the column that will be used for ordering secondary groups
- * @sGroupingClass2                                      String              Class that will be associated to the secondary group row. Default "subgroup"
- * @bHideGroupingColumn2                                 Boolean             Hide column used for secondary grouping once results are grouped. Default - true,
- * @bHideGroupingOrderByColumn2                          Boolean             Hide column used for ordering secondary groups once results are grouped. Default - true,
- * @sGroupBy2                                            Enumeration         Type of grouping that should be applied to secondary column. Values "name"(default), "letter", "year",
- * @sGroupLabelPrefix2                                   String              Prefix that will be added to each secondary group cell
- * @fnOnGrouped                                          Function            Function that is called when grouping is finished. Function has no parameters.
- */
-(function ($) {
-
-    $.fn.rowGrouping = function (options) {
-
-        function _fnOnGrouped() {
-
-        }
-
-        function _fnOnGroupCreated(oGroup, sGroup, iLevel) {
-            ///<summary>
-            ///Function called when a new grouping row is created(it should be overriden in properties)
-            ///</summary>
-        }
-
-        function _fnOnGroupCompleted(oGroup, sGroup, iLevel) {
-            ///<summary>
-            ///Function called when a new grouping row is created(it should be overriden in properties)
-            ///</summary>
-        }
-
-        function _getMonthName(iMonth) {
-            var asMonths = ["January", "February", "March", "April", "May", "June", "Jully", "August", "September", "October", "November", "December"];
-            return asMonths[iMonth - 1];
-        }
-
-        var defaults = {
-
-            iGroupingColumnIndex:0,
-            sGroupingColumnSortDirection:"",
-            iGroupingOrderByColumnIndex:-1,
-            sGroupingClass:"group",
-            bHideGroupingColumn:true,
-            bHideGroupingOrderByColumn:true,
-            sGroupBy:"name",
-            sGroupLabelPrefix:"",
-            fnGroupLabelFormat:function (label) {
-                return label;
-            },
-            bExpandableGrouping:false,
-            bExpandSingleGroup:false,
-            iExpandGroupOffset:100,
-            asExpandedGroups:null,
-
-            sDateFormat:"dd/MM/yyyy",
-            sEmptyGroupLabel:"-",
-            bSetGroupingClassOnTR:false,
-
-            iGroupingColumnIndex2:-1,
-            sGroupingColumnSortDirection2:"",
-            iGroupingOrderByColumnIndex2:-1,
-            sGroupingClass2:"subgroup",
-            bHideGroupingColumn2:true,
-            bHideGroupingOrderByColumn2:true,
-            sGroupBy2:"name",
-            sGroupLabelPrefix2:"",
-            fnGroupLabelFormat2:function (label) {
-                return label;
-            },
-            bExpandableGrouping2:false,
-
-            fnOnGrouped:_fnOnGrouped,
-
-            fnOnGroupCreated:_fnOnGroupCreated,
-            fnOnGroupCompleted:_fnOnGroupCompleted,
-
-            oHideEffect:null, // { method: "hide", duration: "fast", easing: "linear" },
-            oShowEffect:null, //{ method: "show", duration: "slow", easing: "linear" }
-
-            bUseFilteringForGrouping:false, // This is still work in progress option
-            bGenerateGroupTotalRows: false /* kuali customization */
-        };
-        return this.each(function (index, elem) {
-
-            var oTable = $(elem).dataTable();
-
-            var aoGroups = new Array();
-            $(this).dataTableExt.aoGroups = aoGroups;
-
-            function fnCreateGroupRow(sGroupCleaned, sGroup, iColspan) {
-                var nGroup = document.createElement('tr');
-                var nCell = document.createElement('td');
-                nGroup.id = "group-id-" + oTable.attr("id") + "_" + sGroupCleaned;
-
-                var oGroup = { id:nGroup.id, key:sGroupCleaned, text:sGroup, level:0, groupItemClass:".group-item-" + sGroupCleaned, dataGroup:sGroupCleaned, aoSubgroups:new Array() };
-
-                if (properties.bSetGroupingClassOnTR) {
-                    nGroup.className = properties.sGroupingClass + " " + sGroupCleaned;
-                } else {
-                    nCell.className = properties.sGroupingClass + " " + sGroupCleaned;
-                }
-
-                nCell.colSpan = iColspan;
-                nCell.innerHTML = properties.sGroupLabelPrefix + properties.fnGroupLabelFormat(sGroup == "" ? properties.sEmptyGroupLabel : sGroup, oGroup);
-                if (properties.bExpandableGrouping) {
-
-                    if (!_fnIsGroupCollapsed(sGroupCleaned)) {
-                        nCell.className += " expanded-group";
-                        oGroup.state = "expanded";
-                    } else {
-                        nCell.className += " collapsed-group";
-                        oGroup.state = "collapsed";
-                    }
-                    nCell.className += " group-item-expander";
-                    $(nCell).attr('data-group', oGroup.dataGroup); //Fix provided by mssskhalsa (Issue 5)
-                    $(nCell).attr("data-group-level", oGroup.level);
-                    $(nCell).click(_fnOnGroupClick);
-                }
-                nGroup.appendChild(nCell);
-                aoGroups[sGroupCleaned] = oGroup;
-                oGroup.nGroup = nGroup;
-                properties.fnOnGroupCreated(oGroup, sGroupCleaned, 1);
-                return oGroup;
-            }
-
-            function _fnCreateGroup2Row(sGroup2, sGroupLabel, iColspan, oParentGroup) {
-
-                var nGroup2 = document.createElement('tr');
-                nGroup2.id = oParentGroup.id + "_" + sGroup2;
-                var nCell2 = document.createElement('td');
-                var dataGroup = oParentGroup.dataGroup + '_' + sGroup2;
-
-                oGroup = { id:nGroup2.id, key:sGroup2, text:sGroupLabel, level:oParentGroup.level + 1, groupItemClass:".group-item-" + dataGroup,
-                    dataGroup:dataGroup, aoSubgroups:new Array()
-                };
-
-                if (properties.bSetGroupingClassOnTR) {
-                    nGroup2.className = properties.sGroupingClass2 + " " + sGroup2;
-                } else {
-                    nCell2.className = properties.sGroupingClass2 + " " + sGroup2;
-                }
-
-                nCell2.colSpan = iColspan;
-                nCell2.innerHTML = properties.sGroupLabelPrefix2 + properties.fnGroupLabelFormat2(sGroupLabel == "" ? properties.sEmptyGroupLabel : sGroupLabel, oGroup);
-
-                if (properties.bExpandableGrouping) {
-
-                    nGroup2.className += " group-item-" + oParentGroup.dataGroup;
-                }
-
-                if (properties.bExpandableGrouping && properties.bExpandableGrouping2) {
-
-                    if (!_fnIsGroupCollapsed(oGroup.dataGroup)) {
-                        nCell2.className += " expanded-group";
-                        oGroup.state = "expanded";
-                    } else {
-                        nCell2.className += " collapsed-group";
-                        oGroup.state = "collapsed";
-                    }
-                    nCell2.className += " group-item-expander";
-                    $(nCell2).attr('data-group', oGroup.dataGroup);
-                    $(nCell2).attr("data-group-level", oGroup.level);
-                    $(nCell2).click(_fnOnGroupClick);
-                }
-
-                nGroup2.appendChild(nCell2);
-
-                oParentGroup.aoSubgroups[oGroup.dataGroup] = oGroup;
-                aoGroups[oGroup.dataGroup] = oGroup;
-                oGroup.nGroup = nGroup2;
-                properties.fnOnGroupCreated(oGroup, sGroup2, 2);
-                return oGroup;
-            }
-
-            function _fnIsGroupCollapsed(sGroup) {
-                if (aoGroups[sGroup] != null)
-                    return (aoGroups[sGroup].state == "collapsed");
-                else
-                if (sGroup.indexOf("_") > -1)
-                    true;
-                else
-                if (bInitialGrouping && (asExpandedGroups == null || asExpandedGroups.length == 0))
-                    return false;// initially if asExpandedGroups is empty - no one is collapsed
-                else
-                    return ($.inArray(sGroup, asExpandedGroups) == -1); //the last chance check asExpandedGroups
-            }
-
-            function _fnGetYear(x) {
-                if (x.length < (iYearIndex + iYearLength))
-                    return x;
-                else
-                    return x.substr(iYearIndex, iYearLength);
-            }
-
-            function _fnGetGroupByName(x) {
-                return x;
-            }
-
-            function _fnGetGroupByLetter(x) {
-                return x.substr(0, 1);
-            }
-
-            function _fnGetGroupByYear(x) {
-                return _fnGetYear(x);
-                //return Date.parseExact(x, properties.sDateFormat).getFullYear();//slooooow
-            }
-
-            function _fnGetGroupByYearMonth(x) {
-                //var date = Date.parseExact(x, "dd/MM/yyyy");
-                //return date.getFullYear() + " / " + date.getMonthName();
-                //return x.substr(iYearIndex, iYearLength) + '/' + x.substr(iMonthIndex, iMonthLength);
-                return x.substr(iYearIndex, iYearLength) + ' ' + _getMonthName(x.substr(iMonthIndex, iMonthLength));
-            }
-
-            function _fnGetCleanedGroup(sGroup) {
-
-                if (sGroup === "") return "-";
-                return sGroup.toLowerCase().replace(/[^a-zA-Z0-9\u0080-\uFFFF]+/g, "-"); //fix for unicode characters (Issue 23)
-                //return sGroup.toLowerCase().replace(/\W+/g, "-"); //Fix provided by bmathews (Issue 7)
-            }
-
-            function _rowGroupingRowFilter(oSettings, aData, iDataIndex) {
-                ///<summary>Used to expand/collapse groups with DataTables filtering</summary>
-                if (oSettings.nTable.id !== oTable[0].id) return true;
-                var sColData = aData[properties.iGroupingColumnIndex];
-                if (typeof sColData === "undefined")
-                    sColData = aData[oSettings.aoColumns[properties.iGroupingColumnIndex].mDataProp];
-                if (_fnIsGroupCollapsed(_fnGetCleanedGroup(sColData))) {
-                    if (oTable.fnIsOpen(oTable.fnGetNodes(iDataIndex))) {
-                        if (properties.fnOnRowClosed != null) {
-                            properties.fnOnRowClosed(this); //    $(this.cells[0].children[0]).attr('src', '../../Images/details.png');
-                        }
-                        oTable.fnClose(oTable.fnGetNodes(iDataIndex));
-                    }
-                    return false;
-                }
-                ;
-                return true;
-            } //end of function _rowGroupingRowFilter
-
-            function fnExpandGroup(sGroup) {
-                ///<summary>Expand group if expanadable grouping is used</summary>
-
-                aoGroups[sGroup].state = "expanded";
-
-                $("td[data-group^='" + sGroup + "']").removeClass("collapsed-group");
-                $("td[data-group^='" + sGroup + "']").addClass("expanded-group");
-
-                if (properties.bUseFilteringForGrouping) {
-                    oTable.fnDraw();
-                    return;//Because rows are expanded with _rowGroupingRowFilter function
-                }
-
-                if (jQuery.inArray(sGroup, asExpandedGroups) == -1)
-                    asExpandedGroups.push(sGroup);
-
-                if (properties.oHideEffect != null)
-                    $(".group-item-" + sGroup, oTable)
-                            [properties.oShowEffect.method](properties.oShowEffect.duration,
-                            properties.oShowEffect.easing,
-                            function () {
-                            });
-                else
-                    $(".group-item-" + sGroup, oTable).show();
-
-            } //end of function fnExpandGroup
-
-            function fnCollapseGroup(sGroup) {
-                ///<summary>Collapse group if expanadable grouping is used</summary>
-
-                aoGroups[sGroup].state = "collapsed";
-                $("td[data-group^='" + sGroup + "']").removeClass("expanded-group");
-                $("td[data-group^='" + sGroup + "']").addClass("collapsed-group");
-
-                if (properties.bUseFilteringForGrouping) {
-                    oTable.fnDraw();
-                    return;//Because rows are expanded with _rowGroupingRowFilter function
-                }
-                //var index = $.inArray(sGroup, asExpandedGroups);
-                //asExpandedGroups.splice(index, 1);
-
-                $('.group-item-' + sGroup).each(function () {
-                    //Issue 24 - Patch provided by Bob Graham
-                    if (oTable.fnIsOpen(this)) {
-                        if (properties.fnOnRowClosed != null) {
-                            properties.fnOnRowClosed(this); //    $(this.cells[0].children[0]).attr('src', '../../Images/details.png');
-                        }
-                        oTable.fnClose(this);
-                    }
-                });
-
-                if (properties.oHideEffect != null)
-                    $(".group-item-" + sGroup, oTable)
-                            [properties.oHideEffect.method](properties.oHideEffect.duration,
-                            properties.oHideEffect.easing,
-                            function () {
-                            });
-                else
-                    $(".group-item-" + sGroup, oTable).hide();
-
-            } //end of function fnCollapseGroup
-
-            function _fnOnGroupClick(e) {
-                ///<summary>
-                ///Function that is called when user click on the group cell in order to
-                ///expand of collapse group
-                ///</summary>
-
-                //var sGroup = $(this).attr("rel");
-                var sGroup = $(this).attr("data-group");
-                var iGroupLevel = $(this).attr("data-group-level");
-
-                var bIsExpanded = !_fnIsGroupCollapsed(sGroup);
-                if (properties.bExpandSingleGroup) {
-                    if (!bIsExpanded) {
-                        var sCurrentGroup = $("td.expanded-group").attr("data-group");
-                        fnCollapseGroup(sCurrentGroup);
-                        fnExpandGroup(sGroup);
-
-                        if (properties.iExpandGroupOffset != -1) {
-                            var position = $("#group-id-" + oTable.attr("id") + "-" + sGroup).offset().top - properties.iExpandGroupOffset;
-                            window.scroll(0, position);
-                        } else {
-                            var position = oTable.offset().top;
-                            window.scroll(0, position);
-                        }
-                    }
-                } else {
-                    if (bIsExpanded) {
-                        fnCollapseGroup(sGroup);
-                    } else {
-                        fnExpandGroup(sGroup);
-                    }
-                }
-                e.preventDefault();
-
-            }
-
-            ; //end function _fnOnGroupClick
-
-            function _fnDrawCallBackWithGrouping(oSettings) {
-
-                if (oTable.fnSettings().oFeatures.bServerSide)
-                    bInitialGrouping = true;
-                var bUseSecondaryGrouping = false;
-
-                if (properties.iGroupingColumnIndex2 != -1)
-                    bUseSecondaryGrouping = true;
-
-                //-----Start grouping
-
-                if (oSettings.aiDisplayMaster.length == 0) { //aiDisplay
-                    return;
-                }
-
-                var nTrs = $('tbody tr', oTable);
-                var iColspan = 0; //nTrs[0].getElementsByTagName('td').length;
-                for (var iColIndex = 0; iColIndex < oSettings.aoColumns.length; iColIndex++) {
-                    if (oSettings.aoColumns[iColIndex].bVisible)
-                        iColspan += 1;
-                }
-                var sLastGroup = null;
-                var sLastGroup2 = null;
-                if (oSettings.aiDisplay.length > 0) {
-                    for (var i = 0; i < nTrs.length; i++) {
-
-                        var iDisplayIndex = oSettings._iDisplayStart + i;
-                        if (oTable.fnSettings().oFeatures.bServerSide)
-                            iDisplayIndex = i;
-                        var sGroupData = "";
-                        var sGroup = null;
-                        var sGroupData2 = "";
-                        var sGroup2 = null;
-
-                        //Issue 31 - Start fix provided by Fabien Taysse 
-//                      sGroupData = oSettings.aoData[oSettings.aiDisplay[iDisplayIndex]]._aData[properties.iGroupingColumnIndex];
-//                      if (sGroupData == undefined)
-//                          sGroupData = oSettings.aoData[oSettings.aiDisplay[iDisplayIndex]]._aData[oSettings.aoColumns[properties.iGroupingColumnIndex].mDataProp];
-                        sGroupData = this.fnGetData(nTrs[i], properties.iGroupingColumnIndex);
-                        //Issue 31 - End fix provided by Fabien Taysse 
-
-                        var sGroup = sGroupData;
-                        if (properties.sGroupBy != "year")
-                            sGroup = fnGetGroup(sGroupData);
-
-                        if (bUseSecondaryGrouping) {
-                            sGroupData2 = oSettings.aoData[oSettings.aiDisplay[iDisplayIndex]]._aData[properties.iGroupingColumnIndex2];
-                            if (sGroupData2 == undefined)
-                                sGroupData2 = oSettings.aoData[oSettings.aiDisplay[iDisplayIndex]]._aData[oSettings.aoColumns[properties.iGroupingColumnIndex2].mDataProp];
-                            if (properties.sGroupBy2 != "year")
-                                sGroup2 = fnGetGroup(sGroupData2);
-                        }
-
-                        if (sLastGroup == null || _fnGetCleanedGroup(sGroup) != _fnGetCleanedGroup(sLastGroup)) { // new group encountered (or first of group)
-                            var sGroupCleaned = _fnGetCleanedGroup(sGroup);
-
-                            if (sLastGroup != null) {
-                                properties.fnOnGroupCompleted(aoGroups[_fnGetCleanedGroup(sLastGroup)]);
-                            }
-
-                            if (properties.bAddAllGroupsAsExpanded && jQuery.inArray(sGroupCleaned, asExpandedGroups) == -1)
-                                asExpandedGroups.push(sGroupCleaned);
-
-                            var oGroup = fnCreateGroupRow(sGroupCleaned, sGroup, iColspan);
-                            var nGroup = oGroup.nGroup;
-
-                            /* Kuali customization */
-                            if(i != 0 && properties.bGenerateGroupTotalRows){
-                                var groupValue = _fnGetCleanedGroup(sLastGroup);
-                                var totalTr = jQuery("<tr class='uif-groupTotalRow' data-groupvalue='" + groupValue
-                                        + "'></tr>");
-                                for(var j=0; j < iColspan; j++){
-                                    totalTr.append("<td></td>");
-                                }
-                                jQuery(nTrs[i]).before(totalTr);
-                            }
-                            /* Kuali end customization */
-
-                            if (nTrs[i].parentNode != null){
-                                nTrs[i].parentNode.insertBefore(nGroup, nTrs[i]);
-                            }
-                            else{
-                                $(nTrs[i]).before(nGroup);
-                            }
-                            $(nTrs[i]).attr("data-group", oGroup.dataGroup);
-                            sLastGroup = sGroup;
-                            sLastGroup2 = null; //to reset second level grouping
-
-                        } // end if (sLastGroup == null || sGroup != sLastGroup)
-
-                        if (properties.bExpandableGrouping) {
-                            $(nTrs[i]).addClass("group-item-" + sGroupCleaned);
-                            if (_fnIsGroupCollapsed(sGroupCleaned) && !properties.bUseFilteringForGrouping) {
-                                $(nTrs[i]).hide();
-                            }
-                        }
-
-                        if (bUseSecondaryGrouping) {
-
-                            if (sLastGroup2 == null || _fnGetCleanedGroup(sGroup2) != _fnGetCleanedGroup(sLastGroup2)) {
-                                var sGroup2Id = _fnGetCleanedGroup(sGroup) + '-' + _fnGetCleanedGroup(sGroup2);
-                                var oGroup2 = _fnCreateGroup2Row(sGroup2Id, sGroup2, iColspan, aoGroups[sGroupCleaned])
-                                var nGroup2 = oGroup2.nGroup;
-                                nTrs[i].parentNode.insertBefore(nGroup2, nTrs[i]);
-
-                                sLastGroup2 = sGroup2;
-                            }
-
-                            $(nTrs[i]).attr("data-group", oGroup2.dataGroup)
-                                    .addClass("group-item-" + oGroup2.dataGroup);
-                        } //end if (bUseSecondaryGrouping)
-
-                    } // end for (var i = 0; i < nTrs.length; i++)
-                    /* Kuali customization */
-                    if(properties.bGenerateGroupTotalRows){
-                        var groupValue = _fnGetCleanedGroup(sLastGroup);
-                        var totalTr = jQuery("<tr class='uif-groupTotalRow' data-groupvalue='" + groupValue
-                                + "'></tr>");
-                        for(var j=0; j < iColspan; j++){
-                            totalTr.append("<td></td>");
-                        }
-                        $('tbody', oTable).append(totalTr);
-                        oTable.fnCallFooterCallback();
-                    }
-                    /* Kuali end customization */
-                }
-                ; // if (oSettings.aiDisplay.length > 0)
-
-                if (sLastGroup != null) {
-                    properties.fnOnGroupCompleted(aoGroups[_fnGetCleanedGroup(sLastGroup)]);
-                }
-
-                //-----End grouping
-                properties.fnOnGrouped(aoGroups);
-
-                bInitialGrouping = false;
-
-            }
-
-            ; // end of _fnDrawCallBackWithGrouping = function (oSettings)
-
-            //var oTable = this;
-            var iYearIndex = 6;
-            var iYearLength = 4;
-            var asExpandedGroups = new Array();
-            var bInitialGrouping = true;
-
-            var properties = $.extend(defaults, options);
-
-            if (properties.iGroupingOrderByColumnIndex == -1) {
-                properties.bCustomColumnOrdering = false;
-                properties.iGroupingOrderByColumnIndex = properties.iGroupingColumnIndex;
-            } else {
-                properties.bCustomColumnOrdering = true;
-            }
-
-            if (properties.sGroupingColumnSortDirection == "") {
-                if (properties.sGroupBy == "year")
-                    properties.sGroupingColumnSortDirection = "desc";
-                else
-                    properties.sGroupingColumnSortDirection = "asc";
-            }
-
-            if (properties.iGroupingOrderByColumnIndex2 == -1) {
-                properties.bCustomColumnOrdering2 = false;
-                properties.iGroupingOrderByColumnIndex2 = properties.iGroupingColumnIndex2;
-            } else {
-                properties.bCustomColumnOrdering2 = true;
-            }
-
-            if (properties.sGroupingColumnSortDirection2 == "") {
-                if (properties.sGroupBy2 == "year")
-                    properties.sGroupingColumnSortDirection2 = "desc";
-                else
-                    properties.sGroupingColumnSortDirection2 = "asc";
-            }
-
-            iYearIndex = properties.sDateFormat.toLowerCase().indexOf('yy');
-            iYearLength = properties.sDateFormat.toLowerCase().lastIndexOf('y') - properties.sDateFormat.toLowerCase().indexOf('y') + 1;
-
-            iMonthIndex = properties.sDateFormat.toLowerCase().indexOf('mm');
-            iMonthLength = properties.sDateFormat.toLowerCase().lastIndexOf('m') - properties.sDateFormat.toLowerCase().indexOf('m') + 1;
-
-            var fnGetGroup = _fnGetGroupByName;
-            switch (properties.sGroupBy) {
-                case "letter":
-                    fnGetGroup = _fnGetGroupByLetter;
-                    break;
-                case "year":
-                    fnGetGroup = _fnGetGroupByYear;
-                    break;
-                case "month":
-                    fnGetGroup = _fnGetGroupByYearMonth;
-                    break;
-                default:
-                    fnGetGroup = _fnGetGroupByName;
-                    break;
-            }
-
-            if (properties.asExpandedGroups != null) {
-                if (properties.asExpandedGroups == "NONE") {
-                    properties.asExpandedGroups = [];
-                    asExpandedGroups = properties.asExpandedGroups;
-                    bInitialGrouping = false;
-                } else if (properties.asExpandedGroups == "ALL") {
-                    properties.bAddAllGroupsAsExpanded = true;
-                } else if (properties.asExpandedGroups.constructor == String) {
-                    var currentGroup = properties.asExpandedGroups;
-                    properties.asExpandedGroups = new Array();
-                    properties.asExpandedGroups.push(_fnGetCleanedGroup(currentGroup));
-                    asExpandedGroups = properties.asExpandedGroups;
-                    bInitialGrouping = false;
-                } else if (properties.asExpandedGroups.constructor == Array) {
-                    for (var i = 0; i < properties.asExpandedGroups.length; i++) {
-                        asExpandedGroups.push(_fnGetCleanedGroup(properties.asExpandedGroups[i]));
-                        if (properties.bExpandSingleGroup)
-                            break;
-                    }
-                    bInitialGrouping = false;
-                }
-            } else {
-                properties.asExpandedGroups = new Array();
-                properties.bAddAllGroupsAsExpanded = true;
-            }
-            if (properties.bExpandSingleGroup) {
-                var nTrs = $('tbody tr', oTable);
-                sGroupData = oTable.fnGetData(nTrs[0], properties.iGroupingColumnIndex);
-
-                var sGroup = sGroupData;
-                if (properties.sGroupBy != "year")
-                    sGroup = fnGetGroup(sGroupData);
-
-                var sGroupCleaned = _fnGetCleanedGroup(sGroup);
-                properties.asExpandedGroups = new Array();
-                properties.asExpandedGroups.push(sGroupCleaned);
-
-            }
-
-            oTable.fnSetColumnVis(properties.iGroupingColumnIndex, !properties.bHideGroupingColumn);
-            if (properties.bCustomColumnOrdering) {
-                oTable.fnSetColumnVis(properties.iGroupingOrderByColumnIndex, !properties.bHideGroupingOrderByColumn);
-            }
-            if (properties.iGroupingColumnIndex2 != -1) {
-                oTable.fnSetColumnVis(properties.iGroupingColumnIndex2, !properties.bHideGroupingColumn2);
-            }
-            if (properties.bCustomColumnOrdering2) {
-                oTable.fnSetColumnVis(properties.iGroupingOrderByColumnIndex2, !properties.bHideGroupingOrderByColumn2);
-            }
-            oTable.fnSettings().aoDrawCallback.push({
-                "fn":_fnDrawCallBackWithGrouping,
-                "sName":"fnRowGrouping"
-            });
-
-            var aaSortingFixed = new Array();
-            aaSortingFixed.push([properties.iGroupingOrderByColumnIndex, properties.sGroupingColumnSortDirection]);
-            if (properties.iGroupingColumnIndex2 != -1) {
-                aaSortingFixed.push([properties.iGroupingOrderByColumnIndex2, properties.sGroupingColumnSortDirection2]);
-            } // end of if (properties.iGroupingColumnIndex2 != -1)
-
-            oTable.fnSettings().aaSortingFixed = aaSortingFixed;
-            //Old way
-            //oTable.fnSettings().aaSortingFixed = [[properties.iGroupingOrderByColumnIndex, properties.sGroupingColumnSortDirection]];
-
-            switch (properties.sGroupBy) {
-                case "name":
-                    break;
-
-                case "letter":
-
-                    /* Create an array with the values of all the input boxes in a column */
-                    oTable.fnSettings().aoColumns[properties.iGroupingOrderByColumnIndex].sSortDataType = "rg-letter";
-                    $.fn.dataTableExt.afnSortData['rg-letter'] = function (oSettings, iColumn) {
-                        var aData = [];
-                        $('td:eq(' + iColumn + ')', oSettings.oApi._fnGetTrNodes(oSettings)).each(function () {
-                            aData.push(_fnGetGroupByLetter(this.innerHTML));
-                        });
-                        return aData;
-                    }
-
-                    break;
-
-                case "year":
-                    /* Create an array with the values of all the input boxes in a column */
-                    oTable.fnSettings().aoColumns[properties.iGroupingOrderByColumnIndex].sSortDataType = "rg-date";
-                    $.fn.dataTableExt.afnSortData['rg-date'] = function (oSettings, iColumn) {
-                        var aData = [];
-                        var nTrs = oSettings.oApi._fnGetTrNodes(oSettings);
-                        for (i = 0; i < nTrs.length; i++) {
-                            aData.push(_fnGetYear(oTable.fnGetData(nTrs[i], iColumn)));
-                        }
-
-                        /*
-                         $('td:eq(' + iColumn + ')', oSettings.oApi._fnGetTrNodes(oSettings)).each(function () {
-                         aData.push(_fnGetYear(this.innerHTML));
-                         });
-                         */
-                        return aData;
-                    }
-                    break;
-                default:
-                    break;
-
-            } // end of switch (properties.sGroupBy)
-
-            if (properties.bUseFilteringForGrouping)
-                $.fn.dataTableExt.afnFiltering.push(_rowGroupingRowFilter);
-
-            oTable.fnDraw();
-
-        });
-    };
-})(jQuery);// Simple Set Clipboard System
+// Simple Set Clipboard System
 // Author: Joseph Huckaby
 
 var ZeroClipboard = {
@@ -51943,7 +54232,2071 @@ ZeroClipboard.Client.prototype = {
 })(jQuery);
 //*/
 
-})();/*
+})();/*!
+ * fancyBox - jQuery Plugin
+ * version: 2.1.5 (Fri, 14 Jun 2013)
+ * @requires jQuery v1.6 or later
+ *
+ * Examples at http://fancyapps.com/fancybox/
+ * License: www.fancyapps.com/fancybox/#license
+ *
+ * Copyright 2012 Janis Skarnelis - janis@fancyapps.com
+ *
+ */
+
+(function (window, document, $, undefined) {
+	"use strict";
+
+	var H = $("html"),
+		W = $(window),
+		D = $(document),
+		F = $.fancybox = function () {
+			F.open.apply( this, arguments );
+		},
+		IE =  navigator.userAgent.match(/msie/i),
+		didUpdate	= null,
+		isTouch		= document.createTouch !== undefined,
+
+		isQuery	= function(obj) {
+			return obj && obj.hasOwnProperty && obj instanceof $;
+		},
+		isString = function(str) {
+			return str && $.type(str) === "string";
+		},
+		isPercentage = function(str) {
+			return isString(str) && str.indexOf('%') > 0;
+		},
+		isScrollable = function(el) {
+			return (el && !(el.style.overflow && el.style.overflow === 'hidden') && ((el.clientWidth && el.scrollWidth > el.clientWidth) || (el.clientHeight && el.scrollHeight > el.clientHeight)));
+		},
+		getScalar = function(orig, dim) {
+			var value = parseInt(orig, 10) || 0;
+
+			if (dim && isPercentage(orig)) {
+				value = F.getViewport()[ dim ] / 100 * value;
+			}
+
+			return Math.ceil(value);
+		},
+		getValue = function(value, dim) {
+			return getScalar(value, dim) + 'px';
+		};
+
+	$.extend(F, {
+		// The current version of fancyBox
+		version: '2.1.5',
+
+		defaults: {
+			padding : 15,
+			margin  : 20,
+
+			width     : 800,
+			height    : 600,
+			minWidth  : 100,
+			minHeight : 100,
+			maxWidth  : 9999,
+			maxHeight : 9999,
+			pixelRatio: 1, // Set to 2 for retina display support
+
+			autoSize   : true,
+			autoHeight : false,
+			autoWidth  : false,
+
+			autoResize  : true,
+			autoCenter  : !isTouch,
+			fitToView   : true,
+			aspectRatio : false,
+			topRatio    : 0.5,
+			leftRatio   : 0.5,
+
+			scrolling : 'auto', // 'auto', 'yes' or 'no'
+			wrapCSS   : '',
+
+			arrows     : true,
+			closeBtn   : true,
+			closeClick : false,
+			nextClick  : false,
+			mouseWheel : true,
+			autoPlay   : false,
+			playSpeed  : 3000,
+			preload    : 3,
+			modal      : false,
+			loop       : true,
+
+			ajax  : {
+				dataType : 'html',
+				headers  : { 'X-fancyBox': true }
+			},
+			iframe : {
+				scrolling : 'auto',
+				preload   : true
+			},
+			swf : {
+				wmode: 'transparent',
+				allowfullscreen   : 'true',
+				allowscriptaccess : 'always'
+			},
+
+			keys  : {
+				next : {
+					13 : 'left', // enter
+					34 : 'up',   // page down
+					39 : 'left', // right arrow
+					40 : 'up'    // down arrow
+				},
+				prev : {
+					8  : 'right',  // backspace
+					33 : 'down',   // page up
+					37 : 'right',  // left arrow
+					38 : 'down'    // up arrow
+				},
+				close  : [27], // escape key
+				play   : [32], // space - start/stop slideshow
+				toggle : [70]  // letter "f" - toggle fullscreen
+			},
+
+			direction : {
+				next : 'left',
+				prev : 'right'
+			},
+
+			scrollOutside  : true,
+
+			// Override some properties
+			index   : 0,
+			type    : null,
+			href    : null,
+			content : null,
+			title   : null,
+
+			// HTML templates
+			tpl: {
+				wrap     : '<div class="fancybox-wrap" tabIndex="-1"><div class="fancybox-skin"><div class="fancybox-outer"><div class="fancybox-inner"></div></div></div></div>',
+				image    : '<img class="fancybox-image" src="{href}" alt="" />',
+				iframe   : '<iframe id="fancybox-frame{rnd}" name="fancybox-frame{rnd}" class="fancybox-iframe" frameborder="0" vspace="0" hspace="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen' + (IE ? ' allowtransparency="true"' : '') + '></iframe>',
+				error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
+				closeBtn : '<a title="Close" class="fancybox-item fancybox-close" href="javascript:;"></a>',
+				next     : '<a title="Next" class="fancybox-nav fancybox-next" href="javascript:;"><span></span></a>',
+				prev     : '<a title="Previous" class="fancybox-nav fancybox-prev" href="javascript:;"><span></span></a>'
+			},
+
+			// Properties for each animation type
+			// Opening fancyBox
+			openEffect  : 'fade', // 'elastic', 'fade' or 'none'
+			openSpeed   : 250,
+			openEasing  : 'swing',
+			openOpacity : true,
+			openMethod  : 'zoomIn',
+
+			// Closing fancyBox
+			closeEffect  : 'fade', // 'elastic', 'fade' or 'none'
+			closeSpeed   : 250,
+			closeEasing  : 'swing',
+			closeOpacity : true,
+			closeMethod  : 'zoomOut',
+
+			// Changing next gallery item
+			nextEffect : 'elastic', // 'elastic', 'fade' or 'none'
+			nextSpeed  : 250,
+			nextEasing : 'swing',
+			nextMethod : 'changeIn',
+
+			// Changing previous gallery item
+			prevEffect : 'elastic', // 'elastic', 'fade' or 'none'
+			prevSpeed  : 250,
+			prevEasing : 'swing',
+			prevMethod : 'changeOut',
+
+			// Enable default helpers
+			helpers : {
+				overlay : true,
+				title   : true
+			},
+
+			// Callbacks
+			onCancel     : $.noop, // If canceling
+			beforeLoad   : $.noop, // Before loading
+			afterLoad    : $.noop, // After loading
+			beforeShow   : $.noop, // Before changing in current item
+			afterShow    : $.noop, // After opening
+			beforeChange : $.noop, // Before changing gallery item
+			beforeClose  : $.noop, // Before closing
+			afterClose   : $.noop  // After closing
+		},
+
+		//Current state
+		group    : {}, // Selected group
+		opts     : {}, // Group options
+		previous : null,  // Previous element
+		coming   : null,  // Element being loaded
+		current  : null,  // Currently loaded element
+		isActive : false, // Is activated
+		isOpen   : false, // Is currently open
+		isOpened : false, // Have been fully opened at least once
+
+		wrap  : null,
+		skin  : null,
+		outer : null,
+		inner : null,
+
+		player : {
+			timer    : null,
+			isActive : false
+		},
+
+		// Loaders
+		ajaxLoad   : null,
+		imgPreload : null,
+
+		// Some collections
+		transitions : {},
+		helpers     : {},
+
+		/*
+		 *	Static methods
+		 */
+
+		open: function (group, opts) {
+			if (!group) {
+				return;
+			}
+
+			if (!$.isPlainObject(opts)) {
+				opts = {};
+			}
+
+			// Close if already active
+			if (false === F.close(true)) {
+				return;
+			}
+
+			// Normalize group
+			if (!$.isArray(group)) {
+				group = isQuery(group) ? $(group).get() : [group];
+			}
+
+			// Recheck if the type of each element is `object` and set content type (image, ajax, etc)
+			$.each(group, function(i, element) {
+				var obj = {},
+					href,
+					title,
+					content,
+					type,
+					rez,
+					hrefParts,
+					selector;
+
+				if ($.type(element) === "object") {
+					// Check if is DOM element
+					if (element.nodeType) {
+						element = $(element);
+					}
+
+					if (isQuery(element)) {
+						obj = {
+							href    : element.data('fancybox-href') || element.attr('href'),
+							title   : element.data('fancybox-title') || element.attr('title'),
+							isDom   : true,
+							element : element
+						};
+
+						if ($.metadata) {
+							$.extend(true, obj, element.metadata());
+						}
+
+					} else {
+						obj = element;
+					}
+				}
+
+				href  = opts.href  || obj.href || (isString(element) ? element : null);
+				title = opts.title !== undefined ? opts.title : obj.title || '';
+
+				content = opts.content || obj.content;
+				type    = content ? 'html' : (opts.type  || obj.type);
+
+				if (!type && obj.isDom) {
+					type = element.data('fancybox-type');
+
+					if (!type) {
+						rez  = element.prop('class').match(/fancybox\.(\w+)/);
+						type = rez ? rez[1] : null;
+					}
+				}
+
+				if (isString(href)) {
+					// Try to guess the content type
+					if (!type) {
+						if (F.isImage(href)) {
+							type = 'image';
+
+						} else if (F.isSWF(href)) {
+							type = 'swf';
+
+						} else if (href.charAt(0) === '#') {
+							type = 'inline';
+
+						} else if (isString(element)) {
+							type    = 'html';
+							content = element;
+						}
+					}
+
+					// Split url into two pieces with source url and content selector, e.g,
+					// "/mypage.html #my_id" will load "/mypage.html" and display element having id "my_id"
+					if (type === 'ajax') {
+						hrefParts = href.split(/\s+/, 2);
+						href      = hrefParts.shift();
+						selector  = hrefParts.shift();
+					}
+				}
+
+				if (!content) {
+					if (type === 'inline') {
+						if (href) {
+							content = $( isString(href) ? href.replace(/.*(?=#[^\s]+$)/, '') : href ); //strip for ie7
+
+						} else if (obj.isDom) {
+							content = element;
+						}
+
+					} else if (type === 'html') {
+						content = href;
+
+					} else if (!type && !href && obj.isDom) {
+						type    = 'inline';
+						content = element;
+					}
+				}
+
+				$.extend(obj, {
+					href     : href,
+					type     : type,
+					content  : content,
+					title    : title,
+					selector : selector
+				});
+
+				group[ i ] = obj;
+			});
+
+			// Extend the defaults
+			F.opts = $.extend(true, {}, F.defaults, opts);
+
+			// All options are merged recursive except keys
+			if (opts.keys !== undefined) {
+				F.opts.keys = opts.keys ? $.extend({}, F.defaults.keys, opts.keys) : false;
+			}
+
+			F.group = group;
+
+			return F._start(F.opts.index);
+		},
+
+		// Cancel image loading or abort ajax request
+		cancel: function () {
+			var coming = F.coming;
+
+			if (!coming || false === F.trigger('onCancel')) {
+				return;
+			}
+
+			F.hideLoading();
+
+			if (F.ajaxLoad) {
+				F.ajaxLoad.abort();
+			}
+
+			F.ajaxLoad = null;
+
+			if (F.imgPreload) {
+				F.imgPreload.onload = F.imgPreload.onerror = null;
+			}
+
+			if (coming.wrap) {
+				coming.wrap.stop(true, true).trigger('onReset').remove();
+			}
+
+			F.coming = null;
+
+			// If the first item has been canceled, then clear everything
+			if (!F.current) {
+				F._afterZoomOut( coming );
+			}
+		},
+
+		// Start closing animation if is open; remove immediately if opening/closing
+		close: function (event) {
+			F.cancel();
+
+			if (false === F.trigger('beforeClose')) {
+				return;
+			}
+
+			F.unbindEvents();
+
+			if (!F.isActive) {
+				return;
+			}
+
+			if (!F.isOpen || event === true) {
+				$('.fancybox-wrap').stop(true).trigger('onReset').remove();
+
+				F._afterZoomOut();
+
+			} else {
+				F.isOpen = F.isOpened = false;
+				F.isClosing = true;
+
+				$('.fancybox-item, .fancybox-nav').remove();
+
+				F.wrap.stop(true, true).removeClass('fancybox-opened');
+
+				F.transitions[ F.current.closeMethod ]();
+			}
+		},
+
+		// Manage slideshow:
+		//   $.fancybox.play(); - toggle slideshow
+		//   $.fancybox.play( true ); - start
+		//   $.fancybox.play( false ); - stop
+		play: function ( action ) {
+			var clear = function () {
+					clearTimeout(F.player.timer);
+				},
+				set = function () {
+					clear();
+
+					if (F.current && F.player.isActive) {
+						F.player.timer = setTimeout(F.next, F.current.playSpeed);
+					}
+				},
+				stop = function () {
+					clear();
+
+					D.unbind('.player');
+
+					F.player.isActive = false;
+
+					F.trigger('onPlayEnd');
+				},
+				start = function () {
+					if (F.current && (F.current.loop || F.current.index < F.group.length - 1)) {
+						F.player.isActive = true;
+
+						D.bind({
+							'onCancel.player beforeClose.player' : stop,
+							'onUpdate.player'   : set,
+							'beforeLoad.player' : clear
+						});
+
+						set();
+
+						F.trigger('onPlayStart');
+					}
+				};
+
+			if (action === true || (!F.player.isActive && action !== false)) {
+				start();
+			} else {
+				stop();
+			}
+		},
+
+		// Navigate to next gallery item
+		next: function ( direction ) {
+			var current = F.current;
+
+			if (current) {
+				if (!isString(direction)) {
+					direction = current.direction.next;
+				}
+
+				F.jumpto(current.index + 1, direction, 'next');
+			}
+		},
+
+		// Navigate to previous gallery item
+		prev: function ( direction ) {
+			var current = F.current;
+
+			if (current) {
+				if (!isString(direction)) {
+					direction = current.direction.prev;
+				}
+
+				F.jumpto(current.index - 1, direction, 'prev');
+			}
+		},
+
+		// Navigate to gallery item by index
+		jumpto: function ( index, direction, router ) {
+			var current = F.current;
+
+			if (!current) {
+				return;
+			}
+
+			index = getScalar(index);
+
+			F.direction = direction || current.direction[ (index >= current.index ? 'next' : 'prev') ];
+			F.router    = router || 'jumpto';
+
+			if (current.loop) {
+				if (index < 0) {
+					index = current.group.length + (index % current.group.length);
+				}
+
+				index = index % current.group.length;
+			}
+
+			if (current.group[ index ] !== undefined) {
+				F.cancel();
+
+				F._start(index);
+			}
+		},
+
+		// Center inside viewport and toggle position type to fixed or absolute if needed
+		reposition: function (e, onlyAbsolute) {
+			var current = F.current,
+				wrap    = current ? current.wrap : null,
+				pos;
+
+			if (wrap) {
+				pos = F._getPosition(onlyAbsolute);
+
+				if (e && e.type === 'scroll') {
+					delete pos.position;
+
+					wrap.stop(true, true).animate(pos, 200);
+
+				} else {
+					wrap.css(pos);
+
+					current.pos = $.extend({}, current.dim, pos);
+				}
+			}
+		},
+
+		update: function (e) {
+			var type = (e && e.type),
+				anyway = !type || type === 'orientationchange';
+
+			if (anyway) {
+				clearTimeout(didUpdate);
+
+				didUpdate = null;
+			}
+
+			if (!F.isOpen || didUpdate) {
+				return;
+			}
+
+			didUpdate = setTimeout(function() {
+				var current = F.current;
+
+				if (!current || F.isClosing) {
+					return;
+				}
+
+				F.wrap.removeClass('fancybox-tmp');
+
+				if (anyway || type === 'load' || (type === 'resize' && current.autoResize)) {
+					F._setDimension();
+				}
+
+				if (!(type === 'scroll' && current.canShrink)) {
+					F.reposition(e);
+				}
+
+				F.trigger('onUpdate');
+
+				didUpdate = null;
+
+			}, (anyway && !isTouch ? 0 : 300));
+		},
+
+		// Shrink content to fit inside viewport or restore if resized
+		toggle: function ( action ) {
+			if (F.isOpen) {
+				F.current.fitToView = $.type(action) === "boolean" ? action : !F.current.fitToView;
+
+				// Help browser to restore document dimensions
+				if (isTouch) {
+					F.wrap.removeAttr('style').addClass('fancybox-tmp');
+
+					F.trigger('onUpdate');
+				}
+
+				F.update();
+			}
+		},
+
+		hideLoading: function () {
+			D.unbind('.loading');
+
+			$('#fancybox-loading').remove();
+		},
+
+		showLoading: function () {
+			var el, viewport;
+
+			F.hideLoading();
+
+			el = $('<div id="fancybox-loading"><div></div></div>').click(F.cancel).appendTo('body');
+
+			// If user will press the escape-button, the request will be canceled
+			D.bind('keydown.loading', function(e) {
+				if ((e.which || e.keyCode) === 27) {
+					e.preventDefault();
+
+					F.cancel();
+				}
+			});
+
+			if (!F.defaults.fixed) {
+				viewport = F.getViewport();
+
+				el.css({
+					position : 'absolute',
+					top  : (viewport.h * 0.5) + viewport.y,
+					left : (viewport.w * 0.5) + viewport.x
+				});
+			}
+		},
+
+		getViewport: function () {
+			var locked = (F.current && F.current.locked) || false,
+				rez    = {
+					x: W.scrollLeft(),
+					y: W.scrollTop()
+				};
+
+			if (locked) {
+				rez.w = locked[0].clientWidth;
+				rez.h = locked[0].clientHeight;
+
+			} else {
+				// See http://bugs.jquery.com/ticket/6724
+				rez.w = isTouch && window.innerWidth  ? window.innerWidth  : W.width();
+				rez.h = isTouch && window.innerHeight ? window.innerHeight : W.height();
+			}
+
+			return rez;
+		},
+
+		// Unbind the keyboard / clicking actions
+		unbindEvents: function () {
+			if (F.wrap && isQuery(F.wrap)) {
+				F.wrap.unbind('.fb');
+			}
+
+			D.unbind('.fb');
+			W.unbind('.fb');
+		},
+
+		bindEvents: function () {
+			var current = F.current,
+				keys;
+
+			if (!current) {
+				return;
+			}
+
+			// Changing document height on iOS devices triggers a 'resize' event,
+			// that can change document height... repeating infinitely
+			W.bind('orientationchange.fb' + (isTouch ? '' : ' resize.fb') + (current.autoCenter && !current.locked ? ' scroll.fb' : ''), F.update);
+
+			keys = current.keys;
+
+			if (keys) {
+				D.bind('keydown.fb', function (e) {
+					var code   = e.which || e.keyCode,
+						target = e.target || e.srcElement;
+
+					// Skip esc key if loading, because showLoading will cancel preloading
+					if (code === 27 && F.coming) {
+						return false;
+					}
+
+					// Ignore key combinations and key events within form elements
+					if (!e.ctrlKey && !e.altKey && !e.shiftKey && !e.metaKey && !(target && (target.type || $(target).is('[contenteditable]')))) {
+						$.each(keys, function(i, val) {
+							if (current.group.length > 1 && val[ code ] !== undefined) {
+								F[ i ]( val[ code ] );
+
+								e.preventDefault();
+								return false;
+							}
+
+							if ($.inArray(code, val) > -1) {
+								F[ i ] ();
+
+								e.preventDefault();
+								return false;
+							}
+						});
+					}
+				});
+			}
+
+			if ($.fn.mousewheel && current.mouseWheel) {
+				F.wrap.bind('mousewheel.fb', function (e, delta, deltaX, deltaY) {
+					var target = e.target || null,
+						parent = $(target),
+						canScroll = false;
+
+					while (parent.length) {
+						if (canScroll || parent.is('.fancybox-skin') || parent.is('.fancybox-wrap')) {
+							break;
+						}
+
+						canScroll = isScrollable( parent[0] );
+						parent    = $(parent).parent();
+					}
+
+					if (delta !== 0 && !canScroll) {
+						if (F.group.length > 1 && !current.canShrink) {
+							if (deltaY > 0 || deltaX > 0) {
+								F.prev( deltaY > 0 ? 'down' : 'left' );
+
+							} else if (deltaY < 0 || deltaX < 0) {
+								F.next( deltaY < 0 ? 'up' : 'right' );
+							}
+
+							e.preventDefault();
+						}
+					}
+				});
+			}
+		},
+
+		trigger: function (event, o) {
+			var ret, obj = o || F.coming || F.current;
+
+			if (!obj) {
+				return;
+			}
+
+			if ($.isFunction( obj[event] )) {
+				ret = obj[event].apply(obj, Array.prototype.slice.call(arguments, 1));
+			}
+
+			if (ret === false) {
+				return false;
+			}
+
+			if (obj.helpers) {
+				$.each(obj.helpers, function (helper, opts) {
+					if (opts && F.helpers[helper] && $.isFunction(F.helpers[helper][event])) {
+						F.helpers[helper][event]($.extend(true, {}, F.helpers[helper].defaults, opts), obj);
+					}
+				});
+			}
+
+			D.trigger(event);
+		},
+
+		isImage: function (str) {
+			return isString(str) && str.match(/(^data:image\/.*,)|(\.(jp(e|g|eg)|gif|png|bmp|webp|svg)((\?|#).*)?$)/i);
+		},
+
+		isSWF: function (str) {
+			return isString(str) && str.match(/\.(swf)((\?|#).*)?$/i);
+		},
+
+		_start: function (index) {
+			var coming = {},
+				obj,
+				href,
+				type,
+				margin,
+				padding;
+
+			index = getScalar( index );
+			obj   = F.group[ index ] || null;
+
+			if (!obj) {
+				return false;
+			}
+
+			coming = $.extend(true, {}, F.opts, obj);
+
+			// Convert margin and padding properties to array - top, right, bottom, left
+			margin  = coming.margin;
+			padding = coming.padding;
+
+			if ($.type(margin) === 'number') {
+				coming.margin = [margin, margin, margin, margin];
+			}
+
+			if ($.type(padding) === 'number') {
+				coming.padding = [padding, padding, padding, padding];
+			}
+
+			// 'modal' propery is just a shortcut
+			if (coming.modal) {
+				$.extend(true, coming, {
+					closeBtn   : false,
+					closeClick : false,
+					nextClick  : false,
+					arrows     : false,
+					mouseWheel : false,
+					keys       : null,
+					helpers: {
+						overlay : {
+							closeClick : false
+						}
+					}
+				});
+			}
+
+			// 'autoSize' property is a shortcut, too
+			if (coming.autoSize) {
+				coming.autoWidth = coming.autoHeight = true;
+			}
+
+			if (coming.width === 'auto') {
+				coming.autoWidth = true;
+			}
+
+			if (coming.height === 'auto') {
+				coming.autoHeight = true;
+			}
+
+			/*
+			 * Add reference to the group, so it`s possible to access from callbacks, example:
+			 * afterLoad : function() {
+			 *     this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
+			 * }
+			 */
+
+			coming.group  = F.group;
+			coming.index  = index;
+
+			// Give a chance for callback or helpers to update coming item (type, title, etc)
+			F.coming = coming;
+
+			if (false === F.trigger('beforeLoad')) {
+				F.coming = null;
+
+				return;
+			}
+
+			type = coming.type;
+			href = coming.href;
+
+			if (!type) {
+				F.coming = null;
+
+				//If we can not determine content type then drop silently or display next/prev item if looping through gallery
+				if (F.current && F.router && F.router !== 'jumpto') {
+					F.current.index = index;
+
+					return F[ F.router ]( F.direction );
+				}
+
+				return false;
+			}
+
+			F.isActive = true;
+
+			if (type === 'image' || type === 'swf') {
+				coming.autoHeight = coming.autoWidth = false;
+				coming.scrolling  = 'visible';
+			}
+
+			if (type === 'image') {
+				coming.aspectRatio = true;
+			}
+
+			if (type === 'iframe' && isTouch) {
+				coming.scrolling = 'scroll';
+			}
+
+			// Build the neccessary markup
+			coming.wrap = $(coming.tpl.wrap).addClass('fancybox-' + (isTouch ? 'mobile' : 'desktop') + ' fancybox-type-' + type + ' fancybox-tmp ' + coming.wrapCSS).appendTo( coming.parent || 'body' );
+
+			$.extend(coming, {
+				skin  : $('.fancybox-skin',  coming.wrap),
+				outer : $('.fancybox-outer', coming.wrap),
+				inner : $('.fancybox-inner', coming.wrap)
+			});
+
+			$.each(["Top", "Right", "Bottom", "Left"], function(i, v) {
+				coming.skin.css('padding' + v, getValue(coming.padding[ i ]));
+			});
+
+			F.trigger('onReady');
+
+			// Check before try to load; 'inline' and 'html' types need content, others - href
+			if (type === 'inline' || type === 'html') {
+				if (!coming.content || !coming.content.length) {
+					return F._error( 'content' );
+				}
+
+			} else if (!href) {
+				return F._error( 'href' );
+			}
+
+			if (type === 'image') {
+				F._loadImage();
+
+			} else if (type === 'ajax') {
+				F._loadAjax();
+
+			} else if (type === 'iframe') {
+				F._loadIframe();
+
+			} else {
+				F._afterLoad();
+			}
+		},
+
+		_error: function ( type ) {
+			$.extend(F.coming, {
+				type       : 'html',
+				autoWidth  : true,
+				autoHeight : true,
+				minWidth   : 0,
+				minHeight  : 0,
+				scrolling  : 'no',
+				hasError   : type,
+				content    : F.coming.tpl.error
+			});
+
+			F._afterLoad();
+		},
+
+		_loadImage: function () {
+			// Reset preload image so it is later possible to check "complete" property
+			var img = F.imgPreload = new Image();
+
+			img.onload = function () {
+				this.onload = this.onerror = null;
+
+				F.coming.width  = this.width / F.opts.pixelRatio;
+				F.coming.height = this.height / F.opts.pixelRatio;
+
+				F._afterLoad();
+			};
+
+			img.onerror = function () {
+				this.onload = this.onerror = null;
+
+				F._error( 'image' );
+			};
+
+			img.src = F.coming.href;
+
+			if (img.complete !== true) {
+				F.showLoading();
+			}
+		},
+
+		_loadAjax: function () {
+			var coming = F.coming;
+
+			F.showLoading();
+
+			F.ajaxLoad = $.ajax($.extend({}, coming.ajax, {
+				url: coming.href,
+				error: function (jqXHR, textStatus) {
+					if (F.coming && textStatus !== 'abort') {
+						F._error( 'ajax', jqXHR );
+
+					} else {
+						F.hideLoading();
+					}
+				},
+				success: function (data, textStatus) {
+					if (textStatus === 'success') {
+						coming.content = data;
+
+						F._afterLoad();
+					}
+				}
+			}));
+		},
+
+		_loadIframe: function() {
+			var coming = F.coming,
+				iframe = $(coming.tpl.iframe.replace(/\{rnd\}/g, new Date().getTime()))
+					.attr('scrolling', isTouch ? 'auto' : coming.iframe.scrolling)
+					.attr('src', coming.href);
+
+			// This helps IE
+			$(coming.wrap).bind('onReset', function () {
+				try {
+					$(this).find('iframe').hide().attr('src', '//about:blank').end().empty();
+				} catch (e) {}
+			});
+
+			if (coming.iframe.preload) {
+				F.showLoading();
+
+				iframe.one('load', function() {
+					$(this).data('ready', 1);
+
+					// iOS will lose scrolling if we resize
+					if (!isTouch) {
+						$(this).bind('load.fb', F.update);
+					}
+
+					// Without this trick:
+					//   - iframe won't scroll on iOS devices
+					//   - IE7 sometimes displays empty iframe
+					$(this).parents('.fancybox-wrap').width('100%').removeClass('fancybox-tmp').show();
+
+					F._afterLoad();
+				});
+			}
+
+			coming.content = iframe.appendTo( coming.inner );
+
+			if (!coming.iframe.preload) {
+				F._afterLoad();
+			}
+		},
+
+		_preloadImages: function() {
+			var group   = F.group,
+				current = F.current,
+				len     = group.length,
+				cnt     = current.preload ? Math.min(current.preload, len - 1) : 0,
+				item,
+				i;
+
+			for (i = 1; i <= cnt; i += 1) {
+				item = group[ (current.index + i ) % len ];
+
+				if (item.type === 'image' && item.href) {
+					new Image().src = item.href;
+				}
+			}
+		},
+
+		_afterLoad: function () {
+			var coming   = F.coming,
+				previous = F.current,
+				placeholder = 'fancybox-placeholder',
+				current,
+				content,
+				type,
+				scrolling,
+				href,
+				embed;
+
+			F.hideLoading();
+
+			if (!coming || F.isActive === false) {
+				return;
+			}
+
+			if (false === F.trigger('afterLoad', coming, previous)) {
+				coming.wrap.stop(true).trigger('onReset').remove();
+
+				F.coming = null;
+
+				return;
+			}
+
+			if (previous) {
+				F.trigger('beforeChange', previous);
+
+				previous.wrap.stop(true).removeClass('fancybox-opened')
+					.find('.fancybox-item, .fancybox-nav')
+					.remove();
+			}
+
+			F.unbindEvents();
+
+			current   = coming;
+			content   = coming.content;
+			type      = coming.type;
+			scrolling = coming.scrolling;
+
+			$.extend(F, {
+				wrap  : current.wrap,
+				skin  : current.skin,
+				outer : current.outer,
+				inner : current.inner,
+				current  : current,
+				previous : previous
+			});
+
+			href = current.href;
+
+			switch (type) {
+				case 'inline':
+				case 'ajax':
+				case 'html':
+					if (current.selector) {
+						content = $('<div>').html(content).find(current.selector);
+
+					} else if (isQuery(content)) {
+						if (!content.data(placeholder)) {
+							content.data(placeholder, $('<div class="' + placeholder + '"></div>').insertAfter( content ).hide() );
+						}
+
+						content = content.show().detach();
+
+						current.wrap.bind('onReset', function () {
+							if ($(this).find(content).length) {
+								content.hide().replaceAll( content.data(placeholder) ).data(placeholder, false);
+							}
+						});
+					}
+				break;
+
+				case 'image':
+					content = current.tpl.image.replace('{href}', href);
+				break;
+
+				case 'swf':
+					content = '<object id="fancybox-swf" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%"><param name="movie" value="' + href + '"></param>';
+					embed   = '';
+
+					$.each(current.swf, function(name, val) {
+						content += '<param name="' + name + '" value="' + val + '"></param>';
+						embed   += ' ' + name + '="' + val + '"';
+					});
+
+					content += '<embed src="' + href + '" type="application/x-shockwave-flash" width="100%" height="100%"' + embed + '></embed></object>';
+				break;
+			}
+
+			if (!(isQuery(content) && content.parent().is(current.inner))) {
+				current.inner.append( content );
+			}
+
+			// Give a chance for helpers or callbacks to update elements
+			F.trigger('beforeShow');
+
+			// Set scrolling before calculating dimensions
+			current.inner.css('overflow', scrolling === 'yes' ? 'scroll' : (scrolling === 'no' ? 'hidden' : scrolling));
+
+			// Set initial dimensions and start position
+			F._setDimension();
+
+			F.reposition();
+
+			F.isOpen = false;
+			F.coming = null;
+
+			F.bindEvents();
+
+			if (!F.isOpened) {
+				$('.fancybox-wrap').not( current.wrap ).stop(true).trigger('onReset').remove();
+
+			} else if (previous.prevMethod) {
+				F.transitions[ previous.prevMethod ]();
+			}
+
+			F.transitions[ F.isOpened ? current.nextMethod : current.openMethod ]();
+
+			F._preloadImages();
+		},
+
+		_setDimension: function () {
+			var viewport   = F.getViewport(),
+				steps      = 0,
+				canShrink  = false,
+				canExpand  = false,
+				wrap       = F.wrap,
+				skin       = F.skin,
+				inner      = F.inner,
+				current    = F.current,
+				width      = current.width,
+				height     = current.height,
+				minWidth   = current.minWidth,
+				minHeight  = current.minHeight,
+				maxWidth   = current.maxWidth,
+				maxHeight  = current.maxHeight,
+				scrolling  = current.scrolling,
+				scrollOut  = current.scrollOutside ? current.scrollbarWidth : 0,
+				margin     = current.margin,
+				wMargin    = getScalar(margin[1] + margin[3]),
+				hMargin    = getScalar(margin[0] + margin[2]),
+				wPadding,
+				hPadding,
+				wSpace,
+				hSpace,
+				origWidth,
+				origHeight,
+				origMaxWidth,
+				origMaxHeight,
+				ratio,
+				width_,
+				height_,
+				maxWidth_,
+				maxHeight_,
+				iframe,
+				body;
+
+			// Reset dimensions so we could re-check actual size
+			wrap.add(skin).add(inner).width('auto').height('auto').removeClass('fancybox-tmp');
+
+			wPadding = getScalar(skin.outerWidth(true)  - skin.width());
+			hPadding = getScalar(skin.outerHeight(true) - skin.height());
+
+			// Any space between content and viewport (margin, padding, border, title)
+			wSpace = wMargin + wPadding;
+			hSpace = hMargin + hPadding;
+
+			origWidth  = isPercentage(width)  ? (viewport.w - wSpace) * getScalar(width)  / 100 : width;
+			origHeight = isPercentage(height) ? (viewport.h - hSpace) * getScalar(height) / 100 : height;
+
+			if (current.type === 'iframe') {
+				iframe = current.content;
+
+				if (current.autoHeight && iframe.data('ready') === 1) {
+					try {
+						if (iframe[0].contentWindow.document.location) {
+							inner.width( origWidth ).height(9999);
+
+							body = iframe.contents().find('body');
+
+							if (scrollOut) {
+								body.css('overflow-x', 'hidden');
+							}
+
+							origHeight = body.outerHeight(true);
+						}
+
+					} catch (e) {}
+				}
+
+			} else if (current.autoWidth || current.autoHeight) {
+				inner.addClass( 'fancybox-tmp' );
+
+				// Set width or height in case we need to calculate only one dimension
+				if (!current.autoWidth) {
+					inner.width( origWidth );
+				}
+
+				if (!current.autoHeight) {
+					inner.height( origHeight );
+				}
+
+				if (current.autoWidth) {
+					origWidth = inner.width();
+				}
+
+				if (current.autoHeight) {
+					origHeight = inner.height();
+				}
+
+				inner.removeClass( 'fancybox-tmp' );
+			}
+
+			width  = getScalar( origWidth );
+			height = getScalar( origHeight );
+
+			ratio  = origWidth / origHeight;
+
+			// Calculations for the content
+			minWidth  = getScalar(isPercentage(minWidth) ? getScalar(minWidth, 'w') - wSpace : minWidth);
+			maxWidth  = getScalar(isPercentage(maxWidth) ? getScalar(maxWidth, 'w') - wSpace : maxWidth);
+
+			minHeight = getScalar(isPercentage(minHeight) ? getScalar(minHeight, 'h') - hSpace : minHeight);
+			maxHeight = getScalar(isPercentage(maxHeight) ? getScalar(maxHeight, 'h') - hSpace : maxHeight);
+
+			// These will be used to determine if wrap can fit in the viewport
+			origMaxWidth  = maxWidth;
+			origMaxHeight = maxHeight;
+
+			if (current.fitToView) {
+				maxWidth  = Math.min(viewport.w - wSpace, maxWidth);
+				maxHeight = Math.min(viewport.h - hSpace, maxHeight);
+			}
+
+			maxWidth_  = viewport.w - wMargin;
+			maxHeight_ = viewport.h - hMargin;
+
+			if (current.aspectRatio) {
+				if (width > maxWidth) {
+					width  = maxWidth;
+					height = getScalar(width / ratio);
+				}
+
+				if (height > maxHeight) {
+					height = maxHeight;
+					width  = getScalar(height * ratio);
+				}
+
+				if (width < minWidth) {
+					width  = minWidth;
+					height = getScalar(width / ratio);
+				}
+
+				if (height < minHeight) {
+					height = minHeight;
+					width  = getScalar(height * ratio);
+				}
+
+			} else {
+				width = Math.max(minWidth, Math.min(width, maxWidth));
+
+				if (current.autoHeight && current.type !== 'iframe') {
+					inner.width( width );
+
+					height = inner.height();
+				}
+
+				height = Math.max(minHeight, Math.min(height, maxHeight));
+			}
+
+			// Try to fit inside viewport (including the title)
+			if (current.fitToView) {
+				inner.width( width ).height( height );
+
+				wrap.width( width + wPadding );
+
+				// Real wrap dimensions
+				width_  = wrap.width();
+				height_ = wrap.height();
+
+				if (current.aspectRatio) {
+					while ((width_ > maxWidth_ || height_ > maxHeight_) && width > minWidth && height > minHeight) {
+						if (steps++ > 19) {
+							break;
+						}
+
+						height = Math.max(minHeight, Math.min(maxHeight, height - 10));
+						width  = getScalar(height * ratio);
+
+						if (width < minWidth) {
+							width  = minWidth;
+							height = getScalar(width / ratio);
+						}
+
+						if (width > maxWidth) {
+							width  = maxWidth;
+							height = getScalar(width / ratio);
+						}
+
+						inner.width( width ).height( height );
+
+						wrap.width( width + wPadding );
+
+						width_  = wrap.width();
+						height_ = wrap.height();
+					}
+
+				} else {
+					width  = Math.max(minWidth,  Math.min(width,  width  - (width_  - maxWidth_)));
+					height = Math.max(minHeight, Math.min(height, height - (height_ - maxHeight_)));
+				}
+			}
+
+			if (scrollOut && scrolling === 'auto' && height < origHeight && (width + wPadding + scrollOut) < maxWidth_) {
+				width += scrollOut;
+			}
+
+			inner.width( width ).height( height );
+
+			wrap.width( width + wPadding );
+
+			width_  = wrap.width();
+			height_ = wrap.height();
+
+			canShrink = (width_ > maxWidth_ || height_ > maxHeight_) && width > minWidth && height > minHeight;
+			canExpand = current.aspectRatio ? (width < origMaxWidth && height < origMaxHeight && width < origWidth && height < origHeight) : ((width < origMaxWidth || height < origMaxHeight) && (width < origWidth || height < origHeight));
+
+			$.extend(current, {
+				dim : {
+					width	: getValue( width_ ),
+					height	: getValue( height_ )
+				},
+				origWidth  : origWidth,
+				origHeight : origHeight,
+				canShrink  : canShrink,
+				canExpand  : canExpand,
+				wPadding   : wPadding,
+				hPadding   : hPadding,
+				wrapSpace  : height_ - skin.outerHeight(true),
+				skinSpace  : skin.height() - height
+			});
+
+			if (!iframe && current.autoHeight && height > minHeight && height < maxHeight && !canExpand) {
+				inner.height('auto');
+			}
+		},
+
+		_getPosition: function (onlyAbsolute) {
+			var current  = F.current,
+				viewport = F.getViewport(),
+				margin   = current.margin,
+				width    = F.wrap.width()  + margin[1] + margin[3],
+				height   = F.wrap.height() + margin[0] + margin[2],
+				rez      = {
+					position: 'absolute',
+					top  : margin[0],
+					left : margin[3]
+				};
+
+			if (current.autoCenter && current.fixed && !onlyAbsolute && height <= viewport.h && width <= viewport.w) {
+				rez.position = 'fixed';
+
+			} else if (!current.locked) {
+				rez.top  += viewport.y;
+				rez.left += viewport.x;
+			}
+
+			rez.top  = getValue(Math.max(rez.top,  rez.top  + ((viewport.h - height) * current.topRatio)));
+			rez.left = getValue(Math.max(rez.left, rez.left + ((viewport.w - width)  * current.leftRatio)));
+
+			return rez;
+		},
+
+		_afterZoomIn: function () {
+			var current = F.current;
+
+			if (!current) {
+				return;
+			}
+
+			F.isOpen = F.isOpened = true;
+
+			F.wrap.css('overflow', 'visible').addClass('fancybox-opened');
+
+			F.update();
+
+			// Assign a click event
+			if ( current.closeClick || (current.nextClick && F.group.length > 1) ) {
+				F.inner.css('cursor', 'pointer').bind('click.fb', function(e) {
+					if (!$(e.target).is('a') && !$(e.target).parent().is('a')) {
+						e.preventDefault();
+
+						F[ current.closeClick ? 'close' : 'next' ]();
+					}
+				});
+			}
+
+			// Create a close button
+			if (current.closeBtn) {
+				$(current.tpl.closeBtn).appendTo(F.skin).bind('click.fb', function(e) {
+					e.preventDefault();
+
+					F.close();
+				});
+			}
+
+			// Create navigation arrows
+			if (current.arrows && F.group.length > 1) {
+				if (current.loop || current.index > 0) {
+					$(current.tpl.prev).appendTo(F.outer).bind('click.fb', F.prev);
+				}
+
+				if (current.loop || current.index < F.group.length - 1) {
+					$(current.tpl.next).appendTo(F.outer).bind('click.fb', F.next);
+				}
+			}
+
+			F.trigger('afterShow');
+
+			// Stop the slideshow if this is the last item
+			if (!current.loop && current.index === current.group.length - 1) {
+				F.play( false );
+
+			} else if (F.opts.autoPlay && !F.player.isActive) {
+				F.opts.autoPlay = false;
+
+				F.play();
+			}
+		},
+
+		_afterZoomOut: function ( obj ) {
+			obj = obj || F.current;
+
+			$('.fancybox-wrap').trigger('onReset').remove();
+
+			$.extend(F, {
+				group  : {},
+				opts   : {},
+				router : false,
+				current   : null,
+				isActive  : false,
+				isOpened  : false,
+				isOpen    : false,
+				isClosing : false,
+				wrap   : null,
+				skin   : null,
+				outer  : null,
+				inner  : null
+			});
+
+			F.trigger('afterClose', obj);
+		}
+	});
+
+	/*
+	 *	Default transitions
+	 */
+
+	F.transitions = {
+		getOrigPosition: function () {
+			var current  = F.current,
+				element  = current.element,
+				orig     = current.orig,
+				pos      = {},
+				width    = 50,
+				height   = 50,
+				hPadding = current.hPadding,
+				wPadding = current.wPadding,
+				viewport = F.getViewport();
+
+			if (!orig && current.isDom && element.is(':visible')) {
+				orig = element.find('img:first');
+
+				if (!orig.length) {
+					orig = element;
+				}
+			}
+
+			if (isQuery(orig)) {
+				pos = orig.offset();
+
+				if (orig.is('img')) {
+					width  = orig.outerWidth();
+					height = orig.outerHeight();
+				}
+
+			} else {
+				pos.top  = viewport.y + (viewport.h - height) * current.topRatio;
+				pos.left = viewport.x + (viewport.w - width)  * current.leftRatio;
+			}
+
+			if (F.wrap.css('position') === 'fixed' || current.locked) {
+				pos.top  -= viewport.y;
+				pos.left -= viewport.x;
+			}
+
+			pos = {
+				top     : getValue(pos.top  - hPadding * current.topRatio),
+				left    : getValue(pos.left - wPadding * current.leftRatio),
+				width   : getValue(width  + wPadding),
+				height  : getValue(height + hPadding)
+			};
+
+			return pos;
+		},
+
+		step: function (now, fx) {
+			var ratio,
+				padding,
+				value,
+				prop       = fx.prop,
+				current    = F.current,
+				wrapSpace  = current.wrapSpace,
+				skinSpace  = current.skinSpace;
+
+			if (prop === 'width' || prop === 'height') {
+				ratio = fx.end === fx.start ? 1 : (now - fx.start) / (fx.end - fx.start);
+
+				if (F.isClosing) {
+					ratio = 1 - ratio;
+				}
+
+				padding = prop === 'width' ? current.wPadding : current.hPadding;
+				value   = now - padding;
+
+				F.skin[ prop ](  getScalar( prop === 'width' ?  value : value - (wrapSpace * ratio) ) );
+				F.inner[ prop ]( getScalar( prop === 'width' ?  value : value - (wrapSpace * ratio) - (skinSpace * ratio) ) );
+			}
+		},
+
+		zoomIn: function () {
+			var current  = F.current,
+				startPos = current.pos,
+				effect   = current.openEffect,
+				elastic  = effect === 'elastic',
+				endPos   = $.extend({opacity : 1}, startPos);
+
+			// Remove "position" property that breaks older IE
+			delete endPos.position;
+
+			if (elastic) {
+				startPos = this.getOrigPosition();
+
+				if (current.openOpacity) {
+					startPos.opacity = 0.1;
+				}
+
+			} else if (effect === 'fade') {
+				startPos.opacity = 0.1;
+			}
+
+			F.wrap.css(startPos).animate(endPos, {
+				duration : effect === 'none' ? 0 : current.openSpeed,
+				easing   : current.openEasing,
+				step     : elastic ? this.step : null,
+				complete : F._afterZoomIn
+			});
+		},
+
+		zoomOut: function () {
+			var current  = F.current,
+				effect   = current.closeEffect,
+				elastic  = effect === 'elastic',
+				endPos   = {opacity : 0.1};
+
+			if (elastic) {
+				endPos = this.getOrigPosition();
+
+				if (current.closeOpacity) {
+					endPos.opacity = 0.1;
+				}
+			}
+
+			F.wrap.animate(endPos, {
+				duration : effect === 'none' ? 0 : current.closeSpeed,
+				easing   : current.closeEasing,
+				step     : elastic ? this.step : null,
+				complete : F._afterZoomOut
+			});
+		},
+
+		changeIn: function () {
+			var current   = F.current,
+				effect    = current.nextEffect,
+				startPos  = current.pos,
+				endPos    = { opacity : 1 },
+				direction = F.direction,
+				distance  = 200,
+				field;
+
+			startPos.opacity = 0.1;
+
+			if (effect === 'elastic') {
+				field = direction === 'down' || direction === 'up' ? 'top' : 'left';
+
+				if (direction === 'down' || direction === 'right') {
+					startPos[ field ] = getValue(getScalar(startPos[ field ]) - distance);
+					endPos[ field ]   = '+=' + distance + 'px';
+
+				} else {
+					startPos[ field ] = getValue(getScalar(startPos[ field ]) + distance);
+					endPos[ field ]   = '-=' + distance + 'px';
+				}
+			}
+
+			// Workaround for http://bugs.jquery.com/ticket/12273
+			if (effect === 'none') {
+				F._afterZoomIn();
+
+			} else {
+				F.wrap.css(startPos).animate(endPos, {
+					duration : current.nextSpeed,
+					easing   : current.nextEasing,
+					complete : F._afterZoomIn
+				});
+			}
+		},
+
+		changeOut: function () {
+			var previous  = F.previous,
+				effect    = previous.prevEffect,
+				endPos    = { opacity : 0.1 },
+				direction = F.direction,
+				distance  = 200;
+
+			if (effect === 'elastic') {
+				endPos[ direction === 'down' || direction === 'up' ? 'top' : 'left' ] = ( direction === 'up' || direction === 'left' ? '-' : '+' ) + '=' + distance + 'px';
+			}
+
+			previous.wrap.animate(endPos, {
+				duration : effect === 'none' ? 0 : previous.prevSpeed,
+				easing   : previous.prevEasing,
+				complete : function () {
+					$(this).trigger('onReset').remove();
+				}
+			});
+		}
+	};
+
+	/*
+	 *	Overlay helper
+	 */
+
+	F.helpers.overlay = {
+		defaults : {
+			closeClick : true,      // if true, fancyBox will be closed when user clicks on the overlay
+			speedOut   : 200,       // duration of fadeOut animation
+			showEarly  : true,      // indicates if should be opened immediately or wait until the content is ready
+			css        : {},        // custom CSS properties
+			locked     : !isTouch,  // if true, the content will be locked into overlay
+			fixed      : true       // if false, the overlay CSS position property will not be set to "fixed"
+		},
+
+		overlay : null,      // current handle
+		fixed   : false,     // indicates if the overlay has position "fixed"
+		el      : $('html'), // element that contains "the lock"
+
+		// Public methods
+		create : function(opts) {
+			opts = $.extend({}, this.defaults, opts);
+
+			if (this.overlay) {
+				this.close();
+			}
+
+			this.overlay = $('<div class="fancybox-overlay"></div>').appendTo( F.coming ? F.coming.parent : opts.parent );
+			this.fixed   = false;
+
+			if (opts.fixed && F.defaults.fixed) {
+				this.overlay.addClass('fancybox-overlay-fixed');
+
+				this.fixed = true;
+			}
+		},
+
+		open : function(opts) {
+			var that = this;
+
+			opts = $.extend({}, this.defaults, opts);
+
+			if (this.overlay) {
+				this.overlay.unbind('.overlay').width('auto').height('auto');
+
+			} else {
+				this.create(opts);
+			}
+
+			if (!this.fixed) {
+				W.bind('resize.overlay', $.proxy( this.update, this) );
+
+				this.update();
+			}
+
+			if (opts.closeClick) {
+				this.overlay.bind('click.overlay', function(e) {
+					if ($(e.target).hasClass('fancybox-overlay')) {
+						if (F.isActive) {
+							F.close();
+						} else {
+							that.close();
+						}
+
+						return false;
+					}
+				});
+			}
+
+			this.overlay.css( opts.css ).show();
+		},
+
+		close : function() {
+			var scrollV, scrollH;
+
+			W.unbind('resize.overlay');
+
+			if (this.el.hasClass('fancybox-lock')) {
+				$('.fancybox-margin').removeClass('fancybox-margin');
+
+				scrollV = W.scrollTop();
+				scrollH = W.scrollLeft();
+
+				this.el.removeClass('fancybox-lock');
+
+				W.scrollTop( scrollV ).scrollLeft( scrollH );
+			}
+
+			$('.fancybox-overlay').remove().hide();
+
+			$.extend(this, {
+				overlay : null,
+				fixed   : false
+			});
+		},
+
+		// Private, callbacks
+
+		update : function () {
+			var width = '100%', offsetWidth;
+
+			// Reset width/height so it will not mess
+			this.overlay.width(width).height('100%');
+
+			// jQuery does not return reliable result for IE
+			if (IE) {
+				offsetWidth = Math.max(document.documentElement.offsetWidth, document.body.offsetWidth);
+
+				if (D.width() > offsetWidth) {
+					width = D.width();
+				}
+
+			} else if (D.width() > W.width()) {
+				width = D.width();
+			}
+
+			this.overlay.width(width).height(D.height());
+		},
+
+		// This is where we can manipulate DOM, because later it would cause iframes to reload
+		onReady : function (opts, obj) {
+			var overlay = this.overlay;
+
+			$('.fancybox-overlay').stop(true, true);
+
+			if (!overlay) {
+				this.create(opts);
+			}
+
+			if (opts.locked && this.fixed && obj.fixed) {
+				if (!overlay) {
+					this.margin = D.height() > W.height() ? $('html').css('margin-right').replace("px", "") : false;
+				}
+
+				obj.locked = this.overlay.append( obj.wrap );
+				obj.fixed  = false;
+			}
+
+			if (opts.showEarly === true) {
+				this.beforeShow.apply(this, arguments);
+			}
+		},
+
+		beforeShow : function(opts, obj) {
+			var scrollV, scrollH;
+
+			if (obj.locked) {
+				if (this.margin !== false) {
+					$('*').filter(function(){
+						return ($(this).css('position') === 'fixed' && !$(this).hasClass("fancybox-overlay") && !$(this).hasClass("fancybox-wrap") );
+					}).addClass('fancybox-margin');
+
+					this.el.addClass('fancybox-margin');
+				}
+
+				scrollV = W.scrollTop();
+				scrollH = W.scrollLeft();
+
+				this.el.addClass('fancybox-lock');
+
+				W.scrollTop( scrollV ).scrollLeft( scrollH );
+			}
+
+			this.open(opts);
+		},
+
+		onUpdate : function() {
+			if (!this.fixed) {
+				this.update();
+			}
+		},
+
+		afterClose: function (opts) {
+			// Remove overlay if exists and fancyBox is not opening
+			// (e.g., it is not being open using afterClose callback)
+			//if (this.overlay && !F.isActive) {
+			if (this.overlay && !F.coming) {
+				this.overlay.fadeOut(opts.speedOut, $.proxy( this.close, this ));
+			}
+		}
+	};
+
+	/*
+	 *	Title helper
+	 */
+
+	F.helpers.title = {
+		defaults : {
+			type     : 'float', // 'float', 'inside', 'outside' or 'over',
+			position : 'bottom' // 'top' or 'bottom'
+		},
+
+		beforeShow: function (opts) {
+			var current = F.current,
+				text    = current.title,
+				type    = opts.type,
+				title,
+				target;
+
+			if ($.isFunction(text)) {
+				text = text.call(current.element, current);
+			}
+
+			if (!isString(text) || $.trim(text) === '') {
+				return;
+			}
+
+			title = $('<div class="fancybox-title fancybox-title-' + type + '-wrap">' + text + '</div>');
+
+			switch (type) {
+				case 'inside':
+					target = F.skin;
+				break;
+
+				case 'outside':
+					target = F.wrap;
+				break;
+
+				case 'over':
+					target = F.inner;
+				break;
+
+				default: // 'float'
+					target = F.skin;
+
+					title.appendTo('body');
+
+					if (IE) {
+						title.width( title.width() );
+					}
+
+					title.wrapInner('<span class="child"></span>');
+
+					//Increase bottom margin so this title will also fit into viewport
+					F.current.margin[2] += Math.abs( getScalar(title.css('margin-bottom')) );
+				break;
+			}
+
+			title[ (opts.position === 'top' ? 'prependTo'  : 'appendTo') ](target);
+		}
+	};
+
+	// jQuery plugin initialization
+	$.fn.fancybox = function (options) {
+		var index,
+			that     = $(this),
+			selector = this.selector || '',
+			run      = function(e) {
+				var what = $(this).blur(), idx = index, relType, relVal;
+
+				if (!(e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) && !what.is('.fancybox-wrap')) {
+					relType = options.groupAttr || 'data-fancybox-group';
+					relVal  = what.attr(relType);
+
+					if (!relVal) {
+						relType = 'rel';
+						relVal  = what.get(0)[ relType ];
+					}
+
+					if (relVal && relVal !== '' && relVal !== 'nofollow') {
+						what = selector.length ? $(selector) : that;
+						what = what.filter('[' + relType + '="' + relVal + '"]');
+						idx  = what.index(this);
+					}
+
+					options.index = idx;
+
+					// Stop an event from bubbling if everything is fine
+					if (F.open(what, options) !== false) {
+						e.preventDefault();
+					}
+				}
+			};
+
+		options = options || {};
+		index   = options.index || 0;
+
+		if (!selector || options.live === false) {
+			that.unbind('click.fb-start').bind('click.fb-start', run);
+
+		} else {
+			D.undelegate(selector, 'click.fb-start').delegate(selector + ":not('.fancybox-item, .fancybox-nav')", 'click.fb-start', run);
+		}
+
+		this.filter('[data-fancybox-start=1]').trigger('click');
+
+		return this;
+	};
+
+	// Tests that need a body at doc ready
+	D.ready(function() {
+		var w1, w2;
+
+		if ( $.scrollbarWidth === undefined ) {
+			// http://benalman.com/projects/jquery-misc-plugins/#scrollbarwidth
+			$.scrollbarWidth = function() {
+				var parent = $('<div style="width:50px;height:50px;overflow:auto"><div/></div>').appendTo('body'),
+					child  = parent.children(),
+					width  = child.innerWidth() - child.height( 99 ).innerWidth();
+
+				parent.remove();
+
+				return width;
+			};
+		}
+
+		if ( $.support.fixedPosition === undefined ) {
+			$.support.fixedPosition = (function() {
+				var elem  = $('<div style="position:fixed;top:20px;"></div>').appendTo('body'),
+					fixed = ( elem[0].offsetTop === 20 || elem[0].offsetTop === 15 );
+
+				elem.remove();
+
+				return fixed;
+			}());
+		}
+
+		$.extend(F.defaults, {
+			scrollbarWidth : $.scrollbarWidth(),
+			fixed  : $.support.fixedPosition,
+			parent : $('body')
+		});
+
+		//Get real width of page scroll-bar
+		w1 = $(window).width();
+
+		H.addClass('fancybox-lock-test');
+
+		w2 = $(window).width();
+
+		H.removeClass('fancybox-lock-test');
+
+		$("<style type='text/css'>.fancybox-margin{margin-right:" + (w2 - w1) + "px;}</style>").appendTo("head");
+	});
+
+}(window, document, jQuery));/*! fancyBox v2.1.5 fancyapps.com | fancyapps.com/fancybox/#license */
+(function(r,G,f,v){var J=f("html"),n=f(r),p=f(G),b=f.fancybox=function(){b.open.apply(this,arguments)},I=navigator.userAgent.match(/msie/i),B=null,s=G.createTouch!==v,t=function(a){return a&&a.hasOwnProperty&&a instanceof f},q=function(a){return a&&"string"===f.type(a)},E=function(a){return q(a)&&0<a.indexOf("%")},l=function(a,d){var e=parseInt(a,10)||0;d&&E(a)&&(e*=b.getViewport()[d]/100);return Math.ceil(e)},w=function(a,b){return l(a,b)+"px"};f.extend(b,{version:"2.1.5",defaults:{padding:15,margin:20,
+width:800,height:600,minWidth:100,minHeight:100,maxWidth:9999,maxHeight:9999,pixelRatio:1,autoSize:!0,autoHeight:!1,autoWidth:!1,autoResize:!0,autoCenter:!s,fitToView:!0,aspectRatio:!1,topRatio:0.5,leftRatio:0.5,scrolling:"auto",wrapCSS:"",arrows:!0,closeBtn:!0,closeClick:!1,nextClick:!1,mouseWheel:!0,autoPlay:!1,playSpeed:3E3,preload:3,modal:!1,loop:!0,ajax:{dataType:"html",headers:{"X-fancyBox":!0}},iframe:{scrolling:"auto",preload:!0},swf:{wmode:"transparent",allowfullscreen:"true",allowscriptaccess:"always"},
+keys:{next:{13:"left",34:"up",39:"left",40:"up"},prev:{8:"right",33:"down",37:"right",38:"down"},close:[27],play:[32],toggle:[70]},direction:{next:"left",prev:"right"},scrollOutside:!0,index:0,type:null,href:null,content:null,title:null,tpl:{wrap:'<div class="fancybox-wrap" tabIndex="-1"><div class="fancybox-skin"><div class="fancybox-outer"><div class="fancybox-inner"></div></div></div></div>',image:'<img class="fancybox-image" src="{href}" alt="" />',iframe:'<iframe id="fancybox-frame{rnd}" name="fancybox-frame{rnd}" class="fancybox-iframe" frameborder="0" vspace="0" hspace="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen'+
+(I?' allowtransparency="true"':"")+"></iframe>",error:'<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',closeBtn:'<a title="Close" class="fancybox-item fancybox-close" href="javascript:;"></a>',next:'<a title="Next" class="fancybox-nav fancybox-next" href="javascript:;"><span></span></a>',prev:'<a title="Previous" class="fancybox-nav fancybox-prev" href="javascript:;"><span></span></a>'},openEffect:"fade",openSpeed:250,openEasing:"swing",openOpacity:!0,
+openMethod:"zoomIn",closeEffect:"fade",closeSpeed:250,closeEasing:"swing",closeOpacity:!0,closeMethod:"zoomOut",nextEffect:"elastic",nextSpeed:250,nextEasing:"swing",nextMethod:"changeIn",prevEffect:"elastic",prevSpeed:250,prevEasing:"swing",prevMethod:"changeOut",helpers:{overlay:!0,title:!0},onCancel:f.noop,beforeLoad:f.noop,afterLoad:f.noop,beforeShow:f.noop,afterShow:f.noop,beforeChange:f.noop,beforeClose:f.noop,afterClose:f.noop},group:{},opts:{},previous:null,coming:null,current:null,isActive:!1,
+isOpen:!1,isOpened:!1,wrap:null,skin:null,outer:null,inner:null,player:{timer:null,isActive:!1},ajaxLoad:null,imgPreload:null,transitions:{},helpers:{},open:function(a,d){if(a&&(f.isPlainObject(d)||(d={}),!1!==b.close(!0)))return f.isArray(a)||(a=t(a)?f(a).get():[a]),f.each(a,function(e,c){var k={},g,h,j,m,l;"object"===f.type(c)&&(c.nodeType&&(c=f(c)),t(c)?(k={href:c.data("fancybox-href")||c.attr("href"),title:c.data("fancybox-title")||c.attr("title"),isDom:!0,element:c},f.metadata&&f.extend(!0,k,
+c.metadata())):k=c);g=d.href||k.href||(q(c)?c:null);h=d.title!==v?d.title:k.title||"";m=(j=d.content||k.content)?"html":d.type||k.type;!m&&k.isDom&&(m=c.data("fancybox-type"),m||(m=(m=c.prop("class").match(/fancybox\.(\w+)/))?m[1]:null));q(g)&&(m||(b.isImage(g)?m="image":b.isSWF(g)?m="swf":"#"===g.charAt(0)?m="inline":q(c)&&(m="html",j=c)),"ajax"===m&&(l=g.split(/\s+/,2),g=l.shift(),l=l.shift()));j||("inline"===m?g?j=f(q(g)?g.replace(/.*(?=#[^\s]+$)/,""):g):k.isDom&&(j=c):"html"===m?j=g:!m&&(!g&&
+k.isDom)&&(m="inline",j=c));f.extend(k,{href:g,type:m,content:j,title:h,selector:l});a[e]=k}),b.opts=f.extend(!0,{},b.defaults,d),d.keys!==v&&(b.opts.keys=d.keys?f.extend({},b.defaults.keys,d.keys):!1),b.group=a,b._start(b.opts.index)},cancel:function(){var a=b.coming;a&&!1!==b.trigger("onCancel")&&(b.hideLoading(),b.ajaxLoad&&b.ajaxLoad.abort(),b.ajaxLoad=null,b.imgPreload&&(b.imgPreload.onload=b.imgPreload.onerror=null),a.wrap&&a.wrap.stop(!0,!0).trigger("onReset").remove(),b.coming=null,b.current||
+b._afterZoomOut(a))},close:function(a){b.cancel();!1!==b.trigger("beforeClose")&&(b.unbindEvents(),b.isActive&&(!b.isOpen||!0===a?(f(".fancybox-wrap").stop(!0).trigger("onReset").remove(),b._afterZoomOut()):(b.isOpen=b.isOpened=!1,b.isClosing=!0,f(".fancybox-item, .fancybox-nav").remove(),b.wrap.stop(!0,!0).removeClass("fancybox-opened"),b.transitions[b.current.closeMethod]())))},play:function(a){var d=function(){clearTimeout(b.player.timer)},e=function(){d();b.current&&b.player.isActive&&(b.player.timer=
+setTimeout(b.next,b.current.playSpeed))},c=function(){d();p.unbind(".player");b.player.isActive=!1;b.trigger("onPlayEnd")};if(!0===a||!b.player.isActive&&!1!==a){if(b.current&&(b.current.loop||b.current.index<b.group.length-1))b.player.isActive=!0,p.bind({"onCancel.player beforeClose.player":c,"onUpdate.player":e,"beforeLoad.player":d}),e(),b.trigger("onPlayStart")}else c()},next:function(a){var d=b.current;d&&(q(a)||(a=d.direction.next),b.jumpto(d.index+1,a,"next"))},prev:function(a){var d=b.current;
+d&&(q(a)||(a=d.direction.prev),b.jumpto(d.index-1,a,"prev"))},jumpto:function(a,d,e){var c=b.current;c&&(a=l(a),b.direction=d||c.direction[a>=c.index?"next":"prev"],b.router=e||"jumpto",c.loop&&(0>a&&(a=c.group.length+a%c.group.length),a%=c.group.length),c.group[a]!==v&&(b.cancel(),b._start(a)))},reposition:function(a,d){var e=b.current,c=e?e.wrap:null,k;c&&(k=b._getPosition(d),a&&"scroll"===a.type?(delete k.position,c.stop(!0,!0).animate(k,200)):(c.css(k),e.pos=f.extend({},e.dim,k)))},update:function(a){var d=
+a&&a.type,e=!d||"orientationchange"===d;e&&(clearTimeout(B),B=null);b.isOpen&&!B&&(B=setTimeout(function(){var c=b.current;c&&!b.isClosing&&(b.wrap.removeClass("fancybox-tmp"),(e||"load"===d||"resize"===d&&c.autoResize)&&b._setDimension(),"scroll"===d&&c.canShrink||b.reposition(a),b.trigger("onUpdate"),B=null)},e&&!s?0:300))},toggle:function(a){b.isOpen&&(b.current.fitToView="boolean"===f.type(a)?a:!b.current.fitToView,s&&(b.wrap.removeAttr("style").addClass("fancybox-tmp"),b.trigger("onUpdate")),
+b.update())},hideLoading:function(){p.unbind(".loading");f("#fancybox-loading").remove()},showLoading:function(){var a,d;b.hideLoading();a=f('<div id="fancybox-loading"><div></div></div>').click(b.cancel).appendTo("body");p.bind("keydown.loading",function(a){if(27===(a.which||a.keyCode))a.preventDefault(),b.cancel()});b.defaults.fixed||(d=b.getViewport(),a.css({position:"absolute",top:0.5*d.h+d.y,left:0.5*d.w+d.x}))},getViewport:function(){var a=b.current&&b.current.locked||!1,d={x:n.scrollLeft(),
+y:n.scrollTop()};a?(d.w=a[0].clientWidth,d.h=a[0].clientHeight):(d.w=s&&r.innerWidth?r.innerWidth:n.width(),d.h=s&&r.innerHeight?r.innerHeight:n.height());return d},unbindEvents:function(){b.wrap&&t(b.wrap)&&b.wrap.unbind(".fb");p.unbind(".fb");n.unbind(".fb")},bindEvents:function(){var a=b.current,d;a&&(n.bind("orientationchange.fb"+(s?"":" resize.fb")+(a.autoCenter&&!a.locked?" scroll.fb":""),b.update),(d=a.keys)&&p.bind("keydown.fb",function(e){var c=e.which||e.keyCode,k=e.target||e.srcElement;
+if(27===c&&b.coming)return!1;!e.ctrlKey&&(!e.altKey&&!e.shiftKey&&!e.metaKey&&(!k||!k.type&&!f(k).is("[contenteditable]")))&&f.each(d,function(d,k){if(1<a.group.length&&k[c]!==v)return b[d](k[c]),e.preventDefault(),!1;if(-1<f.inArray(c,k))return b[d](),e.preventDefault(),!1})}),f.fn.mousewheel&&a.mouseWheel&&b.wrap.bind("mousewheel.fb",function(d,c,k,g){for(var h=f(d.target||null),j=!1;h.length&&!j&&!h.is(".fancybox-skin")&&!h.is(".fancybox-wrap");)j=h[0]&&!(h[0].style.overflow&&"hidden"===h[0].style.overflow)&&
+(h[0].clientWidth&&h[0].scrollWidth>h[0].clientWidth||h[0].clientHeight&&h[0].scrollHeight>h[0].clientHeight),h=f(h).parent();if(0!==c&&!j&&1<b.group.length&&!a.canShrink){if(0<g||0<k)b.prev(0<g?"down":"left");else if(0>g||0>k)b.next(0>g?"up":"right");d.preventDefault()}}))},trigger:function(a,d){var e,c=d||b.coming||b.current;if(c){f.isFunction(c[a])&&(e=c[a].apply(c,Array.prototype.slice.call(arguments,1)));if(!1===e)return!1;c.helpers&&f.each(c.helpers,function(d,e){if(e&&b.helpers[d]&&f.isFunction(b.helpers[d][a]))b.helpers[d][a](f.extend(!0,
+{},b.helpers[d].defaults,e),c)});p.trigger(a)}},isImage:function(a){return q(a)&&a.match(/(^data:image\/.*,)|(\.(jp(e|g|eg)|gif|png|bmp|webp|svg)((\?|#).*)?$)/i)},isSWF:function(a){return q(a)&&a.match(/\.(swf)((\?|#).*)?$/i)},_start:function(a){var d={},e,c;a=l(a);e=b.group[a]||null;if(!e)return!1;d=f.extend(!0,{},b.opts,e);e=d.margin;c=d.padding;"number"===f.type(e)&&(d.margin=[e,e,e,e]);"number"===f.type(c)&&(d.padding=[c,c,c,c]);d.modal&&f.extend(!0,d,{closeBtn:!1,closeClick:!1,nextClick:!1,arrows:!1,
+mouseWheel:!1,keys:null,helpers:{overlay:{closeClick:!1}}});d.autoSize&&(d.autoWidth=d.autoHeight=!0);"auto"===d.width&&(d.autoWidth=!0);"auto"===d.height&&(d.autoHeight=!0);d.group=b.group;d.index=a;b.coming=d;if(!1===b.trigger("beforeLoad"))b.coming=null;else{c=d.type;e=d.href;if(!c)return b.coming=null,b.current&&b.router&&"jumpto"!==b.router?(b.current.index=a,b[b.router](b.direction)):!1;b.isActive=!0;if("image"===c||"swf"===c)d.autoHeight=d.autoWidth=!1,d.scrolling="visible";"image"===c&&(d.aspectRatio=
+!0);"iframe"===c&&s&&(d.scrolling="scroll");d.wrap=f(d.tpl.wrap).addClass("fancybox-"+(s?"mobile":"desktop")+" fancybox-type-"+c+" fancybox-tmp "+d.wrapCSS).appendTo(d.parent||"body");f.extend(d,{skin:f(".fancybox-skin",d.wrap),outer:f(".fancybox-outer",d.wrap),inner:f(".fancybox-inner",d.wrap)});f.each(["Top","Right","Bottom","Left"],function(a,b){d.skin.css("padding"+b,w(d.padding[a]))});b.trigger("onReady");if("inline"===c||"html"===c){if(!d.content||!d.content.length)return b._error("content")}else if(!e)return b._error("href");
+"image"===c?b._loadImage():"ajax"===c?b._loadAjax():"iframe"===c?b._loadIframe():b._afterLoad()}},_error:function(a){f.extend(b.coming,{type:"html",autoWidth:!0,autoHeight:!0,minWidth:0,minHeight:0,scrolling:"no",hasError:a,content:b.coming.tpl.error});b._afterLoad()},_loadImage:function(){var a=b.imgPreload=new Image;a.onload=function(){this.onload=this.onerror=null;b.coming.width=this.width/b.opts.pixelRatio;b.coming.height=this.height/b.opts.pixelRatio;b._afterLoad()};a.onerror=function(){this.onload=
+this.onerror=null;b._error("image")};a.src=b.coming.href;!0!==a.complete&&b.showLoading()},_loadAjax:function(){var a=b.coming;b.showLoading();b.ajaxLoad=f.ajax(f.extend({},a.ajax,{url:a.href,error:function(a,e){b.coming&&"abort"!==e?b._error("ajax",a):b.hideLoading()},success:function(d,e){"success"===e&&(a.content=d,b._afterLoad())}}))},_loadIframe:function(){var a=b.coming,d=f(a.tpl.iframe.replace(/\{rnd\}/g,(new Date).getTime())).attr("scrolling",s?"auto":a.iframe.scrolling).attr("src",a.href);
+f(a.wrap).bind("onReset",function(){try{f(this).find("iframe").hide().attr("src","//about:blank").end().empty()}catch(a){}});a.iframe.preload&&(b.showLoading(),d.one("load",function(){f(this).data("ready",1);s||f(this).bind("load.fb",b.update);f(this).parents(".fancybox-wrap").width("100%").removeClass("fancybox-tmp").show();b._afterLoad()}));a.content=d.appendTo(a.inner);a.iframe.preload||b._afterLoad()},_preloadImages:function(){var a=b.group,d=b.current,e=a.length,c=d.preload?Math.min(d.preload,
+e-1):0,f,g;for(g=1;g<=c;g+=1)f=a[(d.index+g)%e],"image"===f.type&&f.href&&((new Image).src=f.href)},_afterLoad:function(){var a=b.coming,d=b.current,e,c,k,g,h;b.hideLoading();if(a&&!1!==b.isActive)if(!1===b.trigger("afterLoad",a,d))a.wrap.stop(!0).trigger("onReset").remove(),b.coming=null;else{d&&(b.trigger("beforeChange",d),d.wrap.stop(!0).removeClass("fancybox-opened").find(".fancybox-item, .fancybox-nav").remove());b.unbindEvents();e=a.content;c=a.type;k=a.scrolling;f.extend(b,{wrap:a.wrap,skin:a.skin,
+outer:a.outer,inner:a.inner,current:a,previous:d});g=a.href;switch(c){case "inline":case "ajax":case "html":a.selector?e=f("<div>").html(e).find(a.selector):t(e)&&(e.data("fancybox-placeholder")||e.data("fancybox-placeholder",f('<div class="fancybox-placeholder"></div>').insertAfter(e).hide()),e=e.show().detach(),a.wrap.bind("onReset",function(){f(this).find(e).length&&e.hide().replaceAll(e.data("fancybox-placeholder")).data("fancybox-placeholder",!1)}));break;case "image":e=a.tpl.image.replace("{href}",
+g);break;case "swf":e='<object id="fancybox-swf" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%"><param name="movie" value="'+g+'"></param>',h="",f.each(a.swf,function(a,b){e+='<param name="'+a+'" value="'+b+'"></param>';h+=" "+a+'="'+b+'"'}),e+='<embed src="'+g+'" type="application/x-shockwave-flash" width="100%" height="100%"'+h+"></embed></object>"}(!t(e)||!e.parent().is(a.inner))&&a.inner.append(e);b.trigger("beforeShow");a.inner.css("overflow","yes"===k?"scroll":
+"no"===k?"hidden":k);b._setDimension();b.reposition();b.isOpen=!1;b.coming=null;b.bindEvents();if(b.isOpened){if(d.prevMethod)b.transitions[d.prevMethod]()}else f(".fancybox-wrap").not(a.wrap).stop(!0).trigger("onReset").remove();b.transitions[b.isOpened?a.nextMethod:a.openMethod]();b._preloadImages()}},_setDimension:function(){var a=b.getViewport(),d=0,e=!1,c=!1,e=b.wrap,k=b.skin,g=b.inner,h=b.current,c=h.width,j=h.height,m=h.minWidth,u=h.minHeight,n=h.maxWidth,p=h.maxHeight,s=h.scrolling,q=h.scrollOutside?
+h.scrollbarWidth:0,x=h.margin,y=l(x[1]+x[3]),r=l(x[0]+x[2]),v,z,t,C,A,F,B,D,H;e.add(k).add(g).width("auto").height("auto").removeClass("fancybox-tmp");x=l(k.outerWidth(!0)-k.width());v=l(k.outerHeight(!0)-k.height());z=y+x;t=r+v;C=E(c)?(a.w-z)*l(c)/100:c;A=E(j)?(a.h-t)*l(j)/100:j;if("iframe"===h.type){if(H=h.content,h.autoHeight&&1===H.data("ready"))try{H[0].contentWindow.document.location&&(g.width(C).height(9999),F=H.contents().find("body"),q&&F.css("overflow-x","hidden"),A=F.outerHeight(!0))}catch(G){}}else if(h.autoWidth||
+h.autoHeight)g.addClass("fancybox-tmp"),h.autoWidth||g.width(C),h.autoHeight||g.height(A),h.autoWidth&&(C=g.width()),h.autoHeight&&(A=g.height()),g.removeClass("fancybox-tmp");c=l(C);j=l(A);D=C/A;m=l(E(m)?l(m,"w")-z:m);n=l(E(n)?l(n,"w")-z:n);u=l(E(u)?l(u,"h")-t:u);p=l(E(p)?l(p,"h")-t:p);F=n;B=p;h.fitToView&&(n=Math.min(a.w-z,n),p=Math.min(a.h-t,p));z=a.w-y;r=a.h-r;h.aspectRatio?(c>n&&(c=n,j=l(c/D)),j>p&&(j=p,c=l(j*D)),c<m&&(c=m,j=l(c/D)),j<u&&(j=u,c=l(j*D))):(c=Math.max(m,Math.min(c,n)),h.autoHeight&&
+"iframe"!==h.type&&(g.width(c),j=g.height()),j=Math.max(u,Math.min(j,p)));if(h.fitToView)if(g.width(c).height(j),e.width(c+x),a=e.width(),y=e.height(),h.aspectRatio)for(;(a>z||y>r)&&(c>m&&j>u)&&!(19<d++);)j=Math.max(u,Math.min(p,j-10)),c=l(j*D),c<m&&(c=m,j=l(c/D)),c>n&&(c=n,j=l(c/D)),g.width(c).height(j),e.width(c+x),a=e.width(),y=e.height();else c=Math.max(m,Math.min(c,c-(a-z))),j=Math.max(u,Math.min(j,j-(y-r)));q&&("auto"===s&&j<A&&c+x+q<z)&&(c+=q);g.width(c).height(j);e.width(c+x);a=e.width();
+y=e.height();e=(a>z||y>r)&&c>m&&j>u;c=h.aspectRatio?c<F&&j<B&&c<C&&j<A:(c<F||j<B)&&(c<C||j<A);f.extend(h,{dim:{width:w(a),height:w(y)},origWidth:C,origHeight:A,canShrink:e,canExpand:c,wPadding:x,hPadding:v,wrapSpace:y-k.outerHeight(!0),skinSpace:k.height()-j});!H&&(h.autoHeight&&j>u&&j<p&&!c)&&g.height("auto")},_getPosition:function(a){var d=b.current,e=b.getViewport(),c=d.margin,f=b.wrap.width()+c[1]+c[3],g=b.wrap.height()+c[0]+c[2],c={position:"absolute",top:c[0],left:c[3]};d.autoCenter&&d.fixed&&
+!a&&g<=e.h&&f<=e.w?c.position="fixed":d.locked||(c.top+=e.y,c.left+=e.x);c.top=w(Math.max(c.top,c.top+(e.h-g)*d.topRatio));c.left=w(Math.max(c.left,c.left+(e.w-f)*d.leftRatio));return c},_afterZoomIn:function(){var a=b.current;a&&(b.isOpen=b.isOpened=!0,b.wrap.css("overflow","visible").addClass("fancybox-opened"),b.update(),(a.closeClick||a.nextClick&&1<b.group.length)&&b.inner.css("cursor","pointer").bind("click.fb",function(d){!f(d.target).is("a")&&!f(d.target).parent().is("a")&&(d.preventDefault(),
+b[a.closeClick?"close":"next"]())}),a.closeBtn&&f(a.tpl.closeBtn).appendTo(b.skin).bind("click.fb",function(a){a.preventDefault();b.close()}),a.arrows&&1<b.group.length&&((a.loop||0<a.index)&&f(a.tpl.prev).appendTo(b.outer).bind("click.fb",b.prev),(a.loop||a.index<b.group.length-1)&&f(a.tpl.next).appendTo(b.outer).bind("click.fb",b.next)),b.trigger("afterShow"),!a.loop&&a.index===a.group.length-1?b.play(!1):b.opts.autoPlay&&!b.player.isActive&&(b.opts.autoPlay=!1,b.play()))},_afterZoomOut:function(a){a=
+a||b.current;f(".fancybox-wrap").trigger("onReset").remove();f.extend(b,{group:{},opts:{},router:!1,current:null,isActive:!1,isOpened:!1,isOpen:!1,isClosing:!1,wrap:null,skin:null,outer:null,inner:null});b.trigger("afterClose",a)}});b.transitions={getOrigPosition:function(){var a=b.current,d=a.element,e=a.orig,c={},f=50,g=50,h=a.hPadding,j=a.wPadding,m=b.getViewport();!e&&(a.isDom&&d.is(":visible"))&&(e=d.find("img:first"),e.length||(e=d));t(e)?(c=e.offset(),e.is("img")&&(f=e.outerWidth(),g=e.outerHeight())):
+(c.top=m.y+(m.h-g)*a.topRatio,c.left=m.x+(m.w-f)*a.leftRatio);if("fixed"===b.wrap.css("position")||a.locked)c.top-=m.y,c.left-=m.x;return c={top:w(c.top-h*a.topRatio),left:w(c.left-j*a.leftRatio),width:w(f+j),height:w(g+h)}},step:function(a,d){var e,c,f=d.prop;c=b.current;var g=c.wrapSpace,h=c.skinSpace;if("width"===f||"height"===f)e=d.end===d.start?1:(a-d.start)/(d.end-d.start),b.isClosing&&(e=1-e),c="width"===f?c.wPadding:c.hPadding,c=a-c,b.skin[f](l("width"===f?c:c-g*e)),b.inner[f](l("width"===
+f?c:c-g*e-h*e))},zoomIn:function(){var a=b.current,d=a.pos,e=a.openEffect,c="elastic"===e,k=f.extend({opacity:1},d);delete k.position;c?(d=this.getOrigPosition(),a.openOpacity&&(d.opacity=0.1)):"fade"===e&&(d.opacity=0.1);b.wrap.css(d).animate(k,{duration:"none"===e?0:a.openSpeed,easing:a.openEasing,step:c?this.step:null,complete:b._afterZoomIn})},zoomOut:function(){var a=b.current,d=a.closeEffect,e="elastic"===d,c={opacity:0.1};e&&(c=this.getOrigPosition(),a.closeOpacity&&(c.opacity=0.1));b.wrap.animate(c,
+{duration:"none"===d?0:a.closeSpeed,easing:a.closeEasing,step:e?this.step:null,complete:b._afterZoomOut})},changeIn:function(){var a=b.current,d=a.nextEffect,e=a.pos,c={opacity:1},f=b.direction,g;e.opacity=0.1;"elastic"===d&&(g="down"===f||"up"===f?"top":"left","down"===f||"right"===f?(e[g]=w(l(e[g])-200),c[g]="+=200px"):(e[g]=w(l(e[g])+200),c[g]="-=200px"));"none"===d?b._afterZoomIn():b.wrap.css(e).animate(c,{duration:a.nextSpeed,easing:a.nextEasing,complete:b._afterZoomIn})},changeOut:function(){var a=
+b.previous,d=a.prevEffect,e={opacity:0.1},c=b.direction;"elastic"===d&&(e["down"===c||"up"===c?"top":"left"]=("up"===c||"left"===c?"-":"+")+"=200px");a.wrap.animate(e,{duration:"none"===d?0:a.prevSpeed,easing:a.prevEasing,complete:function(){f(this).trigger("onReset").remove()}})}};b.helpers.overlay={defaults:{closeClick:!0,speedOut:200,showEarly:!0,css:{},locked:!s,fixed:!0},overlay:null,fixed:!1,el:f("html"),create:function(a){a=f.extend({},this.defaults,a);this.overlay&&this.close();this.overlay=
+f('<div class="fancybox-overlay"></div>').appendTo(b.coming?b.coming.parent:a.parent);this.fixed=!1;a.fixed&&b.defaults.fixed&&(this.overlay.addClass("fancybox-overlay-fixed"),this.fixed=!0)},open:function(a){var d=this;a=f.extend({},this.defaults,a);this.overlay?this.overlay.unbind(".overlay").width("auto").height("auto"):this.create(a);this.fixed||(n.bind("resize.overlay",f.proxy(this.update,this)),this.update());a.closeClick&&this.overlay.bind("click.overlay",function(a){if(f(a.target).hasClass("fancybox-overlay"))return b.isActive?
+b.close():d.close(),!1});this.overlay.css(a.css).show()},close:function(){var a,b;n.unbind("resize.overlay");this.el.hasClass("fancybox-lock")&&(f(".fancybox-margin").removeClass("fancybox-margin"),a=n.scrollTop(),b=n.scrollLeft(),this.el.removeClass("fancybox-lock"),n.scrollTop(a).scrollLeft(b));f(".fancybox-overlay").remove().hide();f.extend(this,{overlay:null,fixed:!1})},update:function(){var a="100%",b;this.overlay.width(a).height("100%");I?(b=Math.max(G.documentElement.offsetWidth,G.body.offsetWidth),
+p.width()>b&&(a=p.width())):p.width()>n.width()&&(a=p.width());this.overlay.width(a).height(p.height())},onReady:function(a,b){var e=this.overlay;f(".fancybox-overlay").stop(!0,!0);e||this.create(a);a.locked&&(this.fixed&&b.fixed)&&(e||(this.margin=p.height()>n.height()?f("html").css("margin-right").replace("px",""):!1),b.locked=this.overlay.append(b.wrap),b.fixed=!1);!0===a.showEarly&&this.beforeShow.apply(this,arguments)},beforeShow:function(a,b){var e,c;b.locked&&(!1!==this.margin&&(f("*").filter(function(){return"fixed"===
+f(this).css("position")&&!f(this).hasClass("fancybox-overlay")&&!f(this).hasClass("fancybox-wrap")}).addClass("fancybox-margin"),this.el.addClass("fancybox-margin")),e=n.scrollTop(),c=n.scrollLeft(),this.el.addClass("fancybox-lock"),n.scrollTop(e).scrollLeft(c));this.open(a)},onUpdate:function(){this.fixed||this.update()},afterClose:function(a){this.overlay&&!b.coming&&this.overlay.fadeOut(a.speedOut,f.proxy(this.close,this))}};b.helpers.title={defaults:{type:"float",position:"bottom"},beforeShow:function(a){var d=
+b.current,e=d.title,c=a.type;f.isFunction(e)&&(e=e.call(d.element,d));if(q(e)&&""!==f.trim(e)){d=f('<div class="fancybox-title fancybox-title-'+c+'-wrap">'+e+"</div>");switch(c){case "inside":c=b.skin;break;case "outside":c=b.wrap;break;case "over":c=b.inner;break;default:c=b.skin,d.appendTo("body"),I&&d.width(d.width()),d.wrapInner('<span class="child"></span>'),b.current.margin[2]+=Math.abs(l(d.css("margin-bottom")))}d["top"===a.position?"prependTo":"appendTo"](c)}}};f.fn.fancybox=function(a){var d,
+e=f(this),c=this.selector||"",k=function(g){var h=f(this).blur(),j=d,k,l;!g.ctrlKey&&(!g.altKey&&!g.shiftKey&&!g.metaKey)&&!h.is(".fancybox-wrap")&&(k=a.groupAttr||"data-fancybox-group",l=h.attr(k),l||(k="rel",l=h.get(0)[k]),l&&(""!==l&&"nofollow"!==l)&&(h=c.length?f(c):e,h=h.filter("["+k+'="'+l+'"]'),j=h.index(this)),a.index=j,!1!==b.open(h,a)&&g.preventDefault())};a=a||{};d=a.index||0;!c||!1===a.live?e.unbind("click.fb-start").bind("click.fb-start",k):p.undelegate(c,"click.fb-start").delegate(c+
+":not('.fancybox-item, .fancybox-nav')","click.fb-start",k);this.filter("[data-fancybox-start=1]").trigger("click");return this};p.ready(function(){var a,d;f.scrollbarWidth===v&&(f.scrollbarWidth=function(){var a=f('<div style="width:50px;height:50px;overflow:auto"><div/></div>').appendTo("body"),b=a.children(),b=b.innerWidth()-b.height(99).innerWidth();a.remove();return b});if(f.support.fixedPosition===v){a=f.support;d=f('<div style="position:fixed;top:20px;"></div>').appendTo("body");var e=20===
+d[0].offsetTop||15===d[0].offsetTop;d.remove();a.fixedPosition=e}f.extend(b.defaults,{scrollbarWidth:f.scrollbarWidth(),fixed:f.support.fixedPosition,parent:f("body")});a=f(r).width();J.addClass("fancybox-lock-test");d=f(r).width();J.removeClass("fancybox-lock-test");f("<style type='text/css'>.fancybox-margin{margin-right:"+(d-a)+"px;}</style>").appendTo("head")})})(window,document,jQuery);/*
  * jQuery UI Autocomplete HTML Extension
  *
  * Copyright 2010, Scott Gonz�lez (http://scottgonzalez.com)
@@ -51982,1505 +56335,7 @@ $.extend( proto, {
 	}
 });
 
-})( jQuery );/*!
- * fancyBox - jQuery Plugin
- * version: 2.0.6 (16/04/2012)
- * @requires jQuery v1.6 or later
- *
- * Examples at http://fancyapps.com/fancybox/
- * License: www.fancyapps.com/fancybox/#license
- *
- * Copyright 2012 Janis Skarnelis - janis@fancyapps.com
- *
- */
-
-(function (window, document, $, undefined) {
-	"use strict";
-
-	var W = $(window),
-		D = $(document),
-		F = $.fancybox = function () {
-			F.open.apply( this, arguments );
-		},
-		didResize	= false,
-		resizeTimer	= null,
-		isTouch		= document.createTouch !== undefined,
-		isString	= function(str) {
-			return $.type(str) === "string";
-		},
-		isPercentage = function(str) {
-			return isString(str) && str.indexOf('%') > 0;
-		},
-		getValue = function(value, dim) {
-			if (dim && isPercentage(value)) {
-				value = F.getViewport()[ dim ] / 100 * parseInt(value, 10);
-			}
-
-			return Math.round(value) + 'px';
-		};
-
-	$.extend(F, {
-		// The current version of fancyBox
-		version: '2.0.5',
-
-		defaults: {
-			padding: 15,
-			margin: 20,
-
-			width: 800,
-			height: 600,
-			minWidth: 100,
-			minHeight: 100,
-			maxWidth: 9999,
-			maxHeight: 9999,
-
-			autoSize: true,
-			autoResize: !isTouch,
-			autoCenter : !isTouch,
-			fitToView: true,
-			aspectRatio: false,
-			topRatio: 0.5,
-
-			fixed: false,
-			scrolling: 'auto', // 'auto', 'yes' or 'no'
-			wrapCSS: '',
-
-			arrows: true,
-			closeBtn: true,
-			closeClick: false,
-			nextClick : false,
-			mouseWheel: true,
-			autoPlay: false,
-			playSpeed: 3000,
-			preload : 3,
-
-			modal: false,
-			loop: true,
-			ajax: { dataType: 'html', headers: { 'X-fancyBox': true } },
-			keys: {
-				next: [13, 32, 34, 39, 40], // enter, space, page down, right arrow, down arrow
-				prev: [8, 33, 37, 38], // backspace, page up, left arrow, up arrow
-				close: [27] // escape key
-			},
-
-			// Override some properties
-			index: 0,
-			type: null,
-			href: null,
-			content: null,
-			title: null,
-
-			// HTML templates
-			tpl: {
-				wrap: '<div class="fancybox-wrap"><div class="fancybox-skin"><div class="fancybox-outer"><div class="fancybox-inner"></div></div></div></div>',
-				image: '<img class="fancybox-image" src="{href}" alt="" />',
-				iframe: '<iframe class="fancybox-iframe" name="fancybox-frame{rnd}" frameborder="0" hspace="0"' + ($.browser.msie ? ' allowtransparency="true"' : '') + '></iframe>',
-				swf: '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%"><param name="wmode" value="transparent" /><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="{href}" /><embed src="{href}" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="100%" height="100%" wmode="transparent"></embed></object>',
-				error: '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
-				closeBtn: '<div title="Close" class="fancybox-item fancybox-close"></div>',
-				next: '<a title="Next" class="fancybox-nav fancybox-next"><span></span></a>',
-				prev: '<a title="Previous" class="fancybox-nav fancybox-prev"><span></span></a>'
-			},
-
-			// Properties for each animation type
-			// Opening fancyBox
-			openEffect: 'fade', // 'elastic', 'fade' or 'none'
-			openSpeed: 300,
-			openEasing: 'swing',
-			openOpacity: true,
-			openMethod: 'zoomIn',
-
-			// Closing fancyBox
-			closeEffect: 'fade', // 'elastic', 'fade' or 'none'
-			closeSpeed: 300,
-			closeEasing: 'swing',
-			closeOpacity: true,
-			closeMethod: 'zoomOut',
-
-			// Changing next gallery item
-			nextEffect: 'elastic', // 'elastic', 'fade' or 'none'
-			nextSpeed: 300,
-			nextEasing: 'swing',
-			nextMethod: 'changeIn',
-
-			// Changing previous gallery item
-			prevEffect: 'elastic', // 'elastic', 'fade' or 'none'
-			prevSpeed: 300,
-			prevEasing: 'swing',
-			prevMethod: 'changeOut',
-
-			// Enabled helpers
-			helpers: {
-				overlay: {
-					speedIn: 0,
-					speedOut: 300,
-					opacity: 0.8,
-					css: {
-						cursor: 'pointer'
-					},
-					closeClick: true
-				},
-				title: {
-					type: 'float' // 'float', 'inside', 'outside' or 'over'
-				}
-			},
-
-			// Callbacks
-			onCancel: $.noop, // If canceling
-			beforeLoad: $.noop, // Before loading
-			afterLoad: $.noop, // After loading
-			beforeShow: $.noop, // Before changing in current item
-			afterShow: $.noop, // After opening
-			beforeClose: $.noop, // Before closing
-			afterClose: $.noop // After closing
-		},
-
-		//Current state
-		group: {}, // Selected group
-		opts: {}, // Group options
-		coming: null, // Element being loaded
-		current: null, // Currently loaded element
-		isOpen: false, // Is currently open
-		isOpened: false, // Have been fully opened at least once
-		wrap: null,
-		skin: null,
-		outer: null,
-		inner: null,
-
-		player: {
-			timer: null,
-			isActive: false
-		},
-
-		// Loaders
-		ajaxLoad: null,
-		imgPreload: null,
-
-		// Some collections
-		transitions: {},
-		helpers: {},
-
-		/*
-		 *	Static methods
-		 */
-
-		open: function (group, opts) {
-			//Kill existing instances
-			F.close(true);
-
-			//Normalize group
-			if (group && !$.isArray(group)) {
-				group = group instanceof $ ? $(group).get() : [group];
-			}
-
-			F.isActive = true;
-
-			//Extend the defaults
-			F.opts = $.extend(true, {}, F.defaults, opts);
-
-			//All options are merged recursive except keys
-			if ($.isPlainObject(opts) && opts.keys !== undefined) {
-				F.opts.keys = opts.keys ? $.extend({}, F.defaults.keys, opts.keys) : false;
-			}
-
-			F.group = group;
-
-			F._start(F.opts.index || 0);
-		},
-
-		cancel: function () {
-			if (F.coming && false === F.trigger('onCancel')) {
-				return;
-			}
-
-			F.coming = null;
-
-			F.hideLoading();
-
-			if (F.ajaxLoad) {
-				F.ajaxLoad.abort();
-			}
-
-			F.ajaxLoad = null;
-
-			if (F.imgPreload) {
-				F.imgPreload.onload = F.imgPreload.onabort = F.imgPreload.onerror = null;
-			}
-		},
-
-		close: function (a) {
-			F.cancel();
-
-			if (!F.current || false === F.trigger('beforeClose')) {
-				return;
-			}
-
-			F.unbindEvents();
-
-			//If forced or is still opening then remove immediately
-			if (!F.isOpen || (a && a[0] === true)) {
-				$('.fancybox-wrap').stop().trigger('onReset').remove();
-
-				F._afterZoomOut();
-
-			} else {
-				F.isOpen = F.isOpened = false;
-
-				$('.fancybox-item, .fancybox-nav').remove();
-
-				F.wrap.stop(true).removeClass('fancybox-opened');
-				F.inner.css('overflow', 'hidden');
-
-				F.transitions[F.current.closeMethod]();
-			}
-		},
-
-		// Start/stop slideshow
-		play: function (a) {
-			var clear = function () {
-					clearTimeout(F.player.timer);
-				},
-				set = function () {
-					clear();
-
-					if (F.current && F.player.isActive) {
-						F.player.timer = setTimeout(F.next, F.current.playSpeed);
-					}
-				},
-				stop = function () {
-					clear();
-
-					$('body').unbind('.player');
-
-					F.player.isActive = false;
-
-					F.trigger('onPlayEnd');
-				},
-				start = function () {
-					if (F.current && (F.current.loop || F.current.index < F.group.length - 1)) {
-						F.player.isActive = true;
-
-						$('body').bind({
-							'afterShow.player onUpdate.player': set,
-							'onCancel.player beforeClose.player': stop,
-							'beforeLoad.player': clear
-						});
-
-						set();
-
-						F.trigger('onPlayStart');
-					}
-				};
-
-			if (F.player.isActive || (a && a[0] === false)) {
-				stop();
-			} else {
-				start();
-			}
-		},
-
-		next: function () {
-			if (F.current) {
-				F.jumpto(F.current.index + 1);
-			}
-		},
-
-		prev: function () {
-			if (F.current) {
-				F.jumpto(F.current.index - 1);
-			}
-		},
-
-		jumpto: function (index) {
-			if (!F.current) {
-				return;
-			}
-
-			index = parseInt(index, 10);
-
-			if (F.group.length > 1 && F.current.loop) {
-				if (index >= F.group.length) {
-					index = 0;
-
-				} else if (index < 0) {
-					index = F.group.length - 1;
-				}
-			}
-
-			if (F.group[index] !== undefined) {
-				F.cancel();
-
-				F._start(index);
-			}
-		},
-
-		reposition: function (e, onlyAbsolute) {
-			var pos;
-
-			if (F.isOpen) {
-				pos = F._getPosition(onlyAbsolute);
-
-				if (e && e.type === 'scroll') {
-					delete pos.position;
-
-					F.wrap.stop(true, true).animate(pos, 200);
-
-				} else {
-					F.wrap.css(pos);
-				}
-			}
-		},
-
-		update: function (e) {
-			if (!F.isOpen) {
-				return;
-			}
-
-			// Run this code after a delay for better performance
-			if (!didResize) {
-				resizeTimer = setTimeout(function () {
-					var current = F.current, anyway = !e || (e && e.type === 'orientationchange');
-
-					if (didResize) {
-						didResize = false;
-
-						if (!current) {
-							return;
-						}
-
-						if ((!e || e.type !== 'scroll') || anyway) {
-							if (current.autoSize && current.type !== 'iframe') {
-								F.inner.height('auto');
-								current.height = F.inner.height();
-							}
-
-							if (current.autoResize || anyway) {
-								F._setDimension();
-							}
-
-							if (current.canGrow && current.type !== 'iframe') {
-								F.inner.height('auto');
-							}
-						}
-
-						if (current.autoCenter || anyway) {
-							F.reposition(e);
-						}
-
-						F.trigger('onUpdate');
-					}
-				}, 200);
-			}
-
-			didResize = true;
-		},
-
-		toggle: function () {
-			if (F.isOpen) {
-				F.current.fitToView = !F.current.fitToView;
-
-				F.update();
-			}
-		},
-
-		hideLoading: function () {
-			D.unbind('keypress.fb');
-
-			$('#fancybox-loading').remove();
-		},
-
-		showLoading: function () {
-			F.hideLoading();
-
-			//If user will press the escape-button, the request will be canceled
-			D.bind('keypress.fb', function(e) {
-				if (e.keyCode === 27) {
-					e.preventDefault();
-					F.cancel();
-				}
-			});
-
-			$('<div id="fancybox-loading"><div></div></div>').click(F.cancel).appendTo('body');
-		},
-
-		getViewport: function () {
-			// See http://bugs.jquery.com/ticket/6724
-			return {
-				x: W.scrollLeft(),
-				y: W.scrollTop(),
-				w: isTouch && window.innerWidth ? window.innerWidth : W.width(),
-				h: isTouch && window.innerHeight ? window.innerHeight : W.height()
-			};
-		},
-
-		// Unbind the keyboard / clicking actions
-		unbindEvents: function () {
-			if (F.wrap) {
-				F.wrap.unbind('.fb');
-			}
-
-			D.unbind('.fb');
-			W.unbind('.fb');
-		},
-
-		bindEvents: function () {
-			var current = F.current,
-				keys = current.keys;
-
-			if (!current) {
-				return;
-			}
-
-			W.bind('resize.fb orientationchange.fb' + (current.autoCenter && !current.fixed ? ' scroll.fb' : ''), F.update);
-
-			if (keys) {
-				D.bind('keydown.fb', function (e) {
-					var code, target = e.target || e.srcElement;
-
-					// Ignore key combinations and key events within form elements
-					if (!e.ctrlKey && !e.altKey && !e.shiftKey && !e.metaKey && !(target && (target.type || $(target).is('[contenteditable]')))) {
-						code = e.keyCode;
-
-						if ($.inArray(code, keys.close) > -1) {
-							F.close();
-							e.preventDefault();
-
-						} else if ($.inArray(code, keys.next) > -1) {
-							F.next();
-							e.preventDefault();
-
-						} else if ($.inArray(code, keys.prev) > -1) {
-							F.prev();
-							e.preventDefault();
-						}
-					}
-				});
-			}
-
-			if ($.fn.mousewheel && current.mouseWheel && F.group.length > 1) {
-				F.wrap.bind('mousewheel.fb', function (e, delta) {
-					var target = e.target || null;
-
-					if (delta !== 0 && (!target || target.clientHeight === 0 || (target.scrollHeight === target.clientHeight && target.scrollWidth === target.clientWidth))) {
-						e.preventDefault();
-
-						F[delta > 0 ? 'prev' : 'next']();
-					}
-				});
-			}
-		},
-
-		trigger: function (event, o) {
-			var ret, obj = o || F[ $.inArray(event, ['onCancel', 'beforeLoad', 'afterLoad']) > -1 ? 'coming' : 'current' ];
-
-			if (!obj) {
-				return;
-			}
-
-			if ($.isFunction( obj[event] )) {
-				ret = obj[event].apply(obj, Array.prototype.slice.call(arguments, 1));
-			}
-
-			if (ret === false) {
-				return false;
-			}
-
-			if (obj.helpers) {
-				$.each(obj.helpers, function (helper, opts) {
-					if (opts && $.isPlainObject(F.helpers[helper]) && $.isFunction(F.helpers[helper][event])) {
-						F.helpers[helper][event](opts, obj);
-					}
-				});
-			}
-
-			$.event.trigger(event + '.fb');
-		},
-
-		isImage: function (str) {
-			return isString(str) && str.match(/\.(jpe?g|gif|png|bmp)((\?|#).*)?$/i);
-		},
-
-		isSWF: function (str) {
-			return isString(str) && str.match(/\.(swf)((\?|#).*)?$/i);
-		},
-
-		_start: function (index) {
-			var coming = {},
-				element = F.group[index] || null,
-				isDom,
-				href,
-				type,
-				rez,
-				hrefParts;
-
-			if (element && (element.nodeType || element instanceof $)) {
-				isDom = true;
-
-				if ($.metadata) {
-					coming = $(element).metadata();
-				}
-			}
-
-			coming = $.extend(true, {}, F.opts, {index : index, element : element}, ($.isPlainObject(element) ? element : coming));
-
-			// Re-check overridable options
-			$.each(['href', 'title', 'content', 'type'], function(i,v) {
-				coming[v] = F.opts[ v ] || (isDom && $(element).attr( v )) || coming[ v ] || null;
-			});
-
-			// Convert margin property to array - top, right, bottom, left
-			if (typeof coming.margin === 'number') {
-				coming.margin = [coming.margin, coming.margin, coming.margin, coming.margin];
-			}
-
-			// 'modal' propery is just a shortcut
-			if (coming.modal) {
-				$.extend(true, coming, {
-					closeBtn : false,
-					closeClick: false,
-					nextClick : false,
-					arrows : false,
-					mouseWheel : false,
-					keys : null,
-					helpers: {
-						overlay : {
-							css: {
-								cursor : 'auto'
-							},
-							closeClick : false
-						}
-					}
-				});
-			}
-
-			//Give a chance for callback or helpers to update coming item (type, title, etc)
-			F.coming = coming;
-
-			if (false === F.trigger('beforeLoad')) {
-				F.coming = null;
-				return;
-			}
-
-			type = coming.type;
-			href = coming.href || element;
-
-			///Check if content type is set, if not, try to get
-			if (!type) {
-				if (isDom) {
-					type = $(element).data('fancybox-type');
-
-					if (!type) {
-						rez = element.className.match(/fancybox\.(\w+)/);
-						type = rez ? rez[1] : null;
-					}
-				}
-
-				if (!type && isString(href)) {
-					if (F.isImage(href)) {
-						type = 'image';
-
-					} else if (F.isSWF(href)) {
-						type = 'swf';
-
-					} else if (href.match(/^#/)) {
-						type = 'inline';
-					}
-				}
-
-				// ...if not - display element itself
-				if (!type) {
-					type = isDom ? 'inline' : 'html';
-				}
-
-				coming.type = type;
-			}
-
-			// Check before try to load; 'inline' and 'html' types need content, others - href
-			if (type === 'inline' || type === 'html') {
-				if (!coming.content) {
-					if (type === 'inline') {
-						coming.content = $( isString(href) ? href.replace(/.*(?=#[^\s]+$)/, '') : href ); //strip for ie7
-
-					} else {
-						coming.content = element;
-					}
-				}
-
-				if (!coming.content || !coming.content.length) {
-					type = null;
-				}
-
-			} else if (!href) {
-				type = null;
-			}
-
-			/*
-			 * Add reference to the group, so it`s possible to access from callbacks, example:
-			 * afterLoad : function() {
-			 *     this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
-			 * }
-			 */
-
-			if (type === 'ajax' && isString(href)) {
-				hrefParts = href.split(/\s+/, 2);
-
-				href = hrefParts.shift();
-				coming.selector = hrefParts.shift();
-			}
-
-			coming.href  = href;
-			coming.group = F.group;
-			coming.isDom = isDom;
-
-			switch (type) {
-				case 'image':
-					F._loadImage();
-					break;
-
-				case 'ajax':
-					F._loadAjax();
-					break;
-
-				case 'inline':
-				case 'iframe':
-				case 'swf':
-				case 'html':
-					F._afterLoad();
-					break;
-
-				default:
-					F._error( 'type' );
-			}
-		},
-
-		_error: function ( type ) {
-			F.hideLoading();
-
-			$.extend(F.coming, {
-				type      : 'html',
-				autoSize  : true,
-				minWidth  : 0,
-				minHeight : 0,
-				padding   : 15,
-				hasError  : type,
-				content   : F.coming.tpl.error
-			});
-
-			F._afterLoad();
-		},
-
-		_loadImage: function () {
-			// Reset preload image so it is later possible to check "complete" property
-			var img = F.imgPreload = new Image();
-
-			img.onload = function () {
-				this.onload = this.onerror = null;
-
-				F.coming.width  = this.width;
-				F.coming.height = this.height;
-
-				F._afterLoad();
-			};
-
-			img.onerror = function () {
-				this.onload = this.onerror = null;
-
-				F._error( 'image' );
-			};
-
-			img.src = F.coming.href;
-
-			if (img.complete === undefined || !img.complete) {
-				F.showLoading();
-			}
-		},
-
-		_loadAjax: function () {
-			F.showLoading();
-
-			F.ajaxLoad = $.ajax($.extend({}, F.coming.ajax, {
-				url: F.coming.href,
-				error: function (jqXHR, textStatus) {
-					if (F.coming && textStatus !== 'abort') {
-						F._error( 'ajax', jqXHR );
-
-					} else {
-						F.hideLoading();
-					}
-				},
-				success: function (data, textStatus) {
-					if (textStatus === 'success') {
-						F.coming.content = data;
-
-						F._afterLoad();
-					}
-				}
-			}));
-		},
-
-		_preloadImages: function() {
-			var group = F.group,
-				current = F.current,
-				len = group.length,
-				item,
-				href,
-				i,
-				cnt = Math.min(current.preload, len - 1);
-
-			if (!current.preload || group.length < 2) {
-				return;
-			}
-
-			for (i = 1; i <= cnt; i += 1) {
-				item = group[ (current.index + i ) % len ];
-				href = item.href || $( item ).attr('href') || item;
-
-				if (item.type === 'image' || F.isImage(href)) {
-					new Image().src = href;
-				}
-			}
-		},
-
-		_afterLoad: function () {
-			F.hideLoading();
-
-			if (!F.coming || false === F.trigger('afterLoad', F.current)) {
-				F.coming = false;
-
-				return;
-			}
-
-			if (F.isOpened) {
-				$('.fancybox-item, .fancybox-nav').remove();
-
-				F.wrap.stop(true).removeClass('fancybox-opened');
-				F.inner.css('overflow', 'hidden');
-
-				F.transitions[F.current.prevMethod]();
-
-			} else {
-				$('.fancybox-wrap').stop().trigger('onReset').remove();
-
-				F.trigger('afterClose');
-			}
-
-			F.unbindEvents();
-
-			F.isOpen    = false;
-			F.current   = F.coming;
-
-			//Build the neccessary markup
-			F.wrap  = $(F.current.tpl.wrap).addClass('fancybox-' + (isTouch ? 'mobile' : 'desktop') + ' fancybox-type-' + F.current.type + ' fancybox-tmp ' + F.current.wrapCSS).appendTo('body');
-			F.skin  = $('.fancybox-skin', F.wrap).css('padding', getValue(F.current.padding));
-			F.outer = $('.fancybox-outer', F.wrap);
-			F.inner = $('.fancybox-inner', F.wrap);
-
-			F._setContent();
-		},
-
-		_setContent: function () {
-			var current = F.current,
-				content = current.content,
-				type    = current.type,
-				minWidth    = current.minWidth,
-				minHeight   = current.minHeight,
-				maxWidth    = current.maxWidth,
-				maxHeight   = current.maxHeight,
-				loadingBay;
-
-			switch (type) {
-				case 'inline':
-				case 'ajax':
-				case 'html':
-					if (current.selector) {
-						content = $('<div>').html(content).find(current.selector);
-
-					} else if (content instanceof $) {
-						if (content.parent().hasClass('fancybox-inner')) {
-							content.parents('.fancybox-wrap').unbind('onReset');
-						}
-
-						content = content.show().detach();
-
-						$(F.wrap).bind('onReset', function () {
-							content.appendTo('body').hide();
-						});
-					}
-
-					if (current.autoSize) {
-						loadingBay = $('<div class="fancybox-wrap ' + F.current.wrapCSS + ' fancybox-tmp"></div>')
-							.appendTo('body')
-							.css({
-								minWidth    : getValue(minWidth, 'w'),
-								minHeight   : getValue(minHeight, 'h'),
-								maxWidth    : getValue(maxWidth, 'w'),
-								maxHeight   : getValue(maxHeight, 'h')
-							})
-							.append(content);
-
-						current.width = loadingBay.width();
-						current.height = loadingBay.height();
-
-						// Re-check to fix 1px bug in some browsers
-						loadingBay.width( F.current.width );
-
-						if (loadingBay.height() > current.height) {
-							loadingBay.width(current.width + 1);
-
-							current.width = loadingBay.width();
-							current.height = loadingBay.height();
-						}
-
-						content = loadingBay.contents().detach();
-
-						loadingBay.remove();
-					}
-
-					break;
-
-				case 'image':
-					content = current.tpl.image.replace('{href}', current.href);
-
-					current.aspectRatio = true;
-					break;
-
-				case 'swf':
-					content = current.tpl.swf.replace(/\{width\}/g, current.width).replace(/\{height\}/g, current.height).replace(/\{href\}/g, current.href);
-					break;
-
-				case 'iframe':
-					content = $(current.tpl.iframe.replace('{rnd}', new Date().getTime()) )
-						.attr('scrolling', current.scrolling)
-						.attr('src', current.href);
-
-					current.scrolling = isTouch ? 'scroll' : 'auto';
-
-					break;
-			}
-
-			if (type === 'image' || type === 'swf') {
-				current.autoSize = false;
-				current.scrolling = 'visible';
-			}
-
-			if (type === 'iframe' && current.autoSize) {
-				F.showLoading();
-
-				F._setDimension();
-
-				F.inner.css('overflow', current.scrolling);
-
-				content.bind({
-					onCancel : function() {
-						$(this).unbind();
-
-						F._afterZoomOut();
-					},
-					load : function() {
-						F.hideLoading();
-
-						try {
-							if (this.contentWindow.document.location) {
-								F.current.height = $(this).contents().find('body').height();
-							}
-						} catch (e) {
-							F.current.autoSize = false;
-						}
-
-						F[ F.isOpen ? '_afterZoomIn' : '_beforeShow']();
-					}
-				}).appendTo(F.inner);
-
-			} else {
-				F.inner.append(content);
-
-				F._beforeShow();
-			}
-		},
-
-		_beforeShow : function() {
-			F.coming = null;
-
-			//Give a chance for helpers or callbacks to update elements
-			F.trigger('beforeShow');
-
-			//Set initial dimensions and hide
-			F._setDimension();
-			F.wrap.hide().removeClass('fancybox-tmp');
-
-			F.bindEvents();
-
-			F._preloadImages();
-
-			F.transitions[ F.isOpened ? F.current.nextMethod : F.current.openMethod ]();
-		},
-
-		_setDimension: function () {
-			var wrap      = F.wrap,
-				inner     = F.inner,
-				current   = F.current,
-				viewport  = F.getViewport(),
-				margin    = current.margin,
-				padding2  = current.padding * 2,
-				width     = current.width,
-				height    = current.height,
-				maxWidth  = current.maxWidth + padding2,
-				maxHeight = current.maxHeight + padding2,
-				minWidth  = current.minWidth + padding2,
-				minHeight = current.minHeight + padding2,
-				ratio,
-				height_;
-
-			viewport.w -= (margin[1] + margin[3]);
-			viewport.h -= (margin[0] + margin[2]);
-
-			if (isPercentage(width)) {
-				width = (((viewport.w - padding2) * parseFloat(width)) / 100);
-			}
-
-			if (isPercentage(height)) {
-				height = (((viewport.h - padding2) * parseFloat(height)) / 100);
-			}
-
-			ratio  = width / height;
-			width  += padding2;
-			height += padding2;
-
-			if (current.fitToView) {
-				maxWidth  = Math.min(viewport.w, maxWidth);
-				maxHeight = Math.min(viewport.h, maxHeight);
-			}
-
-			if (current.aspectRatio) {
-				if (width > maxWidth) {
-					width = maxWidth;
-					height = ((width - padding2) / ratio) + padding2;
-				}
-
-				if (height > maxHeight) {
-					height = maxHeight;
-					width = ((height - padding2) * ratio) + padding2;
-				}
-
-				if (width < minWidth) {
-					width = minWidth;
-					height = ((width - padding2) / ratio) + padding2;
-				}
-
-				if (height < minHeight) {
-					height = minHeight;
-					width = ((height - padding2) * ratio) + padding2;
-				}
-
-			} else {
-				width = Math.max(minWidth, Math.min(width, maxWidth));
-				height = Math.max(minHeight, Math.min(height, maxHeight));
-			}
-
-			width = Math.round(width);
-			height = Math.round(height);
-
-			//Reset dimensions
-			$(wrap.add(inner)).width('auto').height('auto');
-
-			inner.width(width - padding2).height(height - padding2);
-			wrap.width(width);
-
-			height_ = wrap.height(); // Real wrap height
-
-			//Fit wrapper inside
-			if (width > maxWidth || height_ > maxHeight) {
-				while ((width > maxWidth || height_ > maxHeight) && width > minWidth && height_ > minHeight) {
-					height = height - 10;
-
-					if (current.aspectRatio) {
-						width = Math.round(((height - padding2) * ratio) + padding2);
-
-						if (width < minWidth) {
-							width = minWidth;
-							height = ((width - padding2) / ratio) + padding2;
-						}
-
-					} else {
-						width = width - 10;
-					}
-
-					inner.width(width - padding2).height(height - padding2);
-					wrap.width(width);
-
-					height_ = wrap.height();
-				}
-			}
-
-			current.dim = {
-				width	: getValue(width),
-				height	: getValue(height_)
-			};
-
-			current.canGrow		= current.autoSize && height > minHeight && height < maxHeight;
-			current.canShrink	= false;
-			current.canExpand	= false;
-
-			if ((width - padding2) < current.width || (height - padding2) < current.height) {
-				current.canExpand = true;
-
-			} else if ((width > viewport.w || height_ > viewport.h) && width > minWidth && height > minHeight) {
-				current.canShrink = true;
-			}
-
-			F.innerSpace = height_ - padding2 - inner.height();
-		},
-
-		_getPosition: function (onlyAbsolute) {
-			var current		= F.current,
-				viewport    = F.getViewport(),
-				margin      = current.margin,
-				width       = F.wrap.width() + margin[1] + margin[3],
-				height      = F.wrap.height() + margin[0] + margin[2],
-				rez         = {
-					position: 'absolute',
-					top  : margin[0] + viewport.y,
-					left : margin[3] + viewport.x
-				};
-
-			if (current.autoCenter && current.fixed && !onlyAbsolute && height <= viewport.h && width <= viewport.w) {
-				rez = {
-					position: 'fixed',
-					top  : margin[0],
-					left : margin[3]
-				};
-			}
-
-			rez.top     = getValue(Math.max(rez.top, rez.top + ((viewport.h - height) * current.topRatio)));
-			rez.left    = getValue(Math.max(rez.left, rez.left + ((viewport.w - width) * 0.5)));
-
-			return rez;
-		},
-
-		_afterZoomIn: function () {
-			var current = F.current, scrolling = current ? current.scrolling : 'no';
-
-			if (!current) {
-				return;
-			}
-
-			F.isOpen = F.isOpened = true;
-
-			F.wrap.addClass('fancybox-opened');
-
-			F.inner.css('overflow', scrolling === 'yes' ? 'scroll' : (scrolling === 'no' ? 'hidden' : scrolling));
-
-			F.trigger('afterShow');
-
-			F.update();
-
-			//Assign a click event
-			if (current.closeClick || current.nextClick) {
-				F.inner.css('cursor', 'pointer').bind('click.fb', function(e) {
-					if (!$(e.target).is('a') && !$(e.target).parent().is('a')) {
-						F[ current.closeClick ? 'close' : 'next' ]();
-					}
-				});
-			}
-
-			//Create a close button
-			if (current.closeBtn) {
-				$(current.tpl.closeBtn).appendTo(F.skin).bind('click.fb', F.close);
-			}
-
-			//Create navigation arrows
-			if (current.arrows && F.group.length > 1) {
-				if (current.loop || current.index > 0) {
-					$(current.tpl.prev).appendTo(F.outer).bind('click.fb', F.prev);
-				}
-
-				if (current.loop || current.index < F.group.length - 1) {
-					$(current.tpl.next).appendTo(F.outer).bind('click.fb', F.next);
-				}
-			}
-
-			if (F.opts.autoPlay && !F.player.isActive) {
-				F.opts.autoPlay = false;
-
-				F.play();
-			}
-		},
-
-		_afterZoomOut: function () {
-			var current = F.current;
-
-			F.wrap.trigger('onReset').remove();
-
-			$.extend(F, {
-				group: {},
-				opts: {},
-				current: null,
-				isActive: false,
-				isOpened: false,
-				isOpen: false,
-				wrap: null,
-				skin: null,
-				outer: null,
-				inner: null
-			});
-
-			F.trigger('afterClose', current);
-		}
-	});
-
-	/*
-	 *	Default transitions
-	 */
-
-	F.transitions = {
-		getOrigPosition: function () {
-			var current = F.current,
-				element = current.element,
-				padding = current.padding,
-				orig    = $(current.orig),
-				pos     = {},
-				width   = 50,
-				height  = 50,
-				viewport;
-
-			if (!orig.length && current.isDom && $(element).is(':visible')) {
-				orig = $(element).find('img:first');
-
-				if (!orig.length) {
-					orig = $(element);
-				}
-			}
-
-			if (orig.length) {
-				pos = orig.offset();
-
-				if (orig.is('img')) {
-					width = orig.outerWidth();
-					height = orig.outerHeight();
-				}
-
-			} else {
-				viewport = F.getViewport();
-
-				pos.top  = viewport.y + (viewport.h - height) * 0.5;
-				pos.left = viewport.x + (viewport.w - width) * 0.5;
-			}
-
-			pos = {
-				top     : getValue(pos.top - padding),
-				left    : getValue(pos.left - padding),
-				width   : getValue(width + padding * 2),
-				height  : getValue(height + padding * 2)
-			};
-
-			return pos;
-		},
-
-		step: function (now, fx) {
-			var prop = fx.prop, value, ratio;
-
-			if (prop === 'width' || prop === 'height') {
-				value = Math.ceil(now - (F.current.padding * 2));
-
-				if (prop === 'height') {
-					ratio = (now - fx.start) / (fx.end - fx.start);
-
-					if (fx.start > fx.end) {
-						ratio = 1 - ratio;
-					}
-
-					value -= F.innerSpace * ratio;
-				}
-
-				F.inner[prop](value);
-			}
-		},
-
-		zoomIn: function () {
-			var wrap     = F.wrap,
-				current  = F.current,
-				effect   = current.openEffect,
-				elastic  = effect === 'elastic',
-				dim      = current.dim,
-				startPos = $.extend({}, dim, F._getPosition( elastic )),
-				endPos   = $.extend({opacity : 1}, startPos);
-
-			//Remove "position" property that breaks older IE
-			delete endPos.position;
-
-			if (elastic) {
-				startPos = this.getOrigPosition();
-
-				if (current.openOpacity) {
-					startPos.opacity = 0;
-				}
-
-				F.outer.add(F.inner).width('auto').height('auto');
-
-			} else if (effect === 'fade') {
-				startPos.opacity = 0;
-			}
-
-			wrap.css(startPos)
-				.show()
-				.animate(endPos, {
-					duration : effect === 'none' ? 0 : current.openSpeed,
-					easing   : current.openEasing,
-					step     : elastic ? this.step : null,
-					complete : F._afterZoomIn
-				});
-		},
-
-		zoomOut: function () {
-			var wrap     = F.wrap,
-				current  = F.current,
-				effect   = current.openEffect,
-				elastic  = effect === 'elastic',
-				endPos   = {opacity : 0};
-
-			if (elastic) {
-				if (wrap.css('position') === 'fixed') {
-					wrap.css(F._getPosition(true));
-				}
-
-				endPos = this.getOrigPosition();
-
-				if (current.closeOpacity) {
-					endPos.opacity = 0;
-				}
-			}
-
-			wrap.animate(endPos, {
-				duration : effect === 'none' ? 0 : current.closeSpeed,
-				easing   : current.closeEasing,
-				step     : elastic ? this.step : null,
-				complete : F._afterZoomOut
-			});
-		},
-
-		changeIn: function () {
-			var wrap     = F.wrap,
-				current  = F.current,
-				effect   = current.nextEffect,
-				elastic  = effect === 'elastic',
-				startPos = F._getPosition( elastic ),
-				endPos   = { opacity : 1 };
-
-			startPos.opacity = 0;
-
-			if (elastic) {
-				startPos.top = getValue(parseInt(startPos.top, 10) - 200);
-				endPos.top = '+=200px';
-			}
-
-			wrap.css(startPos)
-				.show()
-				.animate(endPos, {
-					duration : effect === 'none' ? 0 : current.nextSpeed,
-					easing   : current.nextEasing,
-					complete : F._afterZoomIn
-				});
-		},
-
-		changeOut: function () {
-			var wrap     = F.wrap,
-				current  = F.current,
-				effect   = current.prevEffect,
-				endPos   = { opacity : 0 },
-				cleanUp  = function () {
-					$(this).trigger('onReset').remove();
-				};
-
-			wrap.removeClass('fancybox-opened');
-
-			if (effect === 'elastic') {
-				endPos.top = '+=200px';
-			}
-
-			wrap.animate(endPos, {
-				duration : effect === 'none' ? 0 : current.prevSpeed,
-				easing   : current.prevEasing,
-				complete : cleanUp
-			});
-		}
-	};
-
-	/*
-	 *	Overlay helper
-	 */
-
-	F.helpers.overlay = {
-		overlay: null,
-
-		update: function () {
-			var width, scrollWidth, offsetWidth;
-
-			//Reset width/height so it will not mess
-			this.overlay.width('100%').height('100%');
-
-			if ($.browser.msie || isTouch) {
-				scrollWidth = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth);
-				offsetWidth = Math.max(document.documentElement.offsetWidth, document.body.offsetWidth);
-
-				width = scrollWidth < offsetWidth ? W.width() : scrollWidth;
-
-			} else {
-				width = D.width();
-			}
-
-			this.overlay.width(width).height(D.height());
-		},
-
-		beforeShow: function (opts) {
-			if (this.overlay) {
-				return;
-			}
-
-			opts = $.extend(true, {}, F.defaults.helpers.overlay, opts);
-
-			this.overlay = $('<div id="fancybox-overlay"></div>').css(opts.css).appendTo('body');
-
-			if (opts.closeClick) {
-				this.overlay.bind('click.fb', F.close);
-			}
-
-			if (F.current.fixed && !isTouch) {
-				this.overlay.addClass('overlay-fixed');
-
-			} else {
-				this.update();
-
-				this.onUpdate = function () {
-					this.update();
-				};
-			}
-
-			this.overlay.fadeTo(opts.speedIn, opts.opacity);
-		},
-
-		afterClose: function (opts) {
-			if (this.overlay) {
-				this.overlay.fadeOut(opts.speedOut || 0, function () {
-					$(this).remove();
-				});
-			}
-
-			this.overlay = null;
-		}
-	};
-
-	/*
-	 *	Title helper
-	 */
-
-	F.helpers.title = {
-		beforeShow: function (opts) {
-			var title, text = F.current.title;
-
-			if (text) {
-				title = $('<div class="fancybox-title fancybox-title-' + opts.type + '-wrap">' + text + '</div>').appendTo('body');
-
-				if (opts.type === 'float') {
-					//This helps for some browsers
-					title.width(title.width());
-
-					title.wrapInner('<span class="child"></span>');
-
-					//Increase bottom margin so this title will also fit into viewport
-					F.current.margin[2] += Math.abs(parseInt(title.css('margin-bottom'), 10));
-				}
-
-				title.appendTo(opts.type === 'over' ? F.inner : (opts.type === 'outside' ? F.wrap : F.skin));
-			}
-		}
-	};
-
-	// jQuery plugin initialization
-	$.fn.fancybox = function (options) {
-		var that     = $(this),
-			selector = this.selector || '',
-			index,
-			run      = function(e) {
-				var what = this, idx = index, relType, relVal;
-
-				if (!(e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) && !$(what).is('.fancybox-wrap')) {
-					e.preventDefault();
-
-					relType = options.groupAttr || 'data-fancybox-group';
-					relVal  = $(what).attr(relType);
-
-					if (!relVal) {
-						relType = 'rel';
-						relVal  = what[ relType ];
-					}
-
-					if (relVal && relVal !== '' && relVal !== 'nofollow') {
-						what = selector.length ? $(selector) : that;
-						what = what.filter('[' + relType + '="' + relVal + '"]');
-						idx  = what.index(this);
-					}
-
-					options.index = idx;
-
-					F.open(what, options);
-				}
-			};
-
-		options = options || {};
-		index   = options.index || 0;
-
-		if (selector) {
-			D.undelegate(selector, 'click.fb-start').delegate(selector, 'click.fb-start', run);
-
-		} else {
-			that.unbind('click.fb-start').bind('click.fb-start', run);
-		}
-
-		return this;
-	};
-
-	// Test for fixedPosition needs a body at doc ready
-	$(document).ready(function() {
-		F.defaults.fixed = $.support.fixedPosition || (!($.browser.msie && $.browser.version <= 6) && !isTouch);
-	});
-
-}(window, document, jQuery));
-/*! fancyBox v2.0.6 fancyapps.com | fancyapps.com/fancybox/#license */
-(function(s,l,d,t){var m=d(s),q=d(l),a=d.fancybox=function(){a.open.apply(this,arguments)},u=!1,k=l.createTouch!==t,o=function(a){return"string"===d.type(a)},n=function(b,c){c&&o(b)&&0<b.indexOf("%")&&(b=a.getViewport()[c]/100*parseInt(b,10));return Math.round(b)+"px"};d.extend(a,{version:"2.0.5",defaults:{padding:15,margin:20,width:800,height:600,minWidth:100,minHeight:100,maxWidth:9999,maxHeight:9999,autoSize:!0,autoResize:!k,autoCenter:!k,fitToView:!0,aspectRatio:!1,topRatio:0.5,fixed:!1,scrolling:"auto",
-wrapCSS:"",arrows:!0,closeBtn:!0,closeClick:!1,nextClick:!1,mouseWheel:!0,autoPlay:!1,playSpeed:3E3,preload:3,modal:!1,loop:!0,ajax:{dataType:"html",headers:{"X-fancyBox":!0}},keys:{next:[13,32,34,39,40],prev:[8,33,37,38],close:[27]},tpl:{wrap:'<div class="fancybox-wrap"><div class="fancybox-skin"><div class="fancybox-outer"><div class="fancybox-inner"></div></div></div></div>',image:'<img class="fancybox-image" src="{href}" alt="" />',iframe:'<iframe class="fancybox-iframe" name="fancybox-frame{rnd}" frameborder="0" hspace="0"'+
-(d.browser.msie?' allowtransparency="true"':"")+"></iframe>",swf:'<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%"><param name="wmode" value="transparent" /><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="{href}" /><embed src="{href}" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="100%" height="100%" wmode="transparent"></embed></object>',error:'<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
-closeBtn:'<div title="Close" class="fancybox-item fancybox-close"></div>',next:'<a title="Next" class="fancybox-nav fancybox-next"><span></span></a>',prev:'<a title="Previous" class="fancybox-nav fancybox-prev"><span></span></a>'},openEffect:"fade",openSpeed:300,openEasing:"swing",openOpacity:!0,openMethod:"zoomIn",closeEffect:"fade",closeSpeed:300,closeEasing:"swing",closeOpacity:!0,closeMethod:"zoomOut",nextEffect:"elastic",nextSpeed:300,nextEasing:"swing",nextMethod:"changeIn",prevEffect:"elastic",
-prevSpeed:300,prevEasing:"swing",prevMethod:"changeOut",helpers:{overlay:{speedIn:0,speedOut:300,opacity:0.8,css:{cursor:"pointer"},closeClick:!0},title:{type:"float"}}},group:{},opts:{},coming:null,current:null,isOpen:!1,isOpened:!1,player:{timer:null,isActive:!1},ajaxLoad:null,imgPreload:null,transitions:{},helpers:{},open:function(b,c){a.close(!0);b&&!d.isArray(b)&&(b=b instanceof d?d(b).get():[b]);a.isActive=!0;a.opts=d.extend(!0,{},a.defaults,c);d.isPlainObject(c)&&c.keys!==t&&(a.opts.keys=c.keys?
-d.extend({},a.defaults.keys,c.keys):!1);a.group=b;a._start(a.opts.index||0)},cancel:function(){a.coming&&!1===a.trigger("onCancel")||(a.coming=null,a.hideLoading(),a.ajaxLoad&&a.ajaxLoad.abort(),a.ajaxLoad=null,a.imgPreload&&(a.imgPreload.onload=a.imgPreload.onabort=a.imgPreload.onerror=null))},close:function(b){a.cancel();a.current&&!1!==a.trigger("beforeClose")&&(a.unbindEvents(),!a.isOpen||b&&!0===b[0]?(d(".fancybox-wrap").stop().trigger("onReset").remove(),a._afterZoomOut()):(a.isOpen=a.isOpened=
-!1,d(".fancybox-item, .fancybox-nav").remove(),a.wrap.stop(!0).removeClass("fancybox-opened"),a.inner.css("overflow","hidden"),a.transitions[a.current.closeMethod]()))},play:function(b){var c=function(){clearTimeout(a.player.timer)},e=function(){c();a.current&&a.player.isActive&&(a.player.timer=setTimeout(a.next,a.current.playSpeed))},f=function(){c();d("body").unbind(".player");a.player.isActive=!1;a.trigger("onPlayEnd")};if(a.player.isActive||b&&!1===b[0])f();else if(a.current&&(a.current.loop||
-a.current.index<a.group.length-1))a.player.isActive=!0,d("body").bind({"afterShow.player onUpdate.player":e,"onCancel.player beforeClose.player":f,"beforeLoad.player":c}),e(),a.trigger("onPlayStart")},next:function(){a.current&&a.jumpto(a.current.index+1)},prev:function(){a.current&&a.jumpto(a.current.index-1)},jumpto:function(b){a.current&&(b=parseInt(b,10),1<a.group.length&&a.current.loop&&(b>=a.group.length?b=0:0>b&&(b=a.group.length-1)),a.group[b]!==t&&(a.cancel(),a._start(b)))},reposition:function(b,
-c){var e;a.isOpen&&(e=a._getPosition(c),b&&"scroll"===b.type?(delete e.position,a.wrap.stop(!0,!0).animate(e,200)):a.wrap.css(e))},update:function(b){a.isOpen&&(u||setTimeout(function(){var c=a.current,e=!b||b&&"orientationchange"===b.type;if(u&&(u=!1,c)){if(!b||"scroll"!==b.type||e)c.autoSize&&"iframe"!==c.type&&(a.inner.height("auto"),c.height=a.inner.height()),(c.autoResize||e)&&a._setDimension(),c.canGrow&&"iframe"!==c.type&&a.inner.height("auto");(c.autoCenter||e)&&a.reposition(b);a.trigger("onUpdate")}},
-200),u=!0)},toggle:function(){a.isOpen&&(a.current.fitToView=!a.current.fitToView,a.update())},hideLoading:function(){q.unbind("keypress.fb");d("#fancybox-loading").remove()},showLoading:function(){a.hideLoading();q.bind("keypress.fb",function(b){27===b.keyCode&&(b.preventDefault(),a.cancel())});d('<div id="fancybox-loading"><div></div></div>').click(a.cancel).appendTo("body")},getViewport:function(){return{x:m.scrollLeft(),y:m.scrollTop(),w:k&&s.innerWidth?s.innerWidth:m.width(),h:k&&s.innerHeight?
-s.innerHeight:m.height()}},unbindEvents:function(){a.wrap&&a.wrap.unbind(".fb");q.unbind(".fb");m.unbind(".fb")},bindEvents:function(){var b=a.current,c=b.keys;b&&(m.bind("resize.fb orientationchange.fb"+(b.autoCenter&&!b.fixed?" scroll.fb":""),a.update),c&&q.bind("keydown.fb",function(b){var f;f=b.target||b.srcElement;if(!b.ctrlKey&&!b.altKey&&!b.shiftKey&&!b.metaKey&&(!f||!f.type&&!d(f).is("[contenteditable]")))f=b.keyCode,-1<d.inArray(f,c.close)?(a.close(),b.preventDefault()):-1<d.inArray(f,c.next)?
-(a.next(),b.preventDefault()):-1<d.inArray(f,c.prev)&&(a.prev(),b.preventDefault())}),d.fn.mousewheel&&b.mouseWheel&&1<a.group.length&&a.wrap.bind("mousewheel.fb",function(b,c){var d=b.target||null;if(0!==c&&(!d||0===d.clientHeight||d.scrollHeight===d.clientHeight&&d.scrollWidth===d.clientWidth))b.preventDefault(),a[0<c?"prev":"next"]()}))},trigger:function(b,c){var e,f=c||a[-1<d.inArray(b,["onCancel","beforeLoad","afterLoad"])?"coming":"current"];if(f){d.isFunction(f[b])&&(e=f[b].apply(f,Array.prototype.slice.call(arguments,
-1)));if(!1===e)return!1;f.helpers&&d.each(f.helpers,function(c,e){if(e&&d.isPlainObject(a.helpers[c])&&d.isFunction(a.helpers[c][b]))a.helpers[c][b](e,f)});d.event.trigger(b+".fb")}},isImage:function(a){return o(a)&&a.match(/\.(jpe?g|gif|png|bmp)((\?|#).*)?$/i)},isSWF:function(a){return o(a)&&a.match(/\.(swf)((\?|#).*)?$/i)},_start:function(b){var c={},e=a.group[b]||null,f,g,i;if(e&&(e.nodeType||e instanceof d))f=!0,d.metadata&&(c=d(e).metadata());c=d.extend(!0,{},a.opts,{index:b,element:e},d.isPlainObject(e)?
-e:c);d.each(["href","title","content","type"],function(b,g){c[g]=a.opts[g]||f&&d(e).attr(g)||c[g]||null});"number"===typeof c.margin&&(c.margin=[c.margin,c.margin,c.margin,c.margin]);c.modal&&d.extend(!0,c,{closeBtn:!1,closeClick:!1,nextClick:!1,arrows:!1,mouseWheel:!1,keys:null,helpers:{overlay:{css:{cursor:"auto"},closeClick:!1}}});a.coming=c;if(!1===a.trigger("beforeLoad"))a.coming=null;else{g=c.type;b=c.href||e;g||(f&&(g=d(e).data("fancybox-type"),g||(g=(g=e.className.match(/fancybox\.(\w+)/))?
-g[1]:null)),!g&&o(b)&&(a.isImage(b)?g="image":a.isSWF(b)?g="swf":b.match(/^#/)&&(g="inline")),g||(g=f?"inline":"html"),c.type=g);if("inline"===g||"html"===g){if(c.content||(c.content="inline"===g?d(o(b)?b.replace(/.*(?=#[^\s]+$)/,""):b):e),!c.content||!c.content.length)g=null}else b||(g=null);"ajax"===g&&o(b)&&(i=b.split(/\s+/,2),b=i.shift(),c.selector=i.shift());c.href=b;c.group=a.group;c.isDom=f;switch(g){case "image":a._loadImage();break;case "ajax":a._loadAjax();break;case "inline":case "iframe":case "swf":case "html":a._afterLoad();
-break;default:a._error("type")}}},_error:function(b){a.hideLoading();d.extend(a.coming,{type:"html",autoSize:!0,minWidth:0,minHeight:0,padding:15,hasError:b,content:a.coming.tpl.error});a._afterLoad()},_loadImage:function(){var b=a.imgPreload=new Image;b.onload=function(){this.onload=this.onerror=null;a.coming.width=this.width;a.coming.height=this.height;a._afterLoad()};b.onerror=function(){this.onload=this.onerror=null;a._error("image")};b.src=a.coming.href;(b.complete===t||!b.complete)&&a.showLoading()},
-_loadAjax:function(){a.showLoading();a.ajaxLoad=d.ajax(d.extend({},a.coming.ajax,{url:a.coming.href,error:function(b,c){a.coming&&"abort"!==c?a._error("ajax",b):a.hideLoading()},success:function(b,c){"success"===c&&(a.coming.content=b,a._afterLoad())}}))},_preloadImages:function(){var b=a.group,c=a.current,e=b.length,f,g,i,h=Math.min(c.preload,e-1);if(c.preload&&!(2>b.length))for(i=1;i<=h;i+=1)if(f=b[(c.index+i)%e],g=f.href||d(f).attr("href")||f,"image"===f.type||a.isImage(g))(new Image).src=g},_afterLoad:function(){a.hideLoading();
-!a.coming||!1===a.trigger("afterLoad",a.current)?a.coming=!1:(a.isOpened?(d(".fancybox-item, .fancybox-nav").remove(),a.wrap.stop(!0).removeClass("fancybox-opened"),a.inner.css("overflow","hidden"),a.transitions[a.current.prevMethod]()):(d(".fancybox-wrap").stop().trigger("onReset").remove(),a.trigger("afterClose")),a.unbindEvents(),a.isOpen=!1,a.current=a.coming,a.wrap=d(a.current.tpl.wrap).addClass("fancybox-"+(k?"mobile":"desktop")+" fancybox-type-"+a.current.type+" fancybox-tmp "+a.current.wrapCSS).appendTo("body"),
-a.skin=d(".fancybox-skin",a.wrap).css("padding",n(a.current.padding)),a.outer=d(".fancybox-outer",a.wrap),a.inner=d(".fancybox-inner",a.wrap),a._setContent())},_setContent:function(){var b=a.current,c=b.content,e=b.type,f=b.minWidth,g=b.minHeight,i=b.maxWidth,h=b.maxHeight;switch(e){case "inline":case "ajax":case "html":b.selector?c=d("<div>").html(c).find(b.selector):c instanceof d&&(c.parent().hasClass("fancybox-inner")&&c.parents(".fancybox-wrap").unbind("onReset"),c=c.show().detach(),d(a.wrap).bind("onReset",
-function(){c.appendTo("body").hide()}));b.autoSize&&(f=d('<div class="fancybox-wrap '+a.current.wrapCSS+' fancybox-tmp"></div>').appendTo("body").css({minWidth:n(f,"w"),minHeight:n(g,"h"),maxWidth:n(i,"w"),maxHeight:n(h,"h")}).append(c),b.width=f.width(),b.height=f.height(),f.width(a.current.width),f.height()>b.height&&(f.width(b.width+1),b.width=f.width(),b.height=f.height()),c=f.contents().detach(),f.remove());break;case "image":c=b.tpl.image.replace("{href}",b.href);b.aspectRatio=!0;break;case "swf":c=
-b.tpl.swf.replace(/\{width\}/g,b.width).replace(/\{height\}/g,b.height).replace(/\{href\}/g,b.href);break;case "iframe":c=d(b.tpl.iframe.replace("{rnd}",(new Date).getTime())).attr("scrolling",b.scrolling).attr("src",b.href),b.scrolling=k?"scroll":"auto"}if("image"===e||"swf"===e)b.autoSize=!1,b.scrolling="visible";"iframe"===e&&b.autoSize?(a.showLoading(),a._setDimension(),a.inner.css("overflow",b.scrolling),c.bind({onCancel:function(){d(this).unbind();a._afterZoomOut()},load:function(){a.hideLoading();
-try{this.contentWindow.document.location&&(a.current.height=d(this).contents().find("body").height())}catch(b){a.current.autoSize=!1}a[a.isOpen?"_afterZoomIn":"_beforeShow"]()}}).appendTo(a.inner)):(a.inner.append(c),a._beforeShow())},_beforeShow:function(){a.coming=null;a.trigger("beforeShow");a._setDimension();a.wrap.hide().removeClass("fancybox-tmp");a.bindEvents();a._preloadImages();a.transitions[a.isOpened?a.current.nextMethod:a.current.openMethod]()},_setDimension:function(){var b=a.wrap,c=
-a.inner,e=a.current,f=a.getViewport(),g=e.margin,i=2*e.padding,h=e.width,j=e.height,r=e.maxWidth+i,k=e.maxHeight+i,l=e.minWidth+i,m=e.minHeight+i,p;f.w-=g[1]+g[3];f.h-=g[0]+g[2];o(h)&&0<h.indexOf("%")&&(h=(f.w-i)*parseFloat(h)/100);o(j)&&0<j.indexOf("%")&&(j=(f.h-i)*parseFloat(j)/100);g=h/j;h+=i;j+=i;e.fitToView&&(r=Math.min(f.w,r),k=Math.min(f.h,k));if(e.aspectRatio){if(h>r&&(h=r,j=(h-i)/g+i),j>k&&(j=k,h=(j-i)*g+i),h<l&&(h=l,j=(h-i)/g+i),j<m)j=m,h=(j-i)*g+i}else h=Math.max(l,Math.min(h,r)),j=Math.max(m,
-Math.min(j,k));h=Math.round(h);j=Math.round(j);d(b.add(c)).width("auto").height("auto");c.width(h-i).height(j-i);b.width(h);p=b.height();if(h>r||p>k)for(;(h>r||p>k)&&h>l&&p>m;)j-=10,e.aspectRatio?(h=Math.round((j-i)*g+i),h<l&&(h=l,j=(h-i)/g+i)):h-=10,c.width(h-i).height(j-i),b.width(h),p=b.height();e.dim={width:n(h),height:n(p)};e.canGrow=e.autoSize&&j>m&&j<k;e.canShrink=!1;e.canExpand=!1;if(h-i<e.width||j-i<e.height)e.canExpand=!0;else if((h>f.w||p>f.h)&&h>l&&j>m)e.canShrink=!0;a.innerSpace=p-i-
-c.height()},_getPosition:function(b){var c=a.current,e=a.getViewport(),f=c.margin,d=a.wrap.width()+f[1]+f[3],i=a.wrap.height()+f[0]+f[2],h={position:"absolute",top:f[0]+e.y,left:f[3]+e.x};c.autoCenter&&c.fixed&&!b&&i<=e.h&&d<=e.w&&(h={position:"fixed",top:f[0],left:f[3]});h.top=n(Math.max(h.top,h.top+(e.h-i)*c.topRatio));h.left=n(Math.max(h.left,h.left+0.5*(e.w-d)));return h},_afterZoomIn:function(){var b=a.current,c=b?b.scrolling:"no";if(b&&(a.isOpen=a.isOpened=!0,a.wrap.addClass("fancybox-opened"),
-a.inner.css("overflow","yes"===c?"scroll":"no"===c?"hidden":c),a.trigger("afterShow"),a.update(),(b.closeClick||b.nextClick)&&a.inner.css("cursor","pointer").bind("click.fb",function(c){if(!d(c.target).is("a")&&!d(c.target).parent().is("a"))a[b.closeClick?"close":"next"]()}),b.closeBtn&&d(b.tpl.closeBtn).appendTo(a.skin).bind("click.fb",a.close),b.arrows&&1<a.group.length&&((b.loop||0<b.index)&&d(b.tpl.prev).appendTo(a.outer).bind("click.fb",a.prev),(b.loop||b.index<a.group.length-1)&&d(b.tpl.next).appendTo(a.outer).bind("click.fb",
-a.next)),a.opts.autoPlay&&!a.player.isActive))a.opts.autoPlay=!1,a.play()},_afterZoomOut:function(){var b=a.current;a.wrap.trigger("onReset").remove();d.extend(a,{group:{},opts:{},current:null,isActive:!1,isOpened:!1,isOpen:!1,wrap:null,skin:null,outer:null,inner:null});a.trigger("afterClose",b)}});a.transitions={getOrigPosition:function(){var b=a.current,c=b.element,e=b.padding,f=d(b.orig),g={},i=50,h=50;!f.length&&b.isDom&&d(c).is(":visible")&&(f=d(c).find("img:first"),f.length||(f=d(c)));f.length?
-(g=f.offset(),f.is("img")&&(i=f.outerWidth(),h=f.outerHeight())):(b=a.getViewport(),g.top=b.y+0.5*(b.h-h),g.left=b.x+0.5*(b.w-i));return g={top:n(g.top-e),left:n(g.left-e),width:n(i+2*e),height:n(h+2*e)}},step:function(b,c){var e=c.prop,d,g;if("width"===e||"height"===e)d=Math.ceil(b-2*a.current.padding),"height"===e&&(g=(b-c.start)/(c.end-c.start),c.start>c.end&&(g=1-g),d-=a.innerSpace*g),a.inner[e](d)},zoomIn:function(){var b=a.wrap,c=a.current,e=c.openEffect,f="elastic"===e,g=d.extend({},c.dim,
-a._getPosition(f)),i=d.extend({opacity:1},g);delete i.position;f?(g=this.getOrigPosition(),c.openOpacity&&(g.opacity=0),a.outer.add(a.inner).width("auto").height("auto")):"fade"===e&&(g.opacity=0);b.css(g).show().animate(i,{duration:"none"===e?0:c.openSpeed,easing:c.openEasing,step:f?this.step:null,complete:a._afterZoomIn})},zoomOut:function(){var b=a.wrap,c=a.current,d=c.openEffect,f="elastic"===d,g={opacity:0};f&&("fixed"===b.css("position")&&b.css(a._getPosition(!0)),g=this.getOrigPosition(),c.closeOpacity&&
-(g.opacity=0));b.animate(g,{duration:"none"===d?0:c.closeSpeed,easing:c.closeEasing,step:f?this.step:null,complete:a._afterZoomOut})},changeIn:function(){var b=a.wrap,c=a.current,d=c.nextEffect,f="elastic"===d,g=a._getPosition(f),i={opacity:1};g.opacity=0;f&&(g.top=n(parseInt(g.top,10)-200),i.top="+=200px");b.css(g).show().animate(i,{duration:"none"===d?0:c.nextSpeed,easing:c.nextEasing,complete:a._afterZoomIn})},changeOut:function(){var b=a.wrap,c=a.current,e=c.prevEffect,f={opacity:0};b.removeClass("fancybox-opened");
-"elastic"===e&&(f.top="+=200px");b.animate(f,{duration:"none"===e?0:c.prevSpeed,easing:c.prevEasing,complete:function(){d(this).trigger("onReset").remove()}})}};a.helpers.overlay={overlay:null,update:function(){var a,c;this.overlay.width("100%").height("100%");d.browser.msie||k?(a=Math.max(l.documentElement.scrollWidth,l.body.scrollWidth),c=Math.max(l.documentElement.offsetWidth,l.body.offsetWidth),a=a<c?m.width():a):a=q.width();this.overlay.width(a).height(q.height())},beforeShow:function(b){this.overlay||
-(b=d.extend(!0,{},a.defaults.helpers.overlay,b),this.overlay=d('<div id="fancybox-overlay"></div>').css(b.css).appendTo("body"),b.closeClick&&this.overlay.bind("click.fb",a.close),a.current.fixed&&!k?this.overlay.addClass("overlay-fixed"):(this.update(),this.onUpdate=function(){this.update()}),this.overlay.fadeTo(b.speedIn,b.opacity))},afterClose:function(a){this.overlay&&this.overlay.fadeOut(a.speedOut||0,function(){d(this).remove()});this.overlay=null}};a.helpers.title={beforeShow:function(b){var c;
-if(c=a.current.title)c=d('<div class="fancybox-title fancybox-title-'+b.type+'-wrap">'+c+"</div>").appendTo("body"),"float"===b.type&&(c.width(c.width()),c.wrapInner('<span class="child"></span>'),a.current.margin[2]+=Math.abs(parseInt(c.css("margin-bottom"),10))),c.appendTo("over"===b.type?a.inner:"outside"===b.type?a.wrap:a.skin)}};d.fn.fancybox=function(b){var c=d(this),e=this.selector||"",f,g=function(g){var h=this,j=f,k;!g.ctrlKey&&!g.altKey&&!g.shiftKey&&!g.metaKey&&!d(h).is(".fancybox-wrap")&&
-(g.preventDefault(),g=b.groupAttr||"data-fancybox-group",k=d(h).attr(g),k||(g="rel",k=h[g]),k&&""!==k&&"nofollow"!==k&&(h=e.length?d(e):c,h=h.filter("["+g+'="'+k+'"]'),j=h.index(this)),b.index=j,a.open(h,b))},b=b||{};f=b.index||0;e?q.undelegate(e,"click.fb-start").delegate(e,"click.fb-start",g):c.unbind("click.fb-start").bind("click.fb-start",g);return this};d(l).ready(function(){a.defaults.fixed=d.support.fixedPosition||!(d.browser.msie&&6>=d.browser.version)&&!k})})(window,document,jQuery);
-// Copyright (C) 2006 Google Inc.
+})( jQuery );// Copyright (C) 2006 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -54859,7 +57714,8 @@ var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|\\!|\\!=|\\!==|\\#|\\%|\\%=|&|&&|&
         var cs = elements[k];
         var className = cs.className;
         /* Kuali customization begin - allows multiple syntax highlighter on same view/between refreshes etc**/
-        if (className.indexOf('prettyprint') >= 0  && !jQuery(cs).data('prettified')) {
+        if (className.indexOf('prettyprint') >= 0
+                && !jQuery(cs).data('prettified') && jQuery(cs).find("> ol").length == 0) {
           jQuery(cs).data('prettified', true);
         /* Kuali customization end **/
           // If the classes includes a language extensions, use it.
@@ -56158,7 +59014,7 @@ var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|\\!|\\!=|\\!==|\\#|\\%|\\%=|&|&&|&
                     if (y.length == 0) {
                         var B = p(H);
                         y = a(B);
-                        y.appendTo( (a('form').length > 0) ? "form" : "body" );
+                        y.appendTo( (a('form').length > 0) ? "form :first" : "body" );
                     }
                     /* end kuali customization */
                     y.attr("data-for", w.id);
@@ -56347,7 +59203,7 @@ var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|\\!|\\!=|\\!==|\\#|\\%|\\%=|&|&&|&
         return this;
     }
 })(jQuery);/*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56361,162 +59217,224 @@ var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|\\!|\\!=|\\!==|\\#|\\%|\\%=|&|&&|&
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /**
  * Common constants and variables for KRAD
  */
-function JavascriptKradVariables () {
+function JavascriptKradVariables() {
 }
 
 JavascriptKradVariables.prototype = {
-     APPLICATION_FOOTER_WRAPPER : "Uif-ApplicationFooter-Wrapper",
-     APP_ID  : "Uif-Application",
-     APPLICATION_URL  : "applicationUrl",
+    ACTION_DEFAULTS: "action_defaults",
+    ACTION_ONCLICK_DATA: "onclick",
+    ACTIVE_CLASS: "active",
+    APPLICATION_HEADER_WRAPPER: "Uif-ApplicationHeader-Wrapper",
+    APPLICATION_FOOTER_WRAPPER: "Uif-ApplicationFooter-Wrapper",
+    APP_ID: "Uif-Application",
+    APPLICATION_URL: "applicationUrl",
+    ATTRIBUTES: {
+        ID: "id",
+        DATA_OPEN: "data-open",
+        DATA_RETURN: "data-return",
+        DATA_RESPONSE: "data-response",
+        DATA_RESPONSE_HANDLER: "data-response_handler",
+        DATA_SHOW_HANDLER: "data-show_handler",
+        DATA_HIDE_HANDLER: "data-hide_handler",
+        DATA_ROLE: "data-role",
+        DISMISS_DIALOG_OPTION: "data-dismissdialogoption",
+        DIALOG_ID: "data-dismissdialogid"
+    },
 
-     ATTRIBUTES : {
-         DATA_OPEN : "data-open"
-     },
+    CACHE_KEY: "cacheKey",
+    CHANGED_HEADER_ICON_CLASS: "uif-changedHeaderIcon",
+    CHANGE_COMPONENT_PROPERTIES: "changeProperties",
+    CLASSES: {
+        PLACEHOLDER: "uif-placeholder",
+        MODAL: "modal",
+        IN: "in"
+    },
 
-     CACHE_KEY : "cacheKey",
-     CHANGED_HEADER_ICON_CLASS : "uif-changedHeaderIcon",
-     CLEAR_FORM_METHOD_TO_CALL : "clearForm",
-     CLIENT_MESSAGE_ITEMS_CLASS : "uif-clientMessageItems",
-     CLIENT_WARNING_DIV_CLASS : "uif-clientWarningDiv",
-     COLLAPSED_ERRORS_CLASS : "uif-collapsedErrors",
-     COLLAPSED_INFO_CLASS : "uif-collapsedInfo",
-     COLLAPSED_WARNINGS_CLASS : "uif-collapsedWarnings",
-     COLLECTION_ITEM_CLASS : "uif-collectionItem",
-     CONTROL_CLASS : "Uif-Application",
-     COUNTDOWN_CLASS : "hasCountdown",
+    CLEAR_FORM_METHOD_TO_CALL: "clearForm",
+    CLIENT_MESSAGE_ITEMS_CLASS: "uif-clientMessageItems",
+    CLIENT_ERROR_DIV_CLASS: "alert-danger",
+    CLIENT_WARNING_DIV_CLASS: "alert-warning",
+    CLIENT_INFO_DIV_CLASS: "alert-info",
+    COLLAPSED_ERRORS_CLASS: "uif-collapsedErrors",
+    COLLAPSED_INFO_CLASS: "uif-collapsedInfo",
+    COLLAPSED_WARNINGS_CLASS: "uif-collapsedWarnings",
+    COLLECTION_ITEM_CLASS: "uif-collectionItem",
+    CONTROL_CLASS: "Uif-Application",
+    COUNTDOWN_CLASS: "hasCountdown",
 
-     // constants for data role attribute values
-     DATA_ROLES : {
-         DISCLOSURE_LINK : "disclosureLink"
-     },
+    // constants for data role attribute values
+    DATA_ROLES: {
+        DISCLOSURE_LINK: "disclosureLink",
+        PLACEHOLDER: "placeholder",
+        ACTION: "Action",
+        PROMPTTEXT: "prompttext",
+        DIALOGHEADER: "dialogheader"
+    },
 
-     DIRTY_CLASS : "dirty",
-     DISABLE_BROWSER_CACHE : "disableBrowserCache",
-     DIALOG_PLACEHOLDER : "_dialogPlaceholder",
-     ERROR_HIGHLIGHT_SECTION_CLASS : "uif-errorHighlight-section",
-     ERROR_MESSAGE_ITEM_CLASS : "uif-errorMessageItem-field",
-     FIELD_CLASS : "uif-field",
-     FORM_KEY : "formKey",
-     GRID_LAYOUT_CELL_CLASS : "uif-gridLayoutCell",
-     HAS_ERROR_CLASS : "uif-hasError",
-     HAS_INFO_CLASS : "uif-hasInfo",
-     HAS_MODIFIED_ERROR_CLASS : "uif-hasError-modified",
-     HAS_WARNING_CLASS : "uif-hasWarning",
-     HEADER_TEXT_CLASS : "uif-headerText",
-     IMAGE_LOCATION : "kradImageLocation",
+    DIALOG_DISMISS_OPTIONS: {
+        IMMEDIATE: "IMMEDIATE",
+        PRESUBMIT: "PRESUBMIT",
+        REQUEST: "REQUEST"
+    },
 
-     // constants for id suffixes
-     ID_SUFFIX : {
-         DISCLOSURE_CONTENT : "_disclosureContent",
-         DISCLOSURE_TOGGLE : "_toggle"
-     },
+    DIALOG_SELECTOR: "[role='dialog']",
+    DIRTY_CLASS: "dirty",
+    DIRTY_FORM: "dirtyForm",
+    DISABLE_BROWSER_CACHE: "view.disableBrowserCache",
+    DISABLED_CLASS: "disabled",
+    DIALOG_PLACEHOLDER: "_dialogPlaceholder",
+    ENTER_KEY_SUFFIX: "enter_key",
+    ENTER_KEY_DEFAULT: "@DEFAULT",
+    ERROR_HIGHLIGHT_SECTION_CLASS: "uif-errorHighlight-section",
+    ERROR_MESSAGE_ITEM_CLASS: "uif-errorMessageItem-field",
+    FIELD_CLASS: "uif-field",
+    FORM_KEY: "formKey",
+    FLOW_KEY: "flowKey",
+    FOCUS_ID: "focusid",
+    GRID_LAYOUT_CELL_CLASS: "uif-gridLayoutCell",
+    HAS_ERROR_CLASS: "uif-hasError",
+    HAS_INFO_CLASS: "uif-hasInfo",
+    HAS_MODIFIED_ERROR_CLASS: "uif-hasError-modified",
+    HAS_WARNING_CLASS: "uif-hasWarning",
+    HEADER_TEXT_CLASS: "uif-headerText",
+    IMAGE_LOCATION: "kradImageLocation",
 
-     PAGE_ID : "pageId",
-     PORTAL_IFRAME_ID : "iframeportlet",
-     INCIDENT_REPORT_VIEW_CLASS : "Uif-IncidentReportView",
-     INFO_HIGHLIGHT_SECTION_CLASS : "uif-infoHighlight-section",
-     INFO_MESSAGE_ITEM_CLASS : "uif-infoMessageItem-field",
-     INPUT_FIELD_SELECTOR : "[data-role:'InputField']",
-     KEEP_SESSION_ALIVE_METHOD_TO_CALL : "keepSessionAlive",
-     KRAD_URL : "kradUrl",
-     KUALI_FORM : "kualiForm",
-     LIGHTBOX_PARAM: "lightbox",
-     MESSAGE_COUNT_CLASS : "uif-messageCount",
-     MESSAGE_KEY_DIRTY_FIELDS : "message.dirtyFields",
-     MESSAGE_ERROR : "message.error",
-     MESSAGE_ERROR_FIELD_MODIFIED : "message.errorFieldModified",
-     MESSAGE_WARNING : "message.warning",
-     MESSAGE_INFORMATION : "message.information",
-     MESSAGE_DETAILS : "message.details",
-     MESSAGE_CLOSE_DETAILS : "message.closeDetails",
-     MESSAGE_LOADING : "message.loading",
-     MESSAGE_CHANGE : "message.change",
-     MESSAGE_FORM_CONTAINS_ERRORS : "message.formContainsErrors",
-     MESSAGE_BEFORE : "message.before",
-     MESSAGE_AFTER : "message.after",
-     MESSAGE_PLEASE_ENTER_VALUE : "message.pleaseEnterValue",
-     MESSAGE_EXPAND : "message.expand",
-     MESSAGE_COLLAPSE : "message.collapse",
-     MESSAGE_SERVER_RESPONSE_ERROR : "message.serverResponseError",
-     MESSAGE_STATUS_ERROR : "message.statusError",
-     MESSAGE_TOTAL_ERROR : "message.totalError",
-     MESSAGE_TOTAL_ERRORS : "message.totalErrors",
-     MESSAGE_TOTAL_OTHER_MESSAGES : "message.totalOtherMessages",
-     MESSAGE_TOTAL_WARNING : "message.totalWarning",
-     MESSAGE_TOTAL_WARNINGS : "message.totalWarnings",
-     MESSAGE_TOTAL_MESSAGE : "message.totalMessage",
-     MESSAGE_TOTAL_MESSAGES : "message.totalMessages",
-     MESSAGE_THE : "message.the",
-     MESSAGE_THE_SECTION_HAS_COUNT : "message.theSectionHasCount",
-     NAVIGATION_ID : "Uif-Navigation",
-     NAVIGATION_MENU_CLASS : "uif-navigationMenu",
-     NAVIGATE_METHOD_TO_CALL : "navigate",
-     PAGE_CONTENT_WRAPPER : "Uif-PageContentWrapper",
-     PAGE_VALIDATION_HEADER_CLASS : "uif-pageValidationHeader",
-     PAGE_VALIDATION_MESSAGE_ERROR_CLASS : "uif-pageValidationMessages-error",
-     PAGE_VALIDATION_MESSAGE_INFO_CLASS : "uif-pageValidationMessages-info",
-     PAGE_VALIDATION_MESSAGE_WARNING_CLASS : "uif-pageValidationMessages-warning",
-     PROGRESSIVE_DISCLOSURE_HIGHLIGHT_CLASS : "uif-progressiveDisclosure-highlight",
-     REFRESH_METHOD_TO_CALL : "refresh",
-     RETRIEVE_MESSAGE_METHOD_TO_CALL : "retrieveMessage",
-     RETURN_TYPE_UPDATE_COMPONENT : "update-component",
-     RETURN_FROM_LIGHTBOX_METHOD_TO_CALL : "returnFromLightbox",
-     RETURN_SELECTED_ACTION_CLASS : "uif-returnSelectedAction",
-     REQUIRED_MESSAGE_CLASS : "uif-requiredMessage",
-     SAVE_LINE_ACTION_CLASS : "uif-saveLineAction",
-     SERVER_MESSAGE_ITEMS_CLASS : "uif-serverMessageItems",
-     SESSION_TIMEOUT_WARNING_DIALOG : "Uif-SessionTimeoutWarning-DialogGroup",
-     SESSION_TIMEOUT_DIALOG : "Uif-SessionTimeout-DialogGroup",
-     SESSION_TIMEOUT_WARNING_TIMER : "sessionTimeoutWarningTimer",
-     SESSION_TIMEOUT_TIMER : "sessionTimeoutTimer",
-     SHOW_DIALOG_EVENT : "showdialog.uif",
-     SINGLE_PAGE_VIEW : "singlePageView",
-     STACKED_COLLECTION_LAYOUT_CLASS : "uif-stackedCollectionLayout",
-     STICKY_CLASS : "uif-sticky",
-     SUCCESS_RESPONSE : "success",
-     VIEW_HEADER_UPDATE : "Uif-ViewHeaderUpdate",
-     TOP_GROUP_UPDATE : "Uif-TopGroupUpdate",
-     TABLE_COLLECTION_LAYOUT_CLASS : "uif-tableCollectionLayout",
-     TAB_GROUP_CLASS : "Uif-TabGroup",
-     TAB_MENU_CLASS : "uif-tabMenu",
-     TOOLTIP_CLASS : "uif-tooltip",
-     VALIDATION_IMAGE_CLASS : "uif-validationImage",
-     SERVER_MESSAGES : "server_messages",
-     VIEW_CONTENT_WRAPPER : "Uif-ViewContentWrapper",
-     VALIDATION_MESSAGES : "validation_messages",
-     VALIDATION_MESSAGES_CLASS : "uif-validationMessagesList",
-     VALIDATION_PAGE_HEADER_CLASS : "uif-pageValidationHeader",
-     VALIDATION_SETUP_EVENT : "validationSetup",
-     GROUP_VALIDATION_DEFAULTS : "group_validation_defaults",
-     FIELD_VALIDATION_DEFAULTS : "field_validation_defaults",
-     PAGE_LOAD_EVENT : "pageLoad",
-     VIEW_CONTENT_HEADER_CLASS : "Uif-ViewContentWrapper",
-     VIEW_STATE : "ViewState",
-     WARNING_HIGHLIGHT_SECTION_CLASS : "uif-warningHighlight-section",
-     WARNING_MESSAGE_ITEM_CLASS : "uif-warningMessageItem-field",
-     GROUP_CLASS : "uif-group",
-     ROW_DETAILS_CLASS : "uif-rowDetails",
-     NEXT_INPUT : "NEXT_INPUT:",
-     SKIP_TOTAL : "skip_total",
-     ADD_CONTROLS : "add_controls",
-     SUBMIT_DATA : "submit_data",
-     DETAILS_DEFAULT_OPEN : "details_default_open",
-     BUBBLEPOPUP_THEME_PATH : "/plugins/tooltip/jquerybubblepopup-theme/",
-     FORM_BUBBLEPOPUP_DEFAULT_OPTIONS : {
-        position: 'bottom',
-        align: 'left',
-        tail: { align: 'left', hidden: false },
-        manageMouseEvents: false,
-        themeName: 'popup-form'
+    // constants for element ids
+    IDS: {
+        DIALOGS: "Uif-Dialogs",
+        DIALOG_OKCANCEL: "Uif-DialogGroup-OkCancel",
+        DIALOG_YESNO: "Uif-DialogGroup-YesNo"
+    },
+
+    // constants for id suffixes
+    ID_SUFFIX: {
+        DISCLOSURE_CONTENT: "_disclosureContent",
+        DISCLOSURE_TOGGLE: "_toggle"
+    },
+    JUMP_TO_ID: "jumptoid",
+    PAGE_ID: "pageId",
+    PORTAL_IFRAME_ID: "iframeportlet",
+    INCIDENT_REPORT_VIEW_CLASS: "Uif-IncidentReportView",
+    INFO_HIGHLIGHT_SECTION_CLASS: "uif-infoHighlight-section",
+    INFO_MESSAGE_ITEM_CLASS: "uif-infoMessageItem-field",
+    INPUT_FIELD_SELECTOR: "[data-role:'InputField']",
+    KEEP_SESSION_ALIVE_METHOD_TO_CALL: "keepSessionAlive",
+    KRAD_URL: "kradUrl",
+    KUALI_FORM: "kualiForm",
+    LIGHTBOX_PARAM: "lightbox",
+    MENU_COLLAPSE_ACTION: "sidebar-collapse",
+    MENU_COLLAPSE_ICON_RIGHT: "icon-angle-right",
+    MENU_COLLAPSE_ICON_LEFT: "icon-angle-left",
+    MENU_COLLAPSED: "sidebar-collapsed",
+    MESSAGE_COUNT_CLASS: "uif-messageCount",
+    MESSAGE_KEY_DIRTY_FIELDS: "message.dirtyFields",
+    MESSAGE_ERROR: "message.error",
+    MESSAGE_ERROR_FIELD_MODIFIED: "message.errorFieldModified",
+    MESSAGE_WARNING: "message.warning",
+    MESSAGE_INFORMATION: "message.information",
+    MESSAGE_DETAILS: "message.details",
+    MESSAGE_CLOSE_DETAILS: "message.closeDetails",
+    MESSAGE_LOADING: "message.loading",
+    MESSAGE_CHANGE: "message.change",
+    MESSAGE_FORM_CONTAINS_ERRORS: "message.formContainsErrors",
+    MESSAGE_BEFORE: "message.before",
+    MESSAGE_AFTER: "message.after",
+    MESSAGE_PLEASE_ENTER_VALUE: "message.pleaseEnterValue",
+    MESSAGE_EXPAND: "message.expand",
+    MESSAGE_COLLAPSE: "message.collapse",
+    MESSAGE_SERVER_RESPONSE_ERROR: "message.serverResponseError",
+    MESSAGE_STATUS_ERROR: "message.statusError",
+    MESSAGE_TOTAL_ERROR: "message.totalError",
+    MESSAGE_TOTAL_ERRORS: "message.totalErrors",
+    MESSAGE_TOTAL_OTHER_MESSAGES: "message.totalOtherMessages",
+    MESSAGE_TOTAL_WARNING: "message.totalWarning",
+    MESSAGE_TOTAL_WARNINGS: "message.totalWarnings",
+    MESSAGE_TOTAL_MESSAGE: "message.totalMessage",
+    MESSAGE_TOTAL_MESSAGES: "message.totalMessages",
+    MESSAGE_THE: "message.the",
+    MESSAGE_THE_SECTION_HAS_COUNT: "message.theSectionHasCount",
+    NAVIGATION_ID: "Uif-Navigation",
+    NAVIGATION_MENU_CLASS: "uif-navigationMenu",
+    NAVIGATE_METHOD_TO_CALL: "navigate",
+    PAGE_NUMBER_DATA: "num",
+    PAGE_CONTENT_WRAPPER: "Uif-PageContentWrapper",
+    PAGE_VALIDATION_HEADER_CLASS: "uif-pageValidationHeader",
+    PAGE_VALIDATION_MESSAGE_ERROR_CLASS: "alert-danger",
+    PAGE_VALIDATION_MESSAGE_INFO_CLASS: "alert-info",
+    PAGE_VALIDATION_MESSAGE_SUCCESS_CLASS: "alert-success",
+    PAGE_VALIDATION_MESSAGE_WARNING_CLASS: "alert-warning",
+    PARENT_DATA_ATTRIBUTE: "parent",
+    PERFORM_DIRTY_VALIDATION: "performdirtyvalidation",
+    PROGRESSIVE_DISCLOSURE_HIGHLIGHT_CLASS: "uif-progressiveDisclosure-highlight",
+    POPOVER_DATA: "bs.popover",
+    RENDERED_IN_LIGHTBOX: "renderedInLightBox",
+    REFRESH_METHOD_TO_CALL: "refresh",
+    RETRIEVE_MESSAGE_METHOD_TO_CALL: "retrieveMessage",
+    RETRIEVE_COLLECTION_PAGE_METHOD_TO_CALL: "retrieveCollectionPage",
+    RETURN_TYPE_UPDATE_COMPONENT: "update-component",
+    RETURN_FROM_LIGHTBOX_METHOD_TO_CALL: "returnFromLightbox",
+    RETURN_SELECTED_ACTION_CLASS: "uif-returnSelectedAction",
+    REQUIRED_MESSAGE_CLASS: "uif-requiredMessage",
+    SAVE_LINE_ACTION_CLASS: "uif-saveLineAction",
+    SELECT_FIELD_STYLE_CLASS: "uif-select-line",
+    LOOKUP_COLLECTION_ID: "uLookupResults",
+    SELF: "SELF",
+    SERVER_MESSAGE_ITEMS_CLASS: "uif-serverMessageItems",
+    SESSION_TIMEOUT_WARNING_DIALOG: "Uif-SessionTimeoutWarning-DialogGroup",
+    SESSION_TIMEOUT_DIALOG: "Uif-SessionTimeout-DialogGroup",
+    SESSION_TIMEOUT_WARNING_TIMER: "sessionTimeoutWarningTimer",
+    SESSION_TIMEOUT_TIMER: "sessionTimeoutTimer",
+    SHOW_DIALOG_EVENT: "showdialog.uif",
+    SINGLE_PAGE_VIEW: "view.singlePageView",
+    STACKED_COLLECTION_LAYOUT_CLASS: "uif-stackedCollectionLayout",
+    STICKY_CLASS: "uif-sticky",
+    SUCCESS_RESPONSE: "success",
+    VIEW_HEADER_UPDATE: "Uif-ViewHeaderUpdate",
+    TOP_GROUP_UPDATE: "Uif-TopGroupUpdate",
+    TABLE_COLLECTION_LAYOUT_CLASS: "uif-tableCollectionLayout",
+    TAB_GROUP_CLASS: "Uif-TabGroup",
+    TOGGLE_ARROW_CLASS: "arrow",
+    TOOLTIP_CLASS: "uif-tooltip",
+    VALIDATION_IMAGE_CLASS: "uif-validationImage",
+    SERVER_MESSAGES: "server_messages",
+    VIEW_ID: "viewId",
+    VIEW_CONTENT_WRAPPER: "Uif-ViewContentWrapper",
+    VALIDATE_DIRTY: "view.applyDirtyCheck",
+    VALIDATION_MESSAGES: "validation_messages",
+    VALIDATION_MESSAGES_CLASS: "uif-validationMessagesList",
+    VALIDATION_PAGE_HEADER_CLASS: "uif-pageValidationHeader",
+    VALIDATION_SETUP_EVENT: "validationSetup",
+    GROUP_VALIDATION_DEFAULTS: "group_validation_defaults",
+    FIELD_VALIDATION_DEFAULTS: "field_validation_defaults",
+    PAGE_LOAD_EVENT: "pageLoad",
+    VIEW_CONTENT_HEADER_CLASS: "Uif-ViewContentWrapper",
+    VIEW_STATE: "ViewState",
+    WARNING_HIGHLIGHT_SECTION_CLASS: "uif-warningHighlight-section",
+    WARNING_MESSAGE_ITEM_CLASS: "uif-warningMessageItem-field",
+    GROUP_CLASS: "uif-group",
+    ROW_DETAILS_CLASS: "uif-rowDetails",
+    NEXT_INPUT: "NEXT_INPUT:",
+    SKIP_TOTAL: "skip_total",
+    ADD_CONTROLS: "add_controls",
+    SUBMIT_DATA: "submit_data",
+    DETAILS_DEFAULT_OPEN: "details_default_open",
+    EVENT_NAMESPACE: "uif",
+    EVENTS: {
+        ADJUST_PAGE_MARGIN : "adjustpagemargin"  + JavascriptKradVariables.EVENT_NAMESPACE,
+        ADJUST_STICKY : "adjuststicky"  + JavascriptKradVariables.EVENT_NAMESPACE,
+        DIALOG_RESPONSE : "dialogresponse." + JavascriptKradVariables.EVENT_NAMESPACE,
+        UPDATE_CONTENT : "updatecontent." + JavascriptKradVariables.EVENT_NAMESPACE,
+        PAGE_UPDATE_COMPLETE : "pageUpdateComplete." + JavascriptKradVariables.EVENT_NAMESPACE,
+        SHOW_MODAL : "show.bs.modal",
+        HIDE_MODAL : "hide.bs.modal"
     }
 }
 
 var kradVariables = new JavascriptKradVariables();/*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56698,6 +59616,41 @@ function isPortalContainer(window) {
 }
 
 /**
+ * Attempts to find an element based on the given selector taking into consideration the portal.
+ *
+ * @param selector jquery selector to find element
+ * @returns jquery object for found element, or null if an element was not found
+ */
+function findElement(selector) {
+    var jqElement;
+
+    if (parent.jQuery('iframe[id*=easyXDM_]').length > 0) {
+        // portal and content on same domain
+        jqElement = top.jQuery('iframe[id*=easyXDM_]').contents().find('#' + kradVariables.PORTAL_IFRAME_ID).contents().find(selector);
+    } else if (parent.parent.jQuery('#' + kradVariables.PORTAL_IFRAME_ID).length > 0) {
+        // portal and content on different domain
+        jqElement = parent.parent.jQuery('#' + kradVariables.PORTAL_IFRAME_ID).contents().find(selector);
+    } else {
+        jqElement = top.jq(selector);
+    }
+
+    return jqElement;
+}
+
+/**
+ * Finds element(s) within the given context that have the data role attribute equal to the given role.
+ *
+ * @param role data attribute role value to find
+ * @param $context (optional) content to find elements, if empty the entire document will be used
+ * @returns {*} found elements, if any
+ */
+function findByDataRole(role, $context) {
+    $context = $context || jQuery(document);
+
+    return $context.find("[" + kradVariables.ATTRIBUTES.DATA_ROLE + "='" + role + "']");
+}
+
+/**
  * Sets a configuration parameter that will be accessible with script
  *
  * <p>
@@ -56826,7 +59779,7 @@ function getSerializedViewState() {
 
 // gets the the label for field with the corresponding id
 function getLabel(id) {
-    var label = jQuery("#" + id + "_label");
+    var label = jQuery("[data-label_for='" + id + "']");
     if (label) {
         return label.text();
     }
@@ -56859,8 +59812,7 @@ function runHiddenScripts(id, isSelector, skipValidationBubbling) {
 
         //Interpret new server message state for refreshed InputFields and write them out
         if (!skipValidationBubbling) {
-            //reinitialize BubblePopup
-            initBubblePopups();
+            pageValidationPhase = true;
 
             jQuery(selector).find("div[data-role='InputField']").andSelf().filter("div[data-role='InputField']").each(function () {
                 var id = jQuery(this).attr('id');
@@ -56872,13 +59824,11 @@ function runHiddenScripts(id, isSelector, skipValidationBubbling) {
             });
 
             writeMessagesForPage();
+            pageValidationPhase = false;
         }
     }
     else {
         evaluateScripts();
-
-        //reinitialize BubblePopup
-        initBubblePopups();
     }
 
     profile(false, "run-scripts:" + id);
@@ -56940,30 +59890,29 @@ function runScriptsForId(id) {
  * @param jqueryObj - a jquery object representing a hidden input element with a script in its value attribute
  */
 function evalHiddenScript(jqueryObj) {
-    if (jqueryObj.attr("name") === undefined || jqueryObj.closest("div[data-open='false']").length) {
+    if (jqueryObj.attr("name") === undefined || (jqueryObj.closest("[data-open]").length &&
+            jqueryObj.closest("[data-open]").attr("data-open") === "false")) {
         return;
     }
-    jqueryObj.attr("script", "first_run");
+
     jqueryObj.removeAttr("name");
-    eval(jqueryObj.val());
+    jqueryObj.attr("script", "first_run");
 
-}
+    var js = jqueryObj.val();
+    try {
+        eval(js);
+    } catch (err) {
+        if (err instanceof ReferenceError) {
+            throw new ReferenceError(err.message + " -> offending code: " + js, err.fileName, err.lineNumber);
+        } else {
+            throw err;
+        }
+    }
 
-/**
- * run hidden scripts again
- *
- * <p>This is needed in situations where due to some bugs in page refreshes or progressive rendering,
- * the hidden scripts may have run but not accomplished the desired results</p>
- */
-function runHiddenScriptsAgain() {
-    jQuery("input[data-role='dataScript']").each(function () {
-        eval(jQuery(this).val());
-        jQuery(this).removeAttr("script");
-    });
-    jQuery("input[script='first_run']").each(function () {
-        eval(jQuery(this).val());
-        jQuery(this).removeAttr("script");
-    });
+    // cleanup script for non-dev modes
+    if (scriptCleanup) {
+        jqueryObj.remove();
+    }
 }
 
 /**
@@ -56993,7 +59942,7 @@ function writeHiddenToForm(propertyName, propertyValue) {
     //removing because of performFinalize bug
     jQuery('input[name="' + escapeName(propertyName) + '"]').remove();
 
-    if (propertyValue.indexOf("'") != -1) {
+    if (propertyValue && typeof propertyValue === 'string' &&  propertyValue.indexOf("'") != -1) {
         jQuery("<input type='hidden' name='" + propertyName + "'" + ' value="' + propertyValue + '"/>').appendTo(jQuery("#formComplete"));
     } else {
         jQuery("<input type='hidden' name='" + propertyName + "' value='" + propertyValue + "'/>").appendTo(jQuery("#formComplete"));
@@ -57015,41 +59964,46 @@ function clearHiddens() {
  */
 function coerceValue(name) {
     var value = "";
-
     var nameSelect = "[name='" + escapeName(name) + "']";
 
-    // when group is opened in lightbox make sure to get the value from field in the lightbox
-    // if that field is in the lightbox
-    var parent = document;
-    if (jQuery(nameSelect, jQuery(".fancybox-wrap")).length) {
-        parent = jQuery(".fancybox-wrap");
+    var fancyBoxWrapper = jQuery(".fancybox-wrap");
+    var control;
+    // Attempt to get from fancybox first, if it exists
+    if (fancyBoxWrapper.length) {
+        control = jQuery(nameSelect, fancyBoxWrapper);
     }
 
-    if (jQuery(nameSelect + ":checkbox", parent).length == 1) {
-        value = jQuery(nameSelect + ":checked", parent).val();
+    // If no fancybox or control not in fancybox, get from document
+    if (control == null || control.length == 0) {
+        control = jQuery(nameSelect, document);
     }
-    else if (jQuery(nameSelect + ":checkbox", parent).length > 1) {
+
+    if (control.is(":checkbox") && control.length == 1) {
+        value = control.filter(":checked").val();
+    }
+    else if (control.is(":checkbox") && control.length > 1) {
         value = [];
-        jQuery(nameSelect + ":checked", parent).each(function () {
+        control.filter(":checked").each(function () {
             value.push(jQuery(this).val());
         });
     }
-    else if (jQuery(nameSelect + ":radio", parent).length) {
-        value = jQuery(nameSelect + ":checked", parent).val();
+    else if (control.is(":radio")) {
+        value = control.filter(":checked").val();
     }
-    else if (jQuery(nameSelect, parent).length) {
-        if (jQuery(nameSelect, parent).hasClass("watermark")) {
-            jQuery.watermark.hide(nameSelect, parent);
-            value = jQuery(nameSelect, parent).val();
-            jQuery.watermark.show(nameSelect, parent);
+    else if (control.length) {
+        if (control.hasClass("watermark")) {
+            jQuery.watermark.hide(control, parent);
+            value = control.val();
+            jQuery.watermark.show(control, parent);
         }
         else {
-            value = jQuery(nameSelect, parent).val();
+            value = control.val();
         }
     }
 
     if (value == null) {
         value = "";
+        return value;
     }
 
     // boolean matching
@@ -57273,7 +60227,7 @@ function jumpToElementById(id) {
 
 //Jump(scroll) to the top of the current screen
 function jumpToTop() {
-    if (!usePortalForContext() || jQuery("#fancybox-frame", parent.document).length) {
+    if (!usePortalForContext() || jQuery("#fancybox-frame", parent.document).length || !top.jQuery.scrollTo) {
         jQuery.scrollTo(0);
     }
     else {
@@ -57339,23 +60293,6 @@ function resizeTheRouteLogFrame() {
 }
 
 /**
- * Adds or adds value to the attribute on the element.
- *
- * @param id - element id
- * @param attributeName - name of the attribute to add/add to
- * @param attributeValue - value of the attribute
- * @param concatFlag - indicate if value should be added to current value
- */
-function addAttribute(id, attributeName, attributeValue, concatFlag) {
-    hasAttribute = jQuery("#" + id).is('[' + attributeName + ']');
-    if (concatFlag && hasAttribute) {
-        jQuery("#" + id).attr(attributeName, jQuery("#" + id).attr(attributeName) + " " + attributeValue);
-    } else {
-        jQuery("#" + id).attr(attributeName, attributeValue);
-    }
-}
-
-/**
  * Open new browser window for the specified help url
  *
  * The help window is positioned in the center of the screen and resized to 1/4th of the screen.
@@ -57377,9 +60314,15 @@ function openHelpWindow(url) {
     var windowUrl = url;
     var windowName = 'HelpWindow';
     var windowOptions = 'width=' + windowWidth + ',height=' + windowHeight + ',top=' + windowPositionX + ',left=' + windowPositionY + ',scrollbars=yes,resizable=yes';
+    var myWindow;
 
-    var myWindow = window.open('', windowName);
-    myWindow.close();
+    /* chrome will not allow a open,close,open */
+    var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+    if(!is_chrome) {
+        myWindow = window.open('', windowName);
+        myWindow.close();
+    }
+
     myWindow = window.open(windowUrl, windowName, windowOptions);
 }
 
@@ -57441,10 +60384,12 @@ function time(start, testingText) {
 function deleteLineMouseOver(deleteButton, highlightItemClass) {
     var innerLayout = jQuery(deleteButton).parents('.' + kradVariables.TABLE_COLLECTION_LAYOUT_CLASS
             + ', .' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).first().attr('class');
-    if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
-        jQuery(deleteButton).closest('tr').addClass(highlightItemClass);
-    } else {
-        jQuery(deleteButton).closest('.' + kradVariables.COLLECTION_ITEM_CLASS).addClass(highlightItemClass);
+    if (innerLayout) {
+        if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
+            jQuery(deleteButton).closest('tr').addClass(highlightItemClass);
+        } else {
+            jQuery(deleteButton).closest('.' + kradVariables.COLLECTION_ITEM_CLASS).addClass(highlightItemClass);
+        }
     }
 }
 
@@ -57457,10 +60402,12 @@ function deleteLineMouseOver(deleteButton, highlightItemClass) {
 function deleteLineMouseOut(deleteButton, highlightItemClass) {
     var innerLayout = jQuery(deleteButton).parents('.' + kradVariables.TABLE_COLLECTION_LAYOUT_CLASS
             + ', .' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).first().attr('class');
-    if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
-        jQuery(deleteButton).closest('tr').removeClass(highlightItemClass);
-    } else {
-        jQuery(deleteButton).closest('.' + kradVariables.COLLECTION_ITEM_CLASS).removeClass(highlightItemClass);
+    if (innerLayout) {
+        if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
+            jQuery(deleteButton).closest('tr').removeClass(highlightItemClass);
+        } else {
+            jQuery(deleteButton).closest('.' + kradVariables.COLLECTION_ITEM_CLASS).removeClass(highlightItemClass);
+        }
     }
 }
 
@@ -57473,10 +60420,12 @@ function deleteLineMouseOut(deleteButton, highlightItemClass) {
 function addLineMouseOver(addButton, highlightItemClass) {
     var innerLayout = jQuery(addButton).parents('.' + kradVariables.TABLE_COLLECTION_LAYOUT_CLASS
             + ', .' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).first().attr('class');
-    if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
-        jQuery(addButton).parent().find('table').addClass(highlightItemClass);
-    } else {
-        jQuery(addButton).parent().find('.' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).addClass(highlightItemClass).children().addClass(highlightItemClass);
+    if (innerLayout) {
+        if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
+            jQuery(addButton).parent().find('table').addClass(highlightItemClass);
+        } else {
+            jQuery(addButton).parent().find('.' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).addClass(highlightItemClass).children().addClass(highlightItemClass);
+        }
     }
 }
 
@@ -57489,10 +60438,12 @@ function addLineMouseOver(addButton, highlightItemClass) {
 function addLineMouseOut(addButton, highlightItemClass) {
     var innerLayout = jQuery(addButton).parents('.' + kradVariables.TABLE_COLLECTION_LAYOUT_CLASS
             + ', .' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).first().attr('class');
-    if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
-        jQuery(addButton).parent().find('table').removeClass(highlightItemClass);
-    } else {
-        jQuery(addButton).parent().find('.' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).removeClass(highlightItemClass).children().removeClass(highlightItemClass);
+    if (innerLayout) {
+        if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
+            jQuery(addButton).parent().find('table').removeClass(highlightItemClass);
+        } else {
+            jQuery(addButton).parent().find('.' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).removeClass(highlightItemClass).children().removeClass(highlightItemClass);
+        }
     }
 }
 
@@ -57505,7 +60456,7 @@ function addLineMouseOut(addButton, highlightItemClass) {
 function collectionLineChanged(inputField, highlightItemClass) {
     // This is not very good for performance but because dirty_form gets binded after this event so we need to trigger
     // the dirty_form check before checking for the dirty fields
-    jQuery(inputField).triggerHandler('blur');
+    jQuery(inputField).triggerHandler('change');
 
     // Get the innerlayout to see if we are dealing with table or stack group
     var innerLayout = jQuery(inputField).parents('.' + kradVariables.TABLE_COLLECTION_LAYOUT_CLASS
@@ -57517,8 +60468,10 @@ function collectionLineChanged(inputField, highlightItemClass) {
         var saveButton = row.find('.' + kradVariables.SAVE_LINE_ACTION_CLASS);
 
         if (enabled) {
+            saveButton.removeClass('disabled');
             saveButton.removeAttr('disabled');
         } else {
+            saveButton.addClass('disabled');
             saveButton.attr('disabled', 'disabled');
         }
 
@@ -57528,8 +60481,10 @@ function collectionLineChanged(inputField, highlightItemClass) {
         var saveButton = itemGroup.find('.' + kradVariables.SAVE_LINE_ACTION_CLASS);
 
         if (enabled) {
+            saveButton.removeClass('disabled');
             saveButton.removeAttr('disabled');
         } else {
+            saveButton.addClass('disabled');
             saveButton.attr('disabled', 'disabled');
         }
 
@@ -57537,36 +60492,53 @@ function collectionLineChanged(inputField, highlightItemClass) {
 }
 
 /**
- * Display the component of the id in a light box
+ * Takes a string argument that contains javascript code and wraps in a function that accepts an
+ * event argument.
  *
- * <p>
- * The specified component is used as the content of the fancy box.
- * The second argument is optional and allows the FancyBox options to be overridden.
- * </p>
+ * @param source string containing event script
+ * @returns {Object} event handler function
+ */
+function wrapAsHandler(source) {
+    var script = "(function (e) { " + source + "})"
+
+    return eval(script);
+}
+
+/**
+ * Display the component of the id in a light box.
+ *
+ * <p>The specified component is used as the content of the fancy box.
+ * The second argument is optional and allows the FancyBox options to be overridden.</p>
  *
  * @param componentId the id of the component that will be used for the lightbox content (usually a group id)
  * @param overrideOptions the map of option settings (option name/value pairs) for the plugin. This is optional.
+ * @param alwaysRefresh indicates even if the component is currently in the dom, its contents will be retrieved
+ * from the server
  */
-function showLightboxComponent(componentId, overrideOptions) {
+function showLightboxComponent(componentId, overrideOptions, alwaysRefresh) {
     if (overrideOptions === undefined) {
         overrideOptions = {};
     }
 
+    if (alwaysRefresh === undefined) {
+        alwaysRefresh = false;
+    }
+
     // set renderedInLightBox indicator and remove it when lightbox is closed
-    if (jQuery('#renderedInLightBox').val() != true) {
-        jQuery('#renderedInLightBox').val(true);
+    if (jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val() != true) {
+        jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val(true);
         _appendCallbackFunctions(overrideOptions, {afterClose: function () {
-            jQuery('#renderedInLightBox').val(false);
+            jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val(false);
         }});
     }
 
-    if (jQuery('#' + componentId).hasClass('uif-placeholder')) {
-        retrieveComponent(componentId, undefined, function () {
-            _showLightboxComponentHelper(componentId, overrideOptions);
-        }, {}, true);
-
-    } else {
+    if (jQuery('#' + componentId).length > 0 && !alwaysRefresh
+            && !jQuery('#' + componentId).hasClass(kradVariables.CLASSES.PLACEHOLDER)) {
         _showLightboxComponentHelper(componentId, overrideOptions);
+    } else {
+        createPlaceholderAndRetrieve(componentId, function () {
+            _showLightboxComponentHelper(componentId, overrideOptions);
+        });
     }
 }
 
@@ -57575,14 +60547,14 @@ function showLightboxComponent(componentId, overrideOptions) {
  */
 function _showLightboxComponentHelper(componentId, overrideOptions) {
     var component = jQuery("#" + componentId);
-    var cssDisplay = component.css("display");
+    var cssDisplay = "none";
 
     // suppress scrollbar when not needed, undo the div.clearfix hack (KULRICE-7467)
     if (component.attr("class")) {
         component.attr("class", component.attr("class").replace("clearfix", ""));
     }
 
-    component.find("div").each(function () {
+    component.find("div, section").each(function () {
         var classAttribute = jQuery(this).attr("class");
 
         if (classAttribute) {
@@ -57600,7 +60572,7 @@ function _showLightboxComponentHelper(componentId, overrideOptions) {
             jQuery("#" + componentId).css("display", cssDisplay);
             jQuery("#" + componentId + kradVariables.DIALOG_PLACEHOLDER).replaceWith(parent.jQuery("#" + componentId).detach());
 
-            jQuery("#renderedInLightBox").val(false);
+            jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val(false);
 
             activeDialogId = null;
         }});
@@ -57614,7 +60586,7 @@ function _showLightboxComponentHelper(componentId, overrideOptions) {
             jQuery("#" + componentId).css("display", cssDisplay);
             jQuery("#" + componentId + kradVariables.DIALOG_PLACEHOLDER).replaceWith(parent.jQuery("#" + componentId).detach());
 
-            jQuery("#renderedInLightBox").val(false);
+            jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val(false);
 
             activeDialogId = null;
         }});
@@ -57653,6 +60625,7 @@ function showLightboxContent(content, overrideOptions) {
         overrideOptions = {};
     }
 
+    jQuery(content).addClass("uif-lightbox");
     _initAndOpenLightbox({type: 'html', content: content}, overrideOptions);
 }
 
@@ -57688,13 +60661,12 @@ function showLightboxUrl(url, overrideOptions) {
  * @param overrideOptions the map of option settings (option name/value pairs) for the plugin. This is optional.
  */
 function _initAndOpenLightbox(contentOptions, overrideOptions) {
-    var options = {fitToView: true,
+    var options = { fitToView: true,
         openEffect: 'fade',
         closeEffect: 'fade',
         openSpeed: 200,
         closeSpeed: 200,
         minHeight: 10,
-        //minWidth: 10,
         helpers: {overlay: {css: {cursor: 'arrow'}, closeClick: false}}
     };
 
@@ -57708,14 +60680,17 @@ function _initAndOpenLightbox(contentOptions, overrideOptions) {
 
     // Open the light box
     jQuery.fancybox(options);
-    setupLightboxForm();
+    //stop external content from being wrapped with kualiForm tag
+    if (!(contentOptions.type === "iframe")) {
+        setupLightboxForm();
+    }
 }
 
 /**
  *  Wrap the div to display in the light box in a form and setup form for validation and dirty checks
  */
 function setupLightboxForm() {
-    jQuery(".fancybox-inner").children().wrap("<form style='margin:0; padding:0; overflow:auto;' id='kualiLightboxForm' class='uif-lightbox'>");
+    jQuery(".fancybox-inner").children().wrap("<form style='margin:0; padding:0; overflow:auto;' id='kualiLightboxForm'>");
 
     var kualiLightboxForm = jQuery('#kualiLightboxForm');
     setupValidator(kualiLightboxForm);
@@ -57725,15 +60700,9 @@ function setupLightboxForm() {
  * Closes any open lightbox
  */
 function closeLightbox() {
-    getContext().fancybox.close();
-}
-
-/**
- * Convenience method closes lightbox and reloads page
- */
-function closeLightboxReloadPage() {
-    closeLightbox();
-    top.window.location.reload(true);
+    if (getContext().fancybox) {
+        getContext().fancybox.close();
+    }
 }
 
 /**
@@ -57837,7 +60806,9 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
     var onePage = iStart == 0 && iEnd == aaData.length;
 
     if (onePage) {
-        footerRow.find("div[data-role='pageTotal'], label[data-role='pageTotal']").hide();
+        footerRow.find("[data-role='pageTotal'], label[data-role='pageTotal']").hide();
+    } else {
+        footerRow.find("[data-role='pageTotal'], label[data-role='pageTotal']").show();
     }
 
     var groupTotalRows = dataTable.find("tr[data-groupvalue]");
@@ -57846,9 +60817,9 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
     //Only calculate totals if no grouping or when there is grouping, wait for those rows to become
     //generated - avoids unnecessary totalling
     if (!hasGroups || (hasGroups && groupTotalRows.length)) {
-        var nCells = footerRow.find("th").has("div[data-role='totalsBlock']");
+        var nCells = footerRow.find("th").has("[data-role='totalsBlock']");
 
-        var groupLabel = footerRow.find("th:first span[data-role='groupTotalLabel']");
+        var groupLabel = footerRow.find("th:first [data-role='groupTotalLabel']");
         var hasTotalsInFooter = false;
 
         // Total each column in the columns list
@@ -57857,8 +60828,8 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
             var index = cell.index();
 
             //find the totalsBlocks in the column footer cell, and calculate the appropriate totals
-            jQuery("div[data-role='totalsBlock']", cell).each(function () {
-                var totalDiv = jQuery(this).find("div[data-role='total']");
+            jQuery("[data-role='totalsBlock']", cell).each(function () {
+                var totalDiv = jQuery(this).find("[data-role='total']");
                 var skipTotal = totalDiv.data(kradVariables.SKIP_TOTAL);
 
                 if (!skipTotal && totalDiv.length) {
@@ -57869,14 +60840,14 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
                     hasTotalsInFooter = true;
                 }
 
-                var pageTotalDiv = jQuery(this).find("div[data-role='pageTotal']");
+                var pageTotalDiv = jQuery(this).find("[data-role='pageTotal']");
                 if (!onePage && pageTotalDiv.length) {
                     calculateTotal(pageTotalDiv, iStart, iEnd, columns[c], aaData, aiDisplay);
                     hasTotalsInFooter = true;
                 }
 
                 if (groupTotalRows.length) {
-                    var groupTotalDiv = jQuery(this).find("div[data-role='groupTotal']");
+                    var groupTotalDiv = jQuery(this).find("[data-role='groupTotal']");
                     var rowIndex = 0;
                     //for each group total row calculate the group total for the column we are totalling
                     groupTotalRows.each(function () {
@@ -57946,6 +60917,7 @@ function initializeTotalsFooter(nRow, aaData, iStart, iEnd, aiDisplay, columns) 
         //Hide the footer row if no footer totals or page totals exist
         if (hasTotalsInFooter) {
             footerRow.show();
+            footerRow.find("th:hidden").addClass("show-footer");
         }
         else {
             footerRow.hide();
@@ -58025,7 +60997,7 @@ function calculateGroupTotal(cellsToTotal, totalTd, groupTotalDiv, rowIndex, col
         total = "N/A";
     }
 
-    var groupTotalDisplay = totalTd.find("div[data-role='groupTotal'][data-function='" + functionName + "']");
+    var groupTotalDisplay = totalTd.find("[data-role='groupTotal'][data-function='" + functionName + "']");
     //clone and append, if no place to display the total has been generated yet
     if (groupTotalDisplay.length == 0) {
         groupTotalDisplay = groupTotalDiv.clone();
@@ -58038,7 +61010,7 @@ function calculateGroupTotal(cellsToTotal, totalTd, groupTotalDiv, rowIndex, col
         groupTotalDisplay.show();
     }
 
-    var totalValueSpan = groupTotalDisplay.find("span[data-role='totalValue']");
+    var totalValueSpan = groupTotalDisplay.find("[data-role='totalValue']");
 
     if (totalValueSpan.length) {
         totalValueSpan.html(total);
@@ -58132,7 +61104,7 @@ function calculateTotal(totalDiv, start, end, currentColumn, aaData, aiDisplay) 
             total = "N/A";
         }
 
-        var totalValueSpan = totalDiv.find("span[data-role='totalValue']");
+        var totalValueSpan = totalDiv.find("[data-role='totalValue']");
 
         if (totalValueSpan.length) {
             totalValueSpan.html(total);
@@ -58275,10 +61247,9 @@ function coerceTableCellValue(element) {
         inputFieldValue = inputField.val();
     } else {
         // This might be after sorting or just read only
-        inputField = tdObject.find('span');
-        if (inputField.length > 0) {
+        if (tdObject.is("div[data-role='InputField']")) {
             // readonly fields
-            inputFieldValue = inputField.text().replace(/\s+/g, "");
+            inputFieldValue = getImmediateChildText(tdObject[0]).trim();
         } else {
             // after sorting
             inputFieldValue = element;
@@ -58298,6 +61269,17 @@ function coerceTableCellValue(element) {
     } else {
         return inputFieldValue;
     }
+}
+
+function getImmediateChildText(node) {
+  var text = "";
+  for (var child = node.firstChild; !!child; child = child.nextSibling) {
+    // nodeType 3 is a text node
+    if (child.nodeType === 3) {
+      text += child.nodeValue + " ";
+    }
+  }
+  return text;
 }
 
 /**
@@ -58325,11 +61307,30 @@ function _handleColData(rowObject, type, colName, newVal) {
         return;
     } else if (type === "display") {
         return colObj.render;
-    } else if (type === "sort" && colObj.val == null) {
-        return colObj.render;
+    } else if (type === "sort") {
+        var sortValue = colObj.val;
+        if (sortValue == null) {
+            sortValue = colObj.render;
+        }
+
+        if (colObj.render) {
+            var field = jQuery(colObj.render);
+            var isInput = field.is("[data-role='InputField']");
+
+            if (isInput) {
+                var id = field.attr("id");
+                var control = field.find("[data-control_for='" + id + "']");
+                if (control.length) {
+                    sortValue = coerceValue(control.attr("name"));
+                }
+            }
+        }
+
+        return sortValue;
     }
 
     return colObj.val;
+
 }
 
 function normalizeGroupString(sGroup) {
@@ -58778,7 +61779,7 @@ function initStickyContent(currentScroll) {
         currentScroll = jQuery(window).scrollTop();
     }
 
-    var topOffset = stickyContentOffset.top;
+    var topOffset = Math.round(stickyContentOffset.top);
 
     var totalHeight = 0;
     var margin = 0;
@@ -58786,35 +61787,38 @@ function initStickyContent(currentScroll) {
     var automateMargin = false;
     var innerNonStickyCount = 0;
 
+    var lastStickyContent;
     //fix each sticky piece of content
     stickyContent.each(function () {
         var height = jQuery(this).outerHeight();
         var thisOffset = jQuery(this).data("offset");
+        var thisOffsetTop = Math.round(thisOffset.top);
         jQuery(this).addClass(kradVariables.STICKY_CLASS);
 
-        if (thisOffset.top < 1) {
+        if (thisOffsetTop < 1) {
             automateMargin = true;
         }
 
         //scroll content with the scroll
         if (currentScroll > 0) {
-            jQuery(this).attr("style", "position:fixed; left: 0; top: " + (thisOffset.top - currentScroll) + "px;");
+            jQuery(this).attr("style", "position:fixed; left: 0; top: " + (thisOffsetTop - currentScroll) + "px;");
         }
         else {
-            jQuery(this).attr("style", "position:fixed; left: 0; top: " + thisOffset.top + "px;");
+            jQuery(this).attr("style", "position:fixed; left: 0; top: " + thisOffsetTop + "px;");
         }
 
         //this means there is inner non-sticky content in the header
-        if (thisOffset.top > topOffset) {
+        if (thisOffsetTop > topOffset) {
             margin = margin + totalHeight;
             innerNonStickyCount++;
-            topOffset = thisOffset.top;
+            topOffset = thisOffsetTop;
         }
 
         //set totalHeight of sticky elements, topOffset, and prevHeight
         totalHeight = totalHeight + height;
         topOffset = topOffset + height;
         prevHeight = height;
+        lastStickyContent = jQuery(this);
     });
 
     //Only adjust the margin if a sticky area exists in the top most area, and there is inner-non-sticky content
@@ -58828,17 +61832,24 @@ function initStickyContent(currentScroll) {
     var navigation = jQuery("#" + kradVariables.NAVIGATION_ID);
     var navigationHeightAdjust = 0;
 
-    if (navigation.length) {
-        if (navigation.is(".tab-navigation-block")) {
-            navigationHeightAdjust = navigation.height();
-        }
+    if (navigation.length && navigation.has(".nav-tabs").length === 0) {
+        navigation.attr("style", "position:absolute;");
 
         //move the navigation with total height of the header pieces - the scroll
-        navigation.attr("style", "position:fixed; top: " + (topOffset - currentScroll) + "px;");
+        // TODO support both absolute and fixed
+        //navigation.attr("style", "position:fixed; top: " + (topOffset - currentScroll) + "px;");
+
+    }
+
+    // Determine which div to apply the margin to by figuring out the first applicable div that exists after all
+    // the sticky content, in order to push down that content and content below it correctly
+    var applyMarginToContent = jQuery("[data-role='View'] > .uif-sticky:last").next();
+    if (applyMarginToContent.length == 0){
+        applyMarginToContent = jQuery("[data-role='View']");
     }
 
     //make the ViewContentWrapper margin-top reflect the visible header content pixel height
-    jQuery("#" + kradVariables.VIEW_CONTENT_WRAPPER).css("marginTop",
+    jQuery(applyMarginToContent).css("marginTop",
             (totalHeight + navigationHeightAdjust - margin) + "px");
 
     //set header height global
@@ -58855,7 +61866,7 @@ function handleStickyContent() {
         return;
     }
 
-    if (jQuery(window).scrollTop() >= stickyContentOffset.top) {
+    if (jQuery(window).scrollTop() >= Math.round(stickyContentOffset.top)) {
         var topOffset = 0;
         var navAdjust = 0;
 
@@ -58864,9 +61875,10 @@ function handleStickyContent() {
             var height = jQuery(this).outerHeight();
 
             var thisOffset = jQuery(this).data("offset");
+            var thisOffsetTop = Math.round(thisOffset.top);
             //content exist between this sticky and last sticky
-            if (thisOffset && thisOffset.top - jQuery(window).scrollTop() > topOffset) {
-                var diff = thisOffset.top - jQuery(window).scrollTop();
+            if (thisOffset && thisOffsetTop - jQuery(window).scrollTop() > topOffset) {
+                var diff = thisOffsetTop - jQuery(window).scrollTop();
                 jQuery(this).attr("style", "position:fixed; left: 0; top: " + diff + "px;");
                 navAdjust = diff + height;
             }
@@ -58880,12 +61892,18 @@ function handleStickyContent() {
         });
 
         //adjust the fixed nav position (if navigation exists)
-        jQuery("#" + kradVariables.NAVIGATION_ID).attr("style", "position:fixed; top: " +
-                (navAdjust) + "px;");
+        // TODO support both absolute and fixed
+        /* jQuery("#" + kradVariables.NAVIGATION_ID).attr("style", "position:fixed; top: " +
+                (navAdjust) + "px;");*/
+        var nav = jQuery("#" + kradVariables.NAVIGATION_ID);
+        if (nav.length && nav.has(".nav-tabs").length === 0) {
+            nav.attr("style", "position:absolute;");
+        }
+
         currentHeaderHeight = navAdjust;
 
     }
-    else if (jQuery(window).scrollTop() < stickyContentOffset.top) {
+    else if (jQuery(window).scrollTop() < Math.round(stickyContentOffset.top)) {
         //the content is back to past the first sticky element (topmost)
         initStickyContent(jQuery(window).scrollTop());
     }
@@ -58905,7 +61923,6 @@ function initStickyFooterContent() {
 
     //calculate bottom offset in reverse order (bottom up)
     jQuery(stickyFooterContent.get().reverse()).each(function () {
-        var height = jQuery(this).outerHeight();
         jQuery(this).addClass("uif-stickyFooter");
 
         //special style for footers that are not the application footer
@@ -58914,6 +61931,7 @@ function initStickyFooterContent() {
         }
 
         jQuery(this).attr("style", "position:fixed; left: 0; bottom: " + bottomOffset + "px;");
+        var height = jQuery(this).outerHeight();
         bottomOffset = bottomOffset + height;
     });
     currentFooterHeight = bottomOffset;
@@ -58943,8 +61961,8 @@ function handleStickyFooterContent() {
     var scrollTop = jQuery(window).scrollTop();
 
     //reposition elements when the scroll exceeds the footer's top (and footer content exists)
-    if (windowHeight + scrollTop >= appFooterOffset.top && scrollTop != 0 && applicationFooter.height() > 0) {
-        var bottomOffset = (windowHeight + scrollTop) - appFooterOffset.top;
+    if (windowHeight + scrollTop >= Math.round(appFooterOffset.top) && scrollTop != 0 && applicationFooter.height() > 0) {
+        var bottomOffset = (windowHeight + scrollTop) - Math.round(appFooterOffset.top);
 
         jQuery(stickyFooterContent.get().reverse()).each(function () {
             var height = jQuery(this).outerHeight();
@@ -59013,32 +62031,6 @@ function displayCountdown(targetId, until, overrideOptions) {
 }
 
 /**
- * Enables the return selected button on the multi value lookup when at least one item is selected
- *
- * @param selectControl
- */
-function setMultivalueLookupReturnButton(selectControl) {
-    refreshDatatableCellRedraw(selectControl);
-
-    var oTable = getDataTableHandle(getParentRichTableId(selectControl));
-
-    var checked = false;
-    jQuery.each(getDataTablesColumnData(0, oTable), function (index, value) {
-        if (jQuery(':input:checked', value).length) {
-            checked = true;
-        }
-    });
-
-    if (checked) {
-        jQuery(':button.' + kradVariables.RETURN_SELECTED_ACTION_CLASS).removeAttr('disabled');
-        jQuery(':button.' + kradVariables.RETURN_SELECTED_ACTION_CLASS).removeClass('disabled');
-    } else {
-        jQuery(':button.' + kradVariables.RETURN_SELECTED_ACTION_CLASS).attr('disabled', 'disabled');
-    }
-
-}
-
-/**
  * Returns the table id of parent table of an element if it is a richtable
  *
  * @param childElement
@@ -59064,8 +62056,85 @@ function getDataTablesColumnData(columnIndex, oTable) {
     });
 
     return colData;
-};/*
- * Copyright 2005-2013 The Kuali Foundation
+}
+
+/**
+ * Formats an unformated html string by adding appropriate line breaks and spaces for indentation
+ *
+ * <p> Modified solution based on: http://stackoverflow.com/questions/376373/pretty-printing-xml-with-javascript </p>
+ *
+ * @param html the html string to format
+ * @returns {string} a formatted html string which can be use in pre tags
+ */
+function formatHtml(html) {
+    var reg = /(>)(<)(\/*)/g;
+    var wsexp = / *(.*) +\n/g;
+    var contexp = /(<.+>)(.+\n)/g;
+    html = html.replace(reg, '$1\n$2$3').replace(wsexp, '$1\n').replace(contexp, '$1\n$2');
+    var formatted = '';
+    var lines = html.split('\n');
+    var indent = 0;
+    var lastType = 'other';
+    // 4 types of tags - single, closing, opening, other (text, doctype, comment) - 4*4 = 16 transitions
+    var transitions = {
+        'single->single': 0,
+        'single->closing': -1,
+        'single->opening': 0,
+        'single->other': 0,
+        'closing->single': 0,
+        'closing->closing': -1,
+        'closing->opening': 0,
+        'closing->other': 0,
+        'opening->single': 1,
+        'opening->closing': 0,
+        'opening->opening': 1,
+        'opening->other': 1,
+        'other->single': 0,
+        'other->closing': -1,
+        'other->opening': 0,
+        'other->other': 0
+    };
+
+    for (var i = 0; i < lines.length; i++) {
+        var ln = lines[i];
+
+        // is this line a single tag? ex. <br />
+        var single = Boolean(ln.match(/<.+\/>/)) || ln.indexOf("<input") != -1;
+
+        // is this a closing tag? ex. </a>
+        var closing = Boolean(ln.match(/<\/.+>/));
+
+        // is this even a tag (that's not <!something>)
+        var opening = Boolean(ln.match(/<[^!].*>/));
+
+        var type = single ? 'single' : closing ? 'closing' : opening ? 'opening' : 'other';
+        var fromTo = lastType + '->' + type;
+        lastType = type;
+        var padding = '';
+
+
+        indent += transitions[fromTo];
+        for (var j = 0; j < indent; j++) {
+            padding += '   ';
+        }
+
+        if (fromTo == 'opening->closing')
+            // substr removes line break (\n) from prev loop
+            formatted = formatted.substr(0, formatted.length - 1) + ln + '\n';
+        else
+            formatted += padding + ln + '\n';
+    }
+
+    return formatted;
+}
+
+function getGroupHeaderElement(groupId) {
+    var headerWrapper = jQuery("[data-header_for='" + groupId + "']");
+    var wrapperId = headerWrapper.attr("id");
+    return headerWrapper.find("#" + wrapperId + "_header");
+}
+;/*
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59079,13 +62148,15 @@ function getDataTablesColumnData(columnIndex, oTable) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 // global vars
 var jq = jQuery.noConflict();
 
 // clear out blockUI css, using css class overrides
 jQuery.blockUI.defaults.css = {};
 jQuery.blockUI.defaults.overlayCSS = {};
+
+// script cleanup flag
+var scriptCleanup;
 
 //stickyContent globals
 var stickyContent;
@@ -59101,11 +62172,17 @@ var validateClient = true;
 var messageSummariesShown = false;
 var pauseTooltipDisplay = false;
 var haltValidationMessaging = false;
+var pageValidationPhase = false;
 var gAutoFocus = false;
 var clientErrorStorage = new Object();
 var summaryTextExistence = new Object();
 var clientErrorExistsCheck = false;
 var skipPageSetup = false;
+var groupValidationDefaults;
+var fieldValidationDefaults;
+
+// Action option defaults
+var actionDefaults;
 
 // dirty form state management
 var dirtyFormState;
@@ -59120,15 +62197,15 @@ var warningImage;
 var infoImage;
 var detailsOpenImage;
 var detailsCloseImage;
+var refreshImage;
+var navigationImage;
 var ajaxReturnHandlers = {};
-
-var gCurrentBubblePopupId;
 
 var activeDialogId;
 var sessionWarningTimer;
 var sessionTimeoutTimer;
 
-//delay function
+// delay function
 var delay = (function () {
     var timer = 0;
     return function (callback, ms) {
@@ -59140,9 +62217,9 @@ var delay = (function () {
 // map of componentIds and refreshTimers
 var refreshTimerComponentMap = {};
 
-//setup handler for opening form content popups with errors
+// setup handler for opening form content popups with errors
 jQuery(document).on(kradVariables.PAGE_LOAD_EVENT, function (event) {
-    openPopupContentsWithErrors();
+    openPopoverContentsWithErrors();
 });
 
 // common event registering done here through JQuery ready event
@@ -59155,6 +62232,9 @@ jQuery(document).ready(function () {
     // determine whether we need to refresh or update the page
     skipPageSetup = handlePageAndCacheRefreshing();
     dirtyFormState = new DirtyFormState();
+
+    // script cleanup setting
+    scriptCleanup = getConfigParam("scriptCleanup").toLowerCase() === "true";
 
     // buttons
     jQuery("input:submit, input:button, a.button, .uif-dialogButtons").button();
@@ -59182,24 +62262,39 @@ jQuery(document).ready(function () {
     });
 
     time(false, "viewSetup-phase-1");
+
     // show the page
     jQuery("#" + kradVariables.APP_ID).show();
 
-    //run all the scripts
+    // run all the scripts
     runHiddenScripts("");
 
     time(true, "viewSetup-phase-2");
 
-    //setup dirty field processing
+    // setup dirty field processing
     dirtyFormState.dirtyHandlerSetup();
 
-    //disclosure handler setup
+    // disclosure handler setup
     setupDisclosureHandler();
+
+    setupHelperTextHandler();
 
     // setup the various event handlers for fields - THIS IS IMPORTANT
     initFieldHandlers();
 
-    //setup any potential sticky/fixed content
+    jQuery(window).unbind("resize.tooltip");
+    jQuery(window).bind("resize.tooltip", function(){
+        var visibleTooltips = jQuery(".popover:visible");
+        visibleTooltips.each(function(){
+            // bug with popover plugin does not reposition tooltip on window resize, forcing it here
+            jQuery(this).prev("[data-hasTooltip]").popover("show");
+        });
+    });
+
+    // setup the handler for enter key event actions
+    initEnterKeyHandler();
+
+    // setup any potential sticky/fixed content
     setupStickyHeaderAndFooter();
 
     hideEmptyCells();
@@ -59214,15 +62309,74 @@ jQuery(document).ready(function () {
 });
 
 /**
+ * Sets up and initializes the handlers for enter key actions.
+ *
+ * <p>This function determines which button/action should fire when the enter key is pressed while focus is on a configured input</p>
+ *
+ */
+function initEnterKeyHandler(){
+    jQuery(document).on("keyup", "[data-enter_key]", function(event) {
+        // grab the keycode based on browser
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+
+        // check for enter key
+        if(keycode !== 13) { return; }
+            event.preventDefault();
+            event.stopPropagation();
+
+            // using event bubbling, we search for inner most element with data attribute kradVariables.ENTER_KEY_SUFFIX and assign it's value as an ID
+            var enterKeyId = jQuery(event.currentTarget).data(kradVariables.ENTER_KEY_SUFFIX);
+
+            // make sure the targeted action is a permitted element
+            if(jQuery(event.target).is(":not(a, button, submit, img[data-role='" + kradVariables.DATA_ROLES.ACTION +  "'], input[data-role='" + kradVariables.DATA_ROLES.ACTION +  "'] )")){
+                // check to see if primary enter key action button is targeted
+                if(enterKeyId === kradVariables.ENTER_KEY_DEFAULT){
+                    // find all primary action buttons on page with attribute data-default_enter_key_action='true'
+                    var primaryButtons = jQuery(event.currentTarget).find("[data-default_enter_key_action='true']");
+
+                    // filter the buttons only one parent section deep
+                    var primaryButton = primaryButtons.filter(function() {
+                        return jQuery(this).parents('[data-enter_key]').length < 2;
+                    });
+
+                    // if the button exists get it's id
+                    if (primaryButton.length) {
+                        enterKeyId = primaryButton.attr("id");
+                    }
+                }
+
+                // if enterKeyAction is still set to  ENTER_KEY_PRIMARY value, do nothing, button doesn't exist
+                if(enterKeyId === kradVariables.ENTER_KEY_DEFAULT){
+                     return false;
+                }
+
+                // make sure action button is visible and not disabled before we fire it
+                if(jQuery('#' + enterKeyId).is(":visible") && jQuery('#' + enterKeyId).is(":disabled") === false){
+                    jQuery(document).find('#' + enterKeyId).click();
+                }
+        }
+    });
+
+    // a hack to capture the native browser enter key behavior..  keydown and keyup
+    jQuery(document).on("keydown", "[data-enter_key]", function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode === 13) {
+            event.preventDefault();
+            return;
+        }
+    });
+}
+
+/**
  * Sets up and initializes the handlers for sticky header and footer content
  */
 function setupStickyHeaderAndFooter() {
 
-    //sticky(header) content variables must be initialized here to retain sticky location across page request
+    // sticky(header) content variables must be initialized here to retain sticky location across page request
     stickyContent = jQuery("[data-sticky='true']:visible");
     if (stickyContent.length) {
         stickyContent.each(function () {
-            jQuery(this).data("offset", jQuery(this).offset())
+            jQuery(this).data("offset", jQuery(this).offset());
         });
 
         stickyContentOffset = stickyContent.offset();
@@ -59230,19 +62384,21 @@ function setupStickyHeaderAndFooter() {
         initStickyContent();
     }
 
-    //find and initialize stickyFooters
+    // find and initialize stickyFooters
     stickyFooterContent = jQuery("[data-sticky_footer='true']:visible");
     applicationFooter = jQuery("#" + kradVariables.APPLICATION_FOOTER_WRAPPER);
 
     initStickyFooterContent();
 
-    //bind scroll and resize events to dynamically update sticky content positions
-    jQuery(window).bind("scroll", function () {
+    // bind scroll and resize events to dynamically update sticky content positions
+    jQuery(window).unbind("scroll.sticky");
+    jQuery(window).bind("scroll.sticky", function () {
         handleStickyContent();
         handleStickyFooterContent();
     });
 
-    jQuery(window).bind("resize", function () {
+    jQuery(window).unbind("resize.sticky");
+    jQuery(window).bind("resize.sticky", function () {
         handleStickyContent();
         handleStickyFooterContent();
     });
@@ -59256,28 +62412,33 @@ function setupStickyHeaderAndFooter() {
 function initFieldHandlers() {
     time(true, "field-handlers");
 
-    var validationTooltipOptions = {
-        position: "top",
-        align: "left",
-        distance: 0,
-        manageMouseEvents: false,
-        themePath: getBubblePopupThemePath(),
-        alwaysVisible: false,
-        tail: {align: "left"},
-        themeMargins: {total: "13px", difference: "2px"}
-    };
-
-    //add global action handler
-    jQuery(document).on("click", "a[data-onclick], button[data-onclick], img[data-onclick], input[data-onclick]",
+    // add global action handler
+    jQuery(document).on("click", "a[data-role='Action'], button[data-role='Action'], "
+            + "img[data-role='Action'], input[data-role='Action']",
             function (e) {
-                var functionData = jQuery(this).data("onclick");
+                e.preventDefault();
+                var action = jQuery(this);
+
+                // Disabled check
+                if(action.hasClass(kradVariables.DISABLED_CLASS)){
+                    return false;
+                }
+
+                initActionData(action);
+
+                // Dirty check (if enabled)
+                if (action.data(kradVariables.PERFORM_DIRTY_VALIDATION) ===  true && dirtyFormState.checkDirty(e)) {
+                    return;
+                }
+
+                var functionData = action.data(kradVariables.ACTION_ONCLICK_DATA);
                 eval("var actionFunction = function(e) {" + functionData + "};");
 
                 return actionFunction.call(this, e);
             });
 
-    //add a focus handler for scroll manipulation when there is a sticky header or footer, so content stays in view
-    jQuery("#" + kradVariables.PAGE_CONTENT_WRAPPER).on("focus", "a[href], area[href], input:not([disabled]), "
+    // add a focus handler for scroll manipulation when there is a sticky header or footer, so content stays in view
+    jQuery("[data-role='Page']").on("focus", "a[href], area[href], input:not([disabled]), "
             + "select:not([disabled]), textarea:not([disabled]), button:not([disabled]), "
             + "iframe, object, embed, *[tabindex], *[contenteditable]",
             function () {
@@ -59288,7 +62449,7 @@ function initFieldHandlers() {
                     elementHeight = 24;
                 }
 
-                //if something is focused under the footer, adjust the scroll
+                // if something is focused under the footer, adjust the scroll
                 if (stickyFooterContent && stickyFooterContent.length) {
                     var footerOffset = stickyFooterContent.offset().top;
                     if (element.offset().top + elementHeight > footerOffset) {
@@ -59299,7 +62460,7 @@ function initFieldHandlers() {
                     }
                 }
 
-                //if something is focused under the header content, adjust the scroll
+                // if something is focused under the header content, adjust the scroll
                 if (stickyContent && stickyContent.length) {
                     var reversedStickyContent = jQuery(stickyContent.get().reverse());
                     var headerOffset = reversedStickyContent.offset().top + reversedStickyContent.outerHeight();
@@ -59329,49 +62490,18 @@ function initFieldHandlers() {
                     var tooltipElement = this;
                     var focus = jQuery(tooltipElement).is(":focus");
                     if (elementInfo.type == "fieldset") {
-                        //for checkbox/radio fieldsets we put the tooltip on the label of the first input
+                        // for checkbox/radio fieldsets we put the tooltip on the label of the first input
                         tooltipElement = jQuery(element).filter(".uif-tooltip");
-                        //if the fieldset or one of the inputs have focus then the fieldset is considered focused
+                        // if the fieldset or one of the inputs have focus then the fieldset is considered focused
                         focus = jQuery(element).filter("fieldset").is(":focus")
                                 || jQuery(element).filter("input").is(":focus");
                     }
 
                     var hasMessages = jQuery("[data-messages_for='" + fieldId + "']").children().length;
 
-                    //only display the tooltip if not already focused or already showing
-                    if (!focus && hasMessages && !jQuery(tooltipElement).IsBubblePopupOpen()) {
-                        if (elementInfo.themeMargins) {
-                            validationTooltipOptions.themeMargins = elementInfo.themeMargins;
-                        }
-
-                        //special case check for input within a fieldset, hide other tooltips to avoid overlap
-                        if (jQuery(tooltipElement).is("select, input:text, textarea, input:file, input:password")
-                                && jQuery(tooltipElement).parents("fieldset[data-type='CheckboxSet'], "
-                                + "fieldset[data-type='RadioSet']").length) {
-                            hideBubblePopups();
-                        }
-                        var show = true;
-
-                        //special case check for if any internal inputs of a fieldset: if they are showing tooltips
-                        //do not show this fieldset's tooltip to avoid overlap
-                        if (elementInfo.type == "fieldset") {
-                            jQuery("select, input:text, textarea, input:file, input:password", "#" + fieldId).each(function () {
-                                if (jQuery(this).IsBubblePopupOpen()) {
-                                    show = false;
-                                }
-                            });
-                        }
-
-                        if (show) {
-                            var data = getValidationData(jQuery("#" + fieldId));
-                            validationTooltipOptions.themeName = data.tooltipTheme;
-                            validationTooltipOptions.innerHTML = jQuery("[data-messages_for='" + fieldId + "']").html();
-                            //set the margin to offset it from the left appropriately
-                            validationTooltipOptions.divStyle = {margin: getTooltipMargin(tooltipElement)};
-                            jQuery(tooltipElement).SetBubblePopupOptions(validationTooltipOptions, true);
-                            jQuery(tooltipElement).SetBubblePopupInnerHtml(validationTooltipOptions.innerHTML, true);
-                            jQuery(tooltipElement).ShowBubblePopup();
-                        }
+                    // only display the tooltip if not already focused or already showing
+                    if (!focus && hasMessages) {
+                        showMessageTooltip(fieldId);
                     }
                 }
             });
@@ -59390,19 +62520,24 @@ function initFieldHandlers() {
                 if (data && data.useTooltip) {
                     var elementInfo = getHoverElement(fieldId);
                     var element = elementInfo.element;
-                    //first check to see if the mouse has entered part of the tooltip (in some cases it has invisible content
-                    //above the field - so this is necessary) - also prevents non-displayed tooltips from hiding content
-                    //when entered
-                    var result = mouseOutBubblePopupCheck(event, fieldId, element, this, elementInfo.type, data);
-                    if (!result) {
-                        return false;
+                    var tooltipElement = this;
+                    var focus = jQuery(tooltipElement).is(":focus");
+                    if (elementInfo.type == "fieldset") {
+                        // for checkbox/radio fieldsets we put the tooltip on the label of the first input
+                        tooltipElement = jQuery(element).filter(".uif-tooltip");
+                        // if the fieldset or one of the inputs have focus then the fieldset is considered focused
+                        focus = jQuery(element).filter("fieldset").is(":focus")
+                                || jQuery(element).filter("input").is(":focus");
                     }
-                    //continue with the mouseleave event
-                    mouseLeaveHideMessageTooltip(fieldId, this, element, elementInfo.type);
+
+                    if (!focus) {
+                        hideMessageTooltip(fieldId);
+                    }
+
                 }
             });
 
-    //when these fields are focus store what the current errors are if any and show the messageTooltip
+    // when these fields are focus store what the current errors are if any and show the messageTooltip
     jQuery(document).on("focus",
             "div[data-role='InputField'] input:text, "
                     + "div[data-role='InputField'] input:password, "
@@ -59415,7 +62550,7 @@ function initFieldHandlers() {
             function () {
                 var id = getAttributeId(jQuery(this).attr('id'));
 
-                //keep track of what errors it had on initial focus
+                // keep track of what errors it had on initial focus
                 var data = getValidationData(jQuery("#" + id));
                 if (data && data.errors) {
                     data.focusedErrors = data.errors;
@@ -59425,8 +62560,8 @@ function initFieldHandlers() {
                 showMessageTooltip(id, false);
             });
 
-    //when these fields are focused out validate and if this field never had an error before, show and close, otherwise
-    //immediately close the tooltip
+    // when these fields are focused out validate and if this field never had an error before, show and close, otherwise
+    // immediately close the tooltip
     jQuery(document).on("focusout",
             "div[data-role='InputField'] input:text, "
                     + "div[data-role='InputField'] input:password, "
@@ -59446,14 +62581,14 @@ function initFieldHandlers() {
                     valid = validateFieldValue(this);
                 }
 
-                //mouse in tooltip check
+                // mouse in tooltip check
                 var mouseInTooltip = false;
                 if (data && data.useTooltip && data.mouseInTooltip) {
                     mouseInTooltip = data.mouseInTooltip;
                 }
 
                 if (!hadError && !valid) {
-                    //never had a client error before, so pop-up and delay
+                    // never had a client error before, so pop-up and delay
                     showMessageTooltip(id, true, true);
                 }
                 else if (!mouseInTooltip) {
@@ -59461,7 +62596,7 @@ function initFieldHandlers() {
                 }
             });
 
-    //when these fields are changed validate immediately
+    // when these fields are changed validate immediately
     jQuery(document).on("change",
             "div[data-role='InputField'] input:checkbox, "
                     + "div[data-role='InputField'] input:radio, "
@@ -59472,7 +62607,7 @@ function initFieldHandlers() {
                 }
             });
 
-    //Greying out functionality
+    // Greying out functionality
     jQuery(document).on("change",
             "div[data-role='InputField'] input:text, "
                     + "div[data-role='InputField'] input:password, "
@@ -59492,7 +62627,7 @@ function initFieldHandlers() {
                 }
             });
 
-    //special radio and checkbox control handling for click events
+    // special radio and checkbox control handling for click events
     jQuery(document).on("click",
             "div[data-role='InputField'] input:checkbox, "
                     + "div[data-role='InputField'] input:radio,"
@@ -59505,7 +62640,7 @@ function initFieldHandlers() {
                 jQuery("fieldset > span > input").not(this).trigger(event);
             });
 
-    //special radio and checkbox control handling for focus events
+    // special radio and checkbox control handling for focus events
     jQuery(document).on("focus",
             "div[data-role='InputField'] input:checkbox, "
                     + "div[data-role='InputField'] input:radio",
@@ -59516,11 +62651,11 @@ function initFieldHandlers() {
                 jQuery("fieldset > span > input").not(this).trigger(event);
             });
 
-    //when focused out the checkbox and radio controls that are part of a fieldset will check if another control in
-    //their fieldset has received focus after a short period of time, otherwise the tooltip will close.
-    //if not part of the fieldset, the closing behavior is similar to normal fields
-    //in both cases, validation occurs when the field is considered to have lost focus (fieldset case - no control
-    //in the fieldset has focus)
+    // when focused out the checkbox and radio controls that are part of a fieldset will check if another control in
+    // their fieldset has received focus after a short period of time, otherwise the tooltip will close.
+    // if not part of the fieldset, the closing behavior is similar to normal fields
+    // in both cases, validation occurs when the field is considered to have lost focus (fieldset case - no control
+    // in the fieldset has focus)
     jQuery(document).on("focusout",
             "div[data-role='InputField'] input:checkbox, "
                     + "div[data-role='InputField'] input:radio",
@@ -59536,17 +62671,17 @@ function initFieldHandlers() {
 
                 //radio/checkbox is in fieldset case
                 if (parent.parent().is("fieldset")) {
-                    //we only ever want this to be handled once per attachment
+                    // we only ever want this to be handled once per attachment
                     jQuery(this).one("handleFieldsetMessages", function (event) {
                         var proceed = true;
-                        //if the element that invoked the event is part of THIS fieldset, we do not lose focus, so
-                        //do not proceed with close handling
+                        // if the element that invoked the event is part of THIS fieldset, we do not lose focus, so
+                        // do not proceed with close handling
                         if (event.element
                                 && jQuery(event.element).is(jQuery(this).closest("fieldset").find("input"))) {
                             proceed = false;
                         }
 
-                        //the fieldset is focused out - proceed
+                        // the fieldset is focused out - proceed
                         if (proceed) {
                             var hadError = parent.parent().find("input").hasClass("error");
                             var valid = true;
@@ -59567,24 +62702,24 @@ function initFieldHandlers() {
 
                     var currentElement = this;
 
-                    //if no radios/checkboxes are reporting events assume we want to proceed with closing the message
+                    // if no radios/checkboxes are reporting events assume we want to proceed with closing the message
                     setTimeout(function () {
                         var event = jQuery.Event("handleFieldsetMessages");
                         event.element = [];
                         jQuery(currentElement).trigger(event);
                     }, 500);
                 }
-                //non-fieldset case
+                // non-fieldset case
                 else if (!jQuery(this).parent().parent().is("fieldset")) {
                     var hadError = jQuery(this).hasClass("error");
                     var valid = true;
-                    //not in a fieldset - so validate directly
+                    // not in a fieldset - so validate directly
                     if (validateClient) {
                         valid = validateFieldValue(this);
                     }
 
                     if (!hadError && !valid) {
-                        //never had a client error before, so pop-up and delay
+                        // never had a client error before, so pop-up and delay
                         showMessageTooltip(id, true, true);
                     }
                     else if (!mouseInTooltip) {
@@ -59597,7 +62732,7 @@ function initFieldHandlers() {
         refreshDatatableCellRedraw(this);
     });
 
-    jQuery(document).on("keyup", "table.dataTable div[data-role='InputField'][data-total='keyup'] :input", function () {
+    jQuery(document).on("input", "table.dataTable div[data-role='InputField'][data-total='keyup'] :input", function () {
         var input = this;
         delay(function () {
             refreshDatatableCellRedraw(input)
@@ -59623,64 +62758,75 @@ function setupDisclosureHandler() {
                 var animationSpeed = link.data("speed");
                 var linkId = link.attr("id");
                 var widgetId = link.data("widgetid");
+                var ajax = link.data("ajax");
 
                 if (isOpen == "true") {
                     disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, false);
 
                     disclosureContent.slideUp(animationSpeed);
 
-                    jQuery(this).find("#" + linkId + "_exp").hide();
-                    jQuery(this).find("#" + linkId + "_col").show();
+                    link.find("#" + linkId + "_exp").hide();
+                    link.find("#" + linkId + "_col").show();
 
                     setComponentState(widgetId, 'open', false);
                 }
                 else {
                     disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, true);
 
-                    //run scripts for previously hidden content
-                    runHiddenScripts(disclosureContent, true, true);
+                    // run scripts for previously hidden content
+                    runHiddenScripts(disclosureContent, true, false);
 
-                    disclosureContent.slideDown(animationSpeed);
-
-                    jQuery(this).find("#" + linkId + "_exp").show();
-                    jQuery(this).find("#" + linkId + "_col").hide();
+                    link.find("#" + linkId + "_exp").show();
+                    link.find("#" + linkId + "_col").hide();
 
                     setComponentState(widgetId, 'open', true);
+
+                    if (ajax && disclosureContent.data("role") == "placeholder") {
+                        // If there is a placeholder present, retrieve the new content
+                        showLoading("Loading...", disclosureContent, true);
+                        disclosureContent.show();
+
+                        // This a specialized methodToCall passed in for retrieving the originally generated component
+                        retrieveComponent(linkId.replace("_toggle", ""), null, null, null, true);
+                    }
+                    else{
+                        // If no ajax retrieval, slide down animationg
+                        disclosureContent.slideDown(animationSpeed);
+                    }
                 }
             });
 }
 
 /**
- * Calls the create call to initialize the bubblepopup plugin to take into account any content that may have
- * bubblepopups
- *
- * @param selector (optional) if specified used as the selection string to select an element to check to see if it has
- * elements that could have tooltips, if the content does not contain these elements, does not reinitialize the create
- * call
+ * Sets up focus and blur events for inputs with helper text.
  */
-function initBubblePopups() {
-    //CreateBubblePopup was modified to be additive on call, and now uses one handler per event type- kuali customization
-    jQuery(document).CreateBubblePopup("input:not([type='hidden']):not([type='image']), input[data-role='help'], "
-            + "select, textarea, .uif-tooltip", {   manageMouseEvents: false,
-        themePath: getBubblePopupThemePath()});
+function setupHelperTextHandler() {
+    jQuery(document).on(kradVariables.EVENTS.UPDATE_CONTENT + " ready", function() {
+        if (jQuery('.uif-helperText').length) {
+            jQuery('.uif-helperText').slideUp();
+        }
+
+        jQuery('.has-helper').on('focus', function () {
+            if (jQuery(this).parent().find('.uif-helperText')) {
+                jQuery(this).parent().find('.uif-helperText').slideDown();
+            }
+        });
+
+        jQuery('.has-helper').on('blur', function () {
+            if (jQuery(this).parent().find('.uif-helperText')) {
+                jQuery(this).parent().find('.uif-helperText').slideUp();
+            }
+        });
+    });
 }
 
-function hideBubblePopups(element) {
+function hideTooltips(element) {
     if (element != undefined && element.length) {
-        jQuery(element).find("input:not(input[type='image']), input[data-role='help'], select, textarea, "
-                + ".uif-tooltip").not("input[type='hidden']").HideAllBubblePopups()
+        jQuery(element).find("[data-hasTooltip]").popover("hide");
     }
     else {
-        jQuery("input:not(input[type='image']), input[data-role='help'], select, textarea,"
-                + ".uif-tooltip").not("input[type='hidden']").HideAllBubblePopups();
+        jQuery("[data-hasTooltip]").popover("hide");
     }
-}
-
-/**
- * Returns the URL to the bubblepopup theme directory
- */
-function getBubblePopupThemePath() {
-    return getConfigParam(kradVariables.APPLICATION_URL) + kradVariables.BUBBLEPOPUP_THEME_PATH;
 }
 
 /**
@@ -59691,66 +62837,86 @@ function setupPage(validate) {
 
     dirtyFormState.resetDirtyFieldCount();
 
-    //if we are skipping this page setup, reset the flag, and return (this logic is for redirects)
+    // if we are skipping this page setup, reset the flag, and return (this logic is for redirects)
     if (skipPageSetup) {
         skipPageSetup = false;
         return;
     }
 
     // update the top group per page
-    var topGroupUpdate = jQuery("#" + kradVariables.TOP_GROUP_UPDATE).find("> div").detach();
+    var topGroupUpdateDiv = jQuery("#" + kradVariables.TOP_GROUP_UPDATE);
+    var topGroupUpdate = topGroupUpdateDiv.find(">").detach();
     if (topGroupUpdate.length && !initialViewLoad) {
-        jQuery("#Uif-TopGroupWrapper > div").replaceWith(topGroupUpdate);
+        jQuery("#Uif-TopGroupWrapper >").replaceWith(topGroupUpdate);
     }
+    topGroupUpdateDiv.remove();
 
     // update the view header per page
-    var viewHeaderUpdate = jQuery("#" + kradVariables.VIEW_HEADER_UPDATE).find(".uif-viewHeader").detach();
+    var headerUpdateDiv = jQuery("#" + kradVariables.VIEW_HEADER_UPDATE);
+    var viewHeaderUpdate = headerUpdateDiv.find(".uif-viewHeader").detach();
     if (viewHeaderUpdate.length && !initialViewLoad) {
+        var currentHeader = jQuery(".uif-viewHeader");
+        if (currentHeader.data("offset")) {
+            viewHeaderUpdate.data("offset", currentHeader.data("offset"));
+        }
         jQuery(".uif-viewHeader").replaceWith(viewHeaderUpdate);
+        stickyContent = jQuery("[data-sticky='true']:visible");
     }
+    headerUpdateDiv.remove();
 
     originalPageTitle = document.title;
 
     setupImages();
 
-    //reinitialize sticky footer content because page footer can be sticky
-    stickyFooterContent = jQuery("[data-sticky_footer='true']");
-    initStickyFooterContent();
-    handleStickyFooterContent();
-    initStickyContent();
+    // reinitialize sticky footer content because page footer can be sticky
+    jQuery("[data-role='Page']").on(kradVariables.EVENTS.ADJUST_STICKY, function(){
+        stickyFooterContent = jQuery("[data-sticky_footer='true']");
+        initStickyFooterContent();
+        handleStickyFooterContent();
+        initStickyContent();
+    });
 
-    //Reset summary state before processing each field - summaries are shown if server messages
+    // Initialize global validation defaults
+    if (groupValidationDefaults == undefined || fieldValidationDefaults == undefined) {
+        groupValidationDefaults = jQuery("[data-role='View']").data(kradVariables.GROUP_VALIDATION_DEFAULTS);
+        fieldValidationDefaults = jQuery("[data-role='View']").data(kradVariables.FIELD_VALIDATION_DEFAULTS);
+    }
+
+    if (actionDefaults == undefined) {
+        actionDefaults = jQuery("[data-role='View']").data(kradVariables.ACTION_DEFAULTS);
+    }
+
+    // Reset summary state before processing each field - summaries are shown if server messages
     // or on client page validation
     messageSummariesShown = false;
 
-    //flag to turn off and on validation mechanisms on the client
+    // flag to turn off and on validation mechanisms on the client
     validateClient = validate;
 
     // select current page
     var pageId = getCurrentPageId();
 
-    jQuery("ul.uif-navigationMenu").selectMenuItem({selectPage: pageId});
-    jQuery("ul.uif-tabMenu").selectTab({selectPage: pageId});
-
     // update URL to reflect the current page
     updateRequestUrl(pageId);
 
     prevPageMessageTotal = 0;
-    //skip input field iteration and validation message writing, if no server messages
-    var hasServerMessagesData = jQuery("[data-type='Page']").data(kradVariables.SERVER_MESSAGES);
+    // skip input field iteration and validation message writing, if no server messages
+    var hasServerMessagesData = jQuery("[data-role='Page']").data(kradVariables.SERVER_MESSAGES);
     if (hasServerMessagesData) {
-        //Handle messages at field, if any
+        pageValidationPhase = true;
+        // Handle messages at field, if any
         jQuery("div[data-role='InputField']").each(function () {
             var id = jQuery(this).attr('id');
             handleMessagesAtField(id, true);
         });
 
-        //Write the result of the validation messages
+        // Write the result of the validation messages
         writeMessagesForPage();
         messageSummariesShown = true;
+        pageValidationPhase = false;
     }
 
-    //focus on pageValidation header if there are messages on this page
+    // focus on pageValidation header if there are messages on this page
     if (jQuery(".uif-pageValidationHeader").length) {
         jQuery(".uif-pageValidationHeader").focus();
     }
@@ -59764,9 +62930,6 @@ function setupPage(validate) {
     jQuery(document).trigger(kradVariables.VALIDATION_SETUP_EVENT);
 
     pageValidatorReady = true;
-
-    //ensure bubblepopups are initialized
-    initBubblePopups();
 
     jQuery(document).trigger(kradVariables.PAGE_LOAD_EVENT);
 
@@ -59794,6 +62957,8 @@ function setupImages() {
     infoImage = "<img class='" + kradVariables.VALIDATION_IMAGE_CLASS + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "validation/info.png' alt='" + getMessage(kradVariables.MESSAGE_INFORMATION) + "' /> ";
     detailsOpenImage = jQuery("<img class='" + kradVariables.VALIDATION_IMAGE_CLASS + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "details_open.png' alt='" + getMessage(kradVariables.MESSAGE_DETAILS) + "' /> ");
     detailsCloseImage = jQuery("<img class='" + kradVariables.VALIDATION_IMAGE_CLASS + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "details_close.png' alt='" + getMessage(kradVariables.MESSAGE_CLOSE_DETAILS) + "' /> ");
+    refreshImage = jQuery("<img src='" + getContext().blockUI.defaults.refreshOptions.blockingImage + "' alt='" + getMessage(kradVariables.MESSAGE_LOADING) + "' /> ");
+    navigationImage = jQuery("<img src='" + getContext().blockUI.defaults.navigationOptions.blockingImage + "' alt='" + getMessage(kradVariables.MESSAGE_LOADING) + "' /> ");
 }
 
 /**
@@ -59820,7 +62985,7 @@ jQuery.validator.setDefaults({
             var id = getAttributeId(jQuery(element).attr('id'));
             var data = getValidationData(jQuery("#" + id));
 
-            //if this field previously had errors validate on key up
+            // if this field previously had errors validate on key up
             if (data && data.focusedErrors && data.focusedErrors.length) {
                 var valid = validateFieldValue(element);
                 if (!valid) {
@@ -59852,7 +63017,7 @@ jQuery.validator.setDefaults({
                 writeMessagesAtField(id);
             }
 
-            //force hide of tooltip if no messages present
+            // force hide of tooltip if no messages present
             if (!(data.warnings.length || data.info.length || data.serverErrors.length
                     || data.serverWarnings.length || data.serverInfo.length)) {
                 hideMessageTooltip(id);
@@ -60118,7 +63283,7 @@ jQuery.fn.dataTableExt.afnSortData['dom-text'] = function (oSettings, iColumn, i
                 // find span for the data or input field and get its text
                 var inputField = jQuery(td).find('.uif-field');
                 if (inputField.length != 0) {
-                    value = jQuery.trim(inputField.find("span:first").text());
+                    value = jQuery.trim(inputField.text());
                 } else {
                     // just use the text within the cell
                     value = jQuery(td).text();
@@ -60245,7 +63410,7 @@ window.onerror = errorHandler;
 
 function errorHandler(msg, url, lno) {
     jQuery("#" + kradVariables.APP_ID).show();
-    jQuery("#" + kradVariables.PAGE_CONTENT_WRAPPER).show();
+    jQuery("[data-role='Page']").show();
     var context = getContext();
     context.unblockUI();
     var errorMessage = msg + '<br/>' + url + '<br/>' + lno;
@@ -60257,7 +63422,7 @@ function errorHandler(msg, url, lno) {
 }
 
 // script that should execute when the page unloads
-//jQuery(window).bind('beforeunload', function (evt) {
+// jQuery(window).bind('beforeunload', function (evt) {
 // clear server form if closing the browser tab/window or going back
 // TODO: work out back button problem so we can add this clearing
 //    if (!event.pageY || (event.pageY < 0)) {
@@ -60268,7 +63433,7 @@ function errorHandler(msg, url, lno) {
 
 
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60282,68 +63447,100 @@ function errorHandler(msg, url, lno) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
+
+/* ========================================================================
  * Holds configuration for making a server request (ajax and non-ajax) and
  * performs the request action
  *
- * @param action - (optional) reference to the action that triggers the request. If given request
+ * @author Kuali Rice Team (rice.collab@kuali.org)
+ * ========================================================================*/
+
+ /**
+ * Constructs a new request object with data from the given action object.
+ *
+ * @param action (optional) reference to the action that triggers the request. If given request
  * attributes will be pulled from the action data
  */
 function KradRequest(action) {
+    if (!action) {
+        return;
+    }
+
     if (action) {
-        if (action.data("ajaxsubmit") !== undefined) {
-            this.ajaxSubmit = action.data("ajaxsubmit");
-        }
+        this.$action = action;
+    }
 
-        this.additionalData = action.data(kradVariables.SUBMIT_DATA);
+    if (action.data("ajaxsubmit") !== undefined) {
+        this.ajaxSubmit = action.data("ajaxsubmit");
+    }
 
-        this.methodToCall = this.additionalData['methodToCall'];
+    this.additionalData = jQuery.extend({}, action.data(kradVariables.SUBMIT_DATA));
 
-        if (action.data("successcallback") !== undefined) {
-            this.successCallback = action.data("successcallback");
-        }
+    this.methodToCall = this.additionalData['methodToCall'];
 
-        if (action.data("errorcallback") !== undefined) {
-            this.errorCallback = action.data("errorcallback");
-        }
+    if (action.data("successcallback") !== undefined) {
+        this.successCallback = action.data("successcallback");
+    }
 
-        if (action.data("presubmitcall") !== undefined) {
-            this.preSubmitCall = action.data("presubmitcall");
-        }
+    if (action.data("errorcallback") !== undefined) {
+        this.errorCallback = action.data("errorcallback");
+    }
 
-        if (action.data("validate") !== undefined) {
-            this.validate = action.data("validate");
-        }
+    if (action.data("presubmitcall") !== undefined) {
+        this.preSubmitCall = action.data("presubmitcall");
+    }
 
-        if (action.data("loadingmessage") !== undefined) {
-            this.loadingMessage = action.data("loadingmessage");
-        }
+    if (action.data("confirmdialogid") !== undefined) {
+        this.confirmDialogId = action.data("confirmdialogid");
+    }
 
-        if (action.data("disableblocking") !== undefined) {
-            this.disableBlocking = action.data("disableblocking")
-        }
+     if (action.data("confirm_prompttext") !== undefined) {
+         this.confirmPromptText = action.data("confirm_prompttext");
+     }
 
-        if (action.data("ajaxreturntype") !== undefined) {
-            this.ajaxReturnType = action.data("ajaxreturntype");
-        }
+    if (action.data("dismissdialogoption") !== undefined) {
+        this.dismissDialogOption = action.data("dismissdialogoption");
+    }
 
-        if (action.data("refreshid") !== undefined) {
-            this.refreshId = action.data("refreshid");
-        }
+    if (action.data("dismissdialogid") !== undefined) {
+        this.dismissDialogId = action.data("dismissdialogid");
+    }
 
-        if (action.data("dirtyonaction") !== undefined) {
-            this.dirtyOnAction = action.data("dirtyonaction");
-        }
+    if (action.data("validate") !== undefined) {
+        this.validate = action.data("validate");
+    }
 
-        if (action.data("cleardirtyonaction") !== undefined) {
-            this.clearDirtyOnAction = action.data("cleardirtyonaction");
-        }
+    if (action.data("loadingmessage") !== undefined) {
+        this.loadingMessage = action.data("loadingmessage");
+    }
+
+    if (action.data("disableblocking") !== undefined) {
+        this.disableBlocking = action.data("disableblocking")
+    }
+
+    if (action.data("ajaxreturntype") !== undefined) {
+        this.ajaxReturnType = action.data("ajaxreturntype");
+    }
+
+    if (action.data("refreshid") !== undefined) {
+        this.refreshId = action.data("refreshid");
+    }
+
+    if (action.data("dirtyonaction") !== undefined) {
+        this.dirtyOnAction = action.data("dirtyonaction");
+    }
+
+    if (action.data("cleardirtyonaction") !== undefined) {
+        this.clearDirtyOnAction = action.data("cleardirtyonaction");
     }
 }
 
 KradRequest.prototype = {
     // name of the controller method to be invoked
     methodToCall: "refresh",
+
+    // jquery action component that is triggering the request (if any)
+    $action: null,
 
     // additional data to send with the request (in addition to form data)
     additionalData: {},
@@ -60362,8 +63559,10 @@ KradRequest.prototype = {
     // the request (see ajaxReturnHandlers)
     validate: false,
 
+    // indicates whether the form should be marked dirty when the action is taken (ex. an add line action)
     dirtyOnAction: false,
 
+    // indicates if the form's dirty state should be cleared when the action is taken (ex. save)
     clearDirtyOnAction: false,
 
     // when blocking is enabled will display this text with the blocking overlay
@@ -60386,6 +63585,23 @@ KradRequest.prototype = {
     // (literal on client, but useful for passing server side variables)
     preSubmitCall: null,
 
+    // id for the a dialog that should be used to confirm the action
+    // this will trigger after the pre submit call (if successful). If the confirm action is taken on the
+    // dialog, the action will then be retriggered
+    confirmDialogId: null,
+
+    // text to display in a confirmation dialog for confirming the action. Note this is similar to
+    // confirmDialogId, except the dialog is created on the fly using the ok/cancel dialog. To show a custom
+    // dialog, the confirmDialogId property should be used
+    confirmPromptText: null,
+
+    // when the request needs to dismiss a dialog, when the dialog should be dismissed
+    // valid options are AFTERPRESUBMIT (with just returns) or WITHREQUEST
+    dismissDialogOption: null,
+
+    // when the request needs to dismiss a dialog, the id of the dialog that should be dismissed
+    dismissDialogId: null,
+
     // function or script that is invoked after a successful ajax request
     // the function may take the response contents as a parameter
     // Note as well: the successCallback can be given as a string or function object. When given as a string it may
@@ -60402,20 +63618,32 @@ KradRequest.prototype = {
 
     // called to make the request and handle the response
     send: function () {
-        var data = {};
+        var dialogDismissed = this._dismissDialogIfNecessary(kradVariables.DIALOG_DISMISS_OPTIONS.IMMEDIATE);
 
-        // invoke validateForm if validate flag is true, if returns false do not continue
-        if (this.validate && !validateForm()) {
-            clearHiddens();
-
+        // with immediate dialog dismiss the request should not continue
+        if (dialogDismissed) {
             return;
         }
 
+        var continueRequest = this._executePreSubmit();
+
+        if (continueRequest) {
+            this._continueAfterPreSubmit();
+        }
+    },
+
+    // executes validation, pre-submit code, and any confirmation before contuining with the request
+    _executePreSubmit: function () {
+        if (!this._validateBeforeAction()) {
+            return false;
+        }
+
+        // expose a variable for callbacks
+        var kradRequest = this;
+
         // invoke the preSubmitCall script, if it evaluates to false return
         if (this.preSubmitCall) {
-            // expose a variable for preSubmitCode
-            var kradRequest = this;
-            if (typeof this.preSubmitCall == "string") {
+            if (typeof this.preSubmitCall === "string") {
                 var preSubmitCode = "(function(){" + this.preSubmitCall + "})();";
                 var preSubmitValid = eval(preSubmitCode);
             } else {
@@ -60425,30 +63653,106 @@ KradRequest.prototype = {
             if (!preSubmitValid) {
                 clearHiddens();
 
-                return;
+                return false;
             }
         }
 
+        return this._confirmAction();
+    },
+
+    // invoke validateForm if validate flag is true, if returns false do not continue
+    _validateBeforeAction: function () {
+        if (!this.validate) {
+            return true;
+        }
+
+        var $dialogGroup = this.$action.closest(kradVariables.DIALOG_SELECTOR);
+        var inDialog = $dialogGroup.length;
+
+        var valid = true;
+        if (!inDialog) {
+            valid = validate();
+        }
+        else if (inDialog) {
+            valid = validate($dialogGroup);
+        }
+
+        if (!valid) {
+            clearHiddens();
+        }
+
+        return valid;
+    },
+
+    // if confirm dialog is or text is configured we need to show it and have the user confirm first
+    _confirmAction: function () {
+        if (!this.confirmDialogId && !this.confirmPromptText) {
+            return true;
+        }
+
+        var kradRequest = this;
+        var responseHandler = function (event) {
+            if (event.response === 'true') {
+                kradRequest._continueAfterPreSubmit();
+            }
+        };
+
+        if (this.confirmDialogId) {
+            showDialog(this.confirmDialogId, {responseHandler: responseHandler});
+        }
+        else {
+            var confirmText = this.confirmPromptText;
+            var evalIndex = this.confirmPromptText.indexOf('eval(');
+            if (evalIndex >= 0) {
+                confirmText = this.confirmPromptText.slice(evalIndex + 5, this.confirmPromptText.lastIndexOf(')'));
+                confirmText = eval(confirmText);
+            }
+
+            confirmDialog(confirmText, undefined, {responseHandler: responseHandler});
+        }
+
+        return false;
+    },
+
+    // continues the request after the pre-submit checks have passed
+    _continueAfterPreSubmit: function () {
+        var dialogDismissed = this._dismissDialogIfNecessary(kradVariables.DIALOG_DISMISS_OPTIONS.PRESUBMIT);
+
+        // with presubmit dialog dismiss the request should not continue
+        if (dialogDismissed) {
+            return;
+        }
+
         //reset dirty form state
-        if (this.clearDirtyOnAction){
+        if (this.clearDirtyOnAction) {
             dirtyFormState.reset();
         }
 
         //increase dirty field count when this flag is true
-        if (this.dirtyOnAction){
+        if (this.dirtyOnAction) {
             dirtyFormState.incrementDirtyFieldCount();
         }
 
         // check for non-ajax request
         if (!this.ajaxSubmit) {
-            this._submit();
+            dirtyFormState.reset();
+
+            // submit non ajax call
+            this._submitNonAjax();
+            clearHiddens();
 
             return;
         }
 
+        var data = {};
+
         data.methodToCall = this.methodToCall;
         data.ajaxReturnType = this.ajaxReturnType;
         data.ajaxRequest = this.ajaxSubmit;
+
+        if (this.$action && this.$action.is("[" + kradVariables.ATTRIBUTES.ID + "]")) {
+            data.triggerActionId = this.$action.attr(kradVariables.ATTRIBUTES.ID);
+        }
 
         if (this.refreshId) {
             data.updateComponentId = this.refreshId;
@@ -60463,17 +63767,55 @@ KradRequest.prototype = {
             jQuery.extend(data, {clientViewState: jsonViewState});
         }
 
-        // check if called from a lightbox, if it is set the lightboxCompId
-        var lightboxCompId = undefined;
-        if (jQuery('#kualiLightboxForm').children(':first').length == 1) {
-            lightboxCompId = jQuery('#kualiLightboxForm').children(':first').attr('id');
+        this._dismissDialogIfNecessary(kradVariables.DIALOG_DISMISS_OPTIONS.REQUEST);
+
+        this._submitAjax(data);
+    },
+
+    // handles the request as standard form submit
+    _submitNonAjax: function () {
+        // write out methodToCall as hidden
+        writeHiddenToForm("methodToCall", this.methodToCall);
+
+        // if additional data write out as hiddens
+        for (key in this.additionalData) {
+            writeHiddenToForm(key, this.additionalData[key]);
         }
 
+        if (this.$action && this.$action.is("[" + kradVariables.ATTRIBUTES.ID + "]")) {
+            writeHiddenToForm("triggerActionId", this.$action.attr(kradVariables.ATTRIBUTES.ID));
+        }
+
+        // start the loading indicator (will be removed on page load)
+        if (!this.disableBlocking) {
+            showLoading(this.loadingMessage);
+        }
+
+        var jsonViewState = getSerializedViewState();
+        if (jsonViewState) {
+            writeHiddenToForm("clientViewState", jsonViewState);
+        }
+
+        // check for file inputs and set encoding, this is handled for us with the ajax submits (using jqform)
+        var fileInputs = jQuery('input[type=file]:enabled[value!=""]', '#kualiForm');
+
+        var hasFileInputs = fileInputs.length > 0;
+        if (hasFileInputs) {
+            jQuery('#kualiForm').attr('enctype', 'multipart/form-data');
+        }
+
+        // submit
+        jQuery('#kualiForm').submit();
+    },
+
+    // handles the request as an ajax request
+    _submitAjax: function (data) {
         // create a reference to the request for ajax callbacks
         var request = this;
 
         var submitOptions = {
             data: data,
+
             success: function (response) {
                 var responseContents = document.createElement('div');
                 responseContents.innerHTML = response;
@@ -60500,17 +63842,8 @@ KradRequest.prototype = {
                 }
 
                 clearHiddens();
-
-                // for lightbox copy data back into lightbox
-                if (lightboxCompId !== undefined) {
-                    var component = jQuery('#' + lightboxCompId).clone(true, true);
-
-                    addIdPrefix(jQuery('#' + lightboxCompId), 'tmpForm_');
-                    jQuery('#tmpLightbox_' + lightboxCompId).replaceWith(component);
-                    jQuery('#' + lightboxCompId).css('display', '');
-                }
-
             },
+
             error: function (jqXHR, textStatus) {
                 if (request.errorCallback) {
                     if (typeof request.errorCallback == "string") {
@@ -60527,48 +63860,7 @@ KradRequest.prototype = {
 
         this._setupBlocking(submitOptions);
 
-        // for lightbox copy data back into form
-        // TODO: do we need this here again? Already in the success callback
-        if (lightboxCompId !== undefined) {
-            var component = jQuery('#' + lightboxCompId).clone(true, true);
-
-            addIdPrefix(jQuery('#' + lightboxCompId), 'tmpLightbox_');
-            jQuery('#tmpForm_' + lightboxCompId).replaceWith(component);
-        }
-
         jQuery("#" + kradVariables.KUALI_FORM).ajaxSubmit(submitOptions);
-    },
-
-    // handles the request as standard form submit
-    _submit: function () {
-        // write out methodToCall as hidden
-        writeHiddenToForm("methodToCall", this.methodToCall);
-
-        // if additional data write out as hiddens
-        for (key in this.additionalData) {
-            writeHiddenToForm(key, this.additionalData[key]);
-        }
-
-        // start the loading indicator (will be removed on page load)
-        if (!this.disableBlocking) {
-            showLoading(this.loadingMessage);
-        }
-
-        var jsonViewState = getSerializedViewState();
-        if (jsonViewState) {
-            writeHiddenToForm("clientViewState", jsonViewState);
-        }
-
-        // check for file inputs and set encoding, this is handled for us with the ajax submits (using jqform)
-        var fileInputs = jQuery('input[type=file]:enabled[value!=""]', '#kualiForm');
-
-        var hasFileInputs = fileInputs.length > 0;
-        if (hasFileInputs) {
-            jQuery('#kualiForm').attr('enctype', 'multipart/form-data');
-        }
-
-        // submit
-        jQuery('#kualiForm').submit();
     },
 
     // sets up the component or page blocking for an ajax request
@@ -60624,10 +63916,22 @@ KradRequest.prototype = {
         };
 
         jQuery.extend(options, elementBlockingOptions);
+    },
+
+    // checks whether a dialog needs to be dismissed at the given option point, returns true if
+    // a dialog was dismissed, false if not
+    _dismissDialogIfNecessary: function (dismissOption) {
+        if (this.dismissDialogId && (this.dismissDialogOption === dismissOption)) {
+            dismissDialog(this.dismissDialogId, this.$action);
+
+            return true;
+        }
+
+        return false;
     }
 }
 ;/*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60655,7 +63959,7 @@ KradResponse.prototype = {
     responseContents: null,
 
     // maps return types to handler function names
-    handlerMapping: {"update-page": "updatePageHandler", "update-component": "updateComponentHandler",
+    handlerMapping: {"update-form": "updateFormHandler", "update-page": "updatePageHandler", "update-component": "updateComponentHandler",
         "update-view": "updateViewHandler", "redirect": "redirectHandler",
         "display-lightbox": "displayLightBoxHandler", "update-dialog":"updateDialogHandler"},
 
@@ -60686,23 +63990,35 @@ KradResponse.prototype = {
     // finds the page content in the returned content and updates the page, then processes breadcrumbs and hidden
     // scripts. While processing, the page contents are hidden
     updatePageHandler: function (content, dataAttr) {
-        var page = jQuery("#page_update", content);
+        var pageUpdate = jQuery("#page_update", content);
+        var page = jQuery("[data-role='Page']", pageUpdate);
+        var viewContent = jQuery("#" + kradVariables.VIEW_CONTENT_WRAPPER);
 
-        // TODO: should this be hiding page or pageInLayout?
         page.hide();
 
         // give a selector that will avoid the temporary iframe used to hold ajax responses by the jquery form plugin
-        var pageInLayout = "#" + kradVariables.VIEW_CONTENT_HEADER_CLASS + " > #" +
-                kradVariables.PAGE_CONTENT_WRAPPER;
-        hideBubblePopups(pageInLayout);
+        var pageInLayout = "#" + kradVariables.VIEW_CONTENT_WRAPPER + " [data-role='Page']:first";
+        hideTooltips(pageInLayout);
+
+        var $pageInLayout = jQuery(pageInLayout);
 
         // update page contents from response
-        jQuery(pageInLayout).empty().append(page.find(">*"));
+        viewContent.find("[data-for='" + $pageInLayout.attr("id") + "']").remove();
+        $pageInLayout.replaceWith(pageUpdate.find(">*"));
+        $pageInLayout = jQuery(pageInLayout);
 
         pageValidatorReady = false;
-        runHiddenScripts(jQuery(pageInLayout).attr("id"), false, true);
+        runHiddenScripts(kradVariables.VIEW_CONTENT_WRAPPER, false, true);
 
-        jQuery(pageInLayout).show();
+        markActiveMenuLink();
+
+        viewContent.trigger(kradVariables.EVENTS.ADJUST_PAGE_MARGIN);
+        $pageInLayout.trigger(kradVariables.EVENTS.UPDATE_CONTENT);
+
+        $pageInLayout.show();
+
+        $pageInLayout.trigger(kradVariables.EVENTS.ADJUST_STICKY);
+        $pageInLayout.trigger(kradVariables.EVENTS.PAGE_UPDATE_COMPLETE);
     },
 
 
@@ -60721,9 +64037,15 @@ KradResponse.prototype = {
         });
 
         // replace component
-        if (jQuery("#" + id).length) {
-            jQuery("#" + id).replaceWith(component.html());
+        var $dialog = jQuery("#" + id);
+        if ($dialog.length) {
+            $dialog.replaceWith(component.html());
         }
+        else {
+            jQuery('#' + kradVariables.IDS.DIALOGS).append(component.html());
+        }
+
+        $dialog.trigger(kradVariables.EVENTS.UPDATE_CONTENT);
 
         runHiddenScripts(id);
     },
@@ -60734,21 +64056,21 @@ KradResponse.prototype = {
     // and a displayWith marker span has a matching id, that span will be replaced with the label content
     // and removed from the component.  This allows for label and component content separation on fields
     updateComponentHandler: function (content, dataAttr) {
-        var id = dataAttr.updatecomponentid;
-        var elementToBlock = jQuery("#" + id);
+        var id = dataAttr.id;
 
-        hideBubblePopups(elementToBlock);
+        var $componentInDom = jQuery("#" + id);
+
+        hideTooltips($componentInDom);
 
         var component = jQuery("#" + id + "_update", content);
 
-        var displayWithId = id;
-
         // special label handling, if any
-        var theLabel = jQuery("#" + displayWithId + "_label_span", component);
-        if (jQuery(".displayWith-" + displayWithId).length && theLabel.length) {
-            theLabel.addClass("displayWith-" + displayWithId);
-            jQuery("span.displayWith-" + displayWithId).replaceWith(theLabel);
-            component.remove("#" + displayWithId + "_label_span");
+        var theLabel = jQuery("[data-label_for='" + id + "']", component);
+        if (jQuery(".displayWith-" + id).length && theLabel.length) {
+            theLabel.addClass("displayWith-" + id);
+            jQuery("span.displayWith-" + id).replaceWith(theLabel);
+
+            component.remove("[data-label_for='" + id + "']");
         }
 
         // remove old stuff
@@ -60761,70 +64083,1720 @@ KradResponse.prototype = {
         });
 
         // replace component
-        if (jQuery("#" + id).length) {
-            jQuery("#" + id).replaceWith(component.html());
-        }
+        if ($componentInDom.length) {
+            var wasPlaceholder = $componentInDom.hasClass(kradVariables.CLASSES.PLACEHOLDER);
 
-        if (jQuery("#" + id).parent().is("td")) {
-            jQuery("#" + id).parent().show();
-        }
+            var componentContent = component.html();
 
-        // lightbox specific processing
-        if (jQuery('#renderedInLightBox').val() == 'true') {
-            jQuery("#" + id).css('display', 'none');
-        }
-
-        var newComponent = jQuery("#" + id);
-
-        var displayWithLabel = jQuery(".displayWith-" + displayWithId);
-        displayWithLabel.show();
-        if (displayWithLabel.parent().is("td") || displayWithLabel.parent().is("th")) {
-            displayWithLabel.parent().show();
-        }
-
-        // assume this content is open if being refreshed
-        var open = newComponent.attr("data-open");
-        if (open != undefined && open == "false"){
-            newComponent.attr("data-open", "true");
-            newComponent.show();
-        }
-
-        // runs scripts on the span or div with id
-        runHiddenScripts(id);
-
-        // Only for table layout collections. Keeps collection on same page.
-        var currentPage = retrieveFromSession(id + ":currentPageRichTable");
-        if (currentPage != null) {
-            openDataTablePage(id, currentPage);
-        }
-
-        elementToBlock.unblock({onUnblock: function () {
-            jQuery(component).find("#" + id).addClass(kradVariables.PROGRESSIVE_DISCLOSURE_HIGHLIGHT_CLASS);
-            newComponent.animate({backgroundColor:"transparent"}, 6000);
-            jQuery(component).find("#" + id).animate({backgroundColor:"transparent"}, 6000);
+            // for modal content update, we just want to replace the contents within the component
+            var displayedModal = isDisplayedModal($componentInDom);
+            if (displayedModal) {
+                var innerComponentContent = jQuery(componentContent).html();
+                $componentInDom.html(innerComponentContent);
             }
-        });
+            else {
+                $componentInDom.replaceWith(componentContent);
+            }
+
+            $componentInDom = jQuery("#" + id);
+
+            if ($componentInDom.parent().is("td")) {
+                $componentInDom.parent().show();
+            }
+
+            var displayWithLabel = jQuery(".displayWith-" + id);
+            displayWithLabel.show();
+            if (displayWithLabel.parent().is("td") || displayWithLabel.parent().is("th")) {
+                displayWithLabel.parent().show();
+            }
+
+            // assume this content is open if being refreshed
+            var open = $componentInDom.attr("data-open");
+            if (open !== undefined && open === "false") {
+                $componentInDom.attr("data-open", "true");
+                $componentInDom.show();
+            }
+
+            // runs scripts on the span or div with id
+            runHiddenScripts(id);
+
+            // Only for table layout collections. Keeps collection on same page.
+            var currentPage = retrieveFromSession(id + ":currentPageRichTable");
+            if (currentPage != null) {
+                openDataTablePage(id, currentPage);
+            }
+
+            $componentInDom.unblock({onUnblock: function () {
+                var isDialog = $componentInDom.hasClass(kradVariables.CLASSES.MODAL);
+
+                // if this is the first time the content is being shown, and it is not a dialog, add highlighting
+                if (wasPlaceholder && !isDialog) {
+                    $componentInDom.addClass(kradVariables.PROGRESSIVE_DISCLOSURE_HIGHLIGHT_CLASS);
+                    $componentInDom.animate({backgroundColor: "transparent"}, 6000);
+                }
+              }
+            });
+
+            $componentInDom.trigger(kradVariables.EVENTS.UPDATE_CONTENT);
+        }
     },
 
     // performs a redirect to the URL found in the returned contents
     redirectHandler: function (content, dataAttr) {
-        // get contents between div and do window.location = parsed href
-        window.location.href = jQuery(content).text();
+        // get url contents between div
+        var redirectUrl = jQuery(content).text().trim();
+
+        // don't check dirty state on a simple refresh (old url starts with the new one's url text)
+        if (window.location.href.indexOf(redirectUrl) === 0) {
+            dirtyFormState.skipDirtyChecks = true;
+        }
+
+        // redirect
+        window.location.href = redirectUrl;
     },
 
     // replaces the view with the given content and run the hidden scripts
     updateViewHandler: function (content, dataAttr) {
-        jQuery('#' + kradVariables.APP_ID).replaceWith(content);
+        var app = jQuery("#" + kradVariables.APP_ID);
+        app.hide();
 
-        runHiddenScriptsAgain();
+        var update = jQuery("div[data-returntype='update-view']", content);
+
+        var appHeaderUpdate = update.find("#" + kradVariables.APPLICATION_HEADER_WRAPPER);
+        app.find("#" + kradVariables.APPLICATION_HEADER_WRAPPER).replaceWith(appHeaderUpdate);
+
+        var kualiForm = app.find("#kualiForm");
+        var kualiFormReplacement = update.find("#kualiForm");
+        var view = app.find("[data-role='View']");
+        var viewUpdate = update.find("[data-role='View']");
+
+        if(kualiForm.length && kualiFormReplacement) {
+            kualiForm.replaceWith(kualiFormReplacement);
+        }
+        else if (kualiForm.length && !kualiFormReplacement.length){
+            kualiForm.replaceWith(viewUpdate);
+        }
+        else if (!kualiForm.length && kualiFormReplacement.length) {
+            view.replaceWith(kualiFormReplacement);
+        }
+        else {
+            view.replaceWith(viewUpdate);
+        }
+
+        var appFooterUpdate = update.find("#" + kradVariables.APPLICATION_FOOTER_WRAPPER);
+        app.find("#" + kradVariables.APPLICATION_FOOTER_WRAPPER).replaceWith(appFooterUpdate);
+
+        app.show();
+        setupStickyHeaderAndFooter();
+        runHiddenScripts(kradVariables.APP_ID);
+
+        view.trigger(kradVariables.EVENTS.UPDATE_CONTENT);
     },
 
     // displays the response contents in a lightbox
     displayLightBoxHandler: function (content, dataAttr) {
         showLightboxContent(content);
+    },
+
+    // replaces the form action with the given content
+    updateFormHandler: function (content, dataAttr) {
+
+        var action = jQuery(content).html();
+        // update form action with content
+
+        jQuery("form#" + kradVariables.KUALI_FORM).attr('action', jQuery.trim(action));
     }
 };/*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Initialize action data for the action by merging any custom settings with global default settings
+ *
+ * @param jqComponent a jq object that represents the component to correct data for
+ */
+function initActionData(jqActionComponent) {
+    // If an action does not have a setting for something in defaults, use the default
+    jQuery.each(actionDefaults, function(key, value){
+        var dataValue = jqActionComponent.data(key.toLowerCase());
+        if (dataValue === undefined) {
+            jqActionComponent.data(key.toLowerCase(), value);
+        }
+    });
+
+    // Insert focusId and jumpToId settings into submitData
+    var submitData = jqActionComponent.data(kradVariables.SUBMIT_DATA);
+    var focusId = jqActionComponent.data(kradVariables.FOCUS_ID);
+    if (focusId && focusId !== kradVariables.SELF) {
+        submitData.focusId = focusId;
+    }
+    else if (focusId && focusId === kradVariables.SELF) {
+        submitData.focusId = jqActionComponent.attr("id");
+    }
+
+    var jumpToId = jqActionComponent.data(kradVariables.JUMP_TO_ID);
+    if (jumpToId && jumpToId !== kradVariables.SELF) {
+        submitData.jumpToId = jumpToId;
+    }
+    else if (jumpToId && jumpToId === kradVariables.SELF) {
+        submitData.jumpToId = jqActionComponent.attr("id");
+    }
+}
+
+/**
+ * Sets up a new request configured from the given action component and submits
+ * the request
+ *
+ * @param component - dom element the event occurred on (the action)
+ */
+function actionInvokeHandler(component) {
+    var action = jQuery(component);
+
+    var kradRequest = new KradRequest(action);
+    kradRequest.send();
+}
+
+/**
+ * Convenience method for submitting the form via Ajax
+ *
+ * <p>
+ * For full options using the KradRequest function directly
+ * </p>
+ *
+ * @param methodToCall - the controller method to be called
+ * @param additionalData - any additional data that needs to be passed to the server
+ */
+function ajaxSubmitForm(methodToCall, additionalData) {
+    var kradRequest = new KradRequest();
+
+    kradRequest.methodToCall = methodToCall;
+    kradRequest.additionalData = additionalData;
+
+    kradRequest.send();
+}
+
+/**
+ * Convenience method for submitting the form via standard browser submit
+ *
+ * <p>
+ * For full options using the KradRequest function directly
+ * </p>
+ *
+ * @param methodToCall - the controller method to be called
+ * @param additionalData - any additional data that needs to be passed to the server
+ */
+function nonAjaxSubmitForm(methodToCall, additionalData) {
+    var kradRequest = new KradRequest();
+
+    kradRequest.methodToCall = methodToCall;
+    kradRequest.additionalData = additionalData;
+    kradRequest.ajaxSubmit = false;
+
+    kradRequest.send();
+}
+
+/**
+ * Convenience method for submitting the form with option for ajax or non-ajax submit
+ *
+ * <p>
+ * For full options using the KradRequest function directly
+ * </p>
+ *
+ * @param methodToCall - the controller method to be called
+ * @param additionalData - any additional data that needs to be passed to the server
+ * @param validate - indicates whethere client side validation should be performed before the submit
+ * @param ajaxSubmit - whether the submit should be via ajax or standard browser submit
+ * @param successCallback - method to invoke after a successful request, only applies to ajax calls
+ */
+function submitForm(methodToCall, additionalData, validate, ajaxSubmit, successCallback) {
+    var kradRequest = new KradRequest();
+
+    kradRequest.methodToCall = methodToCall;
+    kradRequest.additionalData = additionalData;
+    kradRequest.validate = validate;
+    kradRequest.ajaxSubmit = ajaxSubmit;
+    kradRequest.successCallback = successCallback;
+
+    kradRequest.send();
+}
+
+/**
+ * Within a multi-page view changes the currently loaded page to the page identified
+ * by the given id
+ *
+ * @param pageId id for the page to navigate to
+ */
+function navigateToPage(pageId) {
+    ajaxSubmitForm(kradVariables.NAVIGATE_METHOD_TO_CALL, {"actionParameters[navigateToPageId]": pageId});
+}
+
+/**
+ * Convenience method for redirecting to a URL
+ *
+ * @param url to redirect to
+ */
+function redirect(url) {
+    window.location = url;
+}
+
+/**
+ *
+ * @param {Object=} $group optional parameter to target a single group for validation with no bubbling of validation
+ * messages
+ * @returns {boolean} true if the group contains all valid fields, false otherwise
+ */
+function validate($group) {
+    clientErrorStorage = new Object();
+    var valid = true;
+
+    jQuery.watermark.hideAll();
+    pauseTooltipDisplay = true;
+
+    if (validateClient) {
+        pageValidationPhase = true;
+        // Turn on this flag to avoid prematurely writing out messages which will cause performance issues if MANY
+        // fields have validation errors simultaneously (first we are only checking for errors, not checking and
+        // writing simultaneously like normal)
+        clientErrorExistsCheck = true;
+
+        // Temporarily turn off this flag to avoid traversing unneeded logic (all messages will be shown at the end)
+        messageSummariesShown = false;
+
+        if (!$group) {
+            valid = _validateForm();
+        }
+        else {
+            valid = _validateGroupOnly($group);
+        }
+    }
+
+    if (!valid) {
+
+        //ensure all non-visible controls are visible to the user
+        jQuery(".error:not(:visible)").each(function () {
+            cascadeOpen(jQuery(this));
+        });
+
+        if (!$group) {
+            jumpToTop();
+            jQuery(".uif-pageValidationMessages li.uif-errorMessageItem:first > a").focus();
+        }
+        else {
+
+        }
+    }
+
+    jq.watermark.showAll();
+    pauseTooltipDisplay = false;
+
+    return valid;
+}
+
+/**
+ * Runs client side validation on the entire form and returns the result (an alert is also given
+ * if errors are encountered)
+ */
+function _validateForm() {
+    // Validate the whole form
+    validForm = jq("#kualiForm").valid();
+
+    // Handle field message bubbling manually, but do not write messages out yet
+    jQuery("div[data-role='InputField']").each(function () {
+        var id = jQuery(this).attr("id");
+        var field = jQuery("#" + id);
+        var data = getValidationData(field);
+        var parent = field.data(kradVariables.PARENT_DATA_ATTRIBUTE);
+        handleMessagesAtGroup(parent, id, data, true);
+    });
+
+    // Toggle the flag back to default
+    clientErrorExistsCheck = false;
+
+    // Message summaries are going to be shown
+    messageSummariesShown = true;
+
+    // Finally, write the result of the validation messages
+    writeMessagesForPage();
+    pageValidationPhase = false;
+
+    return validForm;
+}
+
+/**
+ * Target a single group for client validation, and do not bubble error messages up
+ *
+ * @param $group jQuery object representing the group to be targetted
+ * @returns boolean true if the group's fields are valid, false otherwise
+ */
+function _validateGroupOnly($group) {
+    var id = $group.attr("id");
+    var parentId = $group.attr("data-" + kradVariables.PARENT_DATA_ATTRIBUTE);
+    $group.removeAttr("data-" + kradVariables.PARENT_DATA_ATTRIBUTE);
+
+    var $groupControls = $group.find("[data-role='Control']");
+    if ($groupControls.length === 0) {
+        return true;
+    }
+
+    var validGroup = $groupControls.valid();
+
+    // Handle field message bubbling manually, but do not write messages out yet
+    $group.find("div[data-role='InputField']").each(function () {
+        var id = jQuery(this).attr("id");
+        var field = jQuery("#" + id);
+        var data = getValidationData(field);
+        var parent = field.data(kradVariables.PARENT_DATA_ATTRIBUTE);
+        handleMessagesAtGroup(parent, id, data, true);
+    });
+
+    // Toggle the flag back to default
+    clientErrorExistsCheck = false;
+
+    // Message summaries are going to be shown
+    messageSummariesShown = true;
+
+    var validationData = getValidationData($group, true);
+    // Finally, write the result of the validation messages
+    if (validationData) {
+        var messageMap = validationData.messageMap;
+        if (!messageMap) {
+            messageMap = {};
+            validationData.messageMap = messageMap;
+        }
+    }
+
+    writeMessagesForChildGroups(id);
+    writeMessagesForGroup(id, validationData, true, false);
+    displayHeaderMessageCount(id, validationData);
+    $group.find(".uif-errorMessageItem > div").show();
+
+    // Turn off page validation phase flag to return to normal validation processing
+    pageValidationPhase = false;
+
+    // Restore parent id if one exists, by default dialog groups do not have a parent id
+    if (parentId) {
+        $group.attr("data-" + kradVariables.PARENT_DATA_ATTRIBUTE, parentId);
+    }
+
+    return validGroup;
+}
+
+/**
+ * Creates the placeholder span necessary to place the retrieved component (or if the component exists in the
+ * dom it is replaced by the placeholder span), then retrieves the component.
+ *
+ * @param componentId id for the component to create placeholder for and retrieve
+ * @param callback function callback to invoke after the component has been retrieved
+ * @param additionalData data to add to the retrieve ajax request
+ */
+function createPlaceholderAndRetrieve(componentId, callback, additionalData) {
+    var placeholderSpan = '<span id="' + componentId + '"class="' + kradVariables.CLASSES.PLACEHOLDER +
+            '" data-role="' + kradVariables.DATA_ROLES.PLACEHOLDER + '"></span>';
+
+    if (jQuery('#' + componentId).length == 0) {
+        jQuery('#' + kradVariables.IDS.DIALOGS).append(placeholderSpan);
+    } else {
+        jQuery('#' + componentId).replaceWith(placeholderSpan);
+    }
+
+    retrieveComponent(componentId, undefined, callback, additionalData, true);
+}
+
+/**
+ * Calls the updateComponent method on the controller with component id passed in, this id is
+ * the component id with any/all suffixes on it not the dictionary id
+ *
+ * <p>
+ * Retrieves the component with the matching id from the server and replaces a matching
+ * _refreshWrapper marker span with the same id with the result.  In addition, if the result contains a label
+ * and a displayWith marker span has a matching id, that span will be replaced with the label content
+ * and removed from the component.  This allows for label and component content separation on fields
+ * </p>
+ *
+ * @param id - id for the component to retrieve
+ * @param methodToCall - name of the method that should be invoked for the refresh call (if custom method is needed)
+ * @param successCallback - (optional) additional callback function to be executed after the component is retrieved
+ * @param additionalData - (optional) additional data to be submitted with the request
+ * @param disableBlocking - (optional) turns off blocking and loading messaging
+ */
+function retrieveComponent(id, methodToCall, successCallback, additionalData, disableBlocking) {
+    var refreshComp = jQuery("#" + id);
+
+    // if a call is made from refreshComponentUsingTimer() and the component does not exist on the page or is hidden
+    // then get the handle of the refreshTimer and clear the timer. Also remove it from the refreshTimerComponentMap
+    if (refreshComp === undefined || refreshComp.filter(':visible').length === 0) {
+        var refreshHandle = refreshTimerComponentMap[id];
+        if (!(refreshHandle === undefined)) {
+            clearInterval(refreshHandle);
+            delete refreshTimerComponentMap[id];
+
+            return;
+        }
+    }
+
+    if (!methodToCall) {
+        methodToCall = kradVariables.REFRESH_METHOD_TO_CALL;
+    }
+
+    var kradRequest = new KradRequest();
+
+    kradRequest.methodToCall = methodToCall;
+    kradRequest.ajaxReturnType = kradVariables.RETURN_TYPE_UPDATE_COMPONENT;
+    kradRequest.successCallback = successCallback;
+    kradRequest.additionalData = additionalData;
+    kradRequest.refreshId = id;
+
+    if (disableBlocking) {
+        kradRequest.disableBlocking = disableBlocking;
+    }
+
+    kradRequest.send();
+}
+
+/**
+ * Performs client side validation against the controls present in a collection add line.
+ *
+ * @param collectionGroupId id for the collection whose add line should be validated
+ */
+function validateAddLine(collectionGroupId) {
+    var collectionGroup = jQuery("#" + collectionGroupId);
+    var addControls = collectionGroup.data(kradVariables.ADD_CONTROLS);
+
+    var controlsToValidate = jQuery(addControls, collectionGroup);
+
+    var valid = validateLineFields(controlsToValidate, false);
+    if (!valid) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Performs client side validation against the controls present in a collection line
+ *
+ * @param collectionName - name (binding path) for the collection
+ * @param lineIndex - zero based index for the collection line
+ */
+function validateLine(collectionName, lineIndex) {
+    var controlsToValidate = jQuery("[name^='" + collectionName + "[" + lineIndex + "]']");
+
+    var valid = validateLineFields(controlsToValidate, true);
+    if (!valid) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Performs client side validation on the list of given controls and returns whether the controls
+ * are valid
+ *
+ * @param controlsToValidate - list of controls (jQuery wrapping objects) that should be validated
+ */
+function validateLineFields(controlsToValidate, writePageMessages) {
+    var valid = true;
+    var invalidId = "";
+
+    // skip completely if client validation is off
+    if (!validateClient) {
+        return valid;
+    }
+
+    jQuery.watermark.hideAll();
+
+    // Turn on this flag to avoid prematurely writing out messages which will cause performance issues if MANY
+    // fields have validation errors simultaneously (first we are only checking for errors, not checking and
+    // writing simultaneously like normal)
+    clientErrorExistsCheck = true;
+
+    // Temporarily turn off this flag to avoid traversing unneeded logic (all messages will be shown at the end)
+    var tempMessagesSummariesShown = messageSummariesShown;
+    messageSummariesShown = false;
+
+    controlsToValidate.each(function () {
+        var control = jQuery(this);
+        var fieldId = jQuery(this).closest("div[data-role='InputField']").attr("id");
+        var field = jQuery("#" + fieldId);
+        var parent = field.data("parent");
+        var validValue = true;
+
+        // remove ignoreValid because there are issues with the plugin if it stays on
+        control.removeClass("ignoreValid");
+
+        haltValidationMessaging = true;
+
+        if (control.length && !control.prop("disabled")) {
+            control.valid();
+            if (control.hasClass("error")) {
+                validValue = false;
+            }
+        }
+
+        var data = getValidationData(field);
+        handleMessagesAtGroup(parent, fieldId, data, true);
+
+        haltValidationMessaging = false;
+
+        //details visibility check
+        if (control.not(":visible") && !validValue) {
+            cascadeOpen(control);
+        }
+
+        if (!validValue) {
+            valid = false;
+            if (invalidId.length == 0) {
+                invalidId = this.id;
+            }
+        }
+
+        control.addClass("ignoreValid");
+    });
+
+    // Toggle the flag back to default
+    clientErrorExistsCheck = false;
+
+    // Message summaries are going to be shown
+    messageSummariesShown = tempMessagesSummariesShown;
+
+    if (writePageMessages && messageSummariesShown) {
+        // Finally, write the result of the validation messages
+        writeMessagesForPage();
+    }
+
+    jQuery.watermark.showAll();
+
+    if (invalidId.length != 0) {
+        jQuery("#" + invalidId).focus();
+    }
+
+    return valid;
+}
+
+/**
+ * Retrieves a page for the collection by id specified, the linkElement supplied must have "num" data to retrieve
+ * the page; this method refreshes the collection with new page showing
+ *
+ * @param linkElement the link clicked with "num" data specifying the page to retrieve
+ * @param collectionId the collection by id to retrieve the new page from
+ */
+function retrieveCollectionPage(linkElement, collectionId) {
+    var link = jQuery(linkElement);
+    var parentLI = link.parent();
+
+    // Skip processing if the link supplied is disabled or active
+    if (parentLI.is("." + kradVariables.DISABLED_CLASS) || parentLI.is("." + kradVariables.ACTIVE_CLASS)) {
+        return;
+    }
+
+    var pageNumber = jQuery(linkElement).data(kradVariables.PAGE_NUMBER_DATA);
+    retrieveComponent(collectionId, kradVariables.RETRIEVE_COLLECTION_PAGE_METHOD_TO_CALL,
+            null, {pageNumber: pageNumber}, true);
+}
+
+/**
+ * Ensures that the componentObject is visible by "opening" mechanisms that may be hiding it such as
+ * row details or group disclosure.  Used to make invalid fields visible on validation.
+ *
+ * @param componentObject the object to check for visibility of and "open" parent containing elements to make
+ * it visible
+ */
+function cascadeOpen(componentObject) {
+    if (componentObject.not(":visible")) {
+        var detailsDivs = componentObject.parents("[data-role='details']");
+        detailsDivs.each(function () {
+            jQuery(this).parent().find("> a").click();
+        });
+
+        var disclosureDivs = componentObject.parents("[data-role='disclosureContent']");
+        disclosureDivs.each(function () {
+            if (!jQuery(this).data("open")) {
+                jQuery(this).parent().find("a[data-linkfor='" + jQuery(this).attr("id") + "']").click();
+            }
+        });
+    }
+}
+
+/** Progressive Disclosure */
+
+/**
+ * Same as setupRefreshCheck except the condition will always be true (always refresh when
+ * value changed on control)
+ *
+ * @param controlName - value for the name attribute for the control the event should be generated for
+ * @param refreshId - id for the component that should be refreshed when change occurs
+ * @param methodToCall - name of the method that should be invoked for the refresh call (if custom method is needed)
+ */
+function setupOnChangeRefresh(controlName, refreshId, methodToCall) {
+    setupRefreshCheck(controlName, refreshId, function () {
+        return true;
+    }, methodToCall);
+}
+
+/**
+ * Sets up the conditional refresh mechanism in js by adding a change handler to the control
+ * which may satisfy the conditional refresh condition passed in.  When the condition is satisfied,
+ * refresh the necessary content specified by id by making a server call to retrieve a new instance
+ * of that component
+ *
+ * @param controlName - value for the name attribute for the control the event should be generated for
+ * @param refreshId - id for the component that should be refreshed when condition occurs
+ * @param condition - function which returns true to refresh, false otherwise
+ * @param methodToCall - name of the method that should be invoked for the refresh call (if custom method is needed)
+ */
+function setupRefreshCheck(controlName, refreshId, condition, methodToCall) {
+    jQuery("[name='" + escapeName(controlName) + "']").live('change', function () {
+        // visible check because a component must logically be visible to refresh
+        var refreshComp = jQuery("#" + refreshId);
+        if (refreshComp.length) {
+            if (condition()) {
+                retrieveComponent(refreshId, methodToCall);
+            }
+        }
+    });
+}
+
+/**
+ * Setup disabled check handlers that will evaluate a passed in condition and will disable/enable the component
+ * based on the result (true to disable, false to enable).  controlName represents the field to be evaluated and
+ * disableCompId represents the component by id to be disabled/enabled as a result.
+ *
+ * @param controlName name of the control to put a handler on
+ * @param disableCompId id of the component to disable/enable
+ * @param disableCompType type of the component being disabled/enabled
+ * @param condition function that if returns true disables the component, and if returns false enables the component
+ * @param onKeyUp true if evaluating on keyUp, only applies to textarea/text inputs
+ */
+function setupDisabledCheck(controlName, disableCompId, disableCompType, condition, onKeyUp) {
+    var theControl = jQuery("[name='" + escapeName(controlName) + "']");
+
+    // Namespace the event type to avoid duplicates if the disabled enhanced component gets refreshed
+    var eventType = "change.disable-" + disableCompId;
+
+    if (onKeyUp && (theControl.is("textarea") || theControl.is("input[type='text'], input[type='password']"))) {
+        // Uses input event to account for all text changes
+        eventType = "input.disable-" + disableCompId;
+    }
+
+    if (disableCompType == "radioGroup" || disableCompType == "checkboxGroup") {
+        jQuery(document).off(eventType);
+        jQuery(document).on(eventType, "[name='" + escapeName(controlName) + "']", function () {
+            if (condition()) {
+                jQuery("input[id^='" + disableCompId + "']").prop("disabled", true);
+            }
+            else {
+                jQuery("input[id^='" + disableCompId + "']").prop("disabled", false);
+            }
+        });
+    }
+    else {
+        jQuery(document).off(eventType);
+        jQuery(document).on(eventType, "[name='" + escapeName(controlName) + "']", function () {
+            var disableControl = jQuery("#" + disableCompId);
+            if (condition()) {
+                disableControl.prop("disabled", true);
+                disableControl.addClass("disabled");
+                if (disableCompType === "actionLink" || disableCompType === "action") {
+                    disableControl.attr("tabIndex", "-1");
+                }
+
+                if (disableControl.is(".hasDatepicker")) {
+                    disableControl.datepicker("disable");
+                    disableControl.next(".ui-datepicker-trigger").css("cursor", "not-allowed");
+                }
+                if (disableControl.is(".uif-spinnerControl")) {
+                    disableControl.spinner("disable");
+                }
+            }
+            else {
+                disableControl.prop("disabled", false);
+                disableControl.removeClass("disabled");
+                if (disableCompType === "actionLink" || disableCompType === "action") {
+                    disableControl.attr("tabIndex", "0");
+                }
+
+                if (disableControl.is(".hasDatepicker")) {
+                    disableControl.datepicker("enable");
+                    disableControl.next(".ui-datepicker-trigger").css("cursor", "pointer");
+                }
+                if (disableControl.is(".uif-spinnerControl")) {
+                    disableControl.spinner("enable");
+                }
+            }
+        });
+    }
+}
+
+/**
+ * Sets up the progressive disclosure mechanism in js by adding a change handler to the control
+ * which may satisfy the progressive disclosure condition passed in.  When the condition is satisfied,
+ * show the necessary content, otherwise hide it.  If the content has not yet been rendered then a server
+ * call is made to retrieve the content to be shown.  If alwaysRetrieve is true, the component
+ * is always retrieved from the server when disclosed.
+ * Do not add check if the component is part of the "old" values on a maintanance document (endswith _c0).
+ *
+ * @param controlName
+ * @param disclosureId
+ * @param condition - function which returns true to disclose, false otherwise
+ * @param methodToCall - name of the method that should be invoked for the retrieve call (if custom method is needed)
+ */
+function setupProgressiveCheck(controlName, disclosureId, condition, alwaysRetrieve, methodToCall) {
+    jQuery("[name='" + escapeName(controlName) + "']").live('change', function () {
+        var refreshDisclosure = jQuery("#" + disclosureId);
+        if (refreshDisclosure.length) {
+            var displayWithId = disclosureId;
+
+            if (condition()) {
+                if (refreshDisclosure.data("role") == "placeholder" || alwaysRetrieve) {
+                    retrieveComponent(disclosureId, methodToCall);
+                }
+                else {
+                    refreshDisclosure.addClass(kradVariables.PROGRESSIVE_DISCLOSURE_HIGHLIGHT_CLASS);
+                    refreshDisclosure.show();
+
+                    if (refreshDisclosure.parent().is("td")) {
+                        refreshDisclosure.parent().show();
+                    }
+
+                    refreshDisclosure.animate({backgroundColor: "transparent"}, 6000);
+
+                    //re-enable validation on now shown inputs
+                    hiddenInputValidationToggle(disclosureId);
+
+                    var displayWithLabel = jQuery(".displayWith-" + displayWithId);
+                    displayWithLabel.show();
+                    if (displayWithLabel.parent().is("td") || displayWithLabel.parent().is("th")) {
+                        displayWithLabel.parent().show();
+                    }
+                }
+            }
+            else {
+                refreshDisclosure.hide();
+
+                // ignore validation on hidden inputs
+                hiddenInputValidationToggle(disclosureId);
+
+                var displayWithLabel = jQuery(".displayWith-" + displayWithId);
+                displayWithLabel.hide();
+                if (displayWithLabel.parent().is("td") || displayWithLabel.parent().is("th")) {
+                    displayWithLabel.parent().hide();
+                }
+            }
+
+            hideEmptyCells();
+        }
+    });
+}
+
+/**
+ * Disables client side validation on any inputs within the element(by id) passed in , if
+ * that element is hidden.  Otherwise, it turns input validation back on if the element and
+ * its children are visible
+ *
+ * @param id - id for the component for which the input hiddens should be processed
+ */
+function hiddenInputValidationToggle(id) {
+    var element = jQuery("#" + id);
+    if (element.length) {
+        if (element.css("display") === "none") {
+            jQuery(":input:hidden", element).each(function () {
+                storeOriginalDisabledProperty(jQuery(this));
+                jQuery(this).addClass("ignoreValid");
+                //disable hidden inputs to prevent from being submitted
+                jQuery(this).prop("disabled", true);
+            });
+        }
+        else {
+            jQuery(":input:visible", element).each(function () {
+                storeOriginalDisabledProperty(jQuery(this));
+                jQuery(this).removeClass("ignoreValid");
+                //return to original disabled property value
+                jQuery(this).prop("disabled", jQuery(this).data('original-disabled'));
+            });
+        }
+    }
+}
+
+/**
+ * Stores the original value of the disabled property of the element into jquery data.
+ * This ensures that the correct value is set after toggling in hiddenInputValidation().
+ *
+ * @param element - jQuery element to examine and set the original-disabled data.
+ */
+function storeOriginalDisabledProperty(element) {
+    //capture original disabled property value
+    if (element.data('original-disabled') === undefined) {
+        element.data("original-disabled", element.prop("disabled"));
+    }
+}
+
+/**
+ * Refreshes a component by calling retrieveComponent() at the given time interval
+ *
+ * @param componentId - id of the component to be refreshed
+ * @param methodToCall - controller method to call on refresh
+ * @param timeInterval -  interval in seconds at which the component should be refreshed
+ */
+function refreshComponentUsingTimer(componentId, methodToCall, timeInterval) {
+    var refreshTimer = refreshTimerComponentMap[componentId];
+
+    // if a timer already exists for the component then clear it and remove it from the map
+    // this is done so that the time interval between executions remains the same.
+    if (refreshTimer != null) {
+        clearInterval(refreshTimer);
+        delete refreshTimerComponentMap[componentId];
+    }
+
+    //set a new timer on the component
+    refreshTimerComponentMap[componentId] = setInterval(function () {
+        retrieveComponent(componentId, methodToCall);
+    }, timeInterval * 1000);
+}
+
+/**
+ *  Open a hidden section in a bootstrap popover and freeze it until the user
+ *  clicks outside of the popup, or on the optional close button.
+ *
+ * @param e event (required)
+ * @param contentId id of hidden section with content (required)
+ * @param popoverOptions map of popover options (optional)
+ * @param closeButton when true, a small close button is rendered in the top-right corner of the popup (optional)
+ **/
+function openPopoverContent(e, contentId, popoverOptions, useCloseButton) {
+    stopEvent(e);
+
+    var popupTarget = jQuery((e.currentTarget) ? e.currentTarget : e.srcElement);
+    _openPopover(popupTarget, contentId, popoverOptions, useCloseButton);
+}
+
+/**
+ *  Open a hidden section in a bootstrap popover and freeze it until the user
+ *  clicks outside of the popup, or on the optional close button.
+ *
+ * @param popupTarget jQuery object representing the target
+ * @param contentId id of hidden section with content (required)
+ * @param popoverOptions map of popover options (optional)
+ * @param closeButton when true, a small close button is rendered in the top-right corner of the popup (optional)
+ **/
+function _openPopover(popupTarget, contentId, popoverOptions, useCloseButton) {
+    var popoverData = jQuery(popupTarget).data(kradVariables.POPOVER_DATA);
+    var popupContent = jQuery("#" + contentId);
+    if (popoverData && popoverData.shown) {
+        _hidePopover(popupTarget);
+        return;
+    }
+
+    hideTooltips();
+
+    var clickName = "click." + popupTarget.attr('id');
+    popupTarget.attr("data-popupContentId", popupContent.attr("id"));
+    popupContent.after("<div id='" + contentId + "_popupPlaceholder' style='display:none'></div>");
+    popupContent = popupContent.detach().show();
+    popupContent.addClass("uif-popupContent-inner");
+
+    // add required class uif-tooltip to action and create popup
+    if (!popoverData) {
+        if (popoverOptions && !popoverOptions.placement) {
+            popoverOptions.placement = "auto bottom";
+        }
+        else if (!popoverOptions) {
+            popoverOptions = {placement: "auto bottom"};
+        }
+
+        popoverData = initializeTooltip(popupTarget, popoverOptions, "uif-popupContent");
+
+        if (useCloseButton) {
+            var closeButton = jQuery('<div class="uif-popup-closebutton"/>');
+            closeButton.on(clickName, function () {
+                _hidePopover(popupTarget);
+            });
+            popupContent.prepend(closeButton);
+        }
+    }
+
+    popoverData.options.content = popupContent;
+
+    popupTarget.popover("show");
+
+    popoverData.shown = true;
+
+    // close popup on any click outside current popup
+    jQuery(document).on(clickName, function (e) {
+        var docTarget = jQuery((e.target) ? e.target : e.srcElement);
+        if (docTarget.parents("div.popover").length === 0) {
+            _hidePopover(popupTarget);
+        }
+    });
+
+    function _hidePopover(target) {
+        var popoverData = jQuery(target).data(kradVariables.POPOVER_DATA);
+        popoverData.shown = false;
+        jQuery("#" + contentId + "_popupPlaceholder").replaceWith(popupContent.hide());
+        target.popover("hide");
+        jQuery(document).off("click." + target.attr('id'));
+    }
+}
+
+/**
+ *  Locate all bubblepopup content and see if any have a error displayed (via
+ *  class "uif-hasError").  If so, locate the action which opens the content
+ *  and submit the click event for that action.
+ **/
+function openPopoverContentsWithErrors() {
+    var popupFormId;
+    var popupContent = {};
+    jQuery("div.uif-popupContent-inner").each(function () {
+        if (popupContent[this.id] === true) {
+            // .detach() apparently creates duplicates in the DOM, and this code eliminates them
+            return false;
+        }
+        popupContent[this.id] = true;
+
+        if (jQuery(".uif-hasError", jQuery(this)).length > 0) {
+            popupFormId = this.id;
+
+            var popupTarget = jQuery("[data-popupContentId='" + this.id + "']");
+            _openPopover(popupTarget, popupFormId);
+
+        }
+    });
+}
+
+;/*
+ * Copyright 2005-2014 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * The DirtyFormState constructor sets up the beforeUnload event that checks for dirtyness when the user tries to
+ * leave the page through a browser based method (back, url, refresh, close, anchor not in krad scope)
+ *
+ * @constructor
+ */
+function DirtyFormState() {
+    var dirtyFormStateObject = this;
+    // make sure form doesn't have any unsaved data when user clicks on any other portal links,
+    // closes browser or presses fwd/back browser button
+    jQuery(window).bind('beforeunload', function (event) {
+        // methodToCall check is needed to skip form posts
+        var methodToCall = jQuery("[name='methodToCall']").val();
+        if (!methodToCall) {
+            var dirty = dirtyFormStateObject.checkDirty(event, false);
+
+            // prompt does not come through in checkDirty since we are unloaded, so we
+            // need to return the question
+            if (dirty) {
+                return getMessage(kradVariables.MESSAGE_KEY_DIRTY_FIELDS);
+            }
+        }
+    });
+}
+
+/**
+ * DirtyFormState keeps track of dirty state information on the page by detecting field changes and blocking user
+ * navigation with an alert when the field is considered dirty (changed).  The object also provides the necessary
+ * methods for accessing and changing this state.
+ *
+ * @type {{dirtyFieldCount: number, dirtyFormInput: *, skipDirtyChecks: boolean, isDirty: Function, setDirty: Function, reset: Function, resetDirtyFieldCount: Function, incrementDirtyFieldCount: Function, decrementDirtyFieldCount: Function, checkDirty: Function, dirtyHandlerSetup: Function, isControlDirty: Function}}
+ */
+DirtyFormState.prototype = {
+    /**
+     * The dirtyFieldCount which represents the total fields dirty on the form
+     */
+    dirtyFieldCount: 0,
+    /**
+     * jQuery selection of dirtyForm field
+     */
+    dirtyFormInput: jQuery("input[name='" + kradVariables.DIRTY_FORM + "']"),
+    /**
+     * Set this to true to prevent dirty blocking until a View reload or until it is set back to false
+     */
+    skipDirtyChecks: false,
+    /**
+     * Returns true if the current form is considered dirty, false otherwise.  The form is diry if the dirtyForm field
+     * is set to "true" or the dirtyFieldCount > 0.
+     *
+     * @return {boolean} true if the form is dirty, false otherwise
+     */
+    isDirty: function () {
+        return this.dirtyFormInput.val() == "true" || this.dirtyFieldCount > 0;
+    },
+    /**
+     * Set the dirty flag (normally set by the server) - this is the dirtyForm field on the form
+     *
+     * @param isDirty true if setting to dirty, false otherwise
+     */
+    setDirty: function (isDirty) {
+        if (isDirty) {
+            this.dirtyFormInput.val("true");
+        }
+        else {
+            this.dirtyFormInput.val("false");
+        }
+    },
+    /**
+     * Reset both the dirty flag (normally set by the server) and the dirty field count
+     */
+    reset: function () {
+        this.resetDirtyFieldCount();
+        this.setDirty(false);
+    },
+    /**
+     * Reset the dirty field count to 0 (amount of fields considered dirty on the page)
+     */
+    resetDirtyFieldCount: function () {
+        this.dirtyFieldCount = 0;
+    },
+    /**
+     * Increment the dirty field count (amount of fields considered dirty on the page)
+     */
+    incrementDirtyFieldCount: function () {
+        this.dirtyFieldCount++;
+    },
+    /**
+     * Decrement the dirty field count (amount of fields considered dirty on the page)
+     */
+    decrementDirtyFieldCount: function () {
+        this.dirtyFieldCount--;
+    },
+    /**
+     * Validate dirty fields on the form
+     *
+     * <p>Whenever the user clicks on the action field which navigates away from the page,
+     * form dirtyness is checked. It checks for any input elements which has "dirty" class. If present,
+     * it pops a message to the user to confirm whether they want to stay on the page or want to navigate.
+     * </p>
+     *
+     * @param event the event which triggered the action
+     * @param showAlert (optional) if true show the alert now.  This flag is used to not show the alert for unload because
+     *  most browsers will stop this from occuring anyways and it eliminates duplicate alert dialogs to click through.
+     * @returns true if the form has dirty fields, false if not
+     */
+    checkDirty: function (event, showAlert) {
+        var validateDirty = jQuery("input[name='" + kradVariables.VALIDATE_DIRTY + "']").val();
+
+        if (!this.skipDirtyChecks && validateDirty == "true" && this.isDirty()) {
+
+            //immediate return if skipping alert
+            if (showAlert != undefined && !showAlert) {
+                return true;
+            }
+
+            var dirtyMessage = getMessage(kradVariables.MESSAGE_KEY_DIRTY_FIELDS);
+
+            var answer = confirm(dirtyMessage);
+
+            if (answer == false) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+
+                return true;
+            }
+        }
+
+        return false;
+
+    },
+    /**
+     * Sets up the global dirty field handler which will mark dirtyness and keep track of a dirtyFieldCount on
+     * InputField controls
+     */
+    dirtyHandlerSetup: function () {
+        var dirtyFormStateObject = this;
+
+        jQuery(document).on("change", "div[data-role='InputField'] input, div[data-role='InputField'] select, "
+                + "div[data-role='InputField'] textarea", function (e) {
+            var fieldDirty = true;
+
+            //check if original value
+            if (e && e.target) {
+                fieldDirty = dirtyFormStateObject.isControlDirty(e.target);
+            }
+
+            //does it already have a dirty class?
+            var hadDirtyClass = jQuery(this).hasClass(kradVariables.DIRTY_CLASS);
+
+            //if already has dirty class and not dirty remove and decrement dirty count, or opposite for other scenario
+            if (hadDirtyClass && !fieldDirty) {
+                jQuery(this).removeClass(kradVariables.DIRTY_CLASS);
+                dirtyFormStateObject.decrementDirtyFieldCount();
+            }
+            else if (!hadDirtyClass && fieldDirty) {
+                jQuery(this).addClass(kradVariables.DIRTY_CLASS);
+                dirtyFormStateObject.incrementDirtyFieldCount();
+            }
+        });
+    },
+    /**
+     * Determines if the control passed in is considered dirty (does not match its original value)
+     *
+     * @param control the control to check for dirtyness
+     * @return {boolean} true if dirty (assumed true if checks cannot prove otherwise), false if not dirty
+     */
+    isControlDirty: function (control) {
+        //assume dirty
+        var fieldDirty = true;
+
+        //basic input
+        if (control.defaultValue != undefined && control.value == control.defaultValue) {
+            fieldDirty = false;
+        }
+        //checkbox or radio
+        else if ((control.type == "checkbox" || control.type == "radio")
+                && control.defaultChecked != undefined && control.checked == control.defaultChecked) {
+            fieldDirty = false;
+        }
+        //select
+        else if (control.options != undefined) {
+            fieldDirty = false;
+            var hasDefaultSelected = false;
+            var options = jQuery(control).find("option");
+            jQuery(options).each(function () {
+                //if these differ the field is dirty
+                if (this.defaultSelected != this.selected) {
+                    fieldDirty = true;
+                }
+
+                //check to see if any option was a default selection
+                hasDefaultSelected = this.defaultSelected || hasDefaultSelected;
+            });
+
+            //special case when no default value was selected when the control was rendered
+            if (!hasDefaultSelected &&
+                    ((control.multiple && control.selectedIndex == -1) ||
+                            (!control.multiple && control.selectedIndex == 0))) {
+                fieldDirty = false;
+            }
+
+        }
+
+        return fieldDirty;
+
+    }
+};/*
+ * Copyright 2005-2014 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Script specific to lookup views.
+ *
+ * @author Kuali Rice Team (rice.collab@kuali.org)
+ */
+
+var returnByScriptHidden = "returnByScript";
+
+/*
+    There is an issue with jQuery re-running document ready twice. This happens when the innerHTML gets
+    updated. Ref: http://shout.setfive.com/2010/02/22/javascript-document-ready-getting-called-twice-heres-why/
+
+    This variable is a local solution within krad.lookup to prevent the updateSelectLineCount to be called only
+    once onChange, as enabling/disabling 'return selected' depends on increment/decrement of a counter in its logic that
+     gets corrupted by multiple calls for the same event.
+ */
+var _DONE = false;
+
+jQuery(document).ready(function () {
+    if(_DONE === true) { return;}
+
+       _DONE = true;
+
+    // multi value select handler to enable/disable return selected button for checkboxes with uif-select-line
+    jQuery(document).on("change", "#" + kradVariables.LOOKUP_COLLECTION_ID + " input:checkbox." + kradVariables.SELECT_FIELD_STYLE_CLASS, function (e) {
+       updateSelectLineCount(this);
+    });
+
+    // event handler for return links on lookups
+    jQuery(document).on("click", "a[" + kradVariables.ATTRIBUTES.DATA_RETURN + "]", function (e) {
+        e.preventDefault();
+
+        // determine if the results should be returned through script
+        var returnByScript = coerceValue(returnByScriptHidden);
+
+        if (returnByScript) {
+            returnLookupResultsByScript(this);
+        }
+        else {
+            returnLookupResultReload(this);
+        }
+    });
+});
+
+/**
+ * Registers the onChange event on the input element inside of the lookup results collection
+ * by updating the selection count depending on whether the checkbox has been checked or not
+ *
+ * @param selectControl  select control the change event occurred on
+ */
+function updateSelectLineCount(selectControl) {
+    input = jQuery(selectControl);
+
+    // Fetch current selectLineCount
+    var lookupResultsDiv = jQuery("#" + kradVariables.LOOKUP_COLLECTION_ID);
+    var selectlinecount = lookupResultsDiv.data('selectedlinecount');
+
+    if(input.attr('checked')) {
+        lookupResultsDiv.data('selectedlinecount', selectlinecount + 1);
+    }  else if(selectlinecount > 0) {
+        lookupResultsDiv.data('selectedlinecount', selectlinecount - 1);
+    }
+
+    setMultivalueLookupReturnButton("#" + kradVariables.LOOKUP_COLLECTION_ID);
+}
+
+/**
+ * Enables the return selected button on the multi value lookup when at least one item is selected.
+ *
+ * @param selectControl select control the change event occurred on
+ */
+function setMultivalueLookupReturnButton(selectControl) {
+
+    var lookupResultsDiv = jQuery(selectControl);
+
+    var checked = lookupResultsDiv.data('selectedlinecount') > 0;
+
+    if (checked) {
+        jQuery(':button.' + kradVariables.RETURN_SELECTED_ACTION_CLASS).removeAttr('disabled');
+        jQuery(':button.' + kradVariables.RETURN_SELECTED_ACTION_CLASS).removeClass('disabled');
+    } else {
+        jQuery(':button.' + kradVariables.RETURN_SELECTED_ACTION_CLASS).attr('disabled', 'disabled');
+    }
+}
+/**
+ * Select all checkboxes within the datatable/non datatable (all pages) that are marked with class 'uif-select-line'
+ * (used for multi-value select collections)
+ *
+ * @param collectionId - id for the collection to select checkboxes for
+ */
+function selectAllLines(collectionId) {
+    var query = "input:checkbox." + kradVariables.SELECT_FIELD_STYLE_CLASS;
+    var lookupCollectionDiv = jQuery("#" + collectionId);
+
+    // If results are displayed using dataTable
+    if(jQuery('table.dataTable').length > 0) {
+
+        // get a handle on the datatables plugin object for the results collection
+        var oTable = getDataTableHandle(lookupCollectionDiv.find("table").attr('id'));
+
+        jQuery(query, oTable.fnGetNodes()).each(function( index ) {
+            this.checked = true;
+        });
+    }  else {
+        jQuery(lookupCollectionDiv.find(query)).each(function (index) {
+            jQuery(this).attr('checked', true);
+        });
+    }
+
+    // Reset data attribute selectedlinecount to number of results in the lookup
+    var lookupResultCount = lookupCollectionDiv.data('lookupresultscount');
+    lookupCollectionDiv.data('selectedlinecount', lookupResultCount);
+
+    setMultivalueLookupReturnButton(jQuery("#" + collectionId));
+}
+
+/**
+ * Deselects all checkboxes within the datatable/non datatable (all pages) that are marked with class 'uif-select-line'
+ * (used for multi-value select collections)
+ *
+ * @param collectionId - id for the collection to deselect checkboxes for
+ */
+function deselectAllLines(collectionId) {
+    // get a handle on the datatables plugin object for the results collection
+    var oTable = getDataTableHandle(jQuery("#" + collectionId).find("table").attr('id'));
+    var query = "input:checkbox." + kradVariables.SELECT_FIELD_STYLE_CLASS;
+
+    if(jQuery('table.dataTable').length > 0) {
+        jQuery(query, oTable.fnGetNodes()).prop('checked', false);
+    }
+
+    // reset selectedlinecount to 0
+    var lookupCollectionDiv = jQuery('#' + collectionId);
+    lookupCollectionDiv.data('selectedlinecount', 0);
+
+    setMultivalueLookupReturnButton(jQuery("#" + collectionId));
+}
+
+/**
+ * Select all checkboxes within the collection div that are marked with class 'uif-select-line' (used
+ * for multi-value select collections) on the current page and updates the selectedlinecount
+ *
+ * @param collectionId - id for the collection to select checkboxes for
+ */
+function selectAllPageLines(collectionId) {
+    var selectedLineCount = jQuery('#' + collectionId).data('selectedlinecount');
+    jQuery( "#" + collectionId ).find("input:checkbox." + kradVariables.SELECT_FIELD_STYLE_CLASS).each( function (index) {
+        if (jQuery(this).attr('checked') != true) {
+            jQuery(this).attr('checked',true);
+            selectedLineCount = selectedLineCount+1;
+        }
+    });
+    var lookupCollectionDiv = jQuery('#' + collectionId);
+    lookupCollectionDiv.data('selectedlinecount', selectedLineCount);
+
+    setMultivalueLookupReturnButton(jQuery("#" + collectionId));
+
+}
+
+/**
+ * Deselects all checkboxes within the collection div that are marked with class 'uif-select-line' (used
+ * for multi-value select collections) on the current page and updates the selectedlinecount
+ *
+ * @param collectionId - id for the collection to deselect checkboxes for
+ */
+function deselectAllPageLines(collectionId) {
+    var selectedLineCount = jQuery('#' + collectionId).data('selectedlinecount');
+    jQuery("#" + collectionId).find("input:checkbox." + kradVariables.SELECT_FIELD_STYLE_CLASS).each(function (index) {
+        jQuery(this).attr('checked', false);
+        if (selectedLineCount > 0) {
+            selectedLineCount = selectedLineCount - 1;
+        }
+    });
+
+    jQuery('#' + collectionId).data('selectedlinecount',selectedLineCount);
+    setMultivalueLookupReturnButton(jQuery("#" + collectionId));
+}
+
+/**
+ * Function that returns results field values when a return link is invoked
+ *
+ * @param returnLink link that was selected
+ */
+function returnLookupResultsByScript(returnLink) {
+    var jqReturnLink = jQuery(returnLink);
+
+    var returnData = jqReturnLink.attr(kradVariables.ATTRIBUTES.DATA_RETURN);
+    var returnFieldValues = jQuery.parseJSON(returnData);
+
+    var returnField;
+    for (var returnFieldName in returnFieldValues) {
+        if (!returnFieldValues.hasOwnProperty(returnFieldName)) {
+            continue;
+        }
+
+        var returnFieldValue = returnFieldValues[returnFieldName];
+
+        returnField = findElement('[name="' + escapeName(returnFieldName) + '"]');
+
+        if (!returnField.length) {
+            continue;
+        }
+
+        returnField.val(returnFieldValue);
+
+        // trigger any ajax queries with the blur event
+        returnField.focus();
+        returnField.blur();
+
+        returnField.change();
+    }
+
+    // set focus to last returned field
+    if (returnField) {
+        returnField.focus();
+    }
+
+    closeLightbox();
+}
+
+/**
+ * Reload page with lookup result URL
+ */
+function returnLookupResultReload(returnLink) {
+    var jqReturnLink = jQuery(returnLink);
+
+    var href = jqReturnLink.attr("href");
+    var target = jqReturnLink.attr("target");
+
+    var closedLightboxNeeded = true;
+
+    if (parent.jQuery('iframe[id*=easyXDM_]').length > 0) {
+        // portal and content on same domain
+        top.jQuery('iframe[id*=easyXDM_]').contents().find('#' + kradVariables.PORTAL_IFRAME_ID).attr('src', href);
+    } else if (parent.parent.jQuery('#' + kradVariables.PORTAL_IFRAME_ID).length > 0) {
+        // portal and content on different domain
+        parent.parent.jQuery('#' + kradVariables.PORTAL_IFRAME_ID).attr('src', href);
+    } else {
+        window.open(href, target);
+
+        if (!target || (target === "_self")) {
+            closedLightboxNeeded = false;
+        }
+    }
+
+    if (closedLightboxNeeded) {
+        closeLightbox();
+    }
+}
+
+/**
+ * Sets form target for the multi-value return and closes the lightbox
+ */
+function setupMultiValueReturn() {
+    if ((parent.jQuery('iframe[id*=easyXDM_]').length > 0) || (parent.parent.jQuery('#' + kradVariables.PORTAL_IFRAME_ID).length > 0)) {
+        jQuery('#' + kradVariables.KUALI_FORM).attr('target', kradVariables.PORTAL_IFRAME_ID);
+    }
+    else {
+        jQuery('#' + kradVariables.KUALI_FORM).attr('target', '_parent');
+    }
+
+    // Data table only retains elements on the visible page within the DOM.
+    // To be able to preserve selections from hidden pages, we need to extract
+    // those elements from the datatable and re-insert them back into the form
+    if(jQuery('table.dataTable').length > 0) {
+        // Find all the input type: hidden elements in the data table
+        var oTable = jQuery('.dataTable').dataTable();
+        var sData = jQuery('input:hidden', oTable.fnGetNodes()).serializeArray();
+
+        // For each hidden element insert it back to the form
+        jQuery.each(sData, function(i, field){
+
+            jQuery('<input>').attr({
+                type: 'hidden',
+                id: field.id,
+                name: field.name,
+                value: field.value
+            }).appendTo('#'+kradVariables.KUALI_FORM);    });
+    }
+    closeLightbox();
+}
+
+;/*
+ * Copyright 2005-2014 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Show growl with message, title and theme passed in
+ *
+ * @param message message of this jGrowl
+ * @param title title of this jGrowl, can be empty string for none
+ * @param theme class to append to jGrowl classes, can be empty string for none
+ */
+function showGrowl(message, title, theme) {
+    var context = getContext();
+    if (theme) {
+        context.jGrowl(message, { header:title, theme:theme});
+    }
+    else {
+        context.jGrowl(message, { header:title});
+    }
+}
+
+/**
+ * Set default growl options for this view
+ *
+ * @param options
+ */
+function setGrowlDefaults(options) {
+    var context = getContext();
+    context.jGrowl.defaults = context.extend(context.jGrowl.defaults, options);
+}
+
+/**
+ * Invoked to initialize defaults for refresh or navigation blocking
+ *
+ * @param options - default options for the block ui plugin
+ * @param blockingType - type of blocking the options should apply to
+ */
+function setBlockUIDefaults(options, blockingType) {
+    var opts = {};
+
+    if (!options || !blockingType) {
+        return;
+    }
+
+    if (blockingType == "navigation") {
+        opts.navigationOptions = options;
+    } else if (blockingType == "refresh") {
+        opts.refreshOptions = options;
+    }
+
+    var context = getContext();
+    context.blockUI.defaults = context.extend(context.blockUI.defaults, opts);
+}
+
+/**
+ * Uses jQuery blockUI plug-in to show a loading notification
+ *
+ * <p>
+ * The loading functionality is used to block an area of the screen and to display a message while
+ * a request is being processed. If elementToBlock is given (known as a refresh block), the blocking will occur
+ * only on the area covered by that element. Else the entire window will be blocked (known as navigation blocking).
+ * </p>
+ *
+ * <p>
+ * Depending on whether the blocking is for a refresh or navigation, separate blockUI defaults will be used. These
+ * defaults are initialized through the View object or script
+ * </p>
+ *
+ * @param loadingMessage - (optional) message to display while blocking, defaults to 'Loading...'
+ * @param elementToBlock - (optional) jQuery object representing an element that should be blocked, defaults to
+ * entire window if not given
+ * @param replaceElement - (optional) boolean that indicates to replace the element contents with the loading
+ * notification instead of an overlay, defaults to false
+ * @param options - (optional) adding plug-in options for blockUI
+ */
+function showLoading(loadingMessage, elementToBlock, replaceElement, options) {
+    var context = getContext();
+
+    if (elementToBlock && elementToBlock.length) {
+        var blockingOptions = context.blockUI.defaults.refreshOptions || {};
+        var loadingContent = refreshImage;
+    }
+    else {
+        var blockingOptions = context.blockUI.defaults.navigationOptions || {};
+        var loadingContent = navigationImage;
+    }
+
+    if (!loadingMessage) {
+        loadingMessage = getMessage(kradVariables.MESSAGE_LOADING);
+    }
+
+    loadingContent = loadingContent.attr("alt", loadingMessage).get(0).outerHTML + " " + loadingMessage;
+
+    if (elementToBlock && elementToBlock.length) {
+        if (replaceElement) {
+            elementToBlock.html(loadingContent);
+        }
+        else {
+            blockingOptions = jQuery.extend(blockingOptions, {message:loadingContent});
+            elementToBlock.block(blockingOptions);
+        }
+    }
+    else {
+        loadingContent = '<h1>' + loadingContent + '</h1>';
+        blockingOptions = jQuery.extend(blockingOptions, {message:loadingContent});
+        context.blockUI(blockingOptions);
+    }
+}
+
+/**
+ * Invoked to remove a loading/blocking indicator
+ *
+ * @param elementToBlock - (optional) the element the blocking is on, if not given it is assumed the entire
+ * window is being blocked
+ */
+function hideLoading(elementToBlock) {
+    if (nonEmpty(elementToBlock)) {
+        elementToBlock.unblock();
+    }
+    else {
+        var context = getContext();
+        context.unblockUI();
+    }
+}
+
+/**
+ * Adds the icon that indicates the contents of a field have changed from the compared value (for instance the new side
+ * on maintenance documents) to the field markers span
+ *
+ * @param fieldId - id for the field the icon should be added to
+ */
+function showChangeIcon(fieldId) {
+    var fieldMarkerSpan = jQuery("#" + fieldId + "_markers");
+    var fieldIcon = jQuery("#" + fieldId + "_changeIcon");
+
+    if (fieldMarkerSpan.length > 0 && fieldIcon.length == 0) {
+        fieldMarkerSpan.append("<img id='" + fieldId + "_changeIcon' alt='" + getMessage(kradVariables.MESSAGE_CHANGE) + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "asterisk_orange.png'>");
+    }
+}
+
+/**
+ * Add icon to a group header that indicates the data for the group has changed
+ *
+ * @param headerFieldId - id for the header field the icon should be added to
+ */
+function showChangeIconOnHeader(headerFieldId) {
+    showChangeIconOnGroupHeader(headerFieldId, "_div");
+}
+
+/**
+ * Add icon to a group header that indicates the data for the group has changed
+ *
+ * @param headerFieldId - id for the header field the icon should be added to
+ */
+function showChangeIconOnDisclosure(headerFieldId) {
+    showChangeIconOnGroupHeader(headerFieldId, "_toggle");
+}
+
+/**
+ * Add icon to a group header element (disclosure/header) that indicates the data for the group has changed
+ *
+ * @param fieldId - id for the header field the icon should be added to
+ */
+function showChangeIconOnGroupHeader(fieldId, idSuffix) {
+    var targetElement = jQuery("#" + fieldId + idSuffix).find("[class~=uif-headerText-span]");
+    var headerIcon = jQuery("#" + fieldId + "_changeIcon");
+
+    if (targetElement.length > 0 && headerIcon.length == 0) {
+        targetElement.append("<img id='" + fieldId + "_changeIcon' class='" + kradVariables.CHANGED_HEADER_ICON_CLASS + "' alt='" + getMessage(kradVariables.MESSAGE_CHANGE) + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "asterisk_orange.png'>");
+    }
+}
+
+// Applies the watermark to the input with the id specified
+function createWatermark(id, watermark) {
+    jQuery("#" + id).watermark(watermark);
+}
+
+/**
+ * If the content is an incident report view returns true, otherwise returns false
+ *
+ * @param content - response contents
+ * @returns {Boolean} true if there was an incident, false otherwise
+ */
+function checkForIncidentReport(content) {
+    var viewId = jQuery("input[name='" + kradVariables.VIEW_ID + "']", content);
+    if (viewId.length && viewId.val() === kradVariables.INCIDENT_REPORT_VIEW_CLASS) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+;/*
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60839,6 +65811,318 @@ KradResponse.prototype = {
  * limitations under the License.
  */
 
+/* ========================================================================
+ * Script methods related to modal dialog and lightbox content.
+ *
+ * @author Kuali Rice Team (rice.collab@kuali.org)
+ * ========================================================================*/
+
+/**
+ * Invoked to show a dialog group as a modal.
+ *
+ * <p>The content given by element with the given dialogId is showed in a modal. If the content does not exist, a call
+ * to retrieve the content from the server is made first</p>
+ *
+ * <p>Options and event handlers can be specified using the options parameter. Valid options are:
+ *    responseHandler - handler function to invoke when a response is made, function should take the response event
+ *    that will contain the response value, the jQuery action component, and the id for the dialog
+ *    responseEventData - additional data that should be passed to the response handler in the event.data property
+ *    showHandler - handler function to invoke when the dialog is shown
+ *    hideHandler - handler function to invoke when the dialog is hidden
+ *    alwaysRefresh - if true, indicates the contents should always be retrieved from the server before displaying
+ *    resetDataOnRefresh - if true, indicates model data for the dialog should be cleared on refresh
+ * </p>
+ *
+ * <p>Implemented using Bootstrap Modal:
+ * <a href="http://getbootstrap.com/javascript/#modals">http://getbootstrap.com/javascript/#modals</a></p>
+ *
+ * @param dialogId id for the element to display in a modal
+ * @param options (optional) object containing options (including event callbacks)
+ */
+function showDialog(dialogId, options) {
+    var $dialog = jQuery('#' + dialogId);
+
+    options = options || {};
+
+    // if dialog contents are not present, or always refresh is set we need to make the call to retrieve
+    if (($dialog.length === 0) || $dialog.hasClass(kradVariables.CLASSES.PLACEHOLDER) || options.alwaysRefresh) {
+        var additionalSubmitData = {};
+        if (options.resetDataOnRefresh) {
+            additionalSubmitData.resetDataOnRefresh = options.resetDataOnRefresh;
+        }
+
+        createPlaceholderAndRetrieve(dialogId, function () {
+            // set to false for the callback so we don't keep requesting the dialog
+            options.alwaysRefresh = false;
+
+            showDialog(dialogId, options);
+        }, additionalSubmitData);
+
+        return;
+    }
+
+    _addDialogDataAttributeToActions(dialogId);
+
+    jQuery(document).on(kradVariables.EVENTS.UPDATE_CONTENT, '#' + dialogId, function (event) {
+        _addDialogDataAttributeToActions(dialogId);
+    });
+
+    _attachDialogResponseHandler(dialogId, $dialog, options.responseHandler, options.responseEventData);
+    _bindShowDialogHandlers($dialog, options.showHandler);
+    _bindHideDialogHandlers($dialog, options.hideHandler);
+
+    $dialog.modal();
+}
+
+/**
+ * Invoked to dismiss a dialog that is currently being shown.
+ *
+ * <p>If a dialog if found with the given id, its hide method is invoked. If the optional action parameter
+ * is passed in and has the response data attribute, the dialog response event is thrown to trigger response
+ * handlers.</p>
+ *
+ * <p>This method is invoked by default in kradRequest, based on any dismiss dialog options set for the action</p>
+ *
+ * @param dialogId id for the dialog to dismiss
+ * @param $action (optional) jQuery object for the action that triggered the dismiss, used to create a
+ * response dialog event
+ */
+function dismissDialog(dialogId, $action) {
+    var $dialog = jQuery('#' + dialogId);
+
+    if (!$dialog) {
+        return;
+    }
+
+    // trigger the dialog response event if necessary
+    if ($action && $action.is("[" + kradVariables.ATTRIBUTES.DATA_RESPONSE + "]")) {
+        var dialogResponseEvent = jQuery.Event(kradVariables.EVENTS.DIALOG_RESPONSE);
+
+        dialogResponseEvent.response = $action.attr(kradVariables.ATTRIBUTES.DATA_RESPONSE);
+        dialogResponseEvent.action = $action;
+        dialogResponseEvent.dialogId = dialogId;
+
+        $dialog.trigger(dialogResponseEvent);
+    }
+
+    $dialog.modal('hide');
+}
+
+/**
+ * Indicates whether the given jQuery object represents a modal dialog that is currently open.
+ *
+ * @param $element jQuery object to check
+ * @returns {boolean} true if element is an open modal, false if not
+ */
+function isDisplayedModal($element) {
+    if ($element.hasClass(kradVariables.CLASSES.MODAL) && $element.hasClass(kradVariables.CLASSES.IN)) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * Invoked to show a confirmation dialog created dynamically.
+ *
+ * <p>Similar to showDialog, except the dialog is created on the fly from a prototype. For simple confirmation
+ * dialogs, this is a much lighter weight method since the unique dialog content doesn't have to present on the
+ * view. In particular, for confirmations on collection actions this method should be used if possible.</p>
+ *
+ * @param confirmText text to display as the dialog prompt
+ * @param headerText (optional) text to display as the dialog header
+ * @param options (optional) options for the modal dialog, see showDialog for more information
+ * @param protoDialodId id for a dialog to use as a prototype, must either be a valid dom element or valid component
+ * id in the UIF dictionary, default to KradVariables.IDS.DIALOG_YESNO
+ */
+function confirmDialog(confirmText, headerText, options, protoDialogId) {
+    protoDialogId = protoDialogId || kradVariables.IDS.DIALOG_YESNO;
+
+    var $protoDialog = jQuery('#' + protoDialogId);
+
+    options = options || {};
+
+    // retrieve the dialog contents from the server, if necessary
+    if (($protoDialog.length === 0) || $protoDialog.hasClass(kradVariables.CLASSES.PLACEHOLDER)) {
+        createPlaceholderAndRetrieve(protoDialogId, function () {
+            confirm(confirmText, headerText, options);
+        });
+
+        return;
+    }
+
+    var $dialog = $protoDialog.clone();
+
+    // adjust the id so it doesn't conflict with the proto dialog
+    var dialogId = protoDialogId + 'tmp';
+    $dialog.attr(kradVariables.ATTRIBUTES.ID, dialogId);
+
+    var dialogPrompt = findByDataRole(kradVariables.DATA_ROLES.PROMPTTEXT, $dialog);
+    if (dialogPrompt && (dialogPrompt.length > 0)) {
+        dialogPrompt.text(confirmText);
+    }
+    else {
+        throw new Error("Unable to set dialog confirm text");
+    }
+
+    if (headerText) {
+        var dialogHeaderText = findByDataRole(kradVariables.DATA_ROLES.DIALOGHEADER, $dialog);
+        if (dialogHeaderText && (dialogHeaderText.length > 0)) {
+            dialogHeaderText.find(":header").text(headerText);
+        }
+        else {
+            throw new Error("Unable to set dialog header text");
+        }
+    }
+
+    jQuery('body').append($dialog);
+
+    // handler to clear out the dialog after it is closed
+    $dialog.bind(kradVariables.EVENTS.HIDE_MODAL, function (event) {
+        $dialog.remove();
+    });
+
+    showDialog(dialogId, options);
+}
+
+/**
+ * Finds an elements within the dialog that contain the dismiss dialog data attribute, and adds a data attribute
+ * containing the dialog id.
+ *
+ * <p>The dialog id data attribute is necessary on the action elements to correctly trigger dismiss dialog calls.</p>
+ *
+ * @param dialogId id for the dialog to add data attribute for
+ * @private
+ */
+function _addDialogDataAttributeToActions(dialogId, $dialog) {
+    jQuery('#' + dialogId).find('[' + kradVariables.ATTRIBUTES.DISMISS_DIALOG_OPTION + ']').attr(
+            kradVariables.ATTRIBUTES.DIALOG_ID, dialogId);
+}
+
+/**
+ * Registers any configured response handlers for the dialog response event.
+ *
+ * <p>If the response handler is passed in it will be registered for the event. If not, a check is also made
+ * on the dialog for existence of a response handler data attribute. If found, the attribute is wrapped in a
+ * event handler function and registered for the dialog response event</p>
+ *
+ * @param dialogId id for the dialog to register handlers for
+ * @param $dialog jQuery object for the dialog
+ * @param responseHandler response event handler that was initially passed into the show dialog call
+ * @param responseEventData response event data that was initially passed into the show dialog call
+ * @private
+ * @see krad.utilty#wrapAsHandler
+ */
+function _attachDialogResponseHandler(dialogId, $dialog, responseHandler, responseEventData) {
+    // check for a response handler defined on the dialog group itself
+    if (!responseHandler && $dialog.is("[" + kradVariables.ATTRIBUTES.DATA_RESPONSE_HANDLER +"]")) {
+        responseHandler = wrapAsHandler($dialog.attr(kradVariables.ATTRIBUTES.DATA_RESPONSE_HANDLER));
+    }
+
+    if (!responseHandler) {
+        return;
+    }
+
+    // unbind is needed so handlers don't get attached multiple times
+    $dialog.unbind(kradVariables.EVENTS.DIALOG_RESPONSE);
+    $dialog.bind(kradVariables.EVENTS.DIALOG_RESPONSE, responseEventData, responseHandler);
+}
+
+/**
+ * Registers any configured show handlers for the dialog response event.
+ *
+ * <p>If the show handler is passed in it will be registered for the event. If not, a check is also made
+ * on the dialog for existence of a show handler data attribute. If found, the attribute is wrapped in a
+ * event handler function and registered for the show dialog event</p>
+ *
+ * @param $dialog jQuery object for the dialog to register the handler for
+ * @param showHandler show event handler that was initially passed into the show dialog call
+ * @private
+ * @see krad.utilty#wrapAsHandler
+ */
+function _bindShowDialogHandlers($dialog, showHandler) {
+    // check for a show handler defined on the dialog group itself
+    if (!showHandler && $dialog.is("[" + kradVariables.ATTRIBUTES.DATA_SHOW_HANDLER + "]")) {
+        showHandler = wrapAsHandler($dialog.attr(kradVariables.ATTRIBUTES.DATA_SHOW_HANDLER));
+    }
+
+    if (showHandler) {
+        $dialog.unbind(kradVariables.EVENTS.SHOW_MODAL);
+        $dialog.bind(kradVariables.EVENTS.SHOW_MODAL, showHandler);
+    }
+}
+
+/**
+ * Registers any configured hide handlers for the dialog response event.
+ *
+ * <p>If the hide handler is passed in it will be registered for the event. If not, a check is also made
+ * on the dialog for existence of a hide handler data attribute. If found, the attribute is wrapped in a
+ * event handler function and registered for the hide dialog event</p>
+ *
+ * @param $dialog jQuery object for the dialog to register the handler for
+ * @param hideHandler hide event handler that was initially passed into the show dialog call
+ * @private
+ * @see krad.utilty#wrapAsHandler
+ */
+function _bindHideDialogHandlers($dialog, hideHandler) {
+    // check for a show handler defined on the dialog group itself
+    if (!hideHandler && $dialog.is("[" + kradVariables.ATTRIBUTES.DATA_HIDE_HANDLER +"]")) {
+        hideHandler = wrapAsHandler($dialog.attr(kradVariables.ATTRIBUTES.DATA_HIDE_HANDLER));
+    }
+
+    if (hideHandler) {
+        $dialog.unbind(kradVariables.EVENTS.HIDE_MODAL);
+        $dialog.bind(kradVariables.EVENTS.HIDE_MODAL, hideHandler);
+    }
+}
+
+/**
+ * Dialog response event handler that is used by default for dialogs that are triggered by the server.
+ *
+ * <p>First a check is made on the event.data to see if the dialog was a confirmation. If so and the response
+ * was false, the handler simply returns without retriggering the action. If not, if picks up the action that
+ * initially triggered the server call (which sent back the dialog), adds additional submit data for the dialog
+ * response, and sends the request.</p>
+ *
+ * @param event dialog response event
+ */
+function handleServerDialogResponse(event) {
+    var dialogResponse = event.response;
+
+    // if dialog was a confirmation and they select false (cancel), just return
+    var confirmationDialog = event.data.confirmation;
+    if (confirmationDialog && (dialogResponse === 'false')) {
+        return;
+    }
+
+    var $triggerAction = jQuery('#' + event.data.triggerActionId);
+    if (!$triggerAction.length) {
+        return;
+    }
+
+    var request = new KradRequest($triggerAction);
+
+    request.additionalData.returnDialogId = event.dialogId;
+    request.additionalData.returnDialogResponse = dialogResponse;
+    request.additionalData.returnFromDialog = true;
+    request.confirmDialogId = null;
+
+    request.send();
+};/*
+ * Copyright 2005-2014 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 /*
 * Collection of functions related to session handling
 *
@@ -61072,7 +66356,7 @@ KradTimer.prototype = {
         window.clearTimeout(this._timerId);
     }
 };/*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61086,7 +66370,6 @@ KradTimer.prototype = {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /**
  * Collection of functions related to updating the request URL and refreshing for page
  * changes and back button support
@@ -61123,7 +66406,7 @@ function handlePageAndCacheRefreshing() {
         var refreshQueryString;
 
         // pick up form key for refresh call so we get the latest state
-        var formKeyField = jQuery("#" + kradVariables.FORM_KEY);
+        var formKeyField = jQuery("input[name='" + kradVariables.FORM_KEY + "']");
         if (formKeyField.length && formKeyField.val()) {
             refreshQueryString = getUrlQueryString(kradVariables.FORM_KEY, formKeyField.val(), refreshQueryString);
         }
@@ -61139,7 +66422,7 @@ function handlePageAndCacheRefreshing() {
     }
 
     // check whether the view is multi-page, if not we don't need to setup page URL handling
-    var singlePageView = (jQuery('#' + kradVariables.SINGLE_PAGE_VIEW).val() == "true");
+    var singlePageView = (jQuery("input[name='" + kradVariables.SINGLE_PAGE_VIEW + "']").val() == "true");
     if (singlePageView) {
         return false;
     }
@@ -61244,16 +66527,16 @@ function handlePageAndCacheRefreshing() {
  */
 function updateRequestUrl(pageId) {
 
-    var formKeyField = jQuery("#" + kradVariables.FORM_KEY);
+    var formKeyField = jQuery("input[name='" + kradVariables.FORM_KEY + "']");
 
     // generate unique cache key (only has to be unique with a given form key)
-    var disableCache = (jQuery('#' + kradVariables.DISABLE_BROWSER_CACHE).val() == "true");
+    var disableCache = (jQuery("input[name='" + kradVariables.DISABLE_BROWSER_CACHE + "']").val() == "true");
     if (disableCache) {
         var cacheKey = generateQuickGuid();
     }
 
     // check for single page views in which case we don't need to update URL with page id
-    var singlePageView = (jQuery('#' + kradVariables.SINGLE_PAGE_VIEW).val() == "true");
+    var singlePageView = (jQuery("input[name='" + kradVariables.SINGLE_PAGE_VIEW + "']").val() == "true");
 
     if (!disableCache && singlePageView) {
         // no URL updates needed
@@ -61500,7 +66783,7 @@ function stripHashDelimiter(hashString) {
 
     return hashString;
 };/*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61514,2555 +66797,8 @@ function stripHashDelimiter(hashString) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * Sets up a new request configured from the given action component and submits
- * the request
- *
- * @param component - dom element the event occurred on (the action)
- */
-function actionInvokeHandler(component) {
-    var action = jQuery(component);
-
-    var kradRequest = new KradRequest(action);
-    kradRequest.send();
-}
-
-/**
- * Convenience method for submitting the form via Ajax
- *
- * <p>
- * For full options using the KradRequest function directly
- * </p>
- *
- * @param methodToCall - the controller method to be called
- * @param additionalData - any additional data that needs to be passed to the server
- */
-function ajaxSubmitForm(methodToCall, additionalData) {
-    var kradRequest = new KradRequest();
-
-    kradRequest.methodToCall = methodToCall;
-    kradRequest.additionalData = additionalData;
-
-    kradRequest.send();
-}
-
-/**
- * Convenience method for submitting the form via standard browser submit
- *
- * <p>
- * For full options using the KradRequest function directly
- * </p>
- *
- * @param methodToCall - the controller method to be called
- * @param additionalData - any additional data that needs to be passed to the server
- */
-function nonAjaxSubmitForm(methodToCall, additionalData) {
-    var kradRequest = new KradRequest();
-
-    kradRequest.methodToCall = methodToCall;
-    kradRequest.additionalData = additionalData;
-    kradRequest.ajaxSubmit = false;
-
-    kradRequest.send();
-}
-
-/**
- * Convenience method for submitting the form with option for ajax or non-ajax submit
- *
- * <p>
- * For full options using the KradRequest function directly
- * </p>
- *
- * @param methodToCall - the controller method to be called
- * @param additionalData - any additional data that needs to be passed to the server
- * @param validate - indicates whethere client side validation should be performed before the submit
- * @param ajaxSubmit - whether the submit should be via ajax or standard browser submit
- * @param successCallback - method to invoke after a successful request, only applies to ajax calls
- */
-function submitForm(methodToCall, additionalData, validate, ajaxSubmit, successCallback) {
-    var kradRequest = new KradRequest();
-
-    kradRequest.methodToCall = methodToCall;
-    kradRequest.additionalData = additionalData;
-    kradRequest.validate = validate;
-    kradRequest.ajaxSubmit = ajaxSubmit;
-    kradRequest.successCallback = successCallback;
-
-    kradRequest.send();
-}
-
-/**
- * Within a multi-page view changes the currently loaded page to the page identified
- * by the given id
- *
- * @param pageId id for the page to navigate to
- */
-function navigateToPage(pageId) {
-    ajaxSubmitForm(kradVariables.NAVIGATE_METHOD_TO_CALL, {"actionParameters[navigateToPageId]": pageId});
-}
-
-/**
- * Convenience method for redirecting to a URL
- *
- * @param url to redirect to
- */
-function redirect(url) {
-    window.location = url;
-}
-
-/**
- * Default handler for dialog responses
- *
- * <p>
- * Simply closes the dialog and makes server call to handle the response
- * </p>
- */
-function submitDialogResponse() {
-    closeLightbox();
-
-    ajaxSubmitForm(kradVariables.RETURN_FROM_LIGHTBOX_METHOD_TO_CALL);
-}
-
-/**
- * Runs client side validation on the entire form and returns the result (an alert is also given
- * if errors are encountered)
- */
-function validateForm() {
-    clientErrorStorage = new Object();
-    var summaryTextExistence = new Object();
-    var validForm = true;
-
-    jQuery.watermark.hideAll();
-    pauseTooltipDisplay = true;
-
-    if (validateClient) {
-        // Turn on this flag to avoid prematurely writing out messages which will cause performance issues if MANY
-        // fields have validation errors simultaneously (first we are only checking for errors, not checking and
-        // writing simultaneously like normal)
-        clientErrorExistsCheck = true;
-
-        // Temporarily turn off this flag to avoid traversing unneeded logic (all messages will be shown at the end)
-        messageSummariesShown = false;
-
-        // Validate the whole form
-        validForm = jq("#kualiForm").valid();
-
-        // Handle field message bubbling manually, but do not write messages out yet
-        jQuery("div[data-role='InputField']").each(function () {
-            var id = jQuery(this).attr('id');
-            var field = jQuery("#" + id);
-            var data = getValidationData(field);
-            var parent = field.data("parent");
-            handleMessagesAtGroup(parent, id, data, true);
-        });
-
-        // Toggle the flag back to default
-        clientErrorExistsCheck = false;
-
-        // Message summaries are going to be shown
-        messageSummariesShown = true;
-
-        // Finally, write the result of the validation messages
-        writeMessagesForPage();
-    }
-
-    if (!validForm) {
-        validForm = false;
-
-        //ensure all non-visible controls are visible to the user
-        jQuery(".error:not(:visible)").each(function () {
-            cascadeOpen(jQuery(this));
-        });
-
-        jumpToTop();
-        showClientSideErrorNotification();
-        jQuery(".uif-pageValidationMessages li.uif-errorMessageItem:first > a").focus();
-    }
-
-    jq.watermark.showAll();
-    pauseTooltipDisplay = false;
-
-    return validForm;
-}
-
-/**
- * Calls the updateComponent method on the controller with component id passed in, this id is
- * the component id with any/all suffixes on it not the dictionary id
- *
- * <p>
- * Retrieves the component with the matching id from the server and replaces a matching
- * _refreshWrapper marker span with the same id with the result.  In addition, if the result contains a label
- * and a displayWith marker span has a matching id, that span will be replaced with the label content
- * and removed from the component.  This allows for label and component content separation on fields
- * </p>
- *
- * @param id - id for the component to retrieve
- * @param methodToCall - name of the method that should be invoked for the refresh call (if custom method is needed)
- * @param successCallback - (optional) additional callback function to be executed after the component is retrieved
- * @param additionalData - (optional) additional data to be submitted with the request
- * @param disableBlocking - (optional) turns off blocking and loading messaging
- */
-function retrieveComponent(id, methodToCall, successCallback, additionalData, disableBlocking) {
-    var refreshComp = jQuery("#" + id);
-
-    // if a call is made from refreshComponentUsingTimer() and the component does not exist on the page or is hidden
-    // then get the handle of the refreshTimer and clear the timer. Also remove it from the refreshTimerComponentMap
-    if (refreshComp === undefined || refreshComp.filter(':visible').length === 0) {
-        var refreshHandle = refreshTimerComponentMap[id];
-        if (!(refreshHandle === undefined)) {
-            clearInterval(refreshHandle);
-            delete refreshTimerComponentMap[id];
-
-            return;
-        }
-    }
-
-    if (!methodToCall) {
-        methodToCall = kradVariables.REFRESH_METHOD_TO_CALL;
-    }
-
-    var kradRequest = new KradRequest();
-
-    kradRequest.methodToCall = methodToCall;
-    kradRequest.ajaxReturnType = kradVariables.RETURN_TYPE_UPDATE_COMPONENT;
-    kradRequest.successCallback = successCallback;
-    kradRequest.additionalData = additionalData;
-    kradRequest.refreshId = id;
-
-    if(disableBlocking){
-        kradRequest.disableBlocking = disableBlocking;
-    }
-
-    kradRequest.send();
-}
-
-/**
- * Performs client side validation against the controls present in a collection add line
- *
- * @param collectionGroupId - id for the collection whose add line should be validated
- * @param addViaLightbox - (optional) flag to indicate if add controls are in a lightbox
- */
-function validateAddLine(collectionGroupId, addViaLightbox) {
-    var collectionGroup = jQuery("#" + collectionGroupId);
-    var addControls = collectionGroup.data(kradVariables.ADD_CONTROLS);
-
-    if (addViaLightbox) {
-        collectionGroup = jQuery("#kualiLightboxForm");
-    }
-
-    var controlsToValidate = jQuery(addControls, collectionGroup);
-
-    var valid = validateLineFields(controlsToValidate);
-    if (!valid) {
-        if (!addViaLightbox) {
-            showClientSideErrorNotification();
-        }
-
-        return false;
-    }
-
-    return true;
-}
-
-/**
- * Performs client side validation against the controls present in a collection line
- *
- * @param collectionName - name (binding path) for the collection
- * @param lineIndex - zero based index for the collection line
- */
-function validateLine(collectionName, lineIndex) {
-    var controlsToValidate = jQuery("[name^='" + collectionName + "[" + lineIndex + "]']");
-
-    var valid = validateLineFields(controlsToValidate);
-    if (!valid) {
-        showClientSideErrorNotification();
-
-        return false;
-    }
-
-    return true;
-}
-
-/**
- * Performs client side validation on the list of given controls and returns whether the controls
- * are valid
- *
- * @param controlsToValidate - list of controls (jQuery wrapping objects) that should be validated
- */
-function validateLineFields(controlsToValidate) {
-    var valid = true;
-
-    // skip completely if client validation is off
-    if (!validateClient) {
-        return valid;
-    }
-
-    jQuery.watermark.hideAll();
-
-    // Turn on this flag to avoid prematurely writing out messages which will cause performance issues if MANY
-    // fields have validation errors simultaneously (first we are only checking for errors, not checking and
-    // writing simultaneously like normal)
-    clientErrorExistsCheck = true;
-
-    // Temporarily turn off this flag to avoid traversing unneeded logic (all messages will be shown at the end)
-    var tempMessagesSummariesShown = messageSummariesShown;
-    messageSummariesShown = false;
-
-    controlsToValidate.each(function () {
-        var control = jQuery(this);
-        var fieldId = jQuery(this).closest("div[data-role='InputField']").attr("id");
-        var field = jQuery("#" + fieldId);
-        var parent = field.data("parent");
-        var validValue = true;
-
-        // remove ignoreValid because there are issues with the plugin if it stays on
-        control.removeClass("ignoreValid");
-
-        haltValidationMessaging = true;
-
-        if (!control.prop("disabled") && !control.hasClass("uif-readOnlyContent")) {
-            control.valid();
-            if (control.hasClass("error")) {
-                validValue = false;
-            }
-        }
-
-        var data = getValidationData(field);
-        handleMessagesAtGroup(parent, fieldId, data, true);
-
-        haltValidationMessaging = false;
-
-        //details visibility check
-        if (control.not(":visible") && !validValue) {
-            cascadeOpen(control);
-        }
-
-        if (!validValue) {
-            valid = false;
-        }
-
-        control.addClass("ignoreValid");
-    });
-
-    // Toggle the flag back to default
-    clientErrorExistsCheck = false;
-
-    // Message summaries are going to be shown
-    messageSummariesShown = tempMessagesSummariesShown;
-
-    if (messageSummariesShown){
-        // Finally, write the result of the validation messages
-        writeMessagesForPage();
-    }
-
-    jQuery.watermark.showAll();
-
-    return valid;
-}
-
-/**
- * Ensures that the componentObject is visible by "opening" mechanisms that may be hiding it such as
- * row details or group disclosure.  Used to make invalid fields visible on validation.
- *
- * @param componentObject the object to check for visibility of and "open" parent containing elements to make
- * it visible
- */
-function cascadeOpen(componentObject) {
-    if (componentObject.not(":visible")) {
-        var detailsDivs = componentObject.parents("div[data-role='details']");
-        detailsDivs.each(function () {
-            jQuery(this).parent().find("> a").click();
-        });
-
-        var disclosureDivs = componentObject.parents("div[data-role='disclosureContent']");
-        disclosureDivs.each(function () {
-            if (!jQuery(this).data("open")) {
-                jQuery(this).parent().find("a[data-linkfor='" + jQuery(this).attr("id") + "']").click();
-            }
-        });
-    }
-}
-
-/** Progressive Disclosure */
-
-/**
- * Same as setupRefreshCheck except the condition will always be true (always refresh when
- * value changed on control)
- *
- * @param controlName - value for the name attribute for the control the event should be generated for
- * @param refreshId - id for the component that should be refreshed when change occurs
- * @param methodToCall - name of the method that should be invoked for the refresh call (if custom method is needed)
- */
-function setupOnChangeRefresh(controlName, refreshId, methodToCall) {
-    setupRefreshCheck(controlName, refreshId, function () {
-        return true;
-    }, methodToCall);
-}
-
-/**
- * Sets up the conditional refresh mechanism in js by adding a change handler to the control
- * which may satisfy the conditional refresh condition passed in.  When the condition is satisfied,
- * refresh the necessary content specified by id by making a server call to retrieve a new instance
- * of that component
- *
- * @param controlName - value for the name attribute for the control the event should be generated for
- * @param refreshId - id for the component that should be refreshed when condition occurs
- * @param condition - function which returns true to refresh, false otherwise
- * @param methodToCall - name of the method that should be invoked for the refresh call (if custom method is needed)
- */
-function setupRefreshCheck(controlName, refreshId, condition, methodToCall) {
-    jQuery("[name='" + escapeName(controlName) + "']").live('change', function () {
-        // visible check because a component must logically be visible to refresh
-        var refreshComp = jQuery("#" + refreshId);
-        if (refreshComp.length) {
-            if (condition()) {
-                retrieveComponent(refreshId, methodToCall);
-            }
-        }
-    });
-}
-
-/**
- * Setup disabled check handlers that will evaluate a passed in condition and will disable/enable the component
- * based on the result (true to disable, false to enable).  controlName represents the field to be evaluated and
- * disableCompId represents the component by id to be disabled/enabled as a result.
- *
- * @param controlName name of the control to put a handler on
- * @param disableCompId id of the component to disable/enable
- * @param disableCompType type of the component being disabled/enabled
- * @param condition function that if returns true disables the component, and if returns false enables the component
- * @param onKeyUp true if evaluating on keyUp, only applies to textarea/text inputs
- */
-function setupDisabledCheck(controlName, disableCompId, disableCompType, condition, onKeyUp) {
-    var theControl = jQuery("[name='" + escapeName(controlName) + "']");
-    var eventType = 'change';
-
-    if (onKeyUp && (theControl.is("textarea") || theControl.is("input[type='text'], input[type='password']"))) {
-        eventType = 'keyup';
-    }
-
-    if (disableCompType == "radioGroup" || disableCompType == "checkboxGroup") {
-        theControl.on(eventType, function () {
-            if (condition()) {
-                jQuery("input[id^='" + disableCompId + "']").prop("disabled", true);
-            }
-            else {
-                jQuery("input[id^='" + disableCompId + "']").prop("disabled", false);
-            }
-        });
-    }
-    else {
-        theControl.on(eventType, function () {
-            var disableControl = jQuery("#" + disableCompId);
-            if (condition()) {
-                disableControl.prop("disabled", true);
-                disableControl.addClass("disabled");
-                if (disableCompType === "actionLink" || disableCompType === "action") {
-                    disableControl.attr("tabIndex", "-1");
-                }
-            }
-            else {
-                disableControl.prop("disabled", false);
-                disableControl.removeClass("disabled");
-                if (disableCompType === "actionLink" || disableCompType === "action") {
-                    disableControl.attr("tabIndex", "0");
-                }
-            }
-        });
-    }
-}
-
-/**
- * Sets up the progressive disclosure mechanism in js by adding a change handler to the control
- * which may satisfy the progressive disclosure condition passed in.  When the condition is satisfied,
- * show the necessary content, otherwise hide it.  If the content has not yet been rendered then a server
- * call is made to retrieve the content to be shown.  If alwaysRetrieve is true, the component
- * is always retrieved from the server when disclosed.
- * Do not add check if the component is part of the "old" values on a maintanance document (endswith _c0).
- *
- * @param controlName
- * @param disclosureId
- * @param condition - function which returns true to disclose, false otherwise
- * @param methodToCall - name of the method that should be invoked for the retrieve call (if custom method is needed)
- */
-function setupProgressiveCheck(controlName, disclosureId, baseId, condition, alwaysRetrieve, methodToCall) {
-    if (!baseId.match("\_c0$")) {
-        jQuery("[name='" + escapeName(controlName) + "']").live('change', function () {
-            var refreshDisclosure = jQuery("#" + disclosureId);
-            if (refreshDisclosure.length) {
-                var displayWithId = disclosureId;
-
-                if (condition()) {
-                    if (refreshDisclosure.data("role") == "placeholder" || alwaysRetrieve) {
-                        retrieveComponent(disclosureId, methodToCall);
-                    }
-                    else {
-                        refreshDisclosure.addClass(kradVariables.PROGRESSIVE_DISCLOSURE_HIGHLIGHT_CLASS);
-                        refreshDisclosure.show();
-
-                        if (refreshDisclosure.parent().is("td")) {
-                            refreshDisclosure.parent().show();
-                        }
-
-                        refreshDisclosure.animate({backgroundColor: "transparent"}, 6000);
-
-                        //re-enable validation on now shown inputs
-                        hiddenInputValidationToggle(disclosureId);
-
-                        var displayWithLabel = jQuery(".displayWith-" + displayWithId);
-                        displayWithLabel.show();
-                        if (displayWithLabel.parent().is("td") || displayWithLabel.parent().is("th")) {
-                            displayWithLabel.parent().show();
-                        }
-                    }
-                }
-                else {
-                    refreshDisclosure.hide();
-
-                    // ignore validation on hidden inputs
-                    hiddenInputValidationToggle(disclosureId);
-
-                    var displayWithLabel = jQuery(".displayWith-" + displayWithId);
-                    displayWithLabel.hide();
-                    if (displayWithLabel.parent().is("td") || displayWithLabel.parent().is("th")) {
-                        displayWithLabel.parent().hide();
-                    }
-                }
-
-                hideEmptyCells();
-            }
-        });
-    }
-}
-
-/**
- * Disables client side validation on any inputs within the element(by id) passed in , if
- * that element is hidden.  Otherwise, it turns input validation back on if the element and
- * its children are visible
- *
- * @param id - id for the component for which the input hiddens should be processed
- */
-function hiddenInputValidationToggle(id) {
-    var element = jQuery("#" + id);
-    if (element.length) {
-        if (element.css("display") === "none") {
-            jQuery(":input:hidden", element).each(function () {
-                storeOriginalDisabledProperty(jQuery(this));
-                jQuery(this).addClass("ignoreValid");
-                //disable hidden inputs to prevent from being submitted
-                jQuery(this).prop("disabled", true);
-            });
-        }
-        else {
-            jQuery(":input:visible", element).each(function () {
-                storeOriginalDisabledProperty(jQuery(this));
-                jQuery(this).removeClass("ignoreValid");
-                //return to original disabled property value
-                jQuery(this).prop("disabled", jQuery(this).data('original-disabled'));
-            });
-        }
-    }
-}
-
-/**
- * Stores the original value of the disabled property of the element into jquery data.
- * This ensures that the correct value is set after toggling in hiddenInputValidation().
- *
- * @param element - jQuery element to examine and set the original-disabled data.
- */
-function storeOriginalDisabledProperty(element) {
-    //capture original disabled property value
-    if(element.data('original-disabled') === undefined) {
-        element.data("original-disabled",element.prop("disabled"));
-    }
-}
-
-/**
- * Refreshes a component by calling retrieveComponent() at the given time interval
- *
- * @param componentId - id of the component to be refreshed
- * @param methodToCall - controller method to call on refresh
- * @param timeInterval -  interval in seconds at which the component should be refreshed
- */
-function refreshComponentUsingTimer(componentId, methodToCall, timeInterval) {
-    var refreshTimer = refreshTimerComponentMap[componentId];
-
-    // if a timer already exists for the component then clear it and remove it from the map
-    // this is done so that the time interval between executions remains the same.
-    if (refreshTimer != null) {
-        clearInterval(refreshTimer);
-        delete refreshTimerComponentMap[componentId];
-    }
-
-    //set a new timer on the component
-    refreshTimerComponentMap[componentId] = setInterval(function () {
-        retrieveComponent(componentId, methodToCall);
-    }, timeInterval * 1000);
-}
-
-/**
- *  Open a hidden section in a jquery bubblepopup and freeze it until the user
- *  clicks outside of the popup, or on the optional close button.
- *
- * @param e event (required)
- * @param contentId id of hidden section with content (required)
- * @param popupOptions map of bubblepopup options (optional)
- * @param closeButton when true, a small close button is rendered in the top-right corner of the popup (optional)
- **/
-function openPopupContent(e, contentId, popupOptions, closeButton) {
-    stopEvent(e);
-
-    var popupTarget = jQuery((e.currentTarget) ? e.currentTarget : e.srcElement);
-    if (popupTarget.IsBubblePopupOpen()) {
-        return;
-    }
-
-    // in case a prior popup is still open
-    if (gCurrentBubblePopupId) {
-        _hideBubblePopup(jQuery("#" + gCurrentBubblePopupId));
-    }
-    jQuery(".uif-tooltip").HideAllBubblePopups(); // just in case, case
-
-    gCurrentBubblePopupId = popupTarget.attr('id');
-    var clickName = "click." + gCurrentBubblePopupId;
-    var popupContent = jQuery("#" + contentId).detach().show();
-
-    // add required class uif-tooltip to action and create popup
-    if (!popupTarget.HasBubblePopup()) {
-        popupTarget.addClass("uif-tooltip");
-        //initBubblePopups();  // shotgun approach to CreateBubblePopup, versus...
-        popupTarget.CreateBubblePopup(".uif-tooltip");
-
-        if (closeButton) {
-            var closeButton = jQuery('<div class="uif-popup-closebutton"/>');
-            closeButton.on(clickName, function () {
-                _hideBubblePopup(popupTarget)
-            });
-            popupContent.prepend(closeButton);
-        }
-
-        // Odd error work-around with 2 popup forms: pressing Enter in a text
-        // field on the second popup causes a click event on the first button.
-        // True.
-        jQuery("input,select", popupContent).keypress(function (event) {
-            if (event.keyCode == 10 || event.keyCode == 13) {
-                stopEvent(event);
-            }
-        });
-    }
-
-    var clonedDefaultOptions = jQuery.extend({}, kradVariables.FORM_BUBBLEPOPUP_DEFAULT_OPTIONS);
-    clonedDefaultOptions.themePath = getConfigParam(kradVariables.APPLICATION_URL) + this.BUBBLEPOPUP_THEME_PATH;
-
-    jQuery.extend(clonedDefaultOptions, popupOptions);
-
-    popupTarget.ShowBubblePopup(clonedDefaultOptions, true);
-    popupTarget.FreezeBubblePopup();
-
-    var popupId = popupTarget.GetBubblePopupID();
-    jQuery("div#" + popupId + " td.jquerybubblepopup-innerHtml").append(popupContent);
-
-    // close popup on any click outside current popup
-    jQuery(document).on(clickName, function (e) {
-        var docTarget = jQuery((e.target) ? e.target : e.srcElement);
-        if (docTarget.parents("div.jquerybubblepopup").length === 0) {
-            _hideBubblePopup(popupTarget);
-        }
-    });
-
-    // Note: afterHidden property causes openPopupContentsWithErrors() to break
-    function _hideBubblePopup(target) {
-        target.HideBubblePopup();
-        jQuery(document).off("click." + target.attr('id'));
-        gCurrentBubblePopupId = "";
-    }
-}
-
-/**
- *  Locate all bubblepopup content and see if any have a error displayed (via
- *  class "uif-hasError").  If so, locate the action which opens the content
- *  and submit the click event for that action.
- **/
-function openPopupContentsWithErrors() {
-    var hiddenScript, popupFormId;
-    var bubblePopupContent = {};
-    jQuery("div.uif-bubblepopup-content").each(function () {
-        if (bubblePopupContent[this.id] == true) {
-            // .detach() apparently creates duplicates in the DOM, and this code eliminates them
-            return false;
-        }
-        bubblePopupContent[this.id] = true;
-
-        if (jQuery('.uif-hasError', jQuery(this)).length > 0) {
-            popupFormId = this.id;
-            // find the action linked to this popup via the openPopupContent() function:
-            jQuery('.uif-action').siblings('input[type="hidden"][data-role="script"]').each(function () {
-
-                hiddenScript = jQuery(this).val();
-                if ((hiddenScript.indexOf('openPopupContent') != -1)
-                        && (hiddenScript.indexOf(popupFormId) != -1)) {
-                    var saveSpeed = (typeof kradVariables.FORM_BUBBLEPOPUP_DEFAULT_OPTIONS['openingSpeed'] === "undefined") ?
-                            -1 : kradVariables.FORM_BUBBLEPOPUP_DEFAULT_OPTIONS['openingSpeed'];
-
-                    // open popup as fast as possible
-                    kradVariables.FORM_BUBBLEPOPUP_DEFAULT_OPTIONS['openingSpeed'] = 1;
-                    jQuery('#' + jQuery(this).attr('data-for')).click();
-                    kradVariables.FORM_BUBBLEPOPUP_DEFAULT_OPTIONS['openingSpeed'] = saveSpeed;
-
-                    // break from .each
-                    return false;
-                }
-            });
-        }
-    });
-}
-
-;/*
- * Copyright 2005-2013 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl2.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/** Navigation */
-
-/**
- * Setup the breadcrumbs for this view by replacing the old breadcrumbs with the newest from the page
- *
- * @param displayBreadcrumbsWhenOne display the breadcrumbs when there is only one when true, otherwise do not
- */
-function setupBreadcrumbs(displayBreadcrumbsWhenOne) {
-    var breadcrumbsWrapper = jQuery("div#Uif-BreadcrumbWrapper");
-
-    if (!breadcrumbsWrapper.length) {
-        return;
-    }
-
-    //clear the old breadcrumbs
-    breadcrumbsWrapper.empty();
-    breadcrumbsWrapper.show();
-
-    //find the new ones
-    var breadcrumbList = jQuery("div#Uif-BreadcrumbUpdate > ol").detach();
-    var items = breadcrumbList.find("> li");
-
-    //dont display if display when one is false and there is only one item
-    if ((!displayBreadcrumbsWhenOne && items.length == 1) || items.length == 0) {
-        breadcrumbsWrapper.hide();
-        return;
-    }
-
-    //set up sibling breadcrumb handler
-    jQuery(breadcrumbList).on("click", ".uif-breadcrumbSiblingLink", function () {
-        var content = jQuery(this).parent().find("div.uif-breadcrumbSiblingContent");
-        var breadcrumb = jQuery(this).parent().find("[data-role='breadcrumb']");
-        var siblingLink = this;
-
-        if (content.length && !content.is(":visible") && breadcrumb.length && !jQuery(siblingLink).data("close")) {
-            content.attr("style", "");
-            content.position({
-                my: "left top",
-                at: "left bottom+5",
-                of: breadcrumb
-            });
-            content.show();
-
-            jQuery(document).on("mouseup.bc-sibling", function (e) {
-                var container = jQuery("div.uif-breadcrumbSiblingContent:visible");
-
-                //if not in the breadcrumb sibling content, close and remove this handler
-                if (container.has(e.target).length === 0) {
-                    container.hide();
-                    jQuery(document).off("mouseup.bc-sibling");
-                }
-
-                //if the target clicked is the siblingLink, mark it with a close flag (so click handler does not
-                //reopen - processed after the mouseup)
-                if (e.target == siblingLink) {
-                    jQuery(siblingLink).data("close", true);
-                }
-            });
-
-        }
-
-        //remove the close flag
-        if (jQuery(siblingLink).data("close")) {
-            jQuery(siblingLink).data("close", false);
-        }
-    });
-
-    //if the last item has a link, make it a span
-    var lastLink = items.last().find("> a[data-role='breadcrumb']");
-    if (lastLink.length) {
-        lastLink.replaceWith(function () {
-            return jQuery("<span data-role='breadcrumb'>" + jQuery(this).html() + "</span>");
-        });
-    }
-
-    //append to the wrapper
-    jQuery("div#Uif-BreadcrumbWrapper").append(breadcrumbList);
-}
-
-function setupLocationSelect(controlId) {
-    var control = jQuery("select#" + controlId);
-    if (control.length) {
-        //navigate if the value changes
-        control.on("change", function () {
-            var selectedOption = jQuery(this).find("option:selected");
-            if (!selectedOption.length) {
-                return;
-            }
-
-            var location = selectedOption.data("location");
-            if (!location) {
-                return;
-            }
-
-            window.location.href = location;
-        });
-
-        //navigate when the same option is clicked
-        control.find("option").on("mouseup", function () {
-            var selectedOption = jQuery(this);
-            if (!selectedOption && selectedOption.is("selected")) {
-                return;
-            }
-
-            var location = selectedOption.data("location");
-            if (!location) {
-                return;
-            }
-
-            window.location.href = location;
-        });
-
-        //navigate on enter event
-        control.on("keyup", function (e) {
-            if (e.keyCode == 13) {
-                var selectedOption = jQuery(this).find("option:selected");
-                if (!selectedOption.length) {
-                    return;
-                }
-
-                var location = selectedOption.data("location");
-                if (!location) {
-                    return;
-                }
-
-                window.location.href = location;
-            }
-        });
-    }
-}
-
-/**
- * Renders a navigation group for the list with the given id. Helper methods are
- * called based on the type to implement a certain style of navigation.
- *
- * @param listId -
- *          unique id for the unordered list
- * @param navigationType -
- *          the navigation style to render
- */
-function createNavigation(listId, navigationType, options) {
-    if (navigationType == "VERTICAL_MENU") {
-        createVerticalMenu(listId, options);
-    }
-    else if (navigationType == "TAB_MENU") {
-        createTabMenu(listId, options);
-    }
-}
-
-function createTabMenu(listId, options) {
-    jQuery(document).ready(function () {
-        jQuery("#" + listId).tabMenu(options);
-    });
-}
-
-/**
- * Uses jQuery menu plug-in to build a menu for the list with the given id
- *
- * @param listId -
- *          unique id for the unordered list
- */
-function createVerticalMenu(listId, options) {
-    jQuery(document).ready(function () {
-        jQuery("#" + listId).navMenu(options);
-    });
-}
-
-/** Widgets */
-
-/**
- * Sets ups a text popout button and window for this particular field that will be generated
- * when that button is clicked
- *
- * @param id - id of the control
- * @param label - label to be used in popout
- * @param summary - summary to be used in popout
- * @param constraint - constraint to be used in popout
- * @param imageUrl - the url for the popout icon
- */
-function setupTextPopout(id, label, summary, constraint, imageUrl) {
-    var options = {label: label, summary: summary, constraint: constraint};
-    jQuery("#" + id).initPopoutText(options, imageUrl);
-}
-
-/**
- * Uses jQuery fancybox to open a lightbox for a link's content. The second
- * argument is a Map of options that are available for the FancyBox. See
- * <link>http://fancybox.net/api</link> for documentation on these options.
- * The third argument should only be true for inquiries and lookups.  When this
- * argument is true additional URL parameters are added for the bread crumbs history.
- *
- * @param linkId -
- *          id for the link that the fancybox should be linked to
- * @param options -
- *          map of option settings (option name/value pairs) for the plugin
- * @parm isAddAppParms -
- *          true if application parameters should be added to the link, false otherwise
- */
-function createLightBoxLink(linkId, options, addAppParms) {
-    jQuery(function () {
-        var renderedInLightBox = isCalledWithinLightbox();
-
-        // first time content is brought up in lightbox we don't want to continue history
-        var flow = 'start';
-        if (renderedInLightBox) {
-            flow = jQuery("#flowKey").val();
-        }
-
-        var link = jQuery("#" + linkId);
-        // Check if this is called within a light box
-        if (!renderedInLightBox) {
-            // If this is not the top frame, then create the lightbox
-            // on the top frame to put overlay over whole window
-            link.click(function (e) {
-                e.preventDefault();
-
-                options['href'] = link.attr('href');
-                getContext().fancybox(options);
-            });
-        } else {
-            link.attr('target', '_self');
-        }
-
-        if (addAppParms) {
-            // Set the renderedInLightBox = true param
-            if (link.attr('href').indexOf('&renderedInLightBox=true') == -1) {
-                var href = link.attr('href');
-
-                link.attr('href', href + '&renderedInLightBox=true&flow=' + flow);
-            }
-        }
-    });
-}
-
-function handleLightboxOpen(link, options, addAppParms, event) {
-    event.preventDefault();
-    var renderedInLightBox = isCalledWithinLightbox();
-
-    // first time content is brought up in lightbox we don't want to continue history
-    var flow = 'start';
-    if (renderedInLightBox) {
-        flow = jQuery("#flowKey").val();
-    }
-
-    if (addAppParms) {
-        // Set the renderedInLightBox = true param
-        if (link.attr('href').indexOf('&renderedInLightBox=true') == -1) {
-            var href = link.attr('href');
-
-            //set lightbox flag and continue flow
-            link.attr('href', href + '&renderedInLightBox=true&flow=' + flow);
-        }
-    }
-
-    // Check if this is called within a light box
-    if (!renderedInLightBox) {
-        // If this is not the top frame, then create the lightbox
-        // on the top frame to put overlay over whole window
-        options['href'] = link.attr('href');
-        getContext().fancybox(options);
-    } else {
-        window.location = link.attr('href');
-    }
-}
-
-/**
- * Submits the form based on the quickfinder action identified by the given id and display the result content in
- * a lightbox using the jQuery fancybox. If we are not currently in a lightbox, we will request a redirect URL
- * for the lightbox contents. Otherwise, the internal iframe of the lightbox will be redirected.
- *
- * <p>
- * See <link>http://fancybox.net/api</link> for documentation on plugin options
- * </p>
- *
- * @param componentId -
- *          id for the action component that the fancybox should be linked to
- * @param options -
- *          map of option settings (option name/value pairs) for the fancybox plugin
- * @param lookupReturnByScript - boolean that indicates whether the lookup should return through script
- *        or via a server post
- */
-function createLightBoxPost(componentId, options, lookupReturnByScript) {
-    jQuery(function () {
-        // get data that should be submitted when the action is selected
-        var data = {};
-
-        var submitData = jQuery("#" + componentId).data(kradVariables.SUBMIT_DATA);
-        jQuery.extend(data, submitData);
-
-        // Check if this is not called within a lightbox
-        var renderedInLightBox = isCalledWithinLightbox();
-        if (!renderedInLightBox) {
-            jQuery("#" + componentId).click(function (e) {
-                // Prevent the default submit
-                e.preventDefault();
-
-                data['jumpToId'] = componentId;
-                data['ajaxRequest'] = 'true';
-                data['actionParameters[renderedInLightBox]'] = 'true';
-                data['actionParameters[flowKey]'] = 'start';
-                data['actionParameters[returnByScript]'] = '' + lookupReturnByScript;
-
-                // If this is the top frame, the page is not displayed in the iframeprotlet
-                // set the return target
-                if (top == self) {
-                    data['actionParameters[returnTarget]'] = '_parent';
-                } else {
-                    data['actionParameters[returnTarget]'] = 'iframeportlet';
-                }
-
-                var jsonViewState = getSerializedViewState();
-                if (jsonViewState) {
-                    jQuery.extend(data, {clientViewState: jsonViewState});
-                }
-
-                // if refreshing the view on return from lookup need to clear dirty fields else
-                // a warning is given
-                if (!lookupReturnByScript) {
-                    dirtyFormState.skipDirtyChecks = true;
-                }
-
-                // Do the Ajax submit on the kualiForm form
-                jQuery("#kualiForm").ajaxSubmit({
-                    data: data,
-                    success: function (data) {
-                        // Perform cleanup when lightbox is closed
-                        // TODO: this stomps on the post form (clear out) so need to another
-                        // way to clear forms when the lightbox performs a post back
-                        // options['beforeClose'] = cleanupClosedLightboxForms;
-
-                        // get the lookup redirect URL from the response
-                        var lookupUrl = jQuery(data).text();
-
-                        // Add the returned URL to the FancyBox href setting
-                        options['href'] = lookupUrl.replace(/&amp;/g, '&');
-
-                        // Open the light box
-                        getContext().fancybox(options);
-                    }
-                });
-            });
-        } else {
-            // add parameters for lightbox and do standard submit
-            jQuery("#" + componentId).click(function (e) {
-                // Prevent the default submit
-                e.preventDefault();
-
-                data['actionParameters[renderedInLightBox]'] = 'true';
-                data['actionParameters[returnTarget]'] = '_self';
-                data['actionParameters[flowKey]'] = jQuery("#flowKey").val();
-
-                nonAjaxSubmitForm(data['methodToCall'], data);
-            });
-        }
-    });
-}
-
-/**
- * Check if the code is inside a lightbox
- *
- * @return true if called within a lightbox, false otherwise
- */
-function isCalledWithinLightbox() {
-    if (jQuery('#renderedInLightBox').val() == undefined) {
-        return false;
-    }
-
-    return jQuery('#renderedInLightBox').val().toUpperCase() == 'TRUE' ||
-            jQuery('#renderedInLightBox').val().toUpperCase() == 'YES';
-    // reverting for KULRICE-8346
-//    try {
-//        // For security reasons the browsers will not allow cross server scripts and
-//        // throw an exception instead.
-//        // Note that bad browsers (e.g. google chrome) will not catch the exception
-//        if (jQuery("#fancybox-frame", parent.document).length) {
-//            return true;
-//        }
-//    }
-//    catch (e) {
-//        // ignoring error
-//    }
-//
-//    return false;
-}
-
-/*
- * Reload page with lookup result URL
- */
-function returnLookupResultReload(href, target) {
-    if (parent.jQuery('iframe[id*=easyXDM_]').length > 0) {
-        // portal and content on same domain
-        top.jQuery('iframe[id*=easyXDM_]').contents().find('#' + kradVariables.PORTAL_IFRAME_ID).attr('src', href);
-    } else if (parent.parent.jQuery('#' + kradVariables.PORTAL_IFRAME_ID).length > 0) {
-        // portal and content on different domain
-        parent.parent.jQuery('#' + kradVariables.PORTAL_IFRAME_ID).attr('src', href)
-    } else {
-        window.open(href, target);
-    }
-}
-
-/*
- * Function that returns lookup results by script
- */
-function returnLookupResultByScript(fieldName, value) {
-    var returnField;
-    if (parent.jQuery('iframe[id*=easyXDM_]').length > 0) {
-        // portal and content on same domain
-        returnField = top.jQuery('iframe[id*=easyXDM_]').contents().find('#' + kradVariables.PORTAL_IFRAME_ID).contents().find('[name="' + escapeName(fieldName) + '"]');
-    } else if (parent.parent.jQuery('#' + kradVariables.PORTAL_IFRAME_ID).length > 0) {
-        // portal and content on different domain
-        returnField = parent.parent.jQuery('#' + kradVariables.PORTAL_IFRAME_ID).contents().find('[name="' + escapeName(fieldName) + '"]');
-    } else {
-        returnField = top.jq('[name="' + escapeName(fieldName) + '"]');
-    }
-
-    if (!returnField.length) {
-        return;
-    }
-
-    returnField.val(value);
-    returnField.focus();
-    returnField.blur();
-    returnField.focus();
-
-    // trigger change event
-    returnField.change();
-}
-
-/*
- * Function that sets the return target when returning multiple lookup results
- */
-function setMultiValueReturnTarget() {
-    if (parent.jQuery('iframe[id*=easyXDM_]').length > 0) {
-        // portal and content on same domain
-        top.jQuery('iframe[id*=easyXDM_]').contents().find('#' + kradVariables.PORTAL_IFRAME_ID).contents().find('#' + kradVariables.KUALI_FORM).attr('target', kradVariables.PORTAL_IFRAME_ID);
-    } else if (parent.parent.jQuery('#' + kradVariables.PORTAL_IFRAME_ID).length > 0) {
-        // portal and content on different domain
-        parent.jQuery('#' + kradVariables.KUALI_FORM).attr('target', kradVariables.PORTAL_IFRAME_ID);
-    } else if (parent != null) {
-        top.jQuery('#' + kradVariables.KUALI_FORM).attr('target', parent.name);
-    } else {
-        top.jQuery('#' + kradVariables.KUALI_FORM).attr('target', '_parent');
-    }
-}
-
-/**
- * Opens the inquiry window
- * Is called from the onclick event on the direct inquiry
- * The parameters is added by dynamically getting the values
- * for the fields in the parameter maps and then added to the url string
- *
- * @param url -
- *          the base url to use to call the inquiry
- * @param paramMap -
- *          array of field parameters for the inquiry
- * @param showLightBox -
- *          flag to indicate if it must be shown in a lightbox
- * @param lightBoxOptions -
- *          map of option settings (option name/value pairs) for the lightbox plugin
- */
-function showDirectInquiry(url, paramMap, showLightBox, lightBoxOptions) {
-    var parameterPairs = paramMap.split(",");
-    var queryString = "";
-
-    for (i in parameterPairs) {
-        var parameters = parameterPairs[i].split(":");
-        var value = checkDirectInquiryValueValid(jQuery('[name="' + escapeName(parameters[0]) + '"]').val());
-        if (!value) {
-            alert(getMessage(kradVariables.MESSAGE_PLEASE_ENTER_VALUE));
-            return false;
-        } else {
-            queryString = queryString + "&" + parameters[1] + "=" + value;
-        }
-    }
-
-    if (showLightBox) {
-        // Check if this is called within a light box
-        if (!getContext().find('.fancybox-inner', parent.document).length) {
-            // Perform cleanup when lightbox is closed
-            lightBoxOptions['beforeClose'] = cleanupClosedLightboxForms;
-
-            queryString = queryString + "&flow=start&renderedInLightBox=true";
-            lightBoxOptions['href'] = url + queryString;
-            getContext().fancybox(lightBoxOptions);
-        } else {
-            // If this is already in a lightbox just open in current lightbox
-            queryString = queryString + "&flow=" + jQuery("#flowKey").val() + "&renderedInLightBox=true";
-            window.open(url + queryString, "_self");
-        }
-    } else {
-        queryString = queryString;
-        window.open(url + queryString, "_blank", "width=640, height=600, scrollbars=yes");
-    }
-}
-
-/**
- * Removes wildcards and check for empty values
- *
- * @param value - value without wildcards or false if empty
- */
-function checkDirectInquiryValueValid(value) {
-    value = value.replace(/\*/g, '');
-    if (value == "") {
-        return false;
-    }
-    return value;
-}
-
-/**
- * Cleanup form data from server when lightbox window is closed
- */
-function cleanupClosedLightboxForms() {
-    if (jQuery('#formKey').length) {
-        // get the formKey of the lightbox (fancybox)
-        var context = getContext();
-        var formKey = context('iframe.fancybox-iframe').contents().find('input#formKey').val();
-
-        clearServerSideForm(formKey);
-    }
-}
-
-/**
- * Uses jQuery DatePicker to render a calendar that can be used to select date
- * values for the field with the given control id. The second argument is a Map
- * of options that are available for the DatePicker. See
- * <link>http://jqueryui.com/demos/datepicker/#option-showOptions</link> for
- * documentation on these options
- *
- * @param controlId -
- *          id for the control that the date picker should populate
- * @param options -
- *          map of option settings (option name/value pairs) for the plugin
- */
-function createDatePicker(controlId, options) {
-    var fieldId = jQuery("#" + controlId).closest("div[data-role='InputField']").attr("id");
-    jQuery(function () {
-        var datePickerControl = jQuery("#" + controlId);
-        datePickerControl.datepicker(options);
-        datePickerControl.datepicker('option', 'onClose',
-                function () {
-                    getValidationData(jQuery("#" + fieldId)).messagingEnabled = true;
-                    jQuery(this).trigger("focusout");
-                    jQuery(this).trigger("focus");
-                });
-        datePickerControl.datepicker('option', 'beforeShow',
-                function () {
-                    getValidationData(jQuery("#" + fieldId)).messagingEnabled = false;
-                });
-
-        //KULRICE-7310 can't change only month or year with picker (jquery limitation)
-        datePickerControl.datepicker('option', 'onChangeMonthYear',
-                function (y, m, i) {
-                    var d = i.selectedDay;
-                    jQuery(this).datepicker('setDate', new Date(y, m - 1, d));
-                });
-
-        //KULRICE-7261 fix date format passed back.  jquery expecting mm-dd-yy
-        if (options.dateFormat == "mm-dd-yy" && datePickerControl[0].getAttribute("value").indexOf("/") != -1) {
-            datePickerControl.datepicker('setDate', new Date(datePickerControl[0].getAttribute("value")));
-        }
-    });
-
-    // in order to compensate for jQuery's "Today" functionality (which does not actually return the date to the input box), alter the functionality
-    jQuery.datepicker._gotoToday = function (id) {
-        var target = jQuery(id);
-        var inst = this._getInst(target[0]);
-        if (this._get(inst, 'gotoCurrent') && inst.currentDay) {
-            inst.selectedDay = inst.currentDay;
-            inst.drawMonth = inst.selectedMonth = inst.currentMonth;
-            inst.drawYear = inst.selectedYear = inst.currentYear;
-        }
-        else {
-            var date = new Date();
-            inst.selectedDay = date.getDate();
-            inst.drawMonth = inst.selectedMonth = date.getMonth();
-            inst.drawYear = inst.selectedYear = date.getFullYear();
-        }
-        this._notifyChange(inst);
-        this._adjustDate(target);
-
-        // The following two lines are additions to the original jQuery code
-        this._setDateDatepicker(target, new Date());
-        this._selectDate(id, this._getDateDatepicker(target));
-    }
-}
-
-/**
- * Sets up the script necessary to toggle a group as a disclosure
- *
- * @param groupId -
- *          id for the group to be toggled
- * @param headerId -
- *          id for the group's header in which the toggle link and image will be
- *          inserted
- * @param widgetId - id for the accordion widget, used for updating state
- * @param defaultOpen -
- *          indicates whether the group should be initially open or close
- * @param collapseImgSrc -
- *          path to the image that should be displayed for collapsing the group
- * @param expandImgSrc -
- *          path to the image that should be displayed for expanding the group
- * @param animationSpeed -
- *          speed at which the group should be expanded or collapsed
- * @param renderImage -
- *          boolean that indicates whether the expanded or collapsed image should be rendered
- */
-function createDisclosure(groupId, headerId, widgetId, defaultOpen, collapseImgSrc, expandImgSrc, animationSpeed, renderImage) {
-    jQuery(document).ready(function () {
-        var groupToggleLinkId = groupId + kradVariables.ID_SUFFIX.DISCLOSURE_TOGGLE;
-
-        var expandImage = "";
-        var collapseImage = "";
-        if (renderImage && defaultOpen) {
-            expandImage = "<img id='" + groupToggleLinkId + "_exp" + "' src='" + expandImgSrc + "' alt='" + getMessage(kradVariables.MESSAGE_EXPAND) + "' class='uif-disclosure-image'/>";
-            collapseImage = "<img style='display:none;' id='" + groupToggleLinkId + "_col" + "' src='" + collapseImgSrc + "' alt='" + getMessage(kradVariables.MESSAGE_COLLAPSE) + "' class='uif-disclosure-image'/>";
-        }
-        else if (renderImage && !defaultOpen) {
-            expandImage = "<img style='display:none;' id='" + groupToggleLinkId + "_exp" + "' src='" + expandImgSrc + "' alt='" + getMessage(kradVariables.MESSAGE_EXPAND) + "' class='uif-disclosure-image'/>";
-            collapseImage = "<img id='" + groupToggleLinkId + "_col" + "' src='" + collapseImgSrc + "' alt='" + getMessage(kradVariables.MESSAGE_COLLAPSE) + "' class='uif-disclosure-image'/>";
-        }
-
-        var content = jQuery("#" + groupId + kradVariables.ID_SUFFIX.DISCLOSURE_CONTENT);
-
-        // perform initial open/close and insert toggle link and image
-        var headerText = jQuery("#" + headerId).find(".uif-headerText-span:first");
-        if (defaultOpen) {
-            content.show();
-
-            content.attr(kradVariables.ATTRIBUTES.DATA_OPEN, true);
-
-            headerText.prepend(expandImage);
-            headerText.prepend(collapseImage);
-        }
-        else {
-            content.hide();
-
-            content.attr(kradVariables.ATTRIBUTES.DATA_OPEN, false);
-
-            headerText.prepend(collapseImage);
-            headerText.prepend(expandImage);
-        }
-
-        headerText.wrap("<a data-role=" + kradVariables.DATA_ROLES.DISCLOSURE_LINK + " data-linkfor='"
-                + content.attr("id") + "' href='#' "
-                + "id='" + groupToggleLinkId + "' "
-                + "data-open='" + defaultOpen + "' "
-                + "data-widgetid='" + widgetId + "' "
-                + "data-speed='" + animationSpeed + "' "
-                + "></a>");
-    });
-}
-
-/**
- * Expands all the disclosure divs on the page
- */
-function expandDisclosures() {
-    jQuery("a[data-role='" + kradVariables.DATA_ROLES.DISCLOSURE_LINK + "']").each(function () {
-        var contentId = jQuery(this).attr("data-linkfor");
-        if (jQuery("#" + contentId).attr(kradVariables.ATTRIBUTES.DATA_OPEN) == "false") {
-            jQuery(this).click();
-        }
-    });
-}
-
-/**
- * Collapses all the disclosure divs on the page
- */
-function collapseDisclosures() {
-    jQuery("a[data-role='" + kradVariables.DATA_ROLES.DISCLOSURE_LINK + "']").each(function () {
-        var contentId = jQuery(this).attr("data-linkfor");
-        if (jQuery("#" + contentId).attr(kradVariables.ATTRIBUTES.DATA_OPEN) == "true") {
-            jQuery(this).click();
-        }
-    });
-}
-
-/**
- * Uses jQuery DataTable plug-in to decorate a table with functionality like
- * sorting and page. The second argument is a Map of options that are available
- * for the plug-in. See <a href=http://www.datatables.net/usage/>datatables</a> for
- * documentation on these options
- *
- * @param tableId id for the table that should be decorated
- * @param additionalOptions map of additional or override option settings (option name/value pairs) for the plugin
- * @param groupingOptions (optional) if supplied, the collection will use rowGrouping with these options
- */
-function createTable(tableId, additionalOptions, groupingOptions) {
-    jQuery(document).ready(function () {
-        var table = jQuery("#" + tableId);
-
-        var detailsOpen = table.parent().data("detailsdefaultopen");
-        table.data("open", detailsOpen);
-
-        if (groupingOptions) {
-            table.attr("data-groups", "true");
-        }
-
-        var options = {
-            "bDestory": true,
-            "bStateSave": true,
-            "fnStateSave": function (oSettings, oData) {
-                setComponentState(tableId, 'richTableState', oData);
-            },
-            "fnStateLoad": function (oSettings) {
-                var oData = getComponentState(tableId, 'richTableState');
-
-                return oData;
-            }
-        }
-
-        options = jQuery.extend(options, additionalOptions);
-
-        var exportOptions = {
-            "sDownloadSource": additionalOptions.sDownloadSource,
-            "oTableTools": {
-                "aButtons": [
-                    {
-                        "sExtends": "text",
-                        "sButtonText": "csv",
-                        "fnClick": function (nButton, oConfig) {
-                            window.location.href = additionalOptions.sDownloadSource + "&methodToCall=tableCsvRetrieval&formatType=csv";
-                        },
-                    },
-                    {
-                        "sExtends": "text",
-                        "sButtonText": "xml",
-                        "fnClick": function (nButton, oConfig) {
-                            window.location.href = additionalOptions.sDownloadSource + "&methodToCall=tableXmlRetrieval&formatType=xml";
-                        },
-                    },
-                    {
-                        "sExtends": "text",
-                        "sButtonText": "xls",
-                        "fnClick": function (nButton, oConfig) {
-                            window.location.href = additionalOptions.sDownloadSource + "&methodToCall=tableXlsRetrieval&formatType=xls";
-                        },
-                    }
-                ]
-            }
-        }
-
-        /// check that the export feature is turned on
-        if (options.sDom && options.sDom.search("T") >= 0) {
-            options = jQuery.extend(options, exportOptions)
-        }
-
-        var oTable = table.dataTable(options);
-
-        //make sure scripts are run after table renders (must be done here for deferred rendering)
-        runHiddenScripts(tableId, false, true);
-        initBubblePopups();
-
-        //insure scripts (if any) are run on each draw, fixes bug with scripts lost when paging after a refresh
-        jQuery(oTable).on("dataTables.tableDraw", function () {
-            runHiddenScripts(tableId, false, true);
-            jQuery("div[data-role='InputField'][data-has_messages='true']", "#" + tableId).each(function () {
-                var id = jQuery(this).attr('id');
-                var validationData = getValidationData(jQuery("#" + id));
-
-                if (validationData && validationData.hasOwnMessages) {
-                    handleMessagesAtField(id);
-                }
-            });
-        });
-
-        //handle row details related functionality setup
-        if (detailsOpen != undefined) {
-            jQuery(oTable).on("dataTables.tableDraw", function () {
-                if (table.data("open")) {
-                    openAllDetails(tableId);
-                }
-                else {
-                    closeAllDetails(tableId);
-                }
-            });
-
-            if (detailsOpen) {
-                openAllDetails(tableId, false);
-            }
-        }
-
-        // allow table column size recalculation on window resize
-        jQuery(window).bind('resize', function () {
-            // passing false to avoid copious ajax requests during window resize
-            oTable.fnAdjustColumnSizing(false);
-        });
-
-        if (groupingOptions) {
-            oTable.rowGrouping(groupingOptions);
-        }
-    });
-}
-
-/**
- * Expands a data table row by finding the row that matches the actionComponent passed in, in the
- * dataTable which matches tableId.  If useImages is true, images will be swapped out when the
- * action is clicked.  The row will be closed if already open.
- *
- * @param actionComponent the actionComponent clicked
- * @param tableId the dataTable to expand the clicked row in
- * @param useImages if true, swap open/close images on click
- */
-function rowDetailsActionHandler(actionComponent, tableId) {
-    var oTable = getDataTableHandle(tableId);
-
-    if (oTable != null) {
-        var row = jQuery(actionComponent).parents('tr')[0];
-        if (oTable.fnIsOpen(row)) {
-            closeDetails(oTable, jQuery(row), actionComponent, true);
-        }
-        else {
-            openDetails(oTable, jQuery(row), actionComponent, true);
-        }
-        jQuery(row).data("det-interact", true);
-    }
-}
-
-/**
- * Open all row details in the table specified by id
- *
- * @param tableId id of the table to open all details for
- * @param animate [optional] if true, animate during opening the rows
- * @param forceOpen [optional] if true, force the each row details to open and reset interaction flag, otherwise if the
- * row has been interacted with skip (used to retain state)
- */
-function openAllDetails(tableId, animate, forceOpen) {
-    var oTable = getDataTableHandle(tableId);
-
-    if (oTable != null) {
-        var rows = jQuery(oTable).find('tr').not(".detailsRow");
-        rows.each(function () {
-            var row = jQuery(this);
-            //Means the row is not open and the user has not interacted with it (or force if forceOpen is true)
-            //This is done to retain row details "state" between table draws for rows the user may have interacted with
-            if (!oTable.fnIsOpen(this) && (!row.data("det-interact") || forceOpen)) {
-                var actionComponent = row.find("a[data-role='detailsLink']");
-
-                openDetails(oTable, row, actionComponent, animate);
-
-                //reset user interaction flag
-                row.data("det-interact", false);
-            }
-        });
-    }
-}
-
-/**
- * Open the row details. If the ajaxRetrieval option is set this will retrieve the detail content.
- *
- * @param oTable the dataTable object handle
- * @param row the row to open details for
- * @param actionComponent [optional] actionComponent used to invoke the action, required if using image swap
- * or ajaxRetrieval
- * @param animate if true, the open will have an animation effect
- */
-function openDetails(oTable, row, actionComponent, animate) {
-    var detailsGroup = row.find("div[data-role='details'], span[data-role='placeholder']").filter(":first");
-    var ajaxRetrieval = jQuery(detailsGroup).is("span[data-role='placeholder']");
-    var detailsId = jQuery(detailsGroup).attr("id");
-
-    if (actionComponent && jQuery(actionComponent).data("swap") && jQuery(actionComponent).find("img").length) {
-        jQuery(actionComponent).find("img").replaceWith(detailsCloseImage.clone());
-    }
-
-    var newRow = oTable.fnOpenCustom(row[0], detailsGroup, "uif-rowDetails");
-    detailsGroup = jQuery(newRow).find("div[data-role='details'], span[data-role='placeholder']").filter(":first");
-
-    detailsGroup.attr("data-open", "true");
-
-    //make sure scripts are run on the now shown group
-    runHiddenScripts(detailsGroup, true, true);
-
-    //show the group
-    detailsGroup.show();
-
-    if (ajaxRetrieval) {
-        var kradRequest = new KradRequest(jQuery(actionComponent));
-
-        if (!kradRequest.methodToCall) {
-            kradRequest.methodToCall = kradVariables.REFRESH_METHOD_TO_CALL;
-        }
-
-        kradRequest.ajaxReturnType = kradVariables.RETURN_TYPE_UPDATE_COMPONENT;
-        kradRequest.refreshId = detailsId;
-
-        kradRequest.send();
-    }
-}
-
-/**
- * Close all row details in the table specified by id
- *
- * @param tableId id of the table to close all details for
- * @param animate [optional] if true, animate during closing the rows
- * @param forceOpen [optional] if true, force the each row details to close and reset interaction flag, otherwise if the
- * row has been interacted with skip (used to retain state)
- */
-function closeAllDetails(tableId, animate, forceClose) {
-    var oTable = getDataTableHandle(tableId);
-
-    if (oTable != null) {
-        var rows = jQuery(oTable).find('tr').not(".detailsRow");
-        rows.each(function () {
-            var row = jQuery(this);
-            //Means the row is open and the user has not interacted with it (or force if forceClose is true)
-            //This is done to retain row details "state" between table draws for rows the user may have interacted with
-            if (oTable.fnIsOpen(this) && (!row.data("det-interact") || forceClose)) {
-                var actionComponent = row.find("a[data-role='detailsLink']");
-
-                closeDetails(oTable, row, actionComponent, animate);
-
-                //reset user interaction flag
-                row.data("det-interact", false);
-            }
-        });
-    }
-}
-
-/**
- * Close the row details.
- *
- * @param oTable the dataTable object handle
- * @param row the row to close details for
- * @param actionComponent [optional] actionComponent used to invoke the action, required if using image swap
- * @param animate if true, the close will have an animation effect
- */
-function closeDetails(oTable, row, actionComponent, animate) {
-    var fieldGroupWrapper = row.find("> td > div[data-role='detailsFieldGroup']");
-    var detailsContent = row.next().first().find("> td > div[data-role='details'], "
-            + "> td > span[data-role='placeholder']").filter(":first");
-
-    if (actionComponent && jQuery(actionComponent).data("swap") && jQuery(actionComponent).find("img").length) {
-        jQuery(actionComponent).find("img").replaceWith(detailsOpenImage.clone());
-    }
-
-    detailsContent.attr("data-open", "false");
-
-    detailsContent.hide();
-    fieldGroupWrapper.append(detailsContent.detach());
-    oTable.fnClose(row[0]);
-
-}
-
-/**
- * Open or close all rows for the table specified by the actionComponent's "tableid" data attribute
- *
- * @param actionComponent the calling action component
- */
-function toggleRowDetails(actionComponent) {
-    var action = jQuery(actionComponent);
-    var tableId = action.data("tableid");
-    var open = action.data("open");
-    if (open) {
-        closeAllDetails(tableId, true, true);
-        action.data("open", false);
-        jQuery("#" + tableId).data("open", false);
-    }
-    else {
-        openAllDetails(tableId, true, true);
-        action.data("open", true);
-        jQuery("#" + tableId).data("open", true);
-    }
-}
-
-/**
- * Select all checkboxes within the collection div that are marked with class 'kr-select-line' (used
- * for multi-value select collections)
- *
- * @param collectionId - id for the collection to select checkboxes for
- */
-function selectAllLines(collectionId) {
-    jQuery("#" + collectionId + " input:checkbox.kr-select-line").attr('checked', true);
-    setMultivalueLookupReturnButton(jQuery("#" + collectionId + " input:checkbox.kr-select-line"));
-
-}
-
-/**
- * Deselects all checkboxes within the collection div that are marked with class 'kr-select-line' (used
- * for multi-value select collections)
- *
- * @param collectionId - id for the collection to deselect checkboxes for
- */
-function deselectAllLines(collectionId) {
-    jQuery("#" + collectionId + " input:checkbox.kr-select-line").attr('checked', false);
-    setMultivalueLookupReturnButton(jQuery("#" + collectionId + " input:checkbox.kr-select-line"));
-}
-
-/**
- * Select all checkboxes within the datatable (all pages) that are marked with class 'kr-select-line' (used
- * for multi-value select collections)
- *
- * @param collectionId - id for the collection to select checkboxes for
- */
-function selectAllPagesLines(collectionId) {
-    // get a handle on the datatables plugin object for the results collection
-    var oTable = getDataTableHandle(jQuery("#" + collectionId).find("table").attr('id'));
-    jQuery('input:checkbox.kr-select-line', oTable.fnGetNodes()).prop('checked', true);
-    setMultivalueLookupReturnButton(jQuery("#" + collectionId + " input:checkbox.kr-select-line"));
-}
-
-/**
- * Deselects all checkboxes within the datatable (all pages) that are marked with class 'kr-select-line' (used
- * for multi-value select collections)
- *
- * @param collectionId - id for the collection to deselect checkboxes for
- */
-function deselectAllPagesLines(collectionId) {
-    // get a handle on the datatables plugin object for the results collection
-    var oTable = getDataTableHandle(jQuery("#" + collectionId).find("table").attr('id'));
-    jQuery('input:checkbox.kr-select-line', oTable.fnGetNodes()).prop('checked', false);
-    setMultivalueLookupReturnButton(jQuery("#" + collectionId + " input:checkbox.kr-select-line"));
-}
-
-/**
- * Uses jQuery jsTree plug-in to decorate a div with tree functionality. The
- * second argument is a Map of options that are available
- * for the plug-in. See <link>http://www.jstree.com/documentation/</link> for
- * documentation on these options
- *
- * @param divId -
- *          id for the div that should be decorated
- * @param options -
- *          map of option settings (option name/value pairs) for the plugin
- */
-function createTree(divId, options) {
-    jQuery(document).ready(function () {
-        jQuery("#" + divId).jstree(options);
-    });
-}
-
-/**
- * Adds a ZeroClipboard flash movie to the copy trigger element which will copy the content of the content element
- * on mousedown. This uses the ZeroClipboard plugin bundled with the Datatables plugin
- *
- * @param componentId - id of the parent component
- * @param copyTriggerId - id of the element that must trigger the copy action
- * @param contentElementId - id of the element that the value must be copied from
- * @param showCopyConfirmation [optional] if supplied and true, a dialog will be triggered displaying the copied value
- * after copy action
- */
-function createCopyToClipboard(componentId, copyTriggerId, contentElementId, showCopyConfirmation) {
-
-    // the ZeroClipboard flash movie can only be added to visible elements so must be added on document ready
-    jQuery(document).ready(function () {
-
-        // Do not add flash to hidden syntax highlighters as this causes exception
-        if (jQuery("#" + componentId).is(':visible')) {
-
-            // setup new client for this component
-            ZeroClipboard.setMoviePath(getConfigParam(kradVariables.APPLICATION_URL)
-                    + '/plugins/datatables/copy_cvs_xls_pdf.swf');
-            var clip = new ZeroClipboard.Client();
-
-            // copy text on mousedown
-            clip.addEventListener('mousedown', function (client) {
-                clip.setText(jQuery("#" + contentElementId).text());
-            });
-
-            // show dialog
-            if (showCopyConfirmation) {
-                clip.addEventListener('complete', function (client, text) {
-                    alert('Copied to Clipboard :\n\n' + text);
-                });
-            }
-
-            // the element needs to be visible when adding the flah movie to it
-            // just reset the display css on the element after showing it
-            jQuery('#' + copyTriggerId).show();
-            clip.glue(jQuery('#' + copyTriggerId).get(0));
-            jQuery('#' + copyTriggerId).css("display", "");
-        }
-
-    });
-}
-
-function createAccordion(id, options, active) {
-    if (active == false) {
-        active = "false";
-    }
-
-    options = options || {};
-    options = jQuery.extend({
-        active: active,
-        heightStyle: "content",
-        collapsible: true
-    }, options);
-
-    jQuery("#" + id + " > ul").accordion(options);
-    //jQuery("#id > ul").accordion("option", "active", active);
-}
-
-/**
- * Create a tab group for the div given by the element id using the jQuery UI tab plugin
- * (http://api.jqueryui.com/tabs/)
- *
- * @param id id of the element the tabs should be created for
- * @param widgetId id for the tabs widget
- * @param options object of options for tabs plugin (see plugin documentation for valid options)
- * @param position position of tabs related to group content, options are TOP, BOTTOM, RIGHT, or LEFT
- */
-function createTabs(id, widgetId, options, position) {
-    var tabs = jQuery("#" + id + "_tabs").tabs(options);
-
-    // when active tab changes we need to update the client side state
-    tabs.on("tabsactivate", function (event, ui) {
-        var activeTabId = ui.newPanel.attr('id');
-        activeTabId = activeTabId.replace(/_tab$/, "");
-
-        setComponentState(widgetId, 'activeTab', activeTabId);
-    });
-
-    if (position == "BOTTOM") {
-        tabs.addClass("ui-tabs-bottom");
-        jQuery(".ui-tabs-bottom .ui-tabs-nav, .ui-tabs-bottom .ui-tabs-nav > *")
-                .removeClass("ui-corner-all ui-corner-top")
-                .addClass("ui-corner-bottom");
-        jQuery(".ui-tabs-bottom .ui-tabs-nav").appendTo(".ui-tabs-bottom");
-    }
-    else if (position == "RIGHT") {
-        tabs.addClass('ui-tabs-vertical ui-tabs-vertical-right ui-helper-clearfix');
-        tabs.find("li").removeClass('ui-corner-top').addClass('ui-corner-right');
-    }
-    else if (position == "LEFT") {
-        tabs.addClass("ui-tabs-vertical ui-tabs-vertical-left ui-helper-clearfix");
-        tabs.find("li").removeClass("ui-corner-top").addClass("ui-corner-left");
-    }
-}
-
-/**
- * Uses jQuery UI Auto-complete widget to provide suggest options for the given field. See
- * <link>http://jqueryui.com/demos/autocomplete/</link> for documentation on this widget
- *
- * @param controlId id for the html control the autocomplete will be enabled for
- * @param options map of option settings (option name/value pairs) for the widget
- * @param queryFieldId id for the attribute field the control belongs to, used when making the
- * request to execute the associated attribute query
- * @param queryParameters map of parameters that should be sent along with the query. map key gives
- * @param localSource indicates whether the suggest options will be provided locally instead of by
- * a query
- * @param suggestOptions when localSource is set to true provides the suggest options
- * the name of the parameter to send, and the value gives the name of the field to pull the value from
- * @param labelProp the property name that holds the label for the plugin
- * @param valueProp the property name that holds the value for the plugin
- * @param returnCustomObj if true, the full object is expected as return value
- */
-function createSuggest(controlId, options, queryFieldId, queryParameters, localSource, suggestOptions, labelProp, valueProp, returnCustomObj) {
-    if (localSource) {
-        options.source = suggestOptions;
-    }
-    else {
-
-        options.source = function (request, response) {
-            var successFunction = function (data) {
-                response(data.resultData);
-            };
-
-            //special success logic for the object return case with label/value props specified
-            if (returnCustomObj && (labelProp || valueProp)) {
-                successFunction = function (data) {
-                    var isObject = false;
-
-                    if (data.resultData && data.resultData.length && data.resultData[0]) {
-                        isObject = (data.resultData[0].constructor === Object);
-                    }
-
-                    if (data.resultData && data.resultData.length && isObject) {
-                        //find and match props, and set them into each object so the autocomplete plugin can read them
-                        jQuery.each(data.resultData, function (index, object) {
-                            if (labelProp && object[labelProp]) {
-                                object.label = object[labelProp];
-                            }
-
-                            if (valueProp && object[valueProp]) {
-                                object.value = object[valueProp];
-                            }
-                        });
-                        response(data.resultData);
-                    }
-                    else {
-                        response(data.resultData);
-                    }
-
-                };
-            }
-
-            var queryData = {};
-
-            queryData.methodToCall = 'performFieldSuggest';
-            queryData.ajaxRequest = true;
-            queryData.ajaxReturnType = 'update-none';
-            queryData.formKey = jQuery("input#formKey").val();
-            queryData.queryTerm = request.term;
-            queryData.queryFieldId = queryFieldId;
-
-            for (var parameter in queryParameters) {
-                queryData['queryParameter.' + parameter] = coerceValue(queryParameters[parameter]);
-            }
-
-            jQuery.ajax({
-                url: jQuery("form#kualiForm").attr("action"),
-                dataType: "json",
-                beforeSend: null,
-                complete: null,
-                error: null,
-                data: queryData,
-                success: successFunction
-            });
-        };
-    }
-
-    jQuery(document).ready(function () {
-        jQuery("#" + controlId).autocomplete(options);
-    });
-}
-
-/**
- * Create a locationSuggest which overrides the select method with one that will navigate the user based on url
- * settings
- *
- * @param baseUrl baseUrl of the urls being built
- * @param hrefProperty href url property name - if found use this always (do not build url)
- * @param addUrlProperty additional url appendage property name for built urls
- * @param requestParamNamesObj obj containing key/propertyName pairs for requestParameters on a built url
- * @param requestParameterString static request parameter string to append
- * @param controlId id for the html control the autocomplete will be enabled for
- * @param options map of option settings (option name/value pairs) for the widget
- * @param queryFieldId id for the attribute field the control belongs to, used when making the
- * request to execute the associated attribute query
- * @param queryParameters map of parameters that should be sent along with the query. map key gives
- * @param localSource indicates whether the suggest options will be provided locally instead of by
- * a query
- * @param suggestOptions when localSource is set to true provides the suggest options
- * the name of the parameter to send, and the value gives the name of the field to pull the value from
- * @param labelProp the property name that holds the label for the plugin
- * @param valueProp the property name that holds the value for the plugin
- * @param returnCustomObj if true, the full object is expected as return value
- */
-function createLocationSuggest(baseUrl, hrefProperty, addUrlProperty, requestParamNamesObj, requestParameterString, controlId, options, queryFieldId, queryParameters, localSource, suggestOptions, labelProp, valueProp, returnCustomObj) {
-
-    var originalFunction = undefined;
-    if (options.select != undefined) {
-        originalFunction = options.select;
-    }
-
-    options.select = function (event, object) {
-        var originalFunctionResult = true;
-        if (originalFunction) {
-            originalFunctionResult = originalFunction();
-        }
-
-        if (object && object.item && hrefProperty && object.item[hrefProperty]) {
-            window.location.href = object.item[hrefProperty];
-        }
-        else if (object && object.item && baseUrl) {
-            var builtUrl = baseUrl;
-
-            if (addUrlProperty && object.item[addUrlProperty]) {
-                builtUrl = builtUrl + object.item[addUrlProperty];
-            }
-
-            var addParams = "";
-            if (requestParamNamesObj) {
-                jQuery.each(requestParamNamesObj, function (key, propName) {
-                    if (object.item[propName]) {
-                        addParams = addParams + "&" + key + "=" + object.item[propName];
-                    }
-                });
-            }
-
-            if (requestParameterString) {
-                builtUrl = builtUrl + requestParameterString + addParams;
-            }
-            else if (addParams) {
-                builtUrl = builtUrl + "?" + addParams.substr(1, addParams.length);
-            }
-
-            window.location.href = builtUrl;
-        }
-
-        return originalFunctionResult;
-    };
-
-    createSuggest(controlId, options, queryFieldId, queryParameters, localSource, suggestOptions,
-            labelProp, valueProp, returnCustomObj);
-}
-
-/**
- * Creates the spinner widget for an input
- *
- * @param id - id for the control to apply the spinner to
- * @param options - options for the spinner
- */
-function createSpinner(id, options) {
-    jQuery("#" + id).spinner(options);
-}
-
-/**
- * Creates the tooltip widget for an component
- *
- * @param id - id for the component to apply the tooltip to
- * @param options - options for the tooltip
- */
-function createTooltip(id, text, options, onMouseHoverFlag, onFocusFlag) {
-    var elementInfo = getHoverElement(id);
-    var element = elementInfo.element;
-
-    options['innerHtml'] = text;
-    options['manageMouseEvents'] = false;
-    if (onFocusFlag) {
-        // Add onfocus trigger
-        jQuery("#" + id).focus(function () {
-//            if (!jQuery("#" + id).IsBubblePopupOpen()) {
-            // TODO : use data attribute to check if control
-            if (!isControlWithMessages(id)) {
-                jQuery("#" + id).SetBubblePopupOptions(options, true);
-                jQuery("#" + id).SetBubblePopupInnerHtml(options.innerHTML, true);
-                jQuery("#" + id).ShowBubblePopup();
-            }
-//            }
-        });
-        jQuery("#" + id).blur(function () {
-            jQuery("#" + id).HideBubblePopup();
-        });
-    }
-    if (onMouseHoverFlag) {
-        // Add mouse hover trigger
-        jQuery("#" + id).hover(function () {
-            if (!jQuery("#" + id).IsBubblePopupOpen()) {
-                if (!isControlWithMessages(id)) {
-                    jQuery("#" + id).SetBubblePopupOptions(options, true);
-                    jQuery("#" + id).SetBubblePopupInnerHtml(options.innerHTML, true);
-                    jQuery("#" + id).ShowBubblePopup();
-                }
-            }
-        }, function (event) {
-            if (!onFocusFlag || !jQuery("#" + id).is(":focus")) {
-                var result = mouseInTooltipCheck(event, id, element, this, elementInfo.type);
-                if (result) {
-                    mouseLeaveHideTooltip(id, jQuery("#" + id), element, elementInfo.type);
-                }
-            }
-        });
-    }
-}
-
-/**
- * Checks if the component is a control or contains a control that contains validation messages
- *
- * @param id the id of the field
- */
-function isControlWithMessages(id) {
-    // check if component is or contains a control
-    if (jQuery("#" + id).is("[data-role='Control']")
-            || (jQuery("#" + id).is("[data-role='InputField']") && jQuery("#" + id + "_control").is("[data-role='Control']"))) {
-        return hasMessage(id)
-    }
-    return false;
-}
-
-/**
- * Checks if a field has any messages
- *
- * @param id
- */
-function hasMessage(id) {
-    var fieldId = getAttributeId(id);
-    var messageData = getValidationData(jQuery("#" + fieldId));
-    if (messageData && (messageData.serverErrors.length || (messageData.errors && messageData.errors.length)
-            || messageData.serverWarnings.length || (messageData.warnings && messageData.warnings.length)
-            || messageData.serverInfo.length || (messageData.info && messageData.info.length))) {
-        return true;
-    }
-    return false;
-}
-
-/**
- * Workaround to prevent hiding the tooltip when the mouse actually may still be hovering over the field
- * correctly, checks to see if the mouseleave event was entering the tooltip and if so dont continue the
- * hide action, rather add a mouseleave handler that will only be invoked once for that segment, when this
- * is left the check occurs again, until the user has either left the tooltip or the field - then the tooltip
- * is hidden appropriately
- * @param event - mouseleave event
- * @param fieldId - id of the field this logic is being applied to
- * @param triggerElements - the elements that can trigger mouseover
- * @param callingElement - original element that invoked the mouseleave
- * @param type - type of the field
- */
-function mouseInTooltipCheck(event, fieldId, triggerElements, callingElement, type) {
-    if (event.relatedTarget &&
-            jQuery(event.relatedTarget).length &&
-            jQuery(event.relatedTarget).attr("class") != null &&
-            jQuery(event.relatedTarget).attr("class").indexOf("jquerybubblepopup") >= 0) {
-        //this bind is only every invoked once, then unbound - return false to stop hide
-        jQuery(event.relatedTarget).one("mouseleave", function (event) {
-            mouseInTooltipCheck(event, fieldId, triggerElements, callingElement, type);
-        });
-        return false;
-    }
-    //If target moving into is not a triggerElement for this hover
-    // and if the source of the event is not a trigger element
-    else if (!jQuery(event.relatedTarget).is(triggerElements) && !jQuery(event.target).is(triggerElements)) {
-        //hide the tooltip for the original element
-        mouseLeaveHideTooltip(fieldId, callingElement, triggerElements, type, true);
-        return true;
-    }
-    else {
-        return true;
-    }
-}
-
-/**
- * Method to hide the tooltip when the mouse leave event was successful for the field
- * @param id id of the field
- * @param currentElement the current element be iterated on
- * @param elements all elements within the hover set
- * @param type type of field
- */
-function mouseLeaveHideTooltip(id, currentElement, elements, type, force) {
-    var hide = true;
-    var tooltipElement = jQuery(currentElement);
-
-    if (type == "fieldset") {
-        //hide only if mouseleave is on fieldset not its internal radios/checkboxes
-        hide = force || jQuery(currentElement).is("fieldset");
-        tooltipElement = elements.filter("label:first");
-    }
-
-    //hide only if hide flag is true and the tooltip is open
-    if (hide && jQuery(tooltipElement).IsBubblePopupOpen()) {
-        hideTooltip(id);
-    }
-}
-
-/**
- * Hide the tooltip associated with the field by id
- * @param fieldId the id of the field
- */
-function hideTooltip(fieldId) {
-    var elementInfo = getTooltipElement(fieldId);
-    var element = elementInfo.element;
-    if (elementInfo.type == "fieldset") {
-        //for checkbox/radio fieldsets we put the tooltip on the label of the first input
-        element = jQuery(element).filter("label:first");
-    }
-    var data = getValidationData(jQuery("#" + fieldId));
-    if (data && data.showTimer) {
-        clearTimeout(data.showTimer);
-    }
-    var tooltipId = jQuery(element).GetBubblePopupID();
-    if (tooltipId) {
-        //this causes the tooltip to be IMMEDIATELY hidden, rather than wait for animation
-        jQuery("#" + tooltipId).css("opacity", 0);
-        jQuery("#" + tooltipId).hide();
-    }
-    jQuery(element).HideBubblePopup();
-
-}
-
-/**
- * Gets the hover elements for a field by id.  The hover elements are the elements which will cause the tooltip to
- * be shown, the element the tooltip is actually placed on is an item its hover elements.
- * @param fieldId the id of the field
- */
-function getTooltipElement(fieldId) {
-    var hasFieldset = jQuery("#" + fieldId).find("fieldset").length;
-    var elementInfo = {};
-
-    if (!hasFieldset) {
-        //regular case
-        elementInfo.element = jQuery("#" + fieldId);
-        elementInfo.type = "";
-        if (elementInfo.element.is("input:checkbox")) {
-            elementInfo.themeMargins = {
-                total: '13px',
-                difference: '0px'
-            };
-        }
-    }
-    else if (hasFieldset && jQuery("#" + fieldId).find("fieldset > span > input").length) {
-        //radio and checkbox fieldset case
-        //get the fieldset, the inputs its associated with, and the associated labels as hover elements
-        elementInfo.element = jQuery("#" + fieldId).find("fieldset, fieldset input, fieldset label");
-        elementInfo.type = "fieldset";
-        elementInfo.themeMargins = {
-            total: '13px',
-            difference: '2px'
-        };
-    }
-    else {
-        //not found or wrapping fieldset case
-        elementInfo.element = [];
-        elementInfo.type = "";
-    }
-    return elementInfo;
-}
-
-/**
- * Executes a query with ajax for the given field to retrieve additional information after
- * the field has been updated (on blur)
- *
- * @param controlId -
- *           id for the html control to pull current value from
- * @param queryFieldId -
- *          id for the attribute field the control belongs to, used when making the
- * request to execute the associated field query
- * @param queryParameters -
- *         map of parameters that should be sent along with the query. map key gives
- * the name of the parameter to send, and the value gives the name of the field to pull the value from
- * @param queryMethodArgs -
- *         list of parameters that should be sent along with the query, the list gives the
- * name of the field in the view to pull values from, and will be sent with the same name
- * as a query parameter on the request
- * @param returnFieldMapping -
- *        map of fields that should be returned (updated) from the query. map key gives
- * the name of the parameter to update, map value is the name of field to pull value from
- */
-function executeFieldQuery(controlId, queryFieldId, queryParameters, queryMethodArgs, returnFieldMapping) {
-    var queryData = {};
-
-    queryData.methodToCall = 'performFieldQuery';
-    queryData.ajaxRequest = true;
-    queryData.ajaxReturnType = 'update-none';
-    queryData.formKey = jQuery("input#formKey").val();
-    queryData.queryFieldId = queryFieldId;
-
-    for (var parameter in queryParameters) {
-        queryData['queryParameter.' + queryParameters[parameter]] = coerceValue(parameter);
-    }
-
-    for (var parameter in queryMethodArgs) {
-        queryData['queryParameter.' + queryMethodArgs[parameter]] = coerceValue(parameter);
-    }
-
-    jQuery.ajax({
-        url: jQuery("form#kualiForm").attr("action"),
-        dataType: "json",
-        data: queryData,
-        beforeSend: null,
-        complete: null,
-        error: null,
-        success: function (data) {
-            // write out return message (or blank)
-            var returnMessageSpan = jQuery("#" + queryFieldId + "_info_message");
-            if (returnMessageSpan.length > 0) {
-                returnMessageSpan.html(data.resultMessage);
-                if (data.resultMessageStyleClasses) {
-                    returnMessageSpan.addClass(data.resultMessageStyleClasses);
-                }
-            }
-
-            // write out informational field values, note if data does not exist
-            // this will clear the field values
-            for (var returnField in returnFieldMapping) {
-                var fieldValue = data.resultFieldData[returnField];
-                if (!fieldValue) {
-                    fieldValue = "";
-                }
-
-                // check for regular fields
-                var control = jQuery("[name='" + escapeName(returnField) + "']");
-                if (control.length > 0) {
-                    setValue(returnField, fieldValue);
-                    control.change();
-                }
-
-                // check for info spans
-                var returnFieldId = returnField.replace(/\./g, "_")
-                        .replace(/\[/g, "-lbrak-")
-                        .replace(/\]/g, "-rbrak-")
-                        .replace(/\'/g, "-quot-");
-                var infoFieldSpan = jQuery("#" + queryFieldId + "_info_" + returnFieldId);
-                if (infoFieldSpan.length > 0) {
-                    infoFieldSpan.html(fieldValue);
-                }
-            }
-        }
-    });
-}
-;/*
- * Copyright 2005-2013 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl2.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * The DirtyFormState constructor sets up the beforeUnload event that checks for dirtyness when the user tries to
- * leave the page through a browser based method (back, url, refresh, close, anchor not in krad scope)
- *
- * @constructor
- */
-function DirtyFormState() {
-    var dirtyFormStateObject = this;
-    // make sure form doesn't have any unsaved data when user clicks on any other portal links,
-    // closes browser or presses fwd/back browser button
-    jQuery(window).bind('beforeunload', function (event) {
-        // methodToCall check is needed to skip form posts
-        var methodToCall = jQuery("[name='methodToCall']").val();
-        if (!methodToCall) {
-            var dirty = dirtyFormStateObject.checkDirty(event, false);
-
-            // prompt does not come through in checkDirty since we are unloaded, so we
-            // need to return the question
-            if (dirty) {
-                return getMessage(kradVariables.MESSAGE_KEY_DIRTY_FIELDS);
-            }
-        }
-    });
-}
-
-/**
- * DirtyFormState keeps track of dirty state information on the page by detecting field changes and blocking user
- * navigation with an alert when the field is considered dirty (changed).  The object also provides the necessary
- * methods for accessing and changing this state.
- *
- * @type {{dirtyFieldCount: number, dirtyFormInput: *, skipDirtyChecks: boolean, isDirty: Function, setDirty: Function, reset: Function, resetDirtyFieldCount: Function, incrementDirtyFieldCount: Function, decrementDirtyFieldCount: Function, checkDirty: Function, dirtyHandlerSetup: Function, isControlDirty: Function}}
- */
-DirtyFormState.prototype = {
-    /**
-     * The dirtyFieldCount which represents the total fields dirty on the form
-     */
-    dirtyFieldCount: 0,
-    /**
-     * jQuery selection of dirtyForm field
-     */
-    dirtyFormInput: jQuery("input[name='dirtyForm']"),
-    /**
-     * Set this to true to prevent dirty blocking until a View reload or until it is set back to false
-     */
-    skipDirtyChecks: false,
-    /**
-     * Returns true if the current form is considered dirty, false otherwise.  The form is diry if the dirtyForm field
-     * is set to "true" or the dirtyFieldCount > 0.
-     *
-     * @return {boolean} true if the form is dirty, false otherwise
-     */
-    isDirty: function () {
-        return this.dirtyFormInput.val() == "true" || this.dirtyFieldCount > 0;
-    },
-    /**
-     * Set the dirty flag (normally set by the server) - this is the dirtyForm field on the form
-     *
-     * @param isDirty true if setting to dirty, false otherwise
-     */
-    setDirty: function (isDirty) {
-        if (isDirty) {
-            this.dirtyFormInput.val("true");
-        }
-        else {
-            this.dirtyFormInput.val("false");
-        }
-    },
-    /**
-     * Reset both the dirty flag (normally set by the server) and the dirty field count
-     */
-    reset: function () {
-        this.resetDirtyFieldCount();
-        this.setDirty(false);
-    },
-    /**
-     * Reset the dirty field count to 0 (amount of fields considered dirty on the page)
-     */
-    resetDirtyFieldCount: function () {
-        this.dirtyFieldCount = 0;
-    },
-    /**
-     * Increment the dirty field count (amount of fields considered dirty on the page)
-     */
-    incrementDirtyFieldCount: function () {
-        this.dirtyFieldCount++;
-    },
-    /**
-     * Decrement the dirty field count (amount of fields considered dirty on the page)
-     */
-    decrementDirtyFieldCount: function () {
-        this.dirtyFieldCount--;
-    },
-    /**
-     * Validate dirty fields on the form
-     *
-     * <p>Whenever the user clicks on the action field which navigates away from the page,
-     * form dirtyness is checked. It checks for any input elements which has "dirty" class. If present,
-     * it pops a message to the user to confirm whether they want to stay on the page or want to navigate.
-     * </p>
-     *
-     * @param event the event which triggered the action
-     * @param showAlert (optional) if true show the alert now.  This flag is used to not show the alert for unload because
-     *  most browsers will stop this from occuring anyways and it eliminates duplicate alert dialogs to click through.
-     * @returns true if the form has dirty fields, false if not
-     */
-    checkDirty: function (event, showAlert) {
-        var validateDirty = jQuery("#validateDirty").val();
-
-        if (!this.skipDirtyChecks && validateDirty == "true" && this.isDirty()) {
-
-            //immediate return if skipping alert
-            if (showAlert != undefined && !showAlert) {
-                return true;
-            }
-
-            var dirtyMessage = getMessage(kradVariables.MESSAGE_KEY_DIRTY_FIELDS);
-
-            var answer = confirm(dirtyMessage);
-
-            if (answer == false) {
-                event.preventDefault();
-                event.stopImmediatePropagation();
-
-                // change the current nav button class to 'current' if user doesn't wants to leave the page
-                var ul = jQuery("#" + event.target.id).closest("ul");
-                if (ul.length > 0) {
-                    var pageId = jQuery("[name='view.currentPageId']").val();
-                    if (ul.hasClass(kradVariables.TAB_MENU_CLASS)) {
-                        jQuery("#" + ul.attr("id")).selectTab({selectPage: pageId});
-                    }
-                    else {
-                        jQuery("#" + ul.attr("id")).selectMenuItem({selectPage: pageId});
-                    }
-                }
-
-                return true;
-            }
-        }
-
-        return false;
-
-    },
-    /**
-     * Sets up the global dirty field handler which will mark dirtyness and keep track of a dirtyFieldCount on
-     * InputField controls
-     */
-    dirtyHandlerSetup: function () {
-        var dirtyFormStateObject = this;
-
-        jQuery(document).on("change", "div[data-role='InputField'] input, div[data-role='InputField'] select, "
-                + "div[data-role='InputField'] textarea", function (e) {
-            var fieldDirty = true;
-
-            //check if original value
-            if (e && e.target) {
-                fieldDirty = dirtyFormStateObject.isControlDirty(e.target);
-            }
-
-            //does it already have a dirty class?
-            var hadDirtyClass = jQuery(this).hasClass(kradVariables.DIRTY_CLASS);
-
-            //if already has dirty class and not dirty remove and decrement dirty count, or opposite for other scenario
-            if (hadDirtyClass && !fieldDirty) {
-                jQuery(this).removeClass(kradVariables.DIRTY_CLASS);
-                dirtyFormStateObject.decrementDirtyFieldCount();
-            }
-            else if (!hadDirtyClass && fieldDirty) {
-                jQuery(this).addClass(kradVariables.DIRTY_CLASS);
-                dirtyFormStateObject.incrementDirtyFieldCount();
-            }
-        });
-    },
-    /**
-     * Determines if the control passed in is considered dirty (does not match its original value)
-     *
-     * @param control the control to check for dirtyness
-     * @return {boolean} true if dirty (assumed true if checks cannot prove otherwise), false if not dirty
-     */
-    isControlDirty: function (control) {
-        //assume dirty
-        var fieldDirty = true;
-
-        //basic input
-        if (control.defaultValue != undefined && control.value == control.defaultValue) {
-            fieldDirty = false;
-        }
-        //checkbox or radio
-        else if ((control.type == "checkbox" || control.type == "radio")
-                && control.defaultChecked != undefined && control.checked == control.defaultChecked) {
-            fieldDirty = false;
-        }
-        //select
-        else if (control.options != undefined) {
-            fieldDirty = false;
-            var hasDefaultSelected = false;
-            var options = jQuery(control).find("option");
-            jQuery(options).each(function () {
-                //if these differ the field is dirty
-                if (this.defaultSelected != this.selected) {
-                    fieldDirty = true;
-                }
-
-                //check to see if any option was a default selection
-                hasDefaultSelected = this.defaultSelected || hasDefaultSelected;
-            });
-
-            //special case when no default value was selected when the control was rendered
-            if (!hasDefaultSelected &&
-                    ((control.multiple && control.selectedIndex == -1) ||
-                            (!control.multiple && control.selectedIndex == 0))) {
-                fieldDirty = false;
-            }
-
-        }
-
-        return fieldDirty;
-
-    }
-};/*
- * Copyright 2005-2013 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl2.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 var prevPageMessageTotal = 0;
-var groupValidationDefaults = jQuery("div[data-role='view']").data(kradVariables.GROUP_VALIDATION_DEFAULTS);
-var fieldValidationDefaults = jQuery("div[data-role='view']").data(kradVariables.FIELD_VALIDATION_DEFAULTS);
+
 
 /**
  * Get validation data for the component element by merging custom settings with defaults
@@ -64105,6 +66841,7 @@ function getValidationData(jqComponent, isGroup) {
  * @param fieldId the id of the field
  */
 function hideMessageTooltip(fieldId) {
+
     var elementInfo = getHoverElement(fieldId);
     var element = elementInfo.element;
     if (elementInfo.type == "fieldset") {
@@ -64112,22 +66849,23 @@ function hideMessageTooltip(fieldId) {
         element = jQuery(element).filter(".uif-tooltip");
     }
 
+    var popoverData =  element.data(kradVariables.POPOVER_DATA);
+    if (!popoverData) {
+        return;
+    }
+
     var data = getValidationData(jQuery("#" + fieldId));
     if (data && data.showTimer) {
         clearTimeout(data.showTimer);
     }
 
-    var tooltipId = jQuery(element).GetBubblePopupID();
+    var popover = jQuery(element).next(".popover");
+    if (data.tooltipTheme) {
+        popover.removeClass(data.tooltipTheme);
+    }
 
-    if (tooltipId) {
-        //this causes the tooltip to be IMMEDIATELY hidden, rather than wait for animation
-        jQuery("#" + tooltipId).css("opacity", 0);
-        jQuery("#" + tooltipId).hide();
-        jQuery(element).HideBubblePopup();
-    }
-    else {
-        jQuery(element).HideBubblePopup();
-    }
+    element.popover("hide");
+    element.data(kradVariables.POPOVER_DATA).shown = false;
 }
 
 /**
@@ -64172,79 +66910,12 @@ function getHoverElement(fieldId) {
 }
 
 /**
- * Method to hide the messages when the mouse leave event was successful for the field
- * @param id id of the field
- * @param currentElement the current element be iterated on
- * @param elements all elements within the hover set
- * @param type type of field
- */
-function mouseLeaveHideMessageTooltip(id, currentElement, elements, type, force) {
-    var hide = true;
-    var focus = jQuery(currentElement).is(":focus");
-    var tooltipElement = jQuery(currentElement);
-
-    if (type == "fieldset") {
-        //hide only if mouseleave is on fieldset not its internal radios/checkboxes
-        hide = force || jQuery(currentElement).is("fieldset");
-        focus = elements.filter("fieldset").is(":focus")
-                || elements.filter("input").is(":focus");
-        tooltipElement = elements.filter(".uif-tooltip");
-    }
-
-    //hide only if hide flag is true, the field is not focused, and the tooltip is open
-    if (hide && !focus && jQuery(tooltipElement).IsBubblePopupOpen()) {
-        hideMessageTooltip(id);
-    }
-}
-
-/**
  * Calculate the margin to be used based on the tooltipElement - adds left margin to allow center placement
  * @param tooltipElement to be evaluated to determin margin offset
  */
 function getTooltipMargin(tooltipElement) {
     var tooltipElementWidth = (jQuery(tooltipElement).width()) / 2;
     return "0 0 0 " + (tooltipElementWidth - 20) + "px";
-}
-
-/**
- * Workaround to prevent hiding the tooltip when the mouse actually may still be hovering over the field
- * correctly, checks to see if the mouseleave event was entering the tooltip and if so dont continue the
- * hide action, rather add a mouseleave handler that will only be invoked once for that segment, when this
- * is left the check occurs again, until the user has either left the tooltip or the field - then the tooltip
- * is hidden appropriately
- * @param event - mouseleave event
- * @param fieldId - id of the field this logic is being applied to
- * @param triggerElements - the elements that can trigger mouseover
- * @param callingElement - original element that invoked the mouseleave
- * @param type - type of the field
- * @param data - the fields validation data - updates the mouseInTooltip property
- * @return false if the mouse is not out of the tooltip (mouse in tooltip), true if it is in the tooltip
- */
-function mouseOutBubblePopupCheck(event, fieldId, triggerElements, callingElement, type, data) {
-    if (event.relatedTarget &&
-            jQuery(event.relatedTarget).length &&
-            ((jQuery(event.relatedTarget).attr("class") != null &&
-                    jQuery(event.relatedTarget).attr("class").indexOf("jquerybubblepopup") >= 0)
-                    || jQuery(event.relatedTarget).parents('.jquerybubblepopup-innerHtml').length)) {
-        //this bind is only every invoked once, then unbound - return false to stop hide
-        jQuery(event.relatedTarget).one("mouseleave", function (event) {
-            mouseOutBubblePopupCheck(event, fieldId, triggerElements, callingElement, type, data);
-        });
-        data.mouseInTooltip = true;
-        return false;
-    }
-    //If target moving into is not a triggerElement for this hover
-    // and if the source of the event is not a trigger element
-    else if (!jQuery(event.relatedTarget).is(triggerElements) && !jQuery(event.target).is(triggerElements)) {
-        //hide the tooltip for the original element
-        data.mouseInTooltip = false;
-        mouseLeaveHideMessageTooltip(fieldId, callingElement, triggerElements, type, true);
-        return true;
-    }
-    else {
-        data.mouseInTooltip = false;
-        return true;
-    }
 }
 
 /**
@@ -64266,20 +66937,9 @@ function showMessageTooltip(fieldId, showAndClose, change) {
             tooltipElement = tooltipElement.filter(".uif-tooltip");
         }
 
-        var options = {
-            position: "top",
-            align: "left",
-            divStyle: {margin: getTooltipMargin(tooltipElement)},
-            distance: 0,
-            manageMouseEvents: false,
-            themePath: getBubblePopupThemePath(),
-            alwaysVisible: false,
-            tail: {align: "left"},
-            themeMargins: {total: "13px", difference: "2px"}
-        };
-
-        if (elementInfo.themeMargins) {
-            options.themeMargins = elementInfo.themeMargins;
+        var popoverData = tooltipElement.data(kradVariables.POPOVER_DATA);
+        if (!popoverData) {
+            popoverData = initializeTooltip(tooltipElement);
         }
 
         var hasMessages = jQuery("[data-messages_for='" + fieldId + "']").children().length;
@@ -64291,8 +66951,7 @@ function showMessageTooltip(fieldId, showAndClose, change) {
                 clearTimeout(data.tooltipTimer);
             }
 
-            options.innerHTML = jQuery("[data-messages_for='" + fieldId + "']").html();
-            options.themeName = data.tooltipTheme;
+            popoverData.options.content = jQuery("[data-messages_for='" + fieldId + "']").html();
 
             var show = true;
             //only do a timed close if there are also server messages left - means you got a new client
@@ -64304,30 +66963,33 @@ function showMessageTooltip(fieldId, showAndClose, change) {
             }
 
             if (show) {
-                if (!tooltipElement.IsBubblePopupOpen()) {
+                if (!popoverData.shown) {
                     if (showAndClose) {
                         //close other bubble popups so we dont get too many during fast tabbing
-                        hideBubblePopups();
+                        hideTooltips();
                     }
-                    tooltipElement.SetBubblePopupOptions(options, true);
-                    tooltipElement.SetBubblePopupInnerHtml(options.innerHTML, true);
-                    tooltipElement.ShowBubblePopup();
-                    var tooltipId = jQuery(tooltipElement).GetBubblePopupID();
-                    jQuery("#" + tooltipId).css("opacity", 1);
+
+                    tooltipElement.popover("show");
+
+                    var popover = jQuery(tooltipElement).next(".popover");
+                    if (data.tooltipTheme) {
+                        popover.addClass(data.tooltipTheme);
+                    }
+
+                    popoverData.shown = true;
                 }
-                else if (tooltipElement.IsBubblePopupOpen()) {
+                else if (popoverData.shown) {
 
                     if (change) {
                         //if the messages shown were changed, reshow to get around placement issues
                         if (showAndClose) {
                             //close other bubble popups so we dont get too many during fast tabbing
-                            hideBubblePopups();
+                            hideTooltips();
                         }
-                        tooltipElement.SetBubblePopupOptions(options, true);
-                        tooltipElement.SetBubblePopupInnerHtml(options.innerHTML, true);
-                        tooltipElement.ShowBubblePopup();
-                        var tooltipId = jQuery(tooltipElement).GetBubblePopupID();
-                        jQuery("#" + tooltipId).css("opacity", 1);
+
+
+                        tooltipElement.popover("show");
+
                     }
                 }
 
@@ -64337,7 +66999,6 @@ function showMessageTooltip(fieldId, showAndClose, change) {
                     field.data(kradVariables.VALIDATION_MESSAGES, data);
                 }
             }
-
         }
         else {
             hideMessageTooltip(fieldId);
@@ -64368,6 +67029,13 @@ function writeMessagesAtField(id) {
         }
 
         var messagesDiv = jQuery("[data-messages_for='" + id + "']");
+        var createMessagesDiv = messagesDiv.length === 0;
+
+        if (createMessagesDiv){
+            messagesDiv = jQuery("<div id='" + id +
+                    "_errors' class='alert' data-messages_for='" + id + "' style='display: none;'>");
+        }
+
         //ensure the messagesDiv is hidden and empty
         if (data.useTooltip) {
             messagesDiv.hide();
@@ -64392,10 +67060,20 @@ function writeMessagesAtField(id) {
         var hasServerMessages = false;
         //only append if messages exist
         if (jQuery(clientMessages).find("ul").children().length) {
+            if (createMessagesDiv){
+                field.append(messagesDiv);
+                createMessagesDiv = false;
+            }
+
             jQuery(clientMessages).appendTo(messagesDiv);
         }
 
         if (jQuery(serverMessages).find("ul").children().length) {
+            if (createMessagesDiv){
+                field.append(messagesDiv);
+                createMessagesDiv = false;
+            }
+
             jQuery(serverMessages).appendTo(messagesDiv);
             hasServerMessages = true;
         }
@@ -64416,7 +67094,7 @@ function writeMessagesAtField(id) {
         //show appropriate icons/styles based on message severity level
         if (jQuery(messagesDiv).find(".uif-errorMessageItem-field").length) {
             if (data.errors.length) {
-                jQuery(messagesDiv).find(".uif-clientMessageItems").addClass("uif-clientErrorDiv");
+                jQuery(messagesDiv).find(".uif-clientMessageItems").addClass(kradVariables.CLIENT_ERROR_DIV_CLASS);
             }
 
             if (data.fieldModified && data.errors.length == 0) {
@@ -64435,10 +67113,10 @@ function writeMessagesAtField(id) {
             }
 
             if (hasServerMessages) {
-                data.tooltipTheme = "kr-error-ss";
+                data.tooltipTheme = "uif-tooltip-error-ss";
             }
             else {
-                data.tooltipTheme = "kr-error-cs"
+                data.tooltipTheme = "uif-tooltip-error-cs";
             }
 
             handleTabStyle(id, true, false, false);
@@ -64453,17 +67131,17 @@ function writeMessagesAtField(id) {
             }
 
             if (hasServerMessages) {
-                data.tooltipTheme = "kr-warning-ss";
+                data.tooltipTheme = "uif-tooltip-warning-ss";
             }
             else {
-                data.tooltipTheme = "kr-warning-cs"
+                data.tooltipTheme = "uif-tooltip-warning-cs";
             }
 
             handleTabStyle(id, false, true, false);
         }
         else if (jQuery(messagesDiv).find(".uif-infoMessageItem-field").length) {
             if (data.info.length) {
-                jQuery(messagesDiv).find(".uif-clientMessageItems").addClass("uif-clientInfoDiv");
+                jQuery(messagesDiv).find(".uif-clientMessageItems").addClass(kradVariables.CLIENT_INFO_DIV_CLASS);
             }
             field.addClass(kradVariables.HAS_INFO_CLASS);
             if (showImage) {
@@ -64471,10 +67149,10 @@ function writeMessagesAtField(id) {
             }
 
             if (hasServerMessages) {
-                data.tooltipTheme = "kr-info-ss";
+                data.tooltipTheme = "uif-tooltip-info-ss";
             }
             else {
-                data.tooltipTheme = "kr-info-cs"
+                data.tooltipTheme = "uif-tooltip-info-cs";
             }
 
             handleTabStyle(id, false, false, true);
@@ -64511,7 +67189,7 @@ function handleMessagesAtField(id, pageSetupPhase) {
         skipBubble = true;
     }
 
-    if (!(skip == "yes")) {
+    if (skip !== "yes") {
         var data = getValidationData(field);
         if (data) {
             if (!pageSetupPhase || (pageSetupPhase && data.hasOwnMessages)) {
@@ -64563,8 +67241,8 @@ function handleMessagesAtGroup(id, fieldId, fieldData, pageSetupPhase) {
         }
 
         //retrieve header for section
-        if (data.isSection == undefined) {
-            var sectionHeader = jQuery("[data-header_for='" + id + "']").find("> :header, > label");
+        if (data.isSection === undefined) {
+            var sectionHeader = getGroupHeaderElement(id);
             data.isSection = sectionHeader.length;
         }
 
@@ -64573,7 +67251,7 @@ function handleMessagesAtGroup(id, fieldId, fieldData, pageSetupPhase) {
 
         //write messages for this group
         if (!pageSetupPhase) {
-            var forceWrite = jQuery("div[data-messages_for='" + id + "']").find("li[data-messageitemfor='" + fieldId + "']").length;
+            var forceWrite = jQuery("[data-messages_for='" + id + "']").find("li[data-messageitemfor='" + fieldId + "']").length;
             writeMessagesForGroup(id, data, forceWrite);
             displayHeaderMessageCount(id, data);
         }
@@ -64592,7 +67270,8 @@ function handleMessagesAtGroup(id, fieldId, fieldData, pageSetupPhase) {
  * @param forceWrite forces the group write to be processed
  */
 function writeMessagesForGroup(id, data, forceWrite, skipCalculateTotals) {
-    var parent = jQuery("#" + id).data("parent");
+    var group = jQuery("#" + id);
+    var parent = group.data("parent");
 
     if (data) {
         var messageMap = data.messageMap;
@@ -64601,24 +67280,24 @@ function writeMessagesForGroup(id, data, forceWrite, skipCalculateTotals) {
         var sections = data.sections;
 
         //retrieve header for section
-        if (data.isSection == undefined) {
-            var sectionHeader = jQuery("[data-header_for='" + id + "']").find("> :header, > label");
+        if (data.isSection === undefined) {
+            var sectionHeader = getGroupHeaderElement(id);
             data.isSection = sectionHeader.length;
         }
 
         //show messages if data is received as force show or if this group is considered a section
-        var showMessages = data.isSection || data.forceShow;
+        var showMessages = (data.isSection || data.forceShow) && (!data.closed || pageValidationPhase);
 
         //TabGroups rely on tab error indication to indicate messages - don't show messages here
-        var type = jQuery("#" + id).data("type");
-        if (type && type == kradVariables.TAB_GROUP_CLASS) {
+        var type = group.data("type");
+        if (type && type === kradVariables.TAB_GROUP_CLASS) {
             showMessages = false;
         }
 
         //if this group is in a tab in a tab group show your messages because TabGroups will not
         if (parent) {
             var parentType = jQuery("#" + parent).data("type");
-            if (parentType && parentType == kradVariables.TAB_GROUP_CLASS) {
+            if (parentType && parentType === kradVariables.TAB_GROUP_CLASS) {
                 showMessages = true;
             }
         }
@@ -64659,30 +67338,71 @@ function writeMessagesForGroup(id, data, forceWrite, skipCalculateTotals) {
 
                 var messageBlock = jQuery("[data-messages_for='" + id + "']");
 
+                if (messageBlock.length === 0) {
+                    var cssClasses = "alert";
+
+                    messageBlock = jQuery("<div id='" + id + "_messages' class='"
+                            + cssClasses + "' data-messages_for='" + id + "' "
+                            + "style='display: none;'>");
+
+                    if (data.closeable) {
+                        messageBlock.bind('closed.bs.alert', function () {
+                            var data = getValidationData(group, true);
+                            data.closed = true;
+                        });
+                    }
+
+                    var disclosureBlock = group.find("#" + id + "_disclosureContent");
+                    if (disclosureBlock.length) {
+                        disclosureBlock.prepend(messageBlock);
+                    } else if (!data.isSection) {
+                        group.prepend(messageBlock);
+                    } else if (data.isSection) {
+                        header = group.find("[data-header_for='" + id + "']");
+                        header.after(messageBlock);
+                    }
+                }
+
                 //remove old block styling
+                messageBlock.removeClass("alert");
                 messageBlock.removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_ERROR_CLASS);
                 messageBlock.removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_WARNING_CLASS);
                 messageBlock.removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_INFO_CLASS);
+                messageBlock.removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_SUCCESS_CLASS);
 
                 //give the block styling
                 if (data.errorTotal > 0) {
+                    messageBlock.removeClass("uif-validationMessages");
+                    messageBlock.removeClass("uif-groupValidationMessages");
+                    messageBlock.addClass("alert");
                     messageBlock.addClass(kradVariables.PAGE_VALIDATION_MESSAGE_ERROR_CLASS);
                 }
                 else if (data.warningTotal > 0) {
+                    messageBlock.removeClass("uif-validationMessages");
+                    messageBlock.removeClass("uif-groupValidationMessages");
+                    messageBlock.addClass("alert");
                     messageBlock.addClass(kradVariables.PAGE_VALIDATION_MESSAGE_WARNING_CLASS);
                 }
                 else if (data.infoTotal > 0) {
+                    messageBlock.removeClass("uif-validationMessages");
+                    messageBlock.removeClass("uif-groupValidationMessages");
+                    messageBlock.addClass("alert");
                     messageBlock.addClass(kradVariables.PAGE_VALIDATION_MESSAGE_INFO_CLASS);
+                }
+                else {
+                    messageBlock.addClass("alert");
+                    messageBlock.addClass(kradVariables.PAGE_VALIDATION_MESSAGE_SUCCESS_CLASS);
                 }
 
                 //clear and write the new list of summary items
                 clearMessages(id, false);
                 handleTabStyle(id, data.errorTotal, data.warningTotal, data.infoTotal);
                 writeMessages(id, newList);
+
                 //page level validation messsage header handling
                 if (pageLevel) {
                     if (newList.children().length) {
-                        var messagesDiv = jQuery("[data-messages_for='" + id + "']");
+
                         var countMessage = generateCountString(data.errorTotal, data.warningTotal,
                                 data.infoTotal);
 
@@ -64723,7 +67443,7 @@ function writeMessagesForGroup(id, data, forceWrite, skipCalculateTotals) {
                             pageValidationHeader.addClass("uif-pageValidationMessage-single")
                         }
 
-                        messagesDiv.prepend(pageValidationHeader);
+                        messageBlock.prepend(pageValidationHeader);
 
                         //Handle special classes
                         pageValidationHeader.parent().removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_ERROR_CLASS);
@@ -64735,10 +67455,16 @@ function writeMessagesForGroup(id, data, forceWrite, skipCalculateTotals) {
                             pageValidationHeader.hide();
                         }
 
-                        messagesDiv.find(".uif-validationMessagesList").attr("id", "pageValidationList");
-                        messagesDiv.find(".uif-validationMessagesList").attr("aria-labelledby",
+                        messageBlock.find(".uif-validationMessagesList").attr("id", "pageValidationList");
+                        messageBlock.find(".uif-validationMessagesList").attr("aria-labelledby",
                                 "pageValidationHeader");
                     }
+                }
+
+                if (data.closeable) {
+                    messageBlock.prepend("<button type='button' class='close' "
+                            + "data-dismiss='alert' aria-hidden='true'>x</button>");
+                    messageBlock.alert();
                 }
             }
             else {
@@ -64790,7 +67516,7 @@ function isSingularMessage(newList) {
 function writeMessagesForPage() {
     clientErrorStorage = new Object();
     var summaryTextExistence = new Object();
-    var page = jQuery("[data-type='Page']");
+    var page = jQuery("[data-role='Page']");
     var pageId = page.attr("id");
     var data = getValidationData(page, true);
 
@@ -64851,7 +67577,7 @@ function writeMessagesForChildGroups(parentId) {
  * @param info - true if info exist
  */
 function handleTabStyle(id, error, warning, info) {
-    var tabWrapper = jQuery("#" + id).closest("div[data-type='TabWrapper']");
+    var tabWrapper = jQuery("#" + id).closest("[data-type='TabWrapper']");
     if (tabWrapper.length) {
         var tabId = jQuery(tabWrapper).data("tabwrapperfor");
         var tab = jQuery("[data-tabfor='" + tabId + "']");
@@ -64951,7 +67677,7 @@ function recursiveGroupMessageCount(parentId) {
         return data;
     }
 
-    jQuery("#" + parentId).find("div[data-parent='" + parentId + "']").not("div[data-role='InputField']").each(function () {
+    jQuery("#" + parentId).find("[data-parent='" + parentId + "']").not("div[data-role='InputField']").each(function () {
         var groupData = getValidationData(jQuery(this), true);
         if (groupData) {
             data.errorTotal = data.errorTotal + groupData.serverErrors.length + (groupData.errors ? groupData.errors.length : 0);
@@ -64976,7 +67702,7 @@ function recursiveGroupMessageCount(parentId) {
  */
 function displayHeaderMessageCount(sectionId, sectionData) {
     if (sectionData && sectionData.displayHeaderSummary) {
-        var sectionHeader = jQuery("[data-header_for='" + sectionId + "']").find("> :header, > label");
+        var sectionHeader = getGroupHeaderElement(sectionId);
 
         if (errorImage == undefined) {
             setupImages();
@@ -64996,7 +67722,7 @@ function displayHeaderMessageCount(sectionId, sectionData) {
                 image = infoImage;
             }
 
-            var messageCountElement = jQuery(sectionHeader).find("div." + kradVariables.MESSAGE_COUNT_CLASS);
+            var messageCountElement = jQuery(sectionHeader).find("." + kradVariables.MESSAGE_COUNT_CLASS);
             if (messageCountElement.length) {
                 messageCountElement.remove();
             }
@@ -65006,7 +67732,7 @@ function displayHeaderMessageCount(sectionId, sectionData) {
             }
         }
         else if (sectionHeader.length && sectionData.messageTotal == 0) {
-            jQuery(sectionHeader).find("div." + kradVariables.MESSAGE_COUNT_CLASS).remove();
+            jQuery(sectionHeader).find("." + kradVariables.MESSAGE_COUNT_CLASS).remove();
         }
     }
 }
@@ -65062,11 +67788,21 @@ function generateCountString(errorTotal, warningTotal, infoTotal) {
             }
 
             if (infoTotal == 1) {
-                countMessage = countMessage + getMessage(kradVariables.MESSAGE_TOTAL_MESSAGE, null, null, infoTotal);
+
+
+//              Check to see if the info message is coming from a lookup result page. If yes then
+//              do not display the count message at the top.
+                if(countMessage != "" && jQuery("#uLookupResults.uif-infoMessageItem").length > 0)   {
+                    countMessage = countMessage + getMessage(kradVariables.MESSAGE_TOTAL_MESSAGE, null, null, infoTotal);
+                }
+                else{
+                    countMessage ="";
+                }
             }
             else {
                 countMessage = countMessage + getMessage(kradVariables.MESSAGE_TOTAL_MESSAGES, null, null, infoTotal);
             }
+
         }
     }
     return countMessage;
@@ -65209,7 +67945,7 @@ function generateSummaries(id, messageMap, sections, order, newList) {
 
         //if there are more fields which occur after the final section - generate a sublist summary of those fields
         if (currentFields.length > 0) {
-            var sublist = generateFieldLinkSublist(currentFields, messageMap, currentSectionId, false);
+            var sublist = generateFieldLinkSublist(data, currentFields, messageMap, currentSectionId, false);
             newList = writeMessageItemToList(sublist, newList);
         }
     }
@@ -65384,11 +68120,12 @@ function generateFieldLink(messageData, fieldId, collapseMessages, showLabel) {
             }
 
             if (isLink) {
-                link = jQuery("<li data-messageItemFor='" + fieldId + "'><a href='#'>"
+                link = jQuery("<li data-messageItemFor='" + fieldId + "'><a class='alert-link' href='#'>"
                         + name + linkText + collapsedElements + "</a> </li>");
             }
             else {
-                link = jQuery("<li tabindex='0' data-messageItemFor='" + fieldId + "' class='uif-correctedError'>"
+                link = jQuery("<li tabindex='0' data-messageItemFor='" + fieldId
+                        + "' class='alert-link uif-correctedError'>"
                         + name + linkText + collapsedElements + "</li>");
             }
 
@@ -65550,8 +68287,7 @@ function handleCollapsedElements(messageData, collapsedErrors, collapsedWarnings
  */
 function generateFieldLinkSublist(parentSectionData, currentFields, messageMap, sectionId, before) {
 
-    var sectionTitle = jQuery("[data-header_for='" + sectionId + "']").find("> :header .uif-headerText-span, "
-            + "> label .uif-headerText-span").text();
+    var sectionTitle = getGroupHeaderElement(sectionId).find(".uif-headerText-span").text();
     if (sectionTitle == null || sectionTitle == "") {
         //field group case
         sectionTitle = jQuery("#" + sectionId).data("label");
@@ -65636,8 +68372,7 @@ function generateFieldLinkSublist(parentSectionData, currentFields, messageMap, 
  */
 function generateSummaryLink(sectionId) {
     //determine section title and section type
-    var sectionTitle = jQuery("[data-header_for='" + sectionId + "']").find("> :header .uif-headerText-span, "
-            + "> label .uif-headerText-span").text();
+    var sectionTitle =  getGroupHeaderElement(sectionId).find(".uif-headerText-span").text();
     if (sectionTitle == null || sectionTitle == "") {
         //field group case
         sectionTitle = jQuery("#" + sectionId).data("label");
@@ -65656,13 +68391,13 @@ function generateSummaryLink(sectionId) {
     var linkType = "";
     var highlight = "";
 
-    var sectionHasCorrectedErrors = jQuery("div[data-messages_for='" + sectionId + "']").find("span.uif-correctedError").length;
+    var sectionHasCorrectedErrors = jQuery("[data-messages_for='" + sectionId + "']").find("span.uif-correctedError").length;
 
     if (sectionData && (sectionData.messageTotal || sectionHasCorrectedErrors)) {
         var countMessage = generateCountString(sectionData.errorTotal, sectionData.warningTotal, sectionData.infoTotal);
         //remove newline characters
         sectionTitle = sectionTitle.replace(/\r?\n/g, "");
-        if (sectionTitle) {
+        if (sectionTitle && countMessage != "") {
             summaryMessage = sectionTitle + ": " + countMessage;
         }
         else {
@@ -65686,12 +68421,13 @@ function generateSummaryLink(sectionId) {
             linkType = "uif-infoMessageItem";
             highlight = kradVariables.INFO_HIGHLIGHT_SECTION_CLASS;
         }
-        summaryLink = jQuery("<li data-messageItemFor='" + sectionId + "' class='" + linkType + "'><a href='#'>"
+        summaryLink = jQuery("<li data-messageItemFor='" + sectionId + "' class='" + linkType + "'><a "
+                + "class='alert-link' href='#'>"
                 + summaryMessage + "</a></li>");
 
         summaryLink.find("a").click(function (event) {
             event.preventDefault();
-            var header = jQuery("[data-header_for='" + sectionId + "']").find("> :header, > label, > a > :header, > a > label");
+
             jumpToElementById(sectionId);
 
             var firstItem = jQuery("[data-messages_for='" + sectionId + "'] > ul > li:first");
@@ -65860,27 +68596,28 @@ function setupShowReqIndicatorCheck(controlName, requiredName, booleanFunction) 
 
         var id = jQuery("[name='" + escapeName(requiredName) + "']").attr("id");
         id = getAttributeId(id);
+        var label = jQuery("[data-label_for='" + id + "']");
         var indicator;
         if (id) {
-            var label = jQuery("#" + id + "_label_span");
-            if (label.length) {
-                indicator = label.find(".uif-requiredMessage");
+            indicator = label.data("req_indicator");
+            if (indicator === undefined) {
+                indicator = jQuery("[data-role='View']").data("req_indicator");
             }
         }
 
         //check right now if it satisfies the condition, only if an indicator is not shown
         //(indicators that are shown stay shown for this check, as the server or another check must have shown them)
-        if (indicator != null && indicator.length && indicator.is(':hidden')) {
-            checkForRequiredness(controlName, requiredName, booleanFunction, indicator);
+        if (label.find("uif-requiredMessage").length == 0) {
+            checkForRequiredness(requiredName, booleanFunction, indicator);
         }
 
         //also check condition when corresponding control is changed
         jQuery("[name='" + escapeName(controlName) + "']").change(function () {
-            checkForRequiredness(controlName, requiredName, booleanFunction, indicator);
+            checkForRequiredness(requiredName, booleanFunction, indicator);
         });
 
         jQuery("[name='" + escapeName(controlName) + "']").bind("checkReq", function () {
-            checkForRequiredness(controlName, requiredName, booleanFunction, indicator);
+            checkForRequiredness(requiredName, booleanFunction, indicator);
         });
     }
 }
@@ -65888,22 +68625,26 @@ function setupShowReqIndicatorCheck(controlName, requiredName, booleanFunction) 
 /**
  * Checks a particular field to see if it is now required, the field is considered required if the booleanFunction
  * evaluates to true.
- * @param controlName
+ *
  * @param requiredName
  * @param booleanFunction
  * @param indicator
  */
-function checkForRequiredness(controlName, requiredName, booleanFunction, indicator) {
+function checkForRequiredness(requiredName, booleanFunction, indicator) {
+    var requiredControl = jQuery("[name='" + escapeName(requiredName) + "']");
+    var label = jQuery("label[for='" + requiredControl.attr("id") + "']");
     if (indicator != null && indicator.length) {
         if (booleanFunction()) {
-            indicator.show();
-            jQuery("[name='" + escapeName(requiredName) + "']").attr("aria-required", "true");
-            jQuery("[name='" + escapeName(requiredName) + "']").addClass("required");
+            if (label.find(".uif-requiredMessage").length == 0) {
+                label.append("<span class='uif-requiredMessage'>" + indicator + "</span>");
+            }
+            requiredControl.attr("aria-required", "true");
+            requiredControl.addClass("required");
         }
         else {
-            indicator.hide();
-            jQuery("[name='" + escapeName(requiredName) + "']").attr("aria-required", "false");
-            jQuery("[name='" + escapeName(requiredName) + "']").removeClass("required");
+            label.find(".uif-requiredMessage").remove();
+            requiredControl.attr("aria-required", "false");
+            requiredControl.removeClass("required");
         }
     }
 }
@@ -65934,7 +68675,7 @@ function mustOccurCheck(total, min, max) {
         return 0;
     }
 };/*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65948,208 +68689,1633 @@ function mustOccurCheck(total, min, max) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Show growl with message, title and theme passed in
- *
- * @param message message of this jGrowl
- * @param title title of this jGrowl, can be empty string for none
- * @param theme class to append to jGrowl classes, can be empty string for none
- */
-function showGrowl(message, title, theme) {
-    var context = getContext();
-    if (theme) {
-        context.jGrowl(message, { header:title, theme:theme});
-    }
-    else {
-        context.jGrowl(message, { header:title});
-    }
-}
 
 /**
- * Set default growl options for this view
+ * Setup the breadcrumbs for this view by replacing the old breadcrumbs with the newest from the page
  *
- * @param options
+ * @param displayBreadcrumbsWhenOne display the breadcrumbs when there is only one when true, otherwise do not
  */
-function setGrowlDefaults(options) {
-    var context = getContext();
-    context.jGrowl.defaults = context.extend(context.jGrowl.defaults, options);
-}
+function setupBreadcrumbs(displayBreadcrumbsWhenOne) {
+    var breadcrumbsWrapper = jQuery("#Uif-BreadcrumbWrapper");
 
-/**
- * Invoked to initialize defaults for refresh or navigation blocking
- *
- * @param options - default options for the block ui plugin
- * @param blockingType - type of blocking the options should apply to
- */
-function setBlockUIDefaults(options, blockingType) {
-    var opts = {};
-
-    if (!options || !blockingType) {
+    if (!breadcrumbsWrapper.length) {
         return;
     }
 
-    if (blockingType == "navigation") {
-        opts.navigationOptions = options;
-    } else if (blockingType == "refresh") {
-        opts.refreshOptions = options;
+    //clear the old breadcrumbs
+    breadcrumbsWrapper.empty();
+    breadcrumbsWrapper.show();
+
+    var breadcrumbUpdate = jQuery("#Uif-BreadcrumbUpdate");
+
+    //find the new ones
+    var breadcrumbList = breadcrumbUpdate.find("> ol").detach();
+    var items = breadcrumbList.find("> li");
+
+    //dont display if display when one is false and there is only one item
+    if ((!displayBreadcrumbsWhenOne && items.length == 1) || items.length == 0) {
+        breadcrumbsWrapper.hide();
+        breadcrumbUpdate.remove();
+        return;
     }
 
-    var context = getContext();
-    context.blockUI.defaults = context.extend(context.blockUI.defaults, opts);
+    //set up sibling breadcrumb handler
+    jQuery(breadcrumbList).on("click", ".uif-breadcrumbSiblingLink", function () {
+        var content = jQuery(this).parent().find(".uif-breadcrumbSiblingContent");
+        var breadcrumb = jQuery(this).parent().find("[data-role='breadcrumb']");
+        var siblingLink = this;
+
+        if (content.length && !content.is(":visible") && breadcrumb.length && !jQuery(siblingLink).data("close")) {
+            content.attr("style", "");
+            content.position({
+                my: "left top",
+                at: "left bottom+5",
+                of: breadcrumb
+            });
+            content.show();
+
+            jQuery(document).on("mouseup.bc-sibling", function (e) {
+                var container = jQuery(".uif-breadcrumbSiblingContent:visible");
+
+                //if not in the breadcrumb sibling content, close and remove this handler
+                if (container.has(e.target).length === 0) {
+                    container.hide();
+                    jQuery(document).off("mouseup.bc-sibling");
+                }
+
+                //if the target clicked is the siblingLink, mark it with a close flag (so click handler does not
+                //reopen - processed after the mouseup)
+                if (e.target == siblingLink) {
+                    jQuery(siblingLink).data("close", true);
+                }
+            });
+
+        }
+
+        //remove the close flag
+        if (jQuery(siblingLink).data("close")) {
+            jQuery(siblingLink).data("close", false);
+        }
+    });
+
+    //if the last item has a link, make it a span
+    var lastLink = items.last().find("> a[data-role='breadcrumb']");
+    if (lastLink.length) {
+        lastLink.replaceWith(function () {
+            return jQuery("<span data-role='breadcrumb'>" + jQuery(this).html() + "</span>");
+        });
+    }
+
+    //append to the wrapper
+    jQuery("#Uif-BreadcrumbWrapper").append(breadcrumbList);
+    breadcrumbUpdate.remove();
+}
+
+function setupLocationSelect(controlId) {
+    var control = jQuery("select#" + controlId);
+    if (control.length) {
+        //navigate if the value changes
+        control.on("change", function () {
+            var selectedOption = jQuery(this).find("option:selected");
+            if (!selectedOption.length) {
+                return;
+            }
+
+            var location = selectedOption.data("location");
+            if (!location) {
+                return;
+            }
+
+            window.location.href = location;
+        });
+
+        //navigate when the same option is clicked
+        control.find("option").on("mouseup", function () {
+            var selectedOption = jQuery(this);
+            if (!selectedOption && selectedOption.is("selected")) {
+                return;
+            }
+
+            var location = selectedOption.data("location");
+            if (!location) {
+                return;
+            }
+
+            window.location.href = location;
+        });
+
+        //navigate on enter event
+        control.on("keyup", function (e) {
+            if (e.keyCode == 13) {
+                var selectedOption = jQuery(this).find("option:selected");
+                if (!selectedOption.length) {
+                    return;
+                }
+
+                var location = selectedOption.data("location");
+                if (!location) {
+                    return;
+                }
+
+                window.location.href = location;
+            }
+        });
+    }
 }
 
 /**
- * Uses jQuery blockUI plug-in to show a loading notification
+ * Initializes the tab menu to give the active style to the current page, if given, otherwise the first the first
+ * tabe is given the active style
+ *
+ * @param {string} listId the id of the ul element for this tab menu
+ * @param {string=} currentPage
+ */
+function initTabMenu(listId, currentPage) {
+    jQuery(document).ready(function () {
+        var $nav = jQuery("#" + listId);
+        $nav.find("li").removeClass("active");
+
+        var firstItem = $nav.find("li:first");
+        var currentTab = firstItem.find("a");
+
+        if(currentPage){
+            currentTab = $nav.find("a[name='" + currentPage + "']");
+
+        }
+
+        if(currentTab){
+            currentTab.closest("li").addClass("active");
+        }
+    });
+}
+
+/**
+ * Setup the sidebar navigation menu scripts, which allow for collapsing, and toggling of sub menus, as well as icon
+ * swapping when interacting with these toggles
+ *
+ * @param id the id of the navigation group
+ * @param openedToggleIconClass the icon to use when a sub toggle menu is open
+ * @param closedToggleIconClass the icon to use when a sub toggle menu is closed
+ */
+function setupSidebarNavMenu(id, openedToggleIconClass, closedToggleIconClass) {
+    var navMenu = jQuery("#" + id);
+    var viewContent = jQuery("#" + kradVariables.VIEW_CONTENT_WRAPPER);
+
+    adjustPageLeftMargin();
+    viewContent.on(kradVariables.EVENTS.ADJUST_PAGE_MARGIN, function(){
+        adjustPageLeftMargin();
+    });
+
+    // TODO Unsure if the following line is needed:
+    jQuery(".show-popover").popover();
+
+    // Animation and icon swapping handler for the sub toggle menus
+    jQuery("a.dropdown-toggle", navMenu).click(function () {
+        var subMenu = jQuery(this).next(".submenu");
+        var icon = jQuery(this).children("." + kradVariables.TOGGLE_ARROW_CLASS);
+        if (icon.hasClass(closedToggleIconClass)) {
+            icon.addClass("anim-turn90");
+        } else {
+            icon.addClass("anim-turn-90");
+        }
+        subMenu.slideToggle(400, function () {
+            if (jQuery(this).is(":hidden")) {
+                icon.attr("class", kradVariables.TOGGLE_ARROW_CLASS + " " + closedToggleIconClass);
+            } else {
+                icon.attr("class", kradVariables.TOGGLE_ARROW_CLASS + " " + openedToggleIconClass);
+            }
+            icon.removeClass("anim-turn90").removeClass("anim-turn-90");
+        });
+    });
+
+    // If menu is already collapsed, show appropriate icon
+    jQuery("#" + id + "." + kradVariables.MENU_COLLAPSED
+            + "." + kradVariables.MENU_COLLAPSE_ACTION + " > span").attr("class", kradVariables.MENU_COLLAPSE_ICON_RIGHT);
+
+    // Collapsing handler for when the menu collapse is clicked, swaps icon, classes, and page margin
+    jQuery("." + kradVariables.MENU_COLLAPSE_ACTION).click(function () {
+        jQuery("#" + id).toggleClass(kradVariables.MENU_COLLAPSED);
+        var menuWidth = jQuery("#" + id).outerWidth(true);
+        jQuery("[data-role='Page']").css("margin-left", menuWidth);
+        if (jQuery("#" + id).hasClass(kradVariables.MENU_COLLAPSED)) {
+            jQuery("." + kradVariables.MENU_COLLAPSE_ACTION + " > span").attr("class", kradVariables.MENU_COLLAPSE_ICON_RIGHT);
+            jQuery.cookie(kradVariables.MENU_COLLAPSED, "true");
+        } else {
+            jQuery("." + kradVariables.MENU_COLLAPSE_ACTION + " > span").attr("class", kradVariables.MENU_COLLAPSE_ICON_LEFT);
+            jQuery.cookie(kradVariables.MENU_COLLAPSED, "false");
+        }
+    });
+
+    // Setup event that can be fired to open the menu
+    jQuery("#" + id).on("show.bs.collapse", function () {
+        if (jQuery(this).hasClass(kradVariables.MENU_COLLAPSED)) {
+            jQuery(this).removeClass(kradVariables.MENU_COLLAPSED);
+        }
+    });
+
+    // Mark the current active link
+    markActiveMenuLink();
+
+    // Add open toggleClass if the item is active
+    jQuery(".nav > li." + kradVariables.ACTIVE_CLASS + " > a > ." + kradVariables.TOGGLE_ARROW_CLASS,
+            navMenu).removeClass(closedToggleIconClass).addClass(openedToggleIconClass);
+}
+
+function adjustPageLeftMargin(){
+    var page = jQuery("[data-role='Page']");
+    var menuWidth = jQuery("#Uif-Navigation >").outerWidth(true);
+    page.css("margin-left", menuWidth);
+    page.addClass("uif-hasLeftNav");
+}
+
+/**
+ * Mark the menu link that is considered to be active for the current page
+ */
+function markActiveMenuLink() {
+    // Clear current active
+    jQuery("#" + kradVariables.NAVIGATION_ID + " li." + kradVariables.ACTIVE_CLASS).removeClass(kradVariables.ACTIVE_CLASS);
+
+    // Select active
+    var pageId = getCurrentPageId();
+    var liParents = jQuery("a[name='" + pageId + "']").parents("li");
+    liParents.addClass(kradVariables.ACTIVE_CLASS);
+}
+
+/** Widgets */
+
+/**
+ * Sets ups a text popout button and window for this particular field that will be generated
+ * when that button is clicked
+ *
+ * @param id - id of the control
+ * @param label - label to be used in popout
+ * @param summary - summary to be used in popout
+ * @param constraint - constraint to be used in popout
+ */
+function setupTextPopout(id, label, summary, constraint, readOnly) {
+    var options = {label: label, summary: summary, constraint: constraint, readOnly: readOnly};
+    jQuery("#" + id).initPopoutText(options);
+}
+
+/**
+ * Uses jQuery fancybox to open a lightbox for a link's content. The second
+ * argument is a Map of options that are available for the FancyBox. See
+ * <link>http://fancybox.net/api</link> for documentation on these options.
+ * The third argument should only be true for inquiries and lookups.  When this
+ * argument is true additional URL parameters are added for the bread crumbs history.
+ *
+ * @param linkId -
+ *          id for the link that the fancybox should be linked to
+ * @param options -
+ *          map of option settings (option name/value pairs) for the plugin
+ * @parm isAddAppParms -
+ *          true if application parameters should be added to the link, false otherwise
+ */
+function createLightBoxLink(linkId, options, addAppParms) {
+    jQuery(function () {
+        var renderedInLightBox = isCalledWithinLightbox();
+
+        // first time content is brought up in lightbox we don't want to continue history
+        var flow = 'start';
+        if (renderedInLightBox) {
+            flow = jQuery("input[name='" + kradVariables.FLOW_KEY + "']").val();
+        }
+
+        var link = jQuery("#" + linkId);
+        // Check if this is called within a light box
+        if (!renderedInLightBox) {
+            // If this is not the top frame, then create the lightbox
+            // on the top frame to put overlay over whole window
+            link.click(function (e) {
+                e.preventDefault();
+
+                options['href'] = link.attr('href');
+                getContext().fancybox(options);
+            });
+        } else {
+            link.attr('target', '_self');
+        }
+
+        if (addAppParms) {
+            // Set the renderedInLightBox = true param
+            if (link.attr('href').indexOf('&renderedInLightBox=true') == -1) {
+                var href = link.attr('href');
+
+                link.attr('href', href + '&renderedInLightBox=true&flow=' + flow);
+            }
+        }
+    });
+}
+
+function handleLightboxOpen(link, options, addAppParms, event) {
+    event.preventDefault();
+    var renderedInLightBox = isCalledWithinLightbox();
+
+    // first time content is brought up in lightbox we don't want to continue history
+    var flow = 'start';
+    if (renderedInLightBox) {
+        flow = jQuery("input[name='" + kradVariables.FLOW_KEY + "']").val();
+    }
+
+    if (addAppParms) {
+        // Set the renderedInLightBox = true param
+        if (link.attr('href').indexOf('&renderedInLightBox=true') == -1) {
+            var href = link.attr('href');
+
+            //set lightbox flag and continue flow
+            link.attr('href', href + '&renderedInLightBox=true&flow=' + flow);
+        }
+    }
+
+    // Check if this is called within a light box
+    if (!renderedInLightBox) {
+        // If this is not the top frame, then create the lightbox
+        // on the top frame to put overlay over whole window
+        options['href'] = link.attr('href');
+        getContext().fancybox(options);
+    } else {
+        window.location = link.attr('href');
+    }
+}
+
+/**
+ * Submits the form based on the quickfinder action identified by the given id and display the result content in
+ * a lightbox using the jQuery fancybox. If we are not currently in a lightbox, we will request a redirect URL
+ * for the lightbox contents. Otherwise, the internal iframe of the lightbox will be redirected.
  *
  * <p>
- * The loading functionality is used to block an area of the screen and to display a message while
- * a request is being processed. If elementToBlock is given (known as a refresh block), the blocking will occur
- * only on the area covered by that element. Else the entire window will be blocked (known as navigation blocking).
+ * See <link>http://fancybox.net/api</link> for documentation on plugin options
  * </p>
  *
- * <p>
- * Depending on whether the blocking is for a refresh or navigation, separate blockUI defaults will be used. These
- * defaults are initialized through the View object or script
- * </p>
- *
- * @param loadingMessage - (optional) message to display while blocking, defaults to 'Loading...'
- * @param elementToBlock - (optional) jQuery object representing an element that should be blocked, defaults to
- * entire window if not given
- * @param replaceElement - (optional) boolean that indicates to replace the element contents with the loading
- * notification instead of an overlay, defaults to false
- * @param options - (optional) adding plug-in options for blockUI
+ * @param componentId
+ *          id for the action component that the fancybox should be linked to
+ * @param options
+ *          map of option settings (option name/value pairs) for the fancybox plugin
+ * @param lookupReturnByScript - boolean that indicates whether the lookup should return through script
+ *        or via a server post
  */
-function showLoading(loadingMessage, elementToBlock, replaceElement, options) {
-    var context = getContext();
+function createLightBoxPost(componentId, options, lookupReturnByScript) {
+    jQuery(function () {
+        // get data that should be submitted when the action is selected
+        var data = {};
 
-    if (elementToBlock && elementToBlock.length) {
-        var blockingOptions = context.blockUI.defaults.refreshOptions || {};
-    }
-    else {
-        var blockingOptions = context.blockUI.defaults.navigationOptions || {};
-    }
+        var submitData = jQuery("#" + componentId).data(kradVariables.SUBMIT_DATA);
+        jQuery.extend(data, submitData);
 
-    if (!loadingMessage) {
-        loadingMessage = getMessage(kradVariables.MESSAGE_LOADING);
-    }
+        // Check if this is not called within a lightbox
+        var renderedInLightBox = isCalledWithinLightbox();
+        if (!renderedInLightBox) {
+            data['jumpToId'] = componentId;
+            data['ajaxRequest'] = 'true';
+            data['actionParameters[renderedInLightBox]'] = 'true';
+            data['actionParameters[flowKey]'] = 'start';
+            data['actionParameters[returnByScript]'] = '' + lookupReturnByScript;
 
-    var loadingContent = '<img src="' + blockingOptions.blockingImage + '" alt="'
-            + loadingMessage + '" /> ' + loadingMessage;
+            if (top == self) {
+                data['actionParameters[returnTarget]'] = '_parent';
+            } else {
+                data['actionParameters[returnTarget]'] = 'iframeportlet';
+            }
 
-    if (elementToBlock && elementToBlock.length) {
-        if (replaceElement) {
-            elementToBlock.html(loadingContent);
+            var jsonViewState = getSerializedViewState();
+            if (jsonViewState) {
+                jQuery.extend(data, {clientViewState: jsonViewState});
+            }
+
+            // if refreshing the view on return from lookup need to clear dirty fields else
+            // a warning is given
+            if (!lookupReturnByScript) {
+                dirtyFormState.skipDirtyChecks = true;
+            }
+
+            // Do the Ajax submit on the kualiForm form
+            jQuery("#kualiForm").ajaxSubmit({
+                data: data,
+                success: function (data) {
+                    // Perform cleanup when lightbox is closed
+                    // TODO: this stomps on the post form (clear out) so need to another
+                    // way to clear forms when the lightbox performs a post back
+                    // options['beforeClose'] = cleanupClosedLightboxForms;
+
+                    // get the lookup redirect URL from the response
+                    var lookupUrl = jQuery(data).text();
+
+                    // Add the returned URL to the FancyBox href setting
+                    options['href'] = lookupUrl.replace(/&amp;/g, '&');
+
+                    // Open the light box
+                    getContext().fancybox(options);
+                }
+            });
+        } else {
+            // add parameters for lightbox and do standard submit
+            data['actionParameters[renderedInLightBox]'] = 'true';
+            data['actionParameters[returnTarget]'] = '_self';
+            data['actionParameters[flowKey]'] = jQuery("input[name='" + kradVariables.FLOW_KEY + "']").val();
+
+            nonAjaxSubmitForm(data['methodToCall'], data);
         }
-        else {
-            blockingOptions = jQuery.extend(blockingOptions, {message:loadingContent});
-            elementToBlock.block(blockingOptions);
-        }
-    }
-    else {
-        loadingContent = '<h1>' + loadingContent + '</h1>';
-        blockingOptions = jQuery.extend(blockingOptions, {message:loadingContent});
-        context.blockUI(blockingOptions);
-    }
+    });
 }
 
 /**
- * Invoked to remove a loading/blocking indicator
+ * Check if the code is inside a lightbox
  *
- * @param elementToBlock - (optional) the element the blocking is on, if not given it is assumed the entire
- * window is being blocked
+ * @return true if called within a lightbox, false otherwise
  */
-function hideLoading(elementToBlock) {
-    if (nonEmpty(elementToBlock)) {
-        elementToBlock.unblock();
-    }
-    else {
-        var context = getContext();
-        context.unblockUI();
-    }
-}
-
-/**
- * Adds the icon that indicates the contents of a field have changed from the compared value (for instance the new side
- * on maintenance documents) to the field markers span
- *
- * @param fieldId - id for the field the icon should be added to
- */
-function showChangeIcon(fieldId) {
-    var fieldMarkerSpan = jQuery("#" + fieldId + "_markers");
-    var fieldIcon = jQuery("#" + fieldId + "_changeIcon");
-
-    if (fieldMarkerSpan.length > 0 && fieldIcon.length == 0) {
-        fieldMarkerSpan.append("<img id='" + fieldId + "_changeIcon' alt='" + getMessage(kradVariables.MESSAGE_CHANGE) + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "asterisk_orange.png'>");
-    }
-}
-
-/**
- * Add icon to a group header that indicates the data for the group has changed
- *
- * @param headerFieldId - id for the header field the icon should be added to
- */
-function showChangeIconOnHeader(headerFieldId) {
-    showChangeIconOnGroupHeader(headerFieldId, "_div");
-}
-
-/**
- * Add icon to a group header that indicates the data for the group has changed
- *
- * @param headerFieldId - id for the header field the icon should be added to
- */
-function showChangeIconOnDisclosure(headerFieldId) {
-    showChangeIconOnGroupHeader(headerFieldId, "_toggle");
-}
-
-/**
- * Add icon to a group header element (disclosure/header) that indicates the data for the group has changed
- *
- * @param fieldId - id for the header field the icon should be added to
- */
-function showChangeIconOnGroupHeader(fieldId, idSuffix) {
-    var targetElement = jQuery("#" + fieldId + idSuffix).find("[class~=uif-headerText-span]");
-    var headerIcon = jQuery("#" + fieldId + "_changeIcon");
-
-    if (targetElement.length > 0 && headerIcon.length == 0) {
-        targetElement.append("<img id='" + fieldId + "_changeIcon' class='" + kradVariables.CHANGED_HEADER_ICON_CLASS + "' alt='" + getMessage(kradVariables.MESSAGE_CHANGE) + "' src='" + getConfigParam(kradVariables.IMAGE_LOCATION) + "asterisk_orange.png'>");
-    }
-}
-
-// Applies the watermark to the input with the id specified
-function createWatermark(id, watermark) {
-    jQuery("#" + id).watermark(watermark);
-}
-
-/**
- * If the content is an incident report view returns true, otherwise returns false
- *
- * @param content - response contents
- * @returns {Boolean} true if there was an incident, false otherwise
- */
-function checkForIncidentReport(content) {
-    var viewId = jQuery("#viewId", content);
-    if (viewId.length && viewId.val() === kradVariables.INCIDENT_REPORT_VIEW_CLASS) {
-        return true;
-    }
-    else {
+function isCalledWithinLightbox() {
+    var isRenderedInLightbox = jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val();
+    if (isRenderedInLightbox == undefined) {
         return false;
     }
+
+    return isRenderedInLightbox.toUpperCase() == 'TRUE' || isRenderedInLightbox.toUpperCase() == 'YES';
+    // reverting for KULRICE-8346
+//    try {
+//        // For security reasons the browsers will not allow cross server scripts and
+//        // throw an exception instead.
+//        // Note that bad browsers (e.g. google chrome) will not catch the exception
+//        if (jQuery("#fancybox-frame", parent.document).length) {
+//            return true;
+//        }
+//    }
+//    catch (e) {
+//        // ignoring error
+//    }
+//
+//    return false;
 }
 
 /**
- * Called when client side validation is performed (for an action) and are errors
- * are present to display a notification to the user
+ * Opens the inquiry window
+ * Is called from the onclick event on the direct inquiry
+ * The parameters is added by dynamically getting the values
+ * for the fields in the parameter maps and then added to the url string
  *
- * @param message - (optional) message for notification, default to generic message if not given
+ * @param url -
+ *          the base url to use to call the inquiry
+ * @param paramMap -
+ *          array of field parameters for the inquiry
+ * @param showLightBox -
+ *          flag to indicate if it must be shown in a lightbox
+ * @param lightBoxOptions -
+ *          map of option settings (option name/value pairs) for the lightbox plugin
  */
-function showClientSideErrorNotification(message) {
-    if (!message) {
-        message = getMessage(kradVariables.MESSAGE_FORM_CONTAINS_ERRORS);
+function showDirectInquiry(url, paramMap, showLightBox, lightBoxOptions) {
+    var parameterPairs = paramMap.split(",");
+    var queryString = "";
+
+    for (i in parameterPairs) {
+        var parameters = parameterPairs[i].split(":");
+        var value = checkDirectInquiryValueValid(jQuery('[name="' + escapeName(parameters[0]) + '"]').val());
+        if (!value) {
+            alert(getMessage(kradVariables.MESSAGE_PLEASE_ENTER_VALUE));
+            return false;
+        } else {
+            queryString = queryString + "&" + parameters[1] + "=" + value;
+        }
     }
 
-    showGrowl(message, getMessage(kradVariables.MESSAGE_ERROR), 'errorGrowl');
+    if (showLightBox) {
+        // Check if this is called within a light box
+        if (!getContext().find('.fancybox-inner', parent.document).length) {
+            // Perform cleanup when lightbox is closed
+            lightBoxOptions['beforeClose'] = cleanupClosedLightboxForms;
+
+            queryString = queryString + "&flow=start&renderedInLightBox=true";
+            lightBoxOptions['href'] = url + queryString;
+            getContext().fancybox(lightBoxOptions);
+        } else {
+            // If this is already in a lightbox just open in current lightbox
+            queryString = queryString + "&flow="
+                    + jQuery("input[name='" + kradVariables.FLOW_KEY + "']").val() + "&renderedInLightBox=true";
+            window.open(url + queryString, "_self");
+        }
+    } else {
+        queryString = queryString;
+        window.open(url + queryString, "_blank", "width=640, height=600, scrollbars=yes");
+    }
 }
 
+/**
+ * Removes wildcards and check for empty values
+ *
+ * @param value - value without wildcards or false if empty
+ */
+function checkDirectInquiryValueValid(value) {
+    value = value.replace(/\*/g, '');
+    if (value == "") {
+        return false;
+    }
+    return value;
+}
+
+/**
+ * Cleanup form data from server when lightbox window is closed
+ */
+function cleanupClosedLightboxForms() {
+    if (jQuery("input[name='" + kradVariables.FORM_KEY + "']").length) {
+        // get the formKey of the lightbox (fancybox)
+        var context = getContext();
+        var formKey = context('iframe.fancybox-iframe').contents().find("input[name='" + kradVariables.FORM_KEY + "']").val();
+
+        clearServerSideForm(formKey);
+    }
+}
+
+/**
+ * Uses jQuery DatePicker to render a calendar that can be used to select date
+ * values for the field with the given control id. The second argument is a Map
+ * of options that are available for the DatePicker. See
+ * <link>http://jqueryui.com/demos/datepicker/#option-showOptions</link> for
+ * documentation on these options
+ *
+ * @param controlId -
+ *          id for the control that the date picker should populate
+ * @param options -
+ *          map of option settings (option name/value pairs) for the plugin
+ */
+function createDatePicker(controlId, options, disabled) {
+    var fieldId = jQuery("#" + controlId).closest("div[data-role='InputField']").attr("id");
+    jQuery(function () {
+        var datePickerControl = jQuery("#" + controlId);
+        datePickerControl.datepicker(options);
+        datePickerControl.datepicker('option', 'onClose',
+                function () {
+                    getValidationData(jQuery("#" + fieldId)).messagingEnabled = true;
+                    jQuery(this).trigger("focusout");
+                    jQuery(this).trigger("focus");
+                });
+        datePickerControl.datepicker('option', 'beforeShow',
+                function () {
+                    getValidationData(jQuery("#" + fieldId)).messagingEnabled = false;
+                });
+
+        //KULRICE-7310 can't change only month or year with picker (jquery limitation)
+        datePickerControl.datepicker('option', 'onChangeMonthYear',
+                function (y, m, i) {
+                    var d = i.selectedDay;
+                    jQuery(this).datepicker('setDate', new Date(y, m - 1, d));
+                });
+
+        //KULRICE-7261 fix date format passed back.  jquery expecting mm-dd-yy
+        if (options.dateFormat == "mm-dd-yy" && datePickerControl[0].getAttribute("value").indexOf("/") != -1) {
+            datePickerControl.datepicker('setDate', new Date(datePickerControl[0].getAttribute("value")));
+        }
+        if (disabled === true) {
+            datePickerControl.datepicker('disable');
+            datePickerControl.next(".ui-datepicker-trigger").css("cursor", "not-allowed");
+        }
+    });
+
+    // in order to compensate for jQuery's "Today" functionality (which does not actually return the date to the input box), alter the functionality
+    jQuery.datepicker._gotoToday = function (id) {
+        var target = jQuery(id);
+        var inst = this._getInst(target[0]);
+        if (this._get(inst, 'gotoCurrent') && inst.currentDay) {
+            inst.selectedDay = inst.currentDay;
+            inst.drawMonth = inst.selectedMonth = inst.currentMonth;
+            inst.drawYear = inst.selectedYear = inst.currentYear;
+        }
+        else {
+            var date = new Date();
+            inst.selectedDay = date.getDate();
+            inst.drawMonth = inst.selectedMonth = date.getMonth();
+            inst.drawYear = inst.selectedYear = date.getFullYear();
+        }
+        this._notifyChange(inst);
+        this._adjustDate(target);
+
+        // The following two lines are additions to the original jQuery code
+        this._setDateDatepicker(target, new Date());
+        this._selectDate(id, this._getDateDatepicker(target));
+    }
+}
+
+/**
+ * Sets up the script necessary to toggle a group as a disclosure
+ *
+ * @param groupId -
+ *          id for the group to be toggled
+ * @param headerId -
+ *          id for the group's header in which the toggle link and image will be
+ *          inserted
+ * @param widgetId - id for the accordion widget, used for updating state
+ * @param defaultOpen -
+ *          indicates whether the group should be initially open or close
+ * @param collapsedIconClass -
+ *          class for the icon that is displayed with the group is collapsed
+ * @param expandedIconClass -
+ *          class for the icon that is displayed with the group is expanded
+ * @param animationSpeed -
+ *          speed at which the group should be expanded or collapsed
+ * @param renderIcon -
+ *          boolean that indicates whether the expanded or collapsed icon should be rendered
+ * @param ajaxRetrieval -
+ *          boolean that indicates whether the disclosure group should be retrieved when open
+ */
+function createDisclosure(groupId, headerId, widgetId, defaultOpen, collapsedIconClass, expandedIconClass, animationSpeed, renderIcon, ajaxRetrieval) {
+    jQuery(document).ready(function () {
+        var groupToggleLinkId = groupId + kradVariables.ID_SUFFIX.DISCLOSURE_TOGGLE;
+
+        var expandedIcon = "";
+        var collapsedIcon = "";
+        if (renderIcon && defaultOpen) {
+            expandedIcon = "<span id='" + groupToggleLinkId + "_exp" + "' class='" + expandedIconClass + "'></span>";
+            collapsedIcon = "<span style='display:none;' id='" + groupToggleLinkId + "_col" + "' class='" + collapsedIconClass + "'></span>";
+        }
+        else if (renderIcon && !defaultOpen) {
+            collapsedIcon = "<span id='" + groupToggleLinkId + "_col" + "' class='" + collapsedIconClass + "'></span>";
+            expandedIcon = "<span style='display:none;' id='" + groupToggleLinkId + "_exp" + "' class='" + expandedIconClass + "'></span>";
+        }
+
+        var content = jQuery("#" + groupId + kradVariables.ID_SUFFIX.DISCLOSURE_CONTENT);
+
+        // perform initial open/close and insert toggle link and image
+        var headerText = jQuery("#" + headerId).find(".uif-headerText-span:first");
+        if (defaultOpen) {
+            content.show();
+
+            content.attr(kradVariables.ATTRIBUTES.DATA_OPEN, true);
+
+            headerText.prepend(collapsedIcon);
+            headerText.prepend(expandedIcon);
+        }
+        else {
+            content.hide();
+
+            content.attr(kradVariables.ATTRIBUTES.DATA_OPEN, false);
+
+            headerText.prepend(expandedIcon);
+            headerText.prepend(collapsedIcon);
+        }
+
+        headerText.wrap("<a data-role=" + kradVariables.DATA_ROLES.DISCLOSURE_LINK + " data-linkfor='"
+                + content.attr("id") + "' href='#' "
+                + "id='" + groupToggleLinkId + "' "
+                + "data-open='" + defaultOpen + "' "
+                + "data-widgetid='" + widgetId + "' "
+                + "data-speed='" + animationSpeed + "' "
+                + "data-ajax='" + ajaxRetrieval + "'"
+                + "></a>");
+    });
+}
+
+/**
+ * Expands all the disclosure divs on the page
+ */
+function expandDisclosures() {
+    jQuery("a[data-role='" + kradVariables.DATA_ROLES.DISCLOSURE_LINK + "']").each(function () {
+        var contentId = jQuery(this).attr("data-linkfor");
+        if (jQuery("#" + contentId).attr(kradVariables.ATTRIBUTES.DATA_OPEN) == "false") {
+            jQuery(this).click();
+        }
+    });
+}
+
+/**
+ * Collapses all the disclosure divs on the page
+ */
+function collapseDisclosures() {
+    jQuery("a[data-role='" + kradVariables.DATA_ROLES.DISCLOSURE_LINK + "']").each(function () {
+        var contentId = jQuery(this).attr("data-linkfor");
+        if (jQuery("#" + contentId).attr(kradVariables.ATTRIBUTES.DATA_OPEN) == "true") {
+            jQuery(this).click();
+        }
+    });
+}
+
+/**
+ * Uses jQuery DataTable plug-in to decorate a table with functionality like
+ * sorting and page. The second argument is a Map of options that are available
+ * for the plug-in. See <a href=http://www.datatables.net/usage/>datatables</a> for
+ * documentation on these options
+ *
+ * @param tableId id for the table that should be decorated
+ * @param additionalOptions map of additional or override option settings (option name/value pairs) for the plugin
+ * @param groupingOptions (optional) if supplied, the collection will use rowGrouping with these options
+ */
+function createTable(tableId, additionalOptions, groupingOptions) {
+    jQuery(document).ready(function () {
+        var table = jQuery("#" + tableId);
+
+        var detailsOpen = table.parent().data("details_default_open");
+        table.data("open", detailsOpen);
+
+        if (groupingOptions) {
+            table.attr("data-groups", "true");
+        }
+
+        var options = {
+            "bDestory": true,
+            "bStateSave": true,
+            "fnStateSave": function (oSettings, oData) {
+                setComponentState(tableId, 'richTableState', oData);
+            },
+            "fnStateLoad": function (oSettings) {
+                var oData = getComponentState(tableId, 'richTableState');
+
+                return oData;
+            }
+        }
+
+        options = jQuery.extend(options, additionalOptions);
+
+        var hideActionColumnOption = {
+            "fnDrawCallback": function (oSettings) {
+                hideEmptyActionColumn(tableId, ".uif-collection-column-action");
+            }
+        }
+
+        options = jQuery.extend(options, hideActionColumnOption);
+
+        var exportOptions = {
+            "sDownloadSource": additionalOptions.sDownloadSource,
+            "oTableTools": {
+                "aButtons": [
+                    {
+                        "sExtends": "text",
+                        "sButtonText": "csv",
+                        "fnClick": function (nButton, oConfig) {
+                            window.location.href = additionalOptions.sDownloadSource + "&methodToCall=tableCsvRetrieval&formatType=csv";
+                        },
+                    },
+                    {
+                        "sExtends": "text",
+                        "sButtonText": "xml",
+                        "fnClick": function (nButton, oConfig) {
+                            window.location.href = additionalOptions.sDownloadSource + "&methodToCall=tableXmlRetrieval&formatType=xml";
+                        },
+                    },
+                    {
+                        "sExtends": "text",
+                        "sButtonText": "xls",
+                        "fnClick": function (nButton, oConfig) {
+                            window.location.href = additionalOptions.sDownloadSource + "&methodToCall=tableXlsRetrieval&formatType=xls";
+                        },
+                    }
+                ]
+            }
+        }
+
+        /// check that the export feature is turned on
+        if (options.sDom && options.sDom.search("T") >= 0) {
+            options = jQuery.extend(options, exportOptions)
+        }
+
+        var oTable = table.dataTable(options);
+
+        //make sure scripts are run after table renders (must be done here for deferred rendering)
+        runHiddenScripts(tableId, false, true);
+
+        //insure scripts (if any) are run on each draw, fixes bug with scripts lost when paging after a refresh
+        jQuery(oTable).on("dataTables.tableDraw", function (event, tableData) {
+            if (event.currentTarget != event.target) {
+                return;
+            }
+
+            runHiddenScripts(tableId, false, true);
+            jQuery("div[data-role='InputField'][data-has_messages='true']", "#" + tableId).each(function () {
+                var id = jQuery(this).attr('id');
+                var validationData = getValidationData(jQuery("#" + id));
+
+                if (validationData && validationData.hasOwnMessages) {
+                    handleMessagesAtField(id);
+                }
+            });
+        });
+
+        //handle row details related functionality setup
+        if (detailsOpen != undefined) {
+            jQuery(oTable).on("dataTables.tableDraw", function (event, tableData) {
+                if (event.currentTarget != event.target) {
+                    return;
+                }
+
+                if (table.data("open")) {
+                    openAllDetails(tableId);
+                }
+                else {
+                    closeAllDetails(tableId);
+                }
+            });
+
+            if (detailsOpen) {
+                openAllDetails(tableId, false);
+            }
+        }
+
+        // allow table column size recalculation on window resize
+        jQuery(window).bind('resize', function () {
+            // passing false to avoid copious ajax requests during window resize
+            oTable.fnAdjustColumnSizing(false);
+        });
+
+        if (groupingOptions) {
+            oTable.rowGrouping(groupingOptions);
+        }
+    });
+}
+
+/**
+ * Expands a data table row by finding the row that matches the actionComponent passed in, in the
+ * dataTable which matches tableId.  If useImages is true, images will be swapped out when the
+ * action is clicked.  The row will be closed if already open.
+ *
+ * @param actionComponent the actionComponent clicked
+ * @param tableId the dataTable to expand the clicked row in
+ * @param useImages if true, swap open/close images on click
+ */
+function rowDetailsActionHandler(actionComponent, tableId) {
+    var oTable = getDataTableHandle(tableId);
+
+    if (oTable != null) {
+        var row = jQuery(actionComponent).parents('tr')[0];
+        if (oTable.fnIsOpen(row)) {
+            closeDetails(oTable, jQuery(row), actionComponent, true);
+        }
+        else {
+            openDetails(oTable, jQuery(row), actionComponent, true);
+        }
+        jQuery(row).data("det-interact", true);
+    }
+}
+
+/**
+ * Open all row details in the table specified by id
+ *
+ * @param tableId id of the table to open all details for
+ * @param animate [optional] if true, animate during opening the rows
+ * @param forceOpen [optional] if true, force the each row details to open and reset interaction flag, otherwise if the
+ * row has been interacted with skip (used to retain state)
+ */
+function openAllDetails(tableId, animate, forceOpen) {
+    var oTable = getDataTableHandle(tableId);
+
+    if (oTable != null) {
+        var rows = jQuery(oTable).find('tr').not(".detailsRow");
+        rows.each(function () {
+            var row = jQuery(this);
+            //Means the row is not open and the user has not interacted with it (or force if forceOpen is true)
+            //This is done to retain row details "state" between table draws for rows the user may have interacted with
+            if (!oTable.fnIsOpen(this) && (!row.data("det-interact") || forceOpen)) {
+                var actionComponent = row.find("a[data-role='detailsLink']");
+
+                openDetails(oTable, row, actionComponent, animate);
+
+                //reset user interaction flag
+                row.data("det-interact", false);
+            }
+        });
+    }
+}
+
+/**
+ * Open the row details. If the ajaxRetrieval option is set this will retrieve the detail content.
+ *
+ * @param oTable the dataTable object handle
+ * @param row the row to open details for
+ * @param actionComponent [optional] actionComponent used to invoke the action, required if using image swap
+ * or ajaxRetrieval
+ * @param animate if true, the open will have an animation effect
+ */
+function openDetails(oTable, row, actionComponent, animate) {
+    var detailsGroup = row.find("[data-role='details'], span[data-role='placeholder']").filter(":first");
+    var ajaxRetrieval = jQuery(detailsGroup).is("span[data-role='placeholder']");
+    var detailsId = jQuery(detailsGroup).attr("id");
+
+    if (actionComponent && jQuery(actionComponent).data("swap") && jQuery(actionComponent).find("img").length) {
+        jQuery(actionComponent).find("img").replaceWith(detailsCloseImage.clone());
+    }
+
+    var newRow = oTable.fnOpenCustom(row[0], detailsGroup, "uif-rowDetails");
+    detailsGroup = jQuery(newRow).find("[data-role='details'], span[data-role='placeholder']").filter(":first");
+
+    detailsGroup.attr("data-open", "true");
+
+    //make sure scripts are run on the now shown group
+    runHiddenScripts(detailsGroup, true, true);
+
+    //show the group
+    detailsGroup.show();
+
+    if (ajaxRetrieval) {
+        var kradRequest = new KradRequest(jQuery(actionComponent));
+
+        if (!kradRequest.methodToCall) {
+            kradRequest.methodToCall = kradVariables.REFRESH_METHOD_TO_CALL;
+        }
+
+        kradRequest.successCallback = function(){
+            jQuery("#" + detailsId).show();
+        };
+
+        kradRequest.ajaxReturnType = kradVariables.RETURN_TYPE_UPDATE_COMPONENT;
+        kradRequest.refreshId = detailsId;
+
+        kradRequest.send();
+    }
+}
+
+/**
+ * Toggles column based on visibility indicator
+ *
+ * Handles headers and footers based on column class while using
+ * the footers index placement as the footer column cells do not
+ * include the css column class.
+ *
+ * @param tableId id of the html table element
+ * @param columnId css class specific to the table column cells
+ * @param bVisibility true to show elements, false to hide elements
+ */
+function toggleColumnVisibility(tableId, columnId, bVisibility) {
+    var oTable = getDataTableHandle(tableId);
+    var columnIndex = jQuery(oTable).find('thead th' + columnId).index();
+    var header = jQuery(oTable).find('thead th' + columnId);
+    var columns = jQuery(oTable).find('tr td:nth-child(' + (columnIndex+1) + ')');
+    var footer = jQuery(oTable).find('tfoot th').eq(columnIndex);
+    if (bVisibility) {
+        header.show();
+        columns.show();
+        footer.show();
+    } else {
+        // hide header, fields, footer
+        header.hide();
+        columns.hide();
+        footer.hide();
+    }
+}
+
+/**
+ * Identifies if there are visible elements in data column.
+ *
+ * Currently determines visibility for action columns and uses
+ * links, inputs, buttons or images as test. Should be expanded
+ * later to include divs/spans with text.
+ *
+ * @param tableId
+ * @param columnId
+ * @returns {boolean}
+ */
+function hasVisibleElementsInColumn(tableId, columnId) {
+    var oTable = getDataTableHandle(tableId);
+    var columnIndex = jQuery(oTable).find('thead th' + columnId).index();
+    var columns = jQuery(oTable).find('tr td:nth-child(' + (columnIndex+1) + ')');
+    var isColumnsEmpty = true;
+
+    jQuery.each(columns, function (index, td) {
+        var column = jQuery(td);
+        var columnContent = column.find("a, img, input[type!='hidden'], button");
+        var columnGroup = column.find("> div");
+        var columnGroupVisible = true;
+
+        if (columnGroup.css("display") == "none") {
+            columnGroupVisible = false;
+        }
+
+        columnContent.filter(function() {
+             return jQuery(this).css("display") != "none";
+        });
+
+        if (columnContent.size() > 0 && columnGroupVisible) {
+            isColumnsEmpty = false;
+
+            // break
+            return false;
+        }
+    });
+
+    return !isColumnsEmpty;
+}
+
+/**
+ * Checks for visible elements in the action column and toggle its
+ * display accordingly.
+ *
+ * @param tableId
+ * @param columnId
+ */
+function hideEmptyActionColumn(tableId, columnId) {
+    var bVisibility = hasVisibleElementsInColumn(tableId, columnId);
+    toggleColumnVisibility(tableId, columnId, bVisibility);
+}
+
+/**
+ * Close all row details in the table specified by id
+ *
+ * @param tableId id of the table to close all details for
+ * @param animate [optional] if true, animate during closing the rows
+ * @param forceOpen [optional] if true, force the each row details to close and reset interaction flag, otherwise if the
+ * row has been interacted with skip (used to retain state)
+ */
+function closeAllDetails(tableId, animate, forceClose) {
+    var oTable = getDataTableHandle(tableId);
+
+    if (oTable != null) {
+        var rows = jQuery(oTable).find('tr').not(".detailsRow");
+        rows.each(function () {
+            var row = jQuery(this);
+            //Means the row is open and the user has not interacted with it (or force if forceClose is true)
+            //This is done to retain row details "state" between table draws for rows the user may have interacted with
+            if (oTable.fnIsOpen(this) && (!row.data("det-interact") || forceClose)) {
+                var actionComponent = row.find("a[data-role='detailsLink']");
+
+                closeDetails(oTable, row, actionComponent, animate);
+
+                //reset user interaction flag
+                row.data("det-interact", false);
+            }
+        });
+    }
+}
+
+/**
+ * Close the row details.
+ *
+ * @param oTable the dataTable object handle
+ * @param row the row to close details for
+ * @param actionComponent [optional] actionComponent used to invoke the action, required if using image swap
+ * @param animate if true, the close will have an animation effect
+ */
+function closeDetails(oTable, row, actionComponent, animate) {
+    var fieldGroupWrapper = row.find("> td > [data-role='detailsFieldGroup']");
+    var detailsContent = row.next().first().find("> td > [data-role='details'], "
+            + "> td > span[data-role='placeholder']").filter(":first");
+
+    if (actionComponent && jQuery(actionComponent).data("swap") && jQuery(actionComponent).find("img").length) {
+        jQuery(actionComponent).find("img").replaceWith(detailsOpenImage.clone());
+    }
+
+    detailsContent.attr("data-open", "false");
+
+    detailsContent.hide();
+    fieldGroupWrapper.append(detailsContent.detach());
+    oTable.fnClose(row[0]);
+
+}
+
+/**
+ * Open or close all rows for the table specified by the actionComponent's "tableid" data attribute
+ *
+ * @param actionComponent the calling action component
+ */
+function toggleRowDetails(actionComponent) {
+    var action = jQuery(actionComponent);
+    var tableId = action.data("tableid");
+    var open = action.data("open");
+    if (open) {
+        closeAllDetails(tableId, true, true);
+        action.data("open", false);
+        jQuery("#" + tableId).data("open", false);
+    }
+    else {
+        openAllDetails(tableId, true, true);
+        action.data("open", true);
+        jQuery("#" + tableId).data("open", true);
+    }
+}
+
+/**
+ * Uses jQuery jsTree plug-in to decorate a div with tree functionality. The
+ * second argument is a Map of options that are available
+ * for the plug-in. See <link>http://www.jstree.com/documentation/</link> for
+ * documentation on these options
+ *
+ * @param divId -
+ *          id for the div that should be decorated
+ * @param options -
+ *          map of option settings (option name/value pairs) for the plugin
+ */
+function createTree(divId, options) {
+    jQuery(document).ready(function () {
+        jQuery("#" + divId).jstree(options);
+    });
+}
+
+/**
+ * Adds a ZeroClipboard flash movie to the copy trigger element which will copy the content of the content element
+ * on mousedown. This uses the ZeroClipboard plugin bundled with the Datatables plugin
+ *
+ * @param componentId - id of the parent component
+ * @param copyTriggerId - id of the element that must trigger the copy action
+ * @param contentElementId - id of the element that the value must be copied from
+ * @param showCopyConfirmation [optional] if supplied and true, a dialog will be triggered displaying the copied value
+ * after copy action
+ */
+function createCopyToClipboard(componentId, copyTriggerId, contentElementId, showCopyConfirmation) {
+
+    // the ZeroClipboard flash movie can only be added to visible elements so must be added on document ready
+    jQuery(document).ready(function () {
+
+        // Do not add flash to hidden syntax highlighters as this causes exception
+        if (jQuery("#" + componentId).is(':visible')) {
+
+            // setup new client for this
+            //KULRICE-10007 swf file needs to be unique in order to avoid caching.
+            var d = new Date();
+            ZeroClipboard.setMoviePath(getConfigParam(kradVariables.APPLICATION_URL)
+                    + '/plugins/datatables/copy_cvs_xls_pdf.swf?bogus=' + d.getTime());
+            var clip = new ZeroClipboard.Client();
+
+            // copy text on mousedown
+            clip.addEventListener('mousedown', function (client) {
+                clip.setText(jQuery("#" + contentElementId).text());
+            });
+
+            // show dialog
+            if (showCopyConfirmation) {
+                clip.addEventListener('complete', function (client, text) {
+                    alert('Copied to Clipboard :\n\n' + text);
+                });
+            }
+
+            // the element needs to be visible when adding the flah movie to it
+            // just reset the display css on the element after showing it
+            jQuery('#' + copyTriggerId).show();
+            clip.glue(jQuery('#' + copyTriggerId).get(0));
+            jQuery('#' + copyTriggerId).css("display", "");
+        }
+
+    });
+}
+
+function createAccordion(id, options, active) {
+    if (active == false) {
+        active = "false";
+    }
+
+    options = options || {};
+    options = jQuery.extend({
+        active: active,
+        heightStyle: "content",
+        collapsible: true
+    }, options);
+
+    jQuery("#" + id + " > ul").accordion(options);
+    //jQuery("#id > ul").accordion("option", "active", active);
+}
+
+/**
+ * Uses jQuery UI Auto-complete widget to provide suggest options for the given field. See
+ * <link>http://jqueryui.com/demos/autocomplete/</link> for documentation on this widget
+ *
+ * @param controlId id for the html control the autocomplete will be enabled for
+ * @param options map of option settings (option name/value pairs) for the widget
+ * @param queryFieldId id for the attribute field the control belongs to, used when making the
+ * request to execute the associated attribute query
+ * @param queryParameters map of parameters that should be sent along with the query. map key gives
+ * @param localSource indicates whether the suggest options will be provided locally instead of by
+ * a query
+ * @param suggestOptions when localSource is set to true provides the suggest options
+ * the name of the parameter to send, and the value gives the name of the field to pull the value from
+ * @param labelProp the property name that holds the label for the plugin
+ * @param valueProp the property name that holds the value for the plugin
+ * @param returnCustomObj if true, the full object is expected as return value
+ */
+function createSuggest(controlId, options, queryFieldId, queryParameters, localSource, suggestOptions, labelProp, valueProp, returnCustomObj) {
+    if (localSource) {
+        options.source = suggestOptions;
+    }
+    else {
+
+        options.source = function (request, response) {
+            var successFunction = function (data) {
+                response(data.resultData);
+            };
+
+            //special success logic for the object return case with label/value props specified
+            if (returnCustomObj && (labelProp || valueProp)) {
+                successFunction = function (data) {
+                    var isObject = false;
+
+                    if (data.resultData && data.resultData.length && data.resultData[0]) {
+                        isObject = (data.resultData[0].constructor === Object);
+                    }
+
+                    if (data.resultData && data.resultData.length && isObject) {
+                        //find and match props, and set them into each object so the autocomplete plugin can read them
+                        jQuery.each(data.resultData, function (index, object) {
+                            if (labelProp && object[labelProp]) {
+                                object.label = object[labelProp];
+                            }
+
+                            if (valueProp && object[valueProp]) {
+                                object.value = object[valueProp];
+                            }
+                        });
+                        response(data.resultData);
+                    }
+                    else {
+                        response(data.resultData);
+                    }
+
+                };
+            }
+
+            var queryData = {};
+
+            queryData.methodToCall = 'performFieldSuggest';
+            queryData.ajaxRequest = true;
+            queryData.ajaxReturnType = 'update-none';
+            queryData.formKey = jQuery("input[name='" + kradVariables.FORM_KEY + "']").val();
+            queryData.queryTerm = request.term;
+            queryData.queryFieldId = queryFieldId;
+
+            //If no queryTerm, exit, onBlur event has been fired with no content in the field
+            if (queryData.queryTerm === '') {
+                return;
+            }
+
+            for (var parameter in queryParameters) {
+                queryData['queryParameters.' + parameter] = coerceValue(queryParameters[parameter]);
+            }
+
+            jQuery.ajax({
+                url: jQuery("form#kualiForm").attr("action"),
+                dataType: "json",
+                beforeSend: null,
+                complete: null,
+                error: null,
+                data: queryData,
+                success: successFunction
+            });
+        };
+    }
+
+    jQuery(document).ready(function () {
+        jQuery("#" + controlId).autocomplete(options);
+    });
+}
+
+/**
+ * Create a locationSuggest which overrides the select method with one that will navigate the user based on url
+ * settings
+ *
+ * @param baseUrl baseUrl of the urls being built
+ * @param hrefProperty href url property name - if found use this always (do not build url)
+ * @param addUrlProperty additional url appendage property name for built urls
+ * @param requestParamNamesObj obj containing key/propertyName pairs for requestParameters on a built url
+ * @param requestParameterString static request parameter string to append
+ * @param controlId id for the html control the autocomplete will be enabled for
+ * @param options map of option settings (option name/value pairs) for the widget
+ * @param queryFieldId id for the attribute field the control belongs to, used when making the
+ * request to execute the associated attribute query
+ * @param queryParameters map of parameters that should be sent along with the query. map key gives
+ * @param localSource indicates whether the suggest options will be provided locally instead of by
+ * a query
+ * @param suggestOptions when localSource is set to true provides the suggest options
+ * the name of the parameter to send, and the value gives the name of the field to pull the value from
+ * @param labelProp the property name that holds the label for the plugin
+ * @param valueProp the property name that holds the value for the plugin
+ * @param returnCustomObj if true, the full object is expected as return value
+ */
+function createLocationSuggest(baseUrl, hrefProperty, addUrlProperty, requestParamNamesObj, requestParameterString, controlId, options, queryFieldId, queryParameters, localSource, suggestOptions, labelProp, valueProp, returnCustomObj) {
+
+    var originalFunction = undefined;
+    if (options.select != undefined) {
+        originalFunction = options.select;
+    }
+
+    options.select = function (event, object) {
+        var originalFunctionResult = true;
+        if (originalFunction) {
+            originalFunctionResult = originalFunction();
+        }
+
+        if (object && object.item && hrefProperty && object.item[hrefProperty]) {
+            window.location.href = object.item[hrefProperty];
+        }
+        else if (object && object.item && baseUrl) {
+            var builtUrl = baseUrl;
+
+            if (addUrlProperty && object.item[addUrlProperty]) {
+                builtUrl = builtUrl + object.item[addUrlProperty];
+            }
+
+            var addParams = "";
+            if (requestParamNamesObj) {
+                jQuery.each(requestParamNamesObj, function (key, propName) {
+                    if (object.item[propName]) {
+                        addParams = addParams + "&" + key + "=" + object.item[propName];
+                    }
+                });
+            }
+
+            if (requestParameterString) {
+                builtUrl = builtUrl + requestParameterString + addParams;
+            }
+            else if (addParams) {
+                builtUrl = builtUrl + "?" + addParams.substr(1, addParams.length);
+            }
+
+            window.location.href = builtUrl;
+        }
+
+        return originalFunctionResult;
+    };
+
+    createSuggest(controlId, options, queryFieldId, queryParameters, localSource, suggestOptions,
+            labelProp, valueProp, returnCustomObj);
+}
+
+/**
+ * Creates the spinner widget for an input
+ *
+ * @param id - id for the control to apply the spinner to
+ * @param options - options for the spinner
+ */
+function createSpinner(id, options) {
+    jQuery("#" + id).spinner(options);
+}
+
+/**
+ * Creates the tooltip widget for an component
+ *
+ * @param id - id for the component to apply the tooltip to
+ * @param options - options for the tooltip
+ */
+function createTooltip(id, text, options, onMouseHoverFlag, onFocusFlag) {
+    //var elementInfo = getHoverElement(id);
+    //var element = elementInfo.element;
+    var tooltipElement = jQuery("#" + id);
+
+    if (tooltipElement.is("header")) {
+        var innerHeaderSpan = tooltipElement.find("#" + id + "_header > .uif-headerText-span");
+        if (innerHeaderSpan.length == 1) {
+            tooltipElement = innerHeaderSpan;
+            options.container = jQuery("#" + id);
+        }
+    }
+
+    options.content = text;
+
+    if (onFocusFlag) {
+
+        // Add onfocus trigger
+        tooltipElement.focus(function () {
+            if (!isControlWithMessages(id)) {
+                var tooltipElement = jQuery(this);
+                var popoverData = tooltipElement.data(kradVariables.POPOVER_DATA);
+                if (!popoverData) {
+                    popoverData = initializeTooltip(tooltipElement, options);
+                }
+
+                if (!popoverData.shown) {
+                    popoverData.options.content = text;
+                    tooltipElement.popover("show");
+                    popoverData.shown = true;
+                }
+            }
+        });
+
+        tooltipElement.blur(function () {
+            if (!isControlWithMessages(id)) {
+                var tooltipElement = jQuery(this);
+                var popoverData = tooltipElement.data(kradVariables.POPOVER_DATA);
+
+                if (popoverData && popoverData.shown) {
+                    tooltipElement.popover("hide");
+                    popoverData.shown = false;
+                }
+            }
+        });
+    }
+    if (onMouseHoverFlag) {
+
+        tooltipElement.on("mouseover", function(){
+            if (!isControlWithMessages(id)) {
+                var tooltipElement = jQuery(this);
+                var popoverData = tooltipElement.data(kradVariables.POPOVER_DATA);
+                if (!popoverData) {
+                    popoverData = initializeTooltip(tooltipElement, options);
+                }
+
+                if (!popoverData.shown) {
+                    popoverData.options.content = text;
+                    tooltipElement.popover("show");
+                    popoverData.shown = true;
+                }
+            }
+        });
+
+        tooltipElement.on("mouseout", function(){
+            if (!isControlWithMessages(id) && !(onFocusFlag && jQuery("#" + id).is(":focus"))) {
+                var tooltipElement = jQuery(this);
+                var popoverData = tooltipElement.data(kradVariables.POPOVER_DATA);
+
+                if (popoverData && popoverData.shown) {
+                    tooltipElement.popover("hide");
+                    popoverData.shown = false;
+                }
+            }
+        });
+    }
+}
+
+function initializeTooltip(tooltipElement, extendedOptions, additionalClasses) {
+    var classAttr = "popover";
+    if (additionalClasses) {
+        classAttr = classAttr + " " + additionalClasses;
+    }
+    var options = {
+            trigger:"manual",
+            placement: "auto top",
+            html: true,
+            animation: false,
+            template: '<div class="' + classAttr + '"><div class="arrow"></div><div class="popover-content"></div></div>'
+        };
+
+    if (extendedOptions) {
+        jQuery.extend(options, extendedOptions);
+    }
+
+    tooltipElement.popover(options);
+    tooltipElement.attr("data-hasTooltip", "true");
+
+    return tooltipElement.data(kradVariables.POPOVER_DATA);
+}
+
+/**
+ * Checks if the component is a control or contains a control that contains validation messages
+ *
+ * @param id the id of the field
+ */
+function isControlWithMessages(id) {
+    // check if component is or contains a control
+    if (jQuery("#" + id).is("[data-role='Control']")
+            || (jQuery("#" + id).is("[data-role='InputField']") && jQuery("#" + id + "_control").is("[data-role='Control']"))) {
+        return hasMessage(id);
+    }
+    return false;
+}
+
+/**
+ * Checks if a field has any messages
+ *
+ * @param id
+ */
+function hasMessage(id) {
+    var fieldId = getAttributeId(id);
+    var messageData = getValidationData(jQuery("#" + fieldId));
+    if (messageData && (messageData.serverErrors.length || (messageData.errors && messageData.errors.length)
+            || messageData.serverWarnings.length || (messageData.warnings && messageData.warnings.length)
+            || messageData.serverInfo.length || (messageData.info && messageData.info.length))) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Hide the tooltip associated with the field by id
+ * @param fieldId the id of the field
+ */
+function hideTooltip(fieldId) {
+    var elementInfo = getTooltipElement(fieldId);
+    var element = elementInfo.element;
+    if (elementInfo.type == "fieldset") {
+        //for checkbox/radio fieldsets we put the tooltip on the label of the first input
+        element = jQuery(element).filter("label:first");
+    }
+    var data = getValidationData(jQuery("#" + fieldId));
+    if (data && data.showTimer) {
+        clearTimeout(data.showTimer);
+    }
+    var tooltipId = jQuery(element).GetBubblePopupID();
+    if (tooltipId) {
+        //this causes the tooltip to be IMMEDIATELY hidden, rather than wait for animation
+        jQuery("#" + tooltipId).css("opacity", 0);
+        jQuery("#" + tooltipId).hide();
+    }
+    jQuery(element).HideBubblePopup();
+
+}
+
+/**
+ * Gets the hover elements for a field by id.  The hover elements are the elements which will cause the tooltip to
+ * be shown, the element the tooltip is actually placed on is an item its hover elements.
+ * @param fieldId the id of the field
+ */
+function getTooltipElement(fieldId) {
+    var hasFieldset = jQuery("#" + fieldId).find("fieldset").length;
+    var elementInfo = {};
+
+    if (!hasFieldset) {
+        //regular case
+        elementInfo.element = jQuery("#" + fieldId);
+        elementInfo.type = "";
+        if (elementInfo.element.is("input:checkbox")) {
+            elementInfo.themeMargins = {
+                total: '13px',
+                difference: '0px'
+            };
+        }
+    }
+    else if (hasFieldset && jQuery("#" + fieldId).find("fieldset > span > input").length) {
+        //radio and checkbox fieldset case
+        //get the fieldset, the inputs its associated with, and the associated labels as hover elements
+        elementInfo.element = jQuery("#" + fieldId).find("fieldset, fieldset input, fieldset label");
+        elementInfo.type = "fieldset";
+        elementInfo.themeMargins = {
+            total: '13px',
+            difference: '2px'
+        };
+    }
+    else {
+        //not found or wrapping fieldset case
+        elementInfo.element = [];
+        elementInfo.type = "";
+    }
+    return elementInfo;
+}
+
+/**
+ * Executes a query with ajax for the given field to retrieve additional information after
+ * the field has been updated (on blur)
+ *
+ * @param controlId -
+ *           id for the html control to pull current value from
+ * @param queryFieldId -
+ *          id for the attribute field the control belongs to, used when making the
+ * request to execute the associated field query
+ * @param queryParameters -
+ *         map of parameters that should be sent along with the query. map key gives
+ * the name of the parameter to send, and the value gives the name of the field to pull the value from
+ * @param queryMethodArgs -
+ *         list of parameters that should be sent along with the query, the list gives the
+ * name of the field in the view to pull values from, and will be sent with the same name
+ * as a query parameter on the request (this will only be used by the js if a queryParameters mapping does not exist)
+ * @param returnFieldMapping -
+ *        map of fields that should be returned (updated) from the query. map key gives
+ * the name of the parameter to update, map value is the name of field to pull value from
+ */
+function executeFieldQuery(controlId, queryFieldId, queryParameters, queryMethodArgs, returnFieldMapping) {
+    var queryData = {};
+
+    queryData.methodToCall = 'performFieldQuery';
+    queryData.ajaxRequest = true;
+    queryData.ajaxReturnType = 'update-none';
+    queryData.formKey = jQuery("input[name='" + kradVariables.FORM_KEY + "']").val();
+    queryData.queryFieldId = queryFieldId;
+
+    var queryParamLength = 0;
+    for (var parameter in queryParameters) {
+        queryData['queryParameters.' + queryParameters[parameter]] = coerceValue(parameter);
+        queryParamLength++;
+    }
+
+    if (queryParamLength === 0) {
+        for (var parameter in queryMethodArgs) {
+            queryData['queryParameters.' + queryMethodArgs[parameter]] = coerceValue(parameter);
+        }
+    }
+
+    var submitOptions = {
+        url: jQuery("form#kualiForm").attr("action"),
+        dataType: "json",
+        data: queryData,
+        beforeSend: null,
+        complete: null,
+        error: null,
+        success: function (data) {
+            // write out return message (or blank)
+            var returnMessageSpan = jQuery("#" + queryFieldId + "_info_message");
+            if (returnMessageSpan.length > 0) {
+                returnMessageSpan.html(data.resultMessage);
+                if (data.resultMessageStyleClasses) {
+                    returnMessageSpan.addClass(data.resultMessageStyleClasses);
+                }
+            }
+
+            // write out informational field values, note if data does not exist
+            // this will clear the field values
+            for (var returnField in returnFieldMapping) {
+                var fieldValue = data.resultFieldData[returnField];
+                if (!fieldValue) {
+                    fieldValue = "";
+                }
+
+                // check for regular fields
+                var control = jQuery("[name='" + escapeName(returnField) + "']");
+                if (control.length > 0) {
+                    setValue(returnField, fieldValue);
+                    control.change();
+                }
+
+                // check for info spans
+                var returnFieldId = returnField.replace(/\./g, "_")
+                        .replace(/\[/g, "-lbrak-")
+                        .replace(/\]/g, "-rbrak-")
+                        .replace(/\'/g, "-quot-");
+                var infoFieldSpan = jQuery("#" + queryFieldId + "_info_" + returnFieldId);
+                if (infoFieldSpan.length > 0) {
+                    infoFieldSpan.html(fieldValue);
+                }
+            }
+        }
+    };
+
+    jQuery.ajax(submitOptions);
+}
 ;/*
  * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
  *
