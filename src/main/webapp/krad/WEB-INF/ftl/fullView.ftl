@@ -17,6 +17,8 @@
 -->
 <@krad.html view=view>
 
+    <a href="#mainContent" class="sr-only">Skip to main content</a>
+
     <@krad.script value="${KualiForm.growlScript!}"/>
 
     <!-- APPLICATION HEADER -->
@@ -86,7 +88,7 @@
 
     <#-- set focus and perform jump to -->
     <#if KualiForm.view.currentPage?has_content>
-        <@krad.script value="jQuery(document).on(kradVariables.PAGE_LOAD_EVENT, function(){
+        <@krad.script value="jQuery(document).one('pageUpdateComplete.uif', function(){
                     performFocusAndJumpTo(${KualiForm.view.currentPage.autoFocus?string}, true, true, '${KualiForm.focusId!}',
                         '${KualiForm.jumpToId!}', '${KualiForm.jumpToName!}');
                 });" component=KualiForm.view.currentPage/>
