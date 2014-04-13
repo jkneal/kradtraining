@@ -180,13 +180,6 @@ function confirmDialog(confirmText, headerText, options, protoDialogId) {
 
     jQuery('body').append($dialog);
 
-//    if (options.hide) {
-//        var customFunction = options.hide;
-//        options.hide = function() {
-//            customFunction();
-//        };
-//    }
-
     // handler to clear out the dialog after it is closed
     $dialog.bind(kradVariables.EVENTS.HIDE_MODAL, function (event) {
         $dialog.remove();
