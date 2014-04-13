@@ -105,7 +105,7 @@
 
   <!-- property name is defaulted by dialog group to dialogExplanations['dialogid'], can be
   overridden if necessary -->
-  <bean id="Uif-DialogExplanation" parent="Uif-InputField" p:required="true">
+  <bean id="Uif-DialogExplanation" parent="Uif-InputField" p:required="true" p:readOnly="false">
     <property name="control">
       <bean parent="Uif-TextAreaControl"/>
     </property>
@@ -152,23 +152,6 @@
 
   <bean id="Uif-DialogGroup-MultiOpt" parent="Uif-DialogGroup">
       <property name="footer.cssClasses" value="uif-footer"/>
-  </bean>
-
-  <bean id="Uif-WizardGroup" parent="Uif-WizardGroup-parentBean"/>
-  <bean id="Uif-WizardGroup-parentBean" abstract="true" class="org.kuali.rice.krad.uif.container.WizardGroup"
-        parent="Uif-DialogGroup">
-    <property name="cancelAction">
-      <bean parent="Uif-SecondaryActionButton" p:dialogDismissOption="IMMEDIATE" p:actionLabel="Cancel"/>
-    </property>
-    <property name="backAction">
-      <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go back"/>
-    </property>
-    <property name="continueAction">
-      <bean parent="Uif-PrimaryActionButton" p:actionLabel="Continue..." p:performClientSideValidation="true"/>
-    </property>
-    <property name="finishAction">
-      <bean parent="Uif-PrimaryActionButton" p:dialogDismissOption="REQUEST" p:actionLabel="Finish"/>
-    </property>
   </bean>
 
   <bean id="Uif-SensitiveData-DialogGroup" parent="Uif-DialogGroup-YesNo">
