@@ -8,7 +8,6 @@
     <bean id="Krtrain-BookEntryMenuNavigation" parent="Uif-MenuNavigationGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-HeaderTwo" p:headerText="Navigation"/>
                 <bean parent="Uif-NavigationActionLink" p:navigateToPageId=""
                       p:actionLabel=""/>
                 <bean parent="Uif-NavigationActionLink" p:navigateToPageId=""

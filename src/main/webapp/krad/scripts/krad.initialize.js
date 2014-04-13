@@ -759,9 +759,6 @@ function setupPage(validate) {
     // select current page
     var pageId = getCurrentPageId();
 
-    jQuery("ul.uif-navigationMenu").selectMenuItem({selectPage: pageId});
-    jQuery("ul.uif-tabMenu").selectTab({selectPage: pageId});
-
     // update URL to reflect the current page
     updateRequestUrl(pageId);
 
