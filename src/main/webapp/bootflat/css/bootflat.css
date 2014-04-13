@@ -368,35 +368,6 @@ blockquote {
 }
 
 /**
- * popover
- * --------------------------------------------------
- */
-.popover {
-  background-color: #434a54;
-  color: white;
-  border-color: #434a54;
-}
-.popover-title {
-  padding-bottom: 0;
-  font-weight: bold;
-  color: #aab2bd;
-  background-color: transparent;
-  border-bottom: none;
-}
-.popover.top .arrow, .popover.top .arrow:after {
-  border-top-color: #434a54;
-}
-.popover.right .arrow, .popover.right .arrow:after {
-  border-right-color: #434a54;
-}
-.popover.bottom .arrow, .popover.bottom .arrow:after {
-  border-bottom-color: #434a54;
-}
-.popover.left .arrow, .popover.left .arrow:after {
-  border-left-color: #434a54;
-}
-
-/**
  * progress
  * --------------------------------------------------
  */
