@@ -86,7 +86,7 @@ KradResponse.prototype = {
         $pageInLayout.show();
 
         $pageInLayout.trigger(kradVariables.EVENTS.ADJUST_STICKY);
-        $pageInLayout.trigger(kradVariables.EVENTS.PAGE_UPDATE_COMPLETE);
+        jQuery(document).trigger(kradVariables.EVENTS.PAGE_UPDATE_COMPLETE);
     },
 
 
