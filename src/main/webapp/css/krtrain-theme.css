@@ -74,8 +74,7 @@ h2.uif-headerText {
 	border: none;
 	font-size: 1.3em;
 	font-weight:bold;
-		font-family: Verdana, Geneva, sans-serif;
-		margin-bottom:20px;
+    font-family: Verdana, Geneva, sans-serif;
 }
 h3.uif-headerText {
 	color: #FFF;
@@ -716,4 +715,101 @@ span.uif-breadcrumbs a {
 	color: #999;
 	font-size: 0.85em;
 	font-style: italic;
+}
+
+.uif-applicationHeader .nav.navbar-nav.navbar-right.uif-listLayout>li>a
+	{
+	font-size: 16px;
+	text-decoration: none;
+}
+
+.uif-menuNavigationGroup .nav.nav-list li .uif-header .uif-headerText {
+	text-align: center;
+}
+
+.uif-inputField input[type="text"].form-control.uif-spinnerControl.ui-spinner-input
+	{
+	height: 24px
+}
+
+.input-group-btn>a,.uif-verticalRadioFieldset + .input-group-btn a, .uif-verticalCheckboxesFieldset + .input-group-btn a,
+.uif-horizontalCheckboxesFieldset + .input-group-btn a,
+.uif-horizontalRadioFieldset + .input-group-btn a, .uif-textAreaControl + .input-group-btn a,
+.uif-dropdownControl + .input-group-btn a {
+	display: inline-block;
+	border-top: none;
+	border-right: none;
+	border-bottom: none;
+	color: #ecccb6;
+	border-color: transparent;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background-color: #ffffff;
+	background: none;
+	text-decoration: none;
+	font-size: 1.3em;
+}
+
+.uif-gridLayoutCell .input-group {
+	display: inline-flex;
+}
+
+section.uif-disclosure .uif-headerText>a {
+	color: #000;
+}
+
+.uif-label.uif-labelBlock {
+	overflow: inherit;
+	margin-bottom: 5px;
+}
+
+.uif-collectionItem button.icon-close {
+	margin-top: 4px;
+	margin-right: -12px;
+	background: #eeeeee;
+}
+
+li.uif-infoMessageItem:before {
+	content: normal;
+	display: block;
+	position: relative;
+	max-width: 0px;
+	max-height: 0px;
+	left: -10px;
+	top: -0.25em;
+	color: #ffffff;
+	font-size: 20px;
+}
+
+.alert-info {
+	background-color:;
+	border-color:;
+	color:;
+}
+
+.alert .close {
+	margin-top: -5px
+}
+
+.uif-cssGridGroup .uif-inputField input[type="text"].form-control {
+	height: 32px;
+	margin-bottom: 5px;
+}
+
+.uif-cssGridLabelCol label {
+	float: right;
+	white-space: inherit;
+}
+
+.uif-imageField h4.uif-headerText {
+	background: none;
+}
+
+#Uif-LookupPageHeader {
+	margin-bottom: 30px;
+}
+
+header a {
+	color: white;
 }
