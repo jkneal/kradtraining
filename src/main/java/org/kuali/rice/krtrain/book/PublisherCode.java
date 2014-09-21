@@ -1,13 +1,13 @@
 package org.kuali.rice.krtrain.book;
 
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.DataObjectBase;
 
 /**
  * Book Type Entity
  *
  * @author KRAD Training
  */
-public class PublisherCode extends PersistableBusinessObjectBase {
+public class PublisherCode extends DataObjectBase {
     private static final long serialVersionUID = 1154874729429390726L;
 
     private String code;

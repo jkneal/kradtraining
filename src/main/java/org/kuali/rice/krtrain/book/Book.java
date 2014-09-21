@@ -1,16 +1,20 @@
 package org.kuali.rice.krtrain.book;
 
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import java.util.*;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.DataObjectBase;
 
 /**
  * Book Entity
  *
  * @author KRAD Training
  */
-public class Book extends PersistableBusinessObjectBase {
+public class Book extends DataObjectBase {
     private static final long serialVersionUID = -1826848285097280432L;
 
     private Long id;
