@@ -86,7 +86,7 @@ KradResponse.prototype = {
         $pageInLayout.show();
 
         $pageInLayout.trigger(kradVariables.EVENTS.ADJUST_STICKY);
-        jQuery(document).trigger(kradVariables.EVENTS.PAGE_UPDATE_COMPLETE);
+        $pageInLayout.trigger(kradVariables.EVENTS.PAGE_UPDATE_COMPLETE);
     },
 
 
@@ -228,7 +228,7 @@ KradResponse.prototype = {
         var app = jQuery("#" + kradVariables.APP_ID);
         app.hide();
 
-        var update = jQuery("div[data-returntype='update-view']", content);
+        var update = jQuery(content);
 
         var appHeaderUpdate = update.find("#" + kradVariables.APPLICATION_HEADER_WRAPPER);
         app.find("#" + kradVariables.APPLICATION_HEADER_WRAPPER).replaceWith(appHeaderUpdate);
