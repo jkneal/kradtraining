@@ -9,7 +9,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
- 
+
 		<!--allows the supported database to be changed via parameter (ex: oracle 
 			to mysql) -->
 		<database.groupId>mysql</database.groupId>
@@ -230,7 +230,7 @@
 		<repository>
 			<id>kuali.nexus</id>
 			<name>Nexus Repository Manager</name>
-			<url>https://shrub.appspot.com/maven.kuali.org</url>
+			<url>http://nexus.kuali.org/content/groups/public</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -238,6 +238,7 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+
 	</repositories>
 
 	<dependencies>
@@ -267,7 +268,7 @@
 			<type>war</type>
 		</dependency>
 
- 		<dependency>
+		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-krad-development-tools</artifactId>
 			<version>${rice.version}</version>
