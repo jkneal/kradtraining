@@ -209,7 +209,7 @@ function setupSidebarNavMenu(id, openedToggleIconClass, closedToggleIconClass) {
                 icon.attr("class", kradVariables.TOGGLE_ARROW_CLASS + " " + openedToggleIconClass);
             }
             icon.removeClass("anim-turn90").removeClass("anim-turn-90");
-        })
+        });
     });
 
     // If menu is already collapsed, show appropriate icon
@@ -793,7 +793,7 @@ function createTable(tableId, additionalOptions, groupingOptions) {
         runHiddenScripts(tableId, false, true);
 
         //insure scripts (if any) are run on each draw, fixes bug with scripts lost when paging after a refresh
-        jQuery(oTable).on("dataTables.tableDraw", function (event) {
+        jQuery(oTable).on("dataTables.tableDraw", function (event, tableData) {
             if (event.currentTarget != event.target) {
                 return;
             }
@@ -811,7 +811,7 @@ function createTable(tableId, additionalOptions, groupingOptions) {
 
         //handle row details related functionality setup
         if (detailsOpen != undefined) {
-            jQuery(oTable).on("dataTables.tableDraw", function () {
+            jQuery(oTable).on("dataTables.tableDraw", function (event, tableData) {
                 if (event.currentTarget != event.target) {
                     return;
                 }
