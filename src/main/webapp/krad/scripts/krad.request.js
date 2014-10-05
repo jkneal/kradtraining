@@ -60,6 +60,10 @@ function KradRequest(action) {
         this.confirmDialogId = action.data("confirmdialogid");
     }
 
+     if (action.data("confirm_prompttext") !== undefined) {
+         this.confirmPromptText = action.data("confirm_prompttext");
+     }
+
     if (action.data("dismissdialogoption") !== undefined) {
         this.dismissDialogOption = action.data("dismissdialogoption");
     }
@@ -152,6 +156,11 @@ KradRequest.prototype = {
     // dialog, the action will then be retriggered
     confirmDialogId: null,
 
+    // text to display in a confirmation dialog for confirming the action. Note this is similar to
+    // confirmDialogId, except the dialog is created on the fly using the ok/cancel dialog. To show a custom
+    // dialog, the confirmDialogId property should be used
+    confirmPromptText: null,
+
     // when the request needs to dismiss a dialog, when the dialog should be dismissed
     // valid options are AFTERPRESUBMIT (with just returns) or WITHREQUEST
     dismissDialogOption: null,
@@ -214,18 +223,7 @@ KradRequest.prototype = {
             }
         }
 
-        // if confirm dialog is configured we need to show it and have the user confirm first
-        if (this.confirmDialogId) {
-            showDialog(this.confirmDialogId, {responseHandler: function (event) {
-                if (event.response === 'true') {
-                    kradRequest._continueAfterPreSubmit();
-                }
-            }});
-
-            return false;
-        }
-
-        return true;
+        return this._confirmAction();
     },
 
     // invoke validateForm if validate flag is true, if returns false do not continue
@@ -250,6 +248,36 @@ KradRequest.prototype = {
         }
 
         return valid;
+    },
+
+    // if confirm dialog is or text is configured we need to show it and have the user confirm first
+    _confirmAction: function () {
+        if (!this.confirmDialogId && !this.confirmPromptText) {
+            return true;
+        }
+
+        var kradRequest = this;
+        var responseHandler = function (event) {
+            if (event.response === 'true') {
+                kradRequest._continueAfterPreSubmit();
+            }
+        };
+
+        if (this.confirmDialogId) {
+            showDialog(this.confirmDialogId, {responseHandler: responseHandler});
+        }
+        else {
+            var confirmText = this.confirmPromptText;
+            var evalIndex = this.confirmPromptText.indexOf('eval(');
+            if (evalIndex >= 0) {
+                confirmText = this.confirmPromptText.slice(evalIndex + 5, this.confirmPromptText.lastIndexOf(')'));
+                confirmText = eval(confirmText);
+            }
+
+            confirmDialog(confirmText, undefined, {responseHandler: responseHandler});
+        }
+
+        return false;
     },
 
     // continues the request after the pre-submit checks have passed
