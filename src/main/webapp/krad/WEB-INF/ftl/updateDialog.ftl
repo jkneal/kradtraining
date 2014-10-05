@@ -16,10 +16,8 @@
 
 -->
 <html>
-
-   <#-- render the updated dialogwrapped in an update div -->
-   <div id="${KualiForm.updateComponent.id}_update">
-      <@krad.template componentUpdate=true component=KualiForm.updateComponent/>
-   </div>
-
+<#-- now render the updated component (or page) wrapped in an update div -->
+    <div id="${KualiForm.updateComponent.id}_update">
+        <@krad.template componentUpdate=true component=KualiForm.updateComponent/>
+    </div>
 </html>
