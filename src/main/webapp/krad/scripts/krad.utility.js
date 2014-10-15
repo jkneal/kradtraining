@@ -508,9 +508,9 @@ function writeHiddenToForm(propertyName, propertyValue) {
     jQuery('input[name="' + escapeName(propertyName) + '"]').remove();
 
     if (propertyValue && typeof propertyValue === 'string' &&  propertyValue.indexOf("'") != -1) {
-        jQuery("<input type='hidden' name='" + propertyName + "'" + ' value="' + propertyValue + '"/>').appendTo(jQuery("#formComplete"));
+        jQuery("<input type='hidden' name='" + escapeName(propertyName) + "'" + ' value="' + escapeName(propertyValue) + '"/>').appendTo(jQuery("#formComplete"));
     } else {
-        jQuery("<input type='hidden' name='" + propertyName + "' value='" + propertyValue + "'/>").appendTo(jQuery("#formComplete"));
+        jQuery("<input type='hidden' name='" + escapeName(propertyName) + "' value='" + escapeName(propertyValue) + "'/>").appendTo(jQuery("#formComplete"));
     }
 }
 
