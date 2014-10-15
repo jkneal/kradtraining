@@ -1,8 +1,9 @@
 package org.kuali.rice.krtrain.book;
 
-import org.kuali.rice.krad.web.form.UifFormBase;
-
 import java.util.Date;
+
+import org.kuali.rice.krad.web.bind.RequestAccessible;
+import org.kuali.rice.krad.web.form.UifFormBase;
 
 /**
  * Form class for the Book Entry View
@@ -12,6 +13,7 @@ import java.util.Date;
 public class BookEntryForm extends UifFormBase {
     private static final long serialVersionUID = 2113794438746300917L;
 
+    @RequestAccessible
     private Book book;
     private Date entryDate;
 
