@@ -5,8 +5,6 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Generic controller for training exercises
  *
@@ -16,7 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/generic")
 public class GenericController extends UifControllerBase {
 
-    protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
+	@Override
+    protected UifFormBase createInitialForm() {
         return new GenericForm();
     }
 }

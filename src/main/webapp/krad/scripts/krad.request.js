@@ -21,7 +21,7 @@
  * @author Kuali Rice Team (rice.collab@kuali.org)
  * ========================================================================*/
 
- /**
+/**
  * Constructs a new request object with data from the given action object.
  *
  * @param action (optional) reference to the action that triggers the request. If given request
@@ -60,9 +60,9 @@ function KradRequest(action) {
         this.confirmDialogId = action.data("confirmdialogid");
     }
 
-     if (action.data("confirm_prompttext") !== undefined) {
-         this.confirmPromptText = action.data("confirm_prompttext");
-     }
+    if (action.data("confirm_prompttext") !== undefined) {
+        this.confirmPromptText = action.data("confirm_prompttext");
+    }
 
     if (action.data("dismissdialogoption") !== undefined) {
         this.dismissDialogOption = action.data("dismissdialogoption");
@@ -99,6 +99,10 @@ function KradRequest(action) {
     if (action.data("cleardirtyonaction") !== undefined) {
         this.clearDirtyOnAction = action.data("cleardirtyonaction");
     }
+
+    if (action.data("fieldstosend") !== undefined) {
+        this.fieldsToSend = action.data("fieldstosend");
+    }
 }
 
 KradRequest.prototype = {
@@ -110,6 +114,11 @@ KradRequest.prototype = {
 
     // additional data to send with the request (in addition to form data)
     additionalData: {},
+
+    // only send field inputs specified by name in this array.  A group id or field id with "#" id selector prefix
+    // can be used to send all inputs which are nested within them.  Sends only the data specified,
+    // along with data required standard by the controller for KRAD.
+    fieldsToSend: null,
 
     // indicates whether the request should be made with ajax or standard browser submit
     ajaxSubmit: true,
@@ -232,16 +241,7 @@ KradRequest.prototype = {
             return true;
         }
 
-        var $dialogGroup = this.$action.closest(kradVariables.DIALOG_SELECTOR);
-        var inDialog = $dialogGroup.length;
-
-        var valid = true;
-        if (!inDialog) {
-            valid = validate();
-        }
-        else if (inDialog) {
-            valid = validate($dialogGroup);
-        }
+        valid = validateForm(this.$action);
 
         if (!valid) {
             clearHiddens();
@@ -333,9 +333,19 @@ KradRequest.prototype = {
             jQuery.extend(data, {clientViewState: jsonViewState});
         }
 
-        this._dismissDialogIfNecessary(kradVariables.DIALOG_DISMISS_OPTIONS.REQUEST);
+        // check if we still have a dialog to dismiss
+        if (this.dismissDialogId) {
+            var request = this;
 
-        this._submitAjax(data);
+            // to make sure we do an ajax submit when the hide event is triggered, not before
+            jQuery("#" + this.dismissDialogId).one(kradVariables.EVENTS.HIDDEN_MODAL, function (event) {
+                request._submitAjax(data);
+            });
+
+            this._dismissDialogIfNecessary(kradVariables.DIALOG_DISMISS_OPTIONS.REQUEST);
+        } else {
+            this._submitAjax(data);
+        }
     },
 
     // handles the request as standard form submit
@@ -379,54 +389,132 @@ KradRequest.prototype = {
         // create a reference to the request for ajax callbacks
         var request = this;
 
-        var submitOptions = {
-            data: data,
+        // if we aren't limiting the fields to send then send the whole form
+        if (!request.fieldsToSend || request.fieldsToSend.length === 0) {
+            var submitOptions = {
+                data: data,
+                success: function (response) {
+                    request._processSuccess(response, request);
+                },
 
-            success: function (response) {
-                var responseContents = document.createElement('div');
-                responseContents.innerHTML = response;
+                error: function (jqXHR, textStatus) {
+                    request._processError(jqXHR, textStatus, request);
+                }
+            };
 
-                // create a response object to process the response contents
-                var kradResponse = new KradResponse(responseContents);
-                kradResponse.processResponse();
+            // Show visual loading/blocking indication
+            this._setupBlocking(submitOptions);
 
-                var hasError = checkForIncidentReport(response);
-                if (!hasError) {
-                    if (request.successCallback) {
-                        if (typeof request.successCallback == "string") {
-                            eval(request.successCallback);
-                        } else {
-                            request.successCallback(responseContents);
-                        }
-                    }
-                } else if (request.errorCallback) {
-                    if (typeof request.errorCallback == "string") {
-                        eval(request.errorCallback);
-                    } else {
-                        request.errorCallback(responseContents);
-                    }
+            // Submit request
+            jQuery("#" + kradVariables.KUALI_FORM).ajaxSubmit(submitOptions);
+        } else {
+            // Serialize all the data we wish to send
+            // The formInfo and formComplete data is data that is always necessary or added for the controller call
+            var dataSerialized = jQuery.param(data, true);
+            if (dataSerialized) {
+                dataSerialized = dataSerialized + "&" + jQuery("#" + kradVariables.FORM_INFO_ID + " > input,"
+                        + " #" + kradVariables.FORM_COMPLETE_ID + "> input").fieldSerialize();
+            }
+            else {
+                dataSerialized = jQuery("#" + kradVariables.FORM_INFO_ID + " > input,"
+                        + " #" + kradVariables.FORM_COMPLETE_ID + "> input").fieldSerialize();
+            }
+
+            jQuery(request.fieldsToSend).each(function (index, value) {
+                // Stop iteration if NO_FIELDS_TO_SEND keyword detected
+                if (value.toUpperCase() === kradVariables.NO_FIELDS_TO_SEND) {
+                    return false;
                 }
 
-                clearHiddens();
-            },
+                // Check to see if name ends with a wildcard
+                var wildcarded = value.indexOf("*", this.length - 1) !== -1;
 
-            error: function (jqXHR, textStatus) {
-                if (request.errorCallback) {
-                    if (typeof request.errorCallback == "string") {
-                        eval(request.errorCallback);
-                    } else {
-                        request.errorCallback();
-                    }
+                // If fields to send start with a # look inside that field or group for inputs serialize
+                if (value.indexOf("#") === 0) {
+                    dataSerialized = dataSerialized + "&" + jQuery(value).find("[name]").fieldSerialize();
+                } else if (wildcarded) {
+                    // Look for inputs which start with name specified before wildcard
+                    dataSerialized = dataSerialized + "&"
+                            + jQuery("[name^='" + value.substr(0, value.length - 1) + "']").fieldSerialize();
+                } else {
+                    dataSerialized = dataSerialized + "&" + jQuery("[name='" + value + "']").fieldSerialize();
                 }
-                else {
-                    alert("Request failed: " + textStatus);
+            });
+
+            var submitOptions = {
+                url: jQuery("#" + kradVariables.KUALI_FORM).attr("action"),
+                type: "POST",
+                data: dataSerialized,
+                success: function (response) {
+                    request._processSuccess(response, request);
+                },
+                error: function (jqXHR, textStatus) {
+                    request._processError(jqXHR, textStatus, request);
+                }
+            };
+
+            // Show visual loading/blocking indication
+            this._setupBlocking(submitOptions);
+
+            // Submit request
+            jQuery.ajax(submitOptions);
+        }
+    },
+
+    /**
+     * Process sucessful ajax submit by calling the appropriate response handler.
+     *
+     * @param response data received from the server for this call
+     * @param request  original KRAD request object
+     * @private
+     */
+    _processSuccess: function (response, request) {
+        var responseContents = document.createElement('div');
+        responseContents.innerHTML = response;
+
+        // create a response object to process the response contents
+        var kradResponse = new KradResponse(responseContents);
+        kradResponse.processResponse();
+
+        var hasError = checkForIncidentReport(response);
+        if (!hasError) {
+            if (request.successCallback) {
+                if (typeof request.successCallback == "string") {
+                    eval(request.successCallback);
+                } else {
+                    request.successCallback(responseContents);
                 }
             }
-        };
+        } else if (request.errorCallback) {
+            if (typeof request.errorCallback == "string") {
+                eval(request.errorCallback);
+            } else {
+                request.errorCallback(responseContents);
+            }
+        }
 
-        this._setupBlocking(submitOptions);
+        clearHiddens();
+    },
 
-        jQuery("#" + kradVariables.KUALI_FORM).ajaxSubmit(submitOptions);
+    /**
+     * Process the error callback state of the ajax call.
+     *
+     * @param jqXHR the jqXHR object
+     * @param textStatus the error text status
+     * @param request the original KRAD request
+     * @private
+     */
+    _processError: function (jqXHR, textStatus, request) {
+        if (request.errorCallback) {
+            if (typeof request.errorCallback == "string") {
+                eval(request.errorCallback);
+            } else {
+                request.errorCallback();
+            }
+        }
+        else {
+            alert("Request failed: " + textStatus);
+        }
     },
 
     // sets up the component or page blocking for an ajax request
