@@ -16,17 +16,17 @@
 
 -->
 <html>
-    <#-- now render the updated component (or page) wrapped in an update div -->
+    <#-- now render the updated component (or page) wrapped in an update div  add the data attributes to the div-->
     <div id="${KualiForm.updateComponent.id}_update">
         <@krad.template componentUpdate=true component=KualiForm.updateComponent/>
 
         <#-- show added growls -->
         <@krad.script value="${KualiForm.growlScript!}" component=KualiForm.updateComponent/>
 
-        <#-- set focus if configured but do not perform jump -->
+        <#-- set form dirty on page load -->
         <@krad.script value="jQuery(document).on(kradVariables.PAGE_LOAD_EVENT, function(){
-                    performFocusAndJumpTo(${view.currentPage.autoFocus?string}, false, false, '${KualiForm.focusId!}',
-                        '', '');dirtyFormState.setDirty(${KualiForm.dirtyForm?string});});"
-                      component=KualiForm.updateComponent/>
+                   dirtyFormState.setDirty(${KualiForm.dirtyForm?string});});"
+        component=KualiForm.updateComponent/>
+
     </div>
 </html>

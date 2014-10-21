@@ -16,7 +16,7 @@
 
 -->
 <html>
-    <#-- now render the updated component (or page) wrapped in an update div -->
+    <#-- now render the updated component (or page) wrapped in an update div. -->
     <div id="page_update">
         <#list view.viewTemplates as viewTemplate>
             <#include "${viewTemplate}" parse=true/>
@@ -29,12 +29,5 @@
 
         <#-- show added growls -->
         <@krad.script value="${KualiForm.growlScript!}" component=KualiForm.updateComponent/>
-
-        <#-- set focus and perform jump to -->
-        <@krad.script value="jQuery(document).on(kradVariables.PAGE_LOAD_EVENT, function(){
-                performFocusAndJumpTo(${view.currentPage.autoFocus?string}, true, true, '${KualiForm.focusId!}',
-                    '${KualiForm.jumpToId!}', '${KualiForm.jumpToName!}');
-                dirtyFormState.setDirty(${KualiForm.dirtyForm?string});
-             });" component=KualiForm.updateComponent/>
     </div>
 </html>

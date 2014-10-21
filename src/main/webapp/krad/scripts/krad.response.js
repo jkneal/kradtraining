@@ -75,6 +75,12 @@ KradResponse.prototype = {
         $pageInLayout.replaceWith(pageUpdate.find(">*"));
         $pageInLayout = jQuery(pageInLayout);
 
+        // Removes traces of dialog if one was destroyed by the refresh
+        ensureDialogBackdropRemoved();
+
+        // remove detached dialogs
+        jQuery("[data-detached='true']").remove();
+
         pageValidatorReady = false;
         runHiddenScripts(kradVariables.VIEW_CONTENT_WRAPPER, false, true);
 
@@ -87,6 +93,9 @@ KradResponse.prototype = {
 
         $pageInLayout.trigger(kradVariables.EVENTS.ADJUST_STICKY);
         $pageInLayout.trigger(kradVariables.EVENTS.PAGE_UPDATE_COMPLETE);
+
+        // Perform focus and jumpTo based on the data attributes
+        performFocusAndJumpTo(true, page.data(kradVariables.FOCUS_ID), page.data(kradVariables.JUMP_TO_ID), page.data(kradVariables.JUMP_TO_NAME) );
     },
 
 
@@ -166,6 +175,9 @@ KradResponse.prototype = {
                 $componentInDom.replaceWith(componentContent);
             }
 
+            // Removes traces of dialog if one was destroyed by the refresh
+            ensureDialogBackdropRemoved();
+
             $componentInDom = jQuery("#" + id);
 
             if ($componentInDom.parent().is("td")) {
@@ -205,7 +217,11 @@ KradResponse.prototype = {
               }
             });
 
+            $componentInDom.trigger(kradVariables.EVENTS.ADJUST_STICKY);
             $componentInDom.trigger(kradVariables.EVENTS.UPDATE_CONTENT);
+
+            // Perform focus and jumpTo based on the data attributes
+            performFocusAndJumpTo(true, $componentInDom.data(kradVariables.FOCUS_ID), $componentInDom.data(kradVariables.JUMP_TO_ID), $componentInDom.data(kradVariables.JUMP_TO_NAME) );
         }
     },
 
@@ -215,7 +231,7 @@ KradResponse.prototype = {
         var redirectUrl = jQuery(content).text().trim();
 
         // don't check dirty state on a simple refresh (old url starts with the new one's url text)
-        if (window.location.href.indexOf(redirectUrl) === 0) {
+        if (redirectUrl.indexOf("performDirtyCheck=false") > -1) {
             dirtyFormState.skipDirtyChecks = true;
         }
 
@@ -251,6 +267,9 @@ KradResponse.prototype = {
             view.replaceWith(viewUpdate);
         }
 
+        // Removes traces of dialog if one was destroyed by the refresh
+        ensureDialogBackdropRemoved();
+
         var appFooterUpdate = update.find("#" + kradVariables.APPLICATION_FOOTER_WRAPPER);
         app.find("#" + kradVariables.APPLICATION_FOOTER_WRAPPER).replaceWith(appFooterUpdate);
 
@@ -268,9 +287,7 @@ KradResponse.prototype = {
 
     // replaces the form action with the given content
     updateFormHandler: function (content, dataAttr) {
-
         var action = jQuery(content).html();
-        // update form action with content
 
         jQuery("form#" + kradVariables.KUALI_FORM).attr('action', jQuery.trim(action));
     }

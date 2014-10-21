@@ -41,6 +41,7 @@
         <@krad.backdoor/>
     </#if>
 
+    <!-- APPLICATION FORM/CONTENT - VIEW -->
     <@krad.form render=view.renderForm postUrl="${KualiForm.formPostUrl}"
     onSubmitScript="${view.onSubmitScript!}" disableNativeAutocomplete=view.disableNativeAutocomplete>
         <@krad.template component=view/>
@@ -69,7 +70,7 @@
                 <@spring.formHiddenInput path="KualiForm.dirtyForm"/>
 
                 <#-- indicator which is set to true when content is being rendered inside a lightbox -->
-                <@spring.formHiddenInput path="KualiForm.renderedInLightBox"/>
+                <@spring.formHiddenInput path="KualiForm.renderedInDialog"/>
 
                 <#-- indicator for single page view, used to drive script page handling logic -->
                 <@spring.formHiddenInput path="KualiForm.view.singlePageView"/>
@@ -86,14 +87,6 @@
         </#if>
     </@krad.form>
 
-    <#-- set focus and perform jump to -->
-    <#if KualiForm.view.currentPage?has_content>
-        <@krad.script value="jQuery(document).on(kradVariables.PAGE_LOAD_EVENT, function(){
-                    performFocusAndJumpTo(${KualiForm.view.currentPage.autoFocus?string}, true, true, '${KualiForm.focusId!}',
-                        '${KualiForm.jumpToId!}', '${KualiForm.jumpToName!}');
-                });" component=KualiForm.view.currentPage/>
-    </#if>
-
     <!-- APPLICATION FOOTER -->
     <#if view.applicationFooter?? && view.applicationFooter.render>
         <#assign stickyFooterDataAttribute=""/>
@@ -107,6 +100,10 @@
             </#if>
 
             <@krad.template component=view.applicationFooter/>
+
+            <#if view.buildFooter?? && view.buildFooter.render>
+                <@krad.template component=view.buildFooter/>
+            </#if>
 
             <#if view.stickyApplicationFooter>
                 </div>

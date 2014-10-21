@@ -20,4 +20,3 @@
     <div id="${KualiForm.updateComponent.id}_update">
         <@krad.template componentUpdate=true component=KualiForm.updateComponent/>
     </div>
-</html>

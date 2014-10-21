@@ -22,6 +22,7 @@ function JavascriptKradVariables() {
 JavascriptKradVariables.prototype = {
     ACTION_DEFAULTS: "action_defaults",
     ACTION_ONCLICK_DATA: "onclick",
+    ACTION_FIELD_CLASS: "uif-actionField",
     ACTIVE_CLASS: "active",
     APPLICATION_HEADER_WRAPPER: "Uif-ApplicationHeader-Wrapper",
     APPLICATION_FOOTER_WRAPPER: "Uif-ApplicationFooter-Wrapper",
@@ -58,6 +59,7 @@ JavascriptKradVariables.prototype = {
     COLLAPSED_INFO_CLASS: "uif-collapsedInfo",
     COLLAPSED_WARNINGS_CLASS: "uif-collapsedWarnings",
     COLLECTION_ITEM_CLASS: "uif-collectionItem",
+    COLLECTION_ACTION_CLASS: "uif-collection-column-action",
     CONTROL_CLASS: "Uif-Application",
     COUNTDOWN_CLASS: "hasCountdown",
 
@@ -88,6 +90,8 @@ JavascriptKradVariables.prototype = {
     ERROR_MESSAGE_ITEM_CLASS: "uif-errorMessageItem-field",
     FIELD_CLASS: "uif-field",
     FORM_KEY: "formKey",
+    FORM_COMPLETE_ID: "formComplete",
+    FORM_INFO_ID: "formInfo",
     FLOW_KEY: "flowKey",
     FOCUS_ID: "focusid",
     GRID_LAYOUT_CELL_CLASS: "uif-gridLayoutCell",
@@ -96,8 +100,6 @@ JavascriptKradVariables.prototype = {
     HAS_MODIFIED_ERROR_CLASS: "uif-hasError-modified",
     HAS_WARNING_CLASS: "uif-hasWarning",
     HEADER_TEXT_CLASS: "uif-headerText",
-    IMAGE_LOCATION: "kradImageLocation",
-
     // constants for element ids
     IDS: {
         DIALOGS: "Uif-Dialogs",
@@ -108,15 +110,32 @@ JavascriptKradVariables.prototype = {
     // constants for id suffixes
     ID_SUFFIX: {
         DISCLOSURE_CONTENT: "_disclosureContent",
-        DISCLOSURE_TOGGLE: "_toggle"
+        DISCLOSURE_TOGGLE: "_toggle",
+        ADD_LINE_INPUT_FIELD: "_add_control"
+    },
+    IMAGE_LOCATION: "kradImageLocation",
+    INLINE_EDIT: {
+        INLINE_EDIT_DATA_ATTR: "inline_edit",
+        EDIT_SUFFIX: "_edit",
+        INLINE_EDIT: "_inlineEdit",
+        INLINE_EDIT_VIEW: "_inlineEdit_view",
+        VIEW_SUFFIX: "_view",
+        VIEW_CLASS: ".uif-inlineEdit-view",
+        EDIT_CLASS: ".uif-inlineEdit-edit",
+        EDIT_BUTTONS_CLASS: ".uif-inlineEdit-buttons",
+        AJAX_EDIT: "ajax_edit",
+        SAVE_FIELD_METHOD_TO_CALL: "saveField",
+        INLINE_EDIT_NAMESPACE: "inlineEdit",
+        ORIGINAL_VALUE: "orig_val"
     },
     JUMP_TO_ID: "jumptoid",
+    JUMP_TO_NAME: "jumptoname",
     PAGE_ID: "pageId",
     PORTAL_IFRAME_ID: "iframeportlet",
     INCIDENT_REPORT_VIEW_CLASS: "Uif-IncidentReportView",
     INFO_HIGHLIGHT_SECTION_CLASS: "uif-infoHighlight-section",
     INFO_MESSAGE_ITEM_CLASS: "uif-infoMessageItem-field",
-    INPUT_FIELD_SELECTOR: "[data-role:'InputField']",
+    INPUT_FIELD_SELECTOR: "[data-role='InputField']",
     KEEP_SESSION_ALIVE_METHOD_TO_CALL: "keepSessionAlive",
     KRAD_URL: "kradUrl",
     KUALI_FORM: "kualiForm",
@@ -140,7 +159,10 @@ JavascriptKradVariables.prototype = {
     MESSAGE_AFTER: "message.after",
     MESSAGE_PLEASE_ENTER_VALUE: "message.pleaseEnterValue",
     MESSAGE_EXPAND: "message.expand",
+    MESSAGE_EDIT: "message.edit",
+    MESSAGE_CANCEL: "message.cancel",
     MESSAGE_COLLAPSE: "message.collapse",
+    MESSAGE_SAVE: "message.save",
     MESSAGE_SERVER_RESPONSE_ERROR: "message.serverResponseError",
     MESSAGE_STATUS_ERROR: "message.statusError",
     MESSAGE_TOTAL_ERROR: "message.totalError",
@@ -152,9 +174,24 @@ JavascriptKradVariables.prototype = {
     MESSAGE_TOTAL_MESSAGES: "message.totalMessages",
     MESSAGE_THE: "message.the",
     MESSAGE_THE_SECTION_HAS_COUNT: "message.theSectionHasCount",
+    MODAL: {
+        LOOKUP_MODAL: "Uif-DialogGroup-Lookup",
+        INQUIRY_MODAL: "Uif-DialogGroup-Inquiry",
+        IFRAME_MODAL: "Uif-DialogGroup-Iframe",
+        MODAL_NAMESPACE: "modal",
+        MODAL_CLASS: ".modal",
+        MODAL_CONTENT_CLASS: ".modal-content",
+        MODAL_BACKDROP_CLASS: ".modal-backdrop",
+        MODAL_BODY_CLASS: ".modal-body",
+        MODAL_HEADER_CLASS: ".modal-header",
+        MODAL_FOOTER_CLASS: ".modal-footer",
+        MODAL_OPEN: "modal-open",
+        MODAL_CLOSE_DIALOG: "close_dialog"
+    },
     NAVIGATION_ID: "Uif-Navigation",
     NAVIGATION_MENU_CLASS: "uif-navigationMenu",
     NAVIGATE_METHOD_TO_CALL: "navigate",
+    NO_FIELDS_TO_SEND: "NONE",
     PAGE_NUMBER_DATA: "num",
     PAGE_CONTENT_WRAPPER: "Uif-PageContentWrapper",
     PAGE_VALIDATION_HEADER_CLASS: "uif-pageValidationHeader",
@@ -166,7 +203,7 @@ JavascriptKradVariables.prototype = {
     PERFORM_DIRTY_VALIDATION: "performdirtyvalidation",
     PROGRESSIVE_DISCLOSURE_HIGHLIGHT_CLASS: "uif-progressiveDisclosure-highlight",
     POPOVER_DATA: "bs.popover",
-    RENDERED_IN_LIGHTBOX: "renderedInLightBox",
+    RENDERED_IN_DIALOG: "renderedInDialog",
     REFRESH_METHOD_TO_CALL: "refresh",
     RETRIEVE_MESSAGE_METHOD_TO_CALL: "retrieveMessage",
     RETRIEVE_COLLECTION_PAGE_METHOD_TO_CALL: "retrieveCollectionPage",
@@ -208,6 +245,10 @@ JavascriptKradVariables.prototype = {
     PAGE_LOAD_EVENT: "pageLoad",
     VIEW_CONTENT_HEADER_CLASS: "Uif-ViewContentWrapper",
     VIEW_STATE: "ViewState",
+    VALID_CLASS: "valid",
+    IGNORE_VALIDATION_CLASS: "ignoreValid",
+    IGNORE_VALIDATION_TEMP_CLASS: "ignoreTemp",
+    ERROR_CLASS: "error",
     WARNING_HIGHLIGHT_SECTION_CLASS: "uif-warningHighlight-section",
     WARNING_MESSAGE_ITEM_CLASS: "uif-warningMessageItem-field",
     GROUP_CLASS: "uif-group",
@@ -219,13 +260,15 @@ JavascriptKradVariables.prototype = {
     DETAILS_DEFAULT_OPEN: "details_default_open",
     EVENT_NAMESPACE: "uif",
     EVENTS: {
-        ADJUST_PAGE_MARGIN : "adjustpagemargin"  + JavascriptKradVariables.EVENT_NAMESPACE,
-        ADJUST_STICKY : "adjuststicky"  + JavascriptKradVariables.EVENT_NAMESPACE,
-        DIALOG_RESPONSE : "dialogresponse." + JavascriptKradVariables.EVENT_NAMESPACE,
-        UPDATE_CONTENT : "updatecontent." + JavascriptKradVariables.EVENT_NAMESPACE,
-        PAGE_UPDATE_COMPLETE : "pageUpdateComplete" + JavascriptKradVariables.EVENT_NAMESPACE,
-        SHOW_MODAL : "show.bs.modal",
-        HIDE_MODAL : "hide.bs.modal"
+        ADJUST_PAGE_MARGIN: "adjustpagemargin.uif",
+        ADJUST_STICKY: "adjuststicky.uif",
+        DIALOG_RESPONSE: "dialogresponse.uif",
+        UPDATE_CONTENT: "updatecontent.uif",
+        PAGE_UPDATE_COMPLETE: "pageUpdateComplete.uif",
+        SHOW_MODAL: "show.bs.modal",
+        SHOWN_MODAL: "shown.bs.modal",
+        HIDE_MODAL: "hide.bs.modal",
+        HIDDEN_MODAL: "hidden.bs.modal"
     }
 }
 

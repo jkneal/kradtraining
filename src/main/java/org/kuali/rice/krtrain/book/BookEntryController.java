@@ -31,7 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class BookEntryController extends UifControllerBase {
 
     @Override
-    protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
+    protected UifFormBase createInitialForm() {
         return new BookEntryForm();
     }
 
@@ -161,7 +161,7 @@ public class BookEntryController extends UifControllerBase {
 
         form.setBook(book);
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=saveBook")
@@ -171,7 +171,7 @@ public class BookEntryController extends UifControllerBase {
         GlobalVariables.getMessageMap().putInfoForSectionId(KRADConstants.GLOBAL_MESSAGES,
                 "method.invoked", "saveBook");
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
 
@@ -182,7 +182,7 @@ public class BookEntryController extends UifControllerBase {
         GlobalVariables.getMessageMap().putInfoForSectionId(KRADConstants.GLOBAL_MESSAGES,
                 "method.invoked", "viewRatings");
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=viewAuthorBooks")
@@ -195,7 +195,7 @@ public class BookEntryController extends UifControllerBase {
         Author author = form.getBook().getAuthor();
         author.setNumberWrittenBooks(author.getNumberWrittenBooks() + 1);
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=viewBookEntry")
@@ -205,7 +205,7 @@ public class BookEntryController extends UifControllerBase {
         GlobalVariables.getMessageMap().putInfoForSectionId(KRADConstants.GLOBAL_MESSAGES,
                 "method.invoked", "viewBookEntry");
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
     /**
@@ -225,6 +225,6 @@ public class BookEntryController extends UifControllerBase {
             // throw exception or default
         }
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 }
