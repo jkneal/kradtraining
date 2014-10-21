@@ -15,7 +15,6 @@
  */
 var prevPageMessageTotal = 0;
 
-
 /**
  * Get validation data for the component element by merging custom settings with defaults
  *
@@ -65,7 +64,7 @@ function hideMessageTooltip(fieldId) {
         element = jQuery(element).filter(".uif-tooltip");
     }
 
-    var popoverData =  element.data(kradVariables.POPOVER_DATA);
+    var popoverData = element.data(kradVariables.POPOVER_DATA);
     if (!popoverData) {
         return;
     }
@@ -203,7 +202,6 @@ function showMessageTooltip(fieldId, showAndClose, change) {
                             hideTooltips();
                         }
 
-
                         tooltipElement.popover("show");
 
                     }
@@ -247,7 +245,7 @@ function writeMessagesAtField(id) {
         var messagesDiv = jQuery("[data-messages_for='" + id + "']");
         var createMessagesDiv = messagesDiv.length === 0;
 
-        if (createMessagesDiv){
+        if (createMessagesDiv) {
             messagesDiv = jQuery("<div id='" + id +
                     "_errors' class='alert' data-messages_for='" + id + "' style='display: none;'>");
         }
@@ -267,16 +265,23 @@ function writeMessagesAtField(id) {
                 + generateListItems(data.warnings, kradVariables.WARNING_MESSAGE_ITEM_CLASS, 0, false, warningImage)
                 + generateListItems(data.info, kradVariables.INFO_MESSAGE_ITEM_CLASS, 0, false, infoImage) + "</ul></div>");
 
+        // Create an edit link for inline edit fields which now have associated server messages
+        var editLink = "";
+        if (field.data(kradVariables.INLINE_EDIT.INLINE_EDIT_DATA_ATTR)) {
+            var editText = getMessage(kradVariables.MESSAGE_EDIT);
+            editLink = " <a onclick=\"activateInlineEdit('" + id + "'); return false;\">" + editText + "</a>";
+        }
+
         //generate server side based messages
         var serverMessages = jQuery("<div class='" + kradVariables.SERVER_MESSAGE_ITEMS_CLASS + "'><ul>"
-                + generateListItems(data.serverErrors, kradVariables.ERROR_MESSAGE_ITEM_CLASS, 0, false, errorImage)
-                + generateListItems(data.serverWarnings, kradVariables.WARNING_MESSAGE_ITEM_CLASS, 0, false, warningImage)
-                + generateListItems(data.serverInfo, kradVariables.INFO_MESSAGE_ITEM_CLASS, 0, false, infoImage) + "</ul></div>");
+                + generateListItems(data.serverErrors, kradVariables.ERROR_MESSAGE_ITEM_CLASS, 0, false, errorImage, editLink)
+                + generateListItems(data.serverWarnings, kradVariables.WARNING_MESSAGE_ITEM_CLASS, 0, false, warningImage, editLink)
+                + generateListItems(data.serverInfo, kradVariables.INFO_MESSAGE_ITEM_CLASS, 0, false, infoImage, editLink) + "</ul></div>");
 
         var hasServerMessages = false;
         //only append if messages exist
         if (jQuery(clientMessages).find("ul").children().length) {
-            if (createMessagesDiv){
+            if (createMessagesDiv) {
                 field.append(messagesDiv);
                 createMessagesDiv = false;
             }
@@ -285,7 +290,7 @@ function writeMessagesAtField(id) {
         }
 
         if (jQuery(serverMessages).find("ul").children().length) {
-            if (createMessagesDiv){
+            if (createMessagesDiv) {
                 field.append(messagesDiv);
                 createMessagesDiv = false;
             }
@@ -311,6 +316,10 @@ function writeMessagesAtField(id) {
         if (jQuery(messagesDiv).find(".uif-errorMessageItem-field").length) {
             if (data.errors.length) {
                 jQuery(messagesDiv).find(".uif-clientMessageItems").addClass(kradVariables.CLIENT_ERROR_DIV_CLASS);
+            }
+
+            if (data.serverErrors.length) {
+                jQuery(messagesDiv).find(".uif-serverMessageItems").addClass(kradVariables.CLIENT_ERROR_DIV_CLASS);
             }
 
             if (data.fieldModified && data.errors.length == 0) {
@@ -341,6 +350,11 @@ function writeMessagesAtField(id) {
             if (data.warnings.length) {
                 jQuery(messagesDiv).find(".uif-clientMessageItems").addClass(kradVariables.CLIENT_WARNING_DIV_CLASS);
             }
+
+            if (data.serverWarnings.length) {
+                jQuery(messagesDiv).find(".uif-serverMessageItems").addClass(kradVariables.CLIENT_WARNING_DIV_CLASS);
+            }
+
             field.addClass(kradVariables.HAS_WARNING_CLASS);
             if (showImage) {
                 jQuery(messagesDiv).before(warningImage);
@@ -359,6 +373,11 @@ function writeMessagesAtField(id) {
             if (data.info.length) {
                 jQuery(messagesDiv).find(".uif-clientMessageItems").addClass(kradVariables.CLIENT_INFO_DIV_CLASS);
             }
+
+            if (data.serverInfo.length) {
+                jQuery(messagesDiv).find(".uif-serverMessageItems").addClass(kradVariables.CLIENT_INFO_DIV_CLASS);
+            }
+
             field.addClass(kradVariables.HAS_INFO_CLASS);
             if (showImage) {
                 jQuery(messagesDiv).before(infoImage);
@@ -378,7 +397,6 @@ function writeMessagesAtField(id) {
 
             handleTabStyle(id, false, false, false);
         }
-
     }
 }
 
@@ -619,11 +637,10 @@ function writeMessagesForGroup(id, data, forceWrite, skipCalculateTotals) {
                 if (pageLevel) {
                     if (newList.children().length) {
 
-                        var countMessage = generateCountString(data.errorTotal, data.warningTotal,
-                                data.infoTotal);
+                        var countMessage = generateCountString(data.errorTotal, data.warningTotal, data.infoTotal);
 
                         //set the window title
-                        addCountToDocumentTitle(countMessage);
+                        addCountToDocumentTitle(countMessage, data.errorTotal, data.warningTotal, data.infoTotal);
 
                         var single = isSingularMessage(newList);
                         var pageValidationHeader;
@@ -691,24 +708,38 @@ function writeMessagesForGroup(id, data, forceWrite, skipCalculateTotals) {
 }
 
 /**
- * Appends the message count to the document title (window title)
+ * Convience method for checking if a string is undefined, blank, or empty
+ *
+ * @param str String for testing
+ */
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
+
+/**
+ * Appends the message count to the document title (window title) 
+ * 
+ * First look to see if there is a error/warning/info message already 
+ * in the tab title, in the event that the there is no error/warning/info 
+ * at all add the message to the title. If there is an error/warning/info 
+ * message and then either update the new message or remove the error and 
+ * the dash. 
  *
  * @param countMessage the new message to append
  */
-function addCountToDocumentTitle(countMessage) {
-
-    if (document.title.indexOf(getMessage(kradVariables.MESSAGE_TOTAL_ERROR, null, null) > 0)
-            || document.title.indexOf(getMessage(kradVariables.MESSAGE_TOTAL_WARNING, null, null) > 0)
-            || document.title.indexOf(getMessage(kradVariables.MESSAGE_TOTAL_MESSAGE, null, null) > 0)) {
-
-        var tokenIndex = document.title.lastIndexOf(" - ");
-        if (tokenIndex > -1) {
+function addCountToDocumentTitle(countMessage, errorTotal, warningTotal, infoTotal) {
+	var tokenIndex = document.title.lastIndexOf(" - ");
+    if (errorTotal > 0  || warningTotal > 0 || infoTotal > 0) {
+        if (tokenIndex > -1 && !isEmpty(countMessage)) {
             document.title = document.title.substr(0, tokenIndex) + " - " + countMessage;
-            return;
+        } else if (tokenIndex > -1 && isEmpty(countMessage)) { 
+            document.title = document.title.substr(0, tokenIndex);
+        } else if (!isEmpty(countMessage)) { 
+            document.title = document.title + " - " + countMessage;
         }
+    } else if (!isEmpty(countMessage)) {
+        document.title = document.title + " - " + countMessage;
     }
-
-    document.title = document.title + " - " + countMessage;
 }
 
 /**
@@ -1008,11 +1039,11 @@ function generateCountString(errorTotal, warningTotal, infoTotal) {
 
 //              Check to see if the info message is coming from a lookup result page. If yes then
 //              do not display the count message at the top.
-                if(countMessage != "" && jQuery("#uLookupResults.uif-infoMessageItem").length > 0)   {
+                if (countMessage != "" && jQuery("#uLookupResults.uif-infoMessageItem").length > 0) {
                     countMessage = countMessage + getMessage(kradVariables.MESSAGE_TOTAL_MESSAGE, null, null, infoTotal);
                 }
-                else{
-                    countMessage ="";
+                else {
+                    countMessage = "";
                 }
             }
             else {
@@ -1079,20 +1110,25 @@ function writeMessageItemToList(item, newList) {
  * @param focusable - whether or not this li element should be focusable by the user
  * @param image - the image to use at the beginning of each li element
  */
-function generateListItems(messageArray, itemClass, startIndex, focusable, image) {
+function generateListItems(messageArray, itemClass, startIndex, focusable, image, editLink) {
     var elements = "";
     if (!image) {
         image = "";
     }
+
+    if (!editLink) {
+        editLink = "";
+    }
+
     if (messageArray && messageArray.length) {
         for (var i = startIndex; i < messageArray.length; i++) {
             if (focusable) {
                 elements = elements + "<li tabindex='0' class='" + itemClass + "'>" + image + " "
-                        + convertToHtml(messageArray[i]) + "</li>";
+                        + convertToHtml(messageArray[i]) + editLink + "</li>";
             }
             else {
                 elements = elements + "<li class='" + itemClass + "'>" + image + " "
-                        + convertToHtml(messageArray[i]) + "</li>";
+                        + convertToHtml(messageArray[i]) + editLink + "</li>";
             }
         }
     }
@@ -1345,7 +1381,7 @@ function generateFieldLink(messageData, fieldId, collapseMessages, showLabel) {
                         + name + linkText + collapsedElements + "</li>");
             }
 
-            //modified appendange
+            //modified appendage
             if (messageData.fieldModified && hasServerMessages) {
                 jQuery(link).find("a").prepend("<span class='modified'>(Modified) </span>");
                 if (!(messageData.errors.length)) {
@@ -1360,8 +1396,13 @@ function generateFieldLink(messageData, fieldId, collapseMessages, showLabel) {
             linkObject.find("a").click(function (event) {
                 event.preventDefault();
                 var control = jQuery("#" + fieldId + "_control");
-                if (control.length) {
+                var field = jQuery("#" + fieldId);
 
+                // Inline edit view check
+                if (field.is("[data-inline_edit]") && field.find(".uif-inlineEdit-view:visible").length) {
+                    field.find(".uif-inlineEdit-view").focus();
+                }
+                else if (control.length) {
                     jQuery(control).focus();
                 }
                 else {
@@ -1588,7 +1629,7 @@ function generateFieldLinkSublist(parentSectionData, currentFields, messageMap, 
  */
 function generateSummaryLink(sectionId) {
     //determine section title and section type
-    var sectionTitle =  getGroupHeaderElement(sectionId).find(".uif-headerText-span").text();
+    var sectionTitle = getGroupHeaderElement(sectionId).find(".uif-headerText-span").text();
     if (sectionTitle == null || sectionTitle == "") {
         //field group case
         sectionTitle = jQuery("#" + sectionId).data("label");
@@ -1704,14 +1745,25 @@ function runValidationScript(scriptFunction) {
 }
 
 /**
- * Validate the a specific field's control defined by the selector/jQuery array passed in.  Also calls dependsOnCheck
+ * Validate that a specific field's control defined by the selector/jQuery array passed in.  Also calls dependsOnCheck
  * to validate any dependant fields.
  *
  * @param fieldControl selector/jQuery array that represents the control to validate
  */
 function validateFieldValue(fieldControl) {
+    // skip validation for add line fields unless there is a value. The add button will handle validation
+    if (jQuery(fieldControl).attr('id').match(new RegExp(kradVariables.ID_SUFFIX.ADD_LINE_INPUT_FIELD))
+            && !jQuery(fieldControl).val()) {
+        return true;
+    }
+
     //remove the ignore class if any due to a bug in the validate 
     //plugin for direct validation on certain types
+    if (jQuery(fieldControl).attr('id').match(/ID_SUFFIXADD_LINE_INPUT_FIELD/)) {
+        jQuery(fieldControl).removeClass("ignoreValid");
+        return true;
+    }
+
     var hadIgnore = false;
     if (jQuery(fieldControl).hasClass("ignoreValid")) {
         jQuery(fieldControl).removeClass("ignoreValid");
@@ -1724,6 +1776,75 @@ function validateFieldValue(fieldControl) {
     clientErrorExistsCheck = false;
     if (hadIgnore) {
         jQuery(fieldControl).addClass("ignoreValid");
+    }
+
+    return valid;
+}
+
+/**
+ * Validates all fields requiring validation. Removes any
+ * kradVariables.IGNORE_VALIDATION_TEMP_CLASS class names which may have been applied
+ * when limiting validation to a subset of fields.
+ *
+ * @param $action(optional) element of that initiated the request, used to determine if invoked in dialog
+ *
+ * @returns {boolean} true if all fields requiring validation are valid, false otherwise
+ */
+function validateForm($action) {
+
+    jQuery("." + kradVariables.IGNORE_VALIDATION_TEMP_CLASS).removeClass(kradVariables.IGNORE_VALIDATION_TEMP_CLASS);
+
+    return _validateFormOrDialog($action);
+}
+
+/**
+ * Validates fields requiring validation, except for those listed, if a specified
+ * condition is met.
+ *
+ * @param $fieldsToSkip Array of jQuery objects on which to ignore validation.
+ * @param skipConditionFunc callback function which determines if validation should
+ * be ignored for $fieldsToSkip.
+ * @param $action(optional) element of that initiated the request, used to determine if invoked in dialog
+ *
+ * @returns {boolean} true if all fields requiring validation are valid, false otherwise
+ */
+function validatePartialForm($fieldsToSkip, skipConditionFunc, $action) {
+
+    if (skipConditionFunc()) {
+        $fieldsToSkip.addClass(kradVariables.IGNORE_VALIDATION_TEMP_CLASS);
+        jQuery("." + kradVariables.IGNORE_VALIDATION_CLASS + ", ." + kradVariables.IGNORE_VALIDATION_TEMP_CLASS).each(function () {
+            removeClientValidationError(this);
+        });
+    } else {
+        jQuery("." + kradVariables.IGNORE_VALIDATION_TEMP_CLASS).removeClass(kradVariables.IGNORE_VALIDATION_TEMP_CLASS);
+    }
+
+    return _validateFormOrDialog($action);
+}
+
+/**
+ * Validates all fields requiring validation, in a form or dialog.
+ *
+ * @param $action(optional) element that initiated the request, used to determine if invoked in dialog
+ *
+ * @returns {boolean} true if all fields requiring validation are valid, false otherwise
+ *
+ * @private
+ */
+function _validateFormOrDialog($action) {
+
+    var inDialog = false;
+    if ($action) {
+        var $dialogGroup = $action.closest(kradVariables.DIALOG_SELECTOR);
+        inDialog = $dialogGroup.length;
+    }
+
+    var valid = true;
+    if (!inDialog) {
+        valid = validate();
+    }
+    else if (inDialog) {
+        valid = validate($dialogGroup);
     }
 
     return valid;
@@ -1889,5 +2010,43 @@ function mustOccurCheck(total, min, max) {
     }
     else {
         return 0;
+    }
+}
+
+/**
+ * Remove client side validation from the control specified (highlight and messages)
+ *
+ * @param control the control to remove validation from
+ */
+function removeClientValidationError(control) {
+    var errorClass = kradVariables.ERROR_CLASS;
+    var validClass = kradVariables.VALID_CLASS;
+
+    jQuery(control).removeClass(errorClass).addClass(validClass);
+    jQuery(control).removeAttr("aria-invalid");
+
+    var id = getAttributeId(jQuery(control).attr("id"));
+    if (!id) {
+        return;
+    }
+    var field = jQuery("#" + id);
+    var data = getValidationData(field);
+
+    if (data) {
+        data.errors = [];
+        field.data(kradVariables.VALIDATION_MESSAGES, data);
+
+        if (messageSummariesShown) {
+            handleMessagesAtField(id);
+        }
+        else {
+            writeMessagesAtField(id);
+        }
+
+        // force hide of tooltip if no messages present
+        if (!(data.warnings.length || data.info.length || data.serverErrors.length
+                || data.serverWarnings.length || data.serverInfo.length)) {
+            hideMessageTooltip(id);
+        }
     }
 }
