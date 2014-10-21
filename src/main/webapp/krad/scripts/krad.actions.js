@@ -20,7 +20,7 @@
  */
 function initActionData(jqActionComponent) {
     // If an action does not have a setting for something in defaults, use the default
-    jQuery.each(actionDefaults, function(key, value){
+    jQuery.each(actionDefaults, function (key, value) {
         var dataValue = jqActionComponent.data(key.toLowerCase());
         if (dataValue === undefined) {
             jqActionComponent.data(key.toLowerCase(), value);
@@ -110,8 +110,9 @@ function nonAjaxSubmitForm(methodToCall, additionalData) {
  * @param validate - indicates whethere client side validation should be performed before the submit
  * @param ajaxSubmit - whether the submit should be via ajax or standard browser submit
  * @param successCallback - method to invoke after a successful request, only applies to ajax calls
+ * @param fieldsToSend (optional) - limit the fields to send to property names defined in an array
  */
-function submitForm(methodToCall, additionalData, validate, ajaxSubmit, successCallback) {
+function submitForm(methodToCall, additionalData, validate, ajaxSubmit, successCallback, fieldsToSend) {
     var kradRequest = new KradRequest();
 
     kradRequest.methodToCall = methodToCall;
@@ -119,6 +120,7 @@ function submitForm(methodToCall, additionalData, validate, ajaxSubmit, successC
     kradRequest.validate = validate;
     kradRequest.ajaxSubmit = ajaxSubmit;
     kradRequest.successCallback = successCallback;
+    kradRequest.fieldsToSend = fieldsToSend;
 
     kradRequest.send();
 }
@@ -321,8 +323,9 @@ function createPlaceholderAndRetrieve(componentId, callback, additionalData) {
  * @param successCallback - (optional) additional callback function to be executed after the component is retrieved
  * @param additionalData - (optional) additional data to be submitted with the request
  * @param disableBlocking - (optional) turns off blocking and loading messaging
+ * @param fieldsToSend (optional) - limit the fields to send to property names defined in an array
  */
-function retrieveComponent(id, methodToCall, successCallback, additionalData, disableBlocking) {
+function retrieveComponent(id, methodToCall, successCallback, additionalData, disableBlocking, fieldsToSend) {
     var refreshComp = jQuery("#" + id);
 
     // if a call is made from refreshComponentUsingTimer() and the component does not exist on the page or is hidden
@@ -348,6 +351,7 @@ function retrieveComponent(id, methodToCall, successCallback, additionalData, di
     kradRequest.successCallback = successCallback;
     kradRequest.additionalData = additionalData;
     kradRequest.refreshId = id;
+    kradRequest.fieldsToSend = fieldsToSend;
 
     if (disableBlocking) {
         kradRequest.disableBlocking = disableBlocking;
@@ -530,11 +534,12 @@ function cascadeOpen(componentObject) {
  * @param controlName - value for the name attribute for the control the event should be generated for
  * @param refreshId - id for the component that should be refreshed when change occurs
  * @param methodToCall - name of the method that should be invoked for the refresh call (if custom method is needed)
+ * @param fieldsToSend (optional) - limit the fields to send to property names defined in an array
  */
-function setupOnChangeRefresh(controlName, refreshId, methodToCall) {
+function setupOnChangeRefresh(controlName, refreshId, methodToCall, fieldsToSend) {
     setupRefreshCheck(controlName, refreshId, function () {
         return true;
-    }, methodToCall);
+    }, methodToCall, fieldsToSend);
 }
 
 /**
@@ -547,14 +552,15 @@ function setupOnChangeRefresh(controlName, refreshId, methodToCall) {
  * @param refreshId - id for the component that should be refreshed when condition occurs
  * @param condition - function which returns true to refresh, false otherwise
  * @param methodToCall - name of the method that should be invoked for the refresh call (if custom method is needed)
+ * @param fieldsToSend (optional) - limit the fields to send to property names defined in an array
  */
-function setupRefreshCheck(controlName, refreshId, condition, methodToCall) {
+function setupRefreshCheck(controlName, refreshId, condition, methodToCall, fieldsToSend) {
     jQuery("[name='" + escapeName(controlName) + "']").live('change', function () {
         // visible check because a component must logically be visible to refresh
         var refreshComp = jQuery("#" + refreshId);
         if (refreshComp.length) {
             if (condition()) {
-                retrieveComponent(refreshId, methodToCall);
+                retrieveComponent(refreshId, methodToCall, null, null, false, fieldsToSend);
             }
         }
     });
@@ -594,7 +600,9 @@ function setupDisabledCheck(controlName, disableCompId, disableCompType, conditi
         });
     }
     else {
-        jQuery(document).off(eventType);
+        // if disabledWhenChangedPropertyNames is configured with multiple property names the eventtype is the same
+        // adding the controlName to make it specific
+        jQuery(document).off(eventType, "[name='" + escapeName(controlName) + "']");
         jQuery(document).on(eventType, "[name='" + escapeName(controlName) + "']", function () {
             var disableControl = jQuery("#" + disableCompId);
             if (condition()) {
@@ -643,8 +651,9 @@ function setupDisabledCheck(controlName, disableCompId, disableCompType, conditi
  * @param disclosureId
  * @param condition - function which returns true to disclose, false otherwise
  * @param methodToCall - name of the method that should be invoked for the retrieve call (if custom method is needed)
+ * @param fieldsToSend (optional) - limit the fields to send to property names defined in an array
  */
-function setupProgressiveCheck(controlName, disclosureId, condition, alwaysRetrieve, methodToCall) {
+function setupProgressiveCheck(controlName, disclosureId, condition, alwaysRetrieve, methodToCall, fieldsToSend) {
     jQuery("[name='" + escapeName(controlName) + "']").live('change', function () {
         var refreshDisclosure = jQuery("#" + disclosureId);
         if (refreshDisclosure.length) {
@@ -652,7 +661,7 @@ function setupProgressiveCheck(controlName, disclosureId, condition, alwaysRetri
 
             if (condition()) {
                 if (refreshDisclosure.data("role") == "placeholder" || alwaysRetrieve) {
-                    retrieveComponent(disclosureId, methodToCall);
+                    retrieveComponent(disclosureId, methodToCall, null, null, false, fieldsToSend);
                 }
                 else {
                     refreshDisclosure.addClass(kradVariables.PROGRESSIVE_DISCLOSURE_HIGHLIGHT_CLASS);
@@ -706,8 +715,10 @@ function hiddenInputValidationToggle(id) {
             jQuery(":input:hidden", element).each(function () {
                 storeOriginalDisabledProperty(jQuery(this));
                 jQuery(this).addClass("ignoreValid");
-                //disable hidden inputs to prevent from being submitted
-                jQuery(this).prop("disabled", true);
+                //disable hidden inputs to prevent from being submitted unless it is a hidden field
+                if (!jQuery(this).is("input[type='hidden']")) {
+                    jQuery(this).prop("disabled", true);
+                }
             });
         }
         else {
@@ -794,6 +805,10 @@ function _openPopover(popupTarget, contentId, popoverOptions, useCloseButton) {
 
     var clickName = "click." + popupTarget.attr('id');
     popupTarget.attr("data-popupContentId", popupContent.attr("id"));
+
+    // Make focusable by focus jquery call
+    popupContent.attr("tabindex", "-1");
+
     popupContent.after("<div id='" + contentId + "_popupPlaceholder' style='display:none'></div>");
     popupContent = popupContent.detach().show();
     popupContent.addClass("uif-popupContent-inner");
@@ -809,8 +824,9 @@ function _openPopover(popupTarget, contentId, popoverOptions, useCloseButton) {
 
         popoverData = initializeTooltip(popupTarget, popoverOptions, "uif-popupContent");
 
-        if (useCloseButton) {
-            var closeButton = jQuery('<div class="uif-popup-closebutton"/>');
+        if (useCloseButton && popupContent.find("> .close").length === 0) {
+            var closeButton = jQuery('<button type="button" class="close">'
+                    + '<span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>');
             closeButton.on(clickName, function () {
                 _hidePopover(popupTarget);
             });
@@ -819,10 +835,10 @@ function _openPopover(popupTarget, contentId, popoverOptions, useCloseButton) {
     }
 
     popoverData.options.content = popupContent;
-
     popupTarget.popover("show");
-
     popoverData.shown = true;
+
+    popupContent.focus();
 
     // close popup on any click outside current popup
     jQuery(document).on(clickName, function (e) {
@@ -838,6 +854,7 @@ function _openPopover(popupTarget, contentId, popoverOptions, useCloseButton) {
         jQuery("#" + contentId + "_popupPlaceholder").replaceWith(popupContent.hide());
         target.popover("hide");
         jQuery(document).off("click." + target.attr('id'));
+        target.focus();
     }
 }
 
