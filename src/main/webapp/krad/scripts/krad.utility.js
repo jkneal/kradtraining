@@ -97,7 +97,7 @@ function convertToHtml(text, removeAnchors) {
         text = text.replace(/&lt;\/a&gt;/gi, "");
     }
 
-    return jQuery("<span />", { html: text }).html();
+    return jQuery("<span />").html(text).text();
 }
 
 /**
@@ -489,29 +489,27 @@ function evalHiddenScript(jqueryObj) {
  *          the value that should be set for the methodToCall parameter
  */
 function setMethodToCall(methodToCall) {
-    jQuery("<input type='hidden' name='methodToCall' value='" + methodToCall + "'/>").appendTo(jQuery("#formComplete"));
+    jQuery("<input type='hidden' name='methodToCall' value='" + methodToCall + "'/>").appendTo(jQuery("#" + kradVariables.FORM_COMPLETE_ID));
 }
 
 /**
- * Writes a property name/value pair as a hidden input field on the form. Called
- * to dynamically set request parameters based on a chosen action. Assumes
- * existence of a div named 'formComplete' where the hidden inputs will be
- * inserted
+ * Writes a property name/value pair as a hidden input field on the form.
  *
- * @param propertyName -
- *          name for the input field to write
- * @param propertyValue -
- *          value for the input field to write
+ * <p>Called to dynamically set request parameters based on a chosen action. Assumes
+ * existence of a div named 'formComplete' where the hidden inputs will be
+ * inserted</p>
+ *
+ * @param propertyName name for the input field to write
+ * @param propertyValue value for the input field to write
  */
 function writeHiddenToForm(propertyName, propertyValue) {
-    //removing because of performFinalize bug
     jQuery('input[name="' + escapeName(propertyName) + '"]').remove();
 
-    if (propertyValue && typeof propertyValue === 'string' &&  propertyValue.indexOf("'") != -1) {
-        jQuery("<input type='hidden' name='" + propertyName + "'" + ' value="' + propertyValue + '"/>').appendTo(jQuery("#formComplete"));
-    } else {
-        jQuery("<input type='hidden' name='" + propertyName + "' value='" + propertyValue + "'/>").appendTo(jQuery("#formComplete"));
+    if (propertyValue && typeof propertyValue === 'string') {
+        propertyValue = propertyValue.replace(/"/g, "\\\"");
     }
+
+    jQuery("<input type='hidden' name='" + propertyName + "'" + ' value="' + propertyValue + '"/>').appendTo(jQuery("#" + kradVariables.FORM_COMPLETE_ID));
 }
 
 /**
@@ -521,7 +519,7 @@ function writeHiddenToForm(propertyName, propertyValue) {
  * be called to clear the hiddens
  */
 function clearHiddens() {
-    jQuery("#formComplete").html("");
+    jQuery("#" + kradVariables.FORM_COMPLETE_ID).html("");
 }
 
 /**
@@ -632,182 +630,11 @@ function occursBefore(name1, name2) {
  */
 function getAttributeId(elementId) {
     var id = elementId;
+    if (!id) {
+        return '';
+    }
     id = elementId.replace(/_control\S*/, "");
     return id;
-}
-
-/**
- * Invoked after the page or a component is refreshed to perform any repositioning or setting
- * of focus
- *
- * @param setFocus - boolean that indicates whether focus should be set, if false just the jump will be performed
- * @param autoFocus - boolean that indicates where focus to top should happen if focus to not set
- * @param autoJump - boolean that indicates where jump to top should happen if jump to not set
- * @param focusId - id of the dom element to focus on
- * @param jumpToId - id of the dom element to jump to
- * @param jumpToName - name of the dom element to jump to
- */
-function performFocusAndJumpTo(setFocus, autoFocus, autoJump, focusId, jumpToId, jumpToName) {
-    gAutoFocus = autoFocus && setFocus;
-    if (setFocus) {
-        performFocus(focusId);
-    }
-
-    if (jumpToId || jumpToName || autoJump) {
-        performJumpTo(jumpToId, jumpToName);
-    }
-}
-
-//performs a 'jump' - a scroll to the necessary html element
-function performJumpTo(jumpToId, jumpToName) {
-    if (jumpToId) {
-        if (jumpToId.toUpperCase() === "TOP") {
-            jumpToTop();
-        }
-        else if (jumpToId.toUpperCase() === "BOTTOM") {
-            jumpToBottom();
-        }
-        else {
-            jumpToElementById(jumpToId);
-        }
-    }
-    else if (jumpToName) {
-        jumpToElementByName(jumpToName);
-    }
-    else {
-        jumpToTop();
-    }
-}
-
-/**
- * Performs a focus on an the element with the id preset
- *
- * @param focusId - id of the dom element to focus on
- * @param autoFocus - boolean that indicates where focus to top should happen if focus to not set
- */
-function performFocus(focusId) {
-    if (!focusId) {
-        return;
-    }
-
-    if (focusId == "FIRST" && gAutoFocus) {
-        var id = jQuery("div[data-role='InputField']:first [data-role='Control']:input:first", "#kualiForm").attr("id");
-        focus(id);
-        return;
-    }
-
-    if (focusId.match("^" + kradVariables.NEXT_INPUT.toString())) {
-        focusId = focusId.substr(kradVariables.NEXT_INPUT.length, focusId.length);
-        var original = jQuery("#" + focusId);
-        var inputs = jQuery(":input:visible, a:visible:not(\"a[data-role='disclosureLink']\")");
-        var index = jQuery(inputs).index(original);
-        if (index && jQuery(inputs).length > index + 1) {
-            var id = jQuery(inputs).eq(index + 1).attr("id");
-            focus(id);
-        }
-    } else {
-        var focusElement = jQuery("#" + focusId);
-        if (focusElement.length) {
-            focus(focusId);
-        }
-        else {
-            focusId = focusId.replace(/_control\S*/, "");
-            focusElement = jQuery("#" + focusId).find(":input:visible, a:visible").first();
-            if (focusElement.length) {
-                focus(jQuery(focusElement).attr("id"));
-            }
-        }
-
-    }
-}
-
-//performs a focus on an the element with the name specified
-function focusOnElementByName(name) {
-    var theElement = jQuery("[name='" + escapeName(name) + "']");
-    if (theElement.length != 0) {
-        theElement.focus();
-    }
-}
-
-//performs a focus on an the element with the id specified
-function focusOnElementById(focusId) {
-    if (focusId) {
-        jQuery("#" + focusId).focus();
-    }
-}
-
-/**
- * This function focuses the element and if its a textual input puts the cursor after the content
- *
- * @param id
- */
-function focus(id) {
-    var inputField = document.getElementById(id);
-    if (inputField != null && jQuery(inputField).is(":text,textarea,:password") &&
-            inputField.value && inputField.value.length != 0) {
-        if (inputField.createTextRange) {
-            var FieldRange = inputField.createTextRange();
-            FieldRange.moveStart('character', inputField.value.length);
-            FieldRange.collapse();
-            FieldRange.select();
-        } else if (inputField.selectionStart ||
-                (inputField.selectionStart != undefined && inputField.selectionStart == '0')) {
-            var elemLen = inputField.value.length;
-            inputField.selectionStart = elemLen;
-            inputField.selectionEnd = elemLen;
-            inputField.focus();
-        }
-    } else if (inputField != null) {
-        inputField.focus();
-    }
-}
-
-//Jump(scroll) to an element by name
-function jumpToElementByName(name) {
-    var theElement = jq("[name='" + escapeName(name) + "']");
-    if (theElement.length != 0) {
-        if (!usePortalForContext() || jQuery("#fancybox-frame", parent.document).length) {
-            jQuery.scrollTo(theElement, 1);
-        }
-        else {
-            var headerOffset = top.jQuery("#header").outerHeight(true) + top.jQuery(".header2").outerHeight(true);
-            top.jQuery.scrollTo(theElement, 1, {offset: {top: headerOffset}});
-        }
-    }
-}
-
-//Jump(scroll) to an element by Id
-function jumpToElementById(id) {
-    var theElement = jq("#" + id);
-    if (theElement.length != 0) {
-        if (!usePortalForContext() || jQuery("#fancybox-frame", parent.document).length) {
-            jQuery.scrollTo(theElement, 1);
-        }
-        else {
-            var headerOffset = top.jQuery("#header").outerHeight(true) + top.jQuery(".header2").outerHeight(true);
-            top.jQuery.scrollTo(theElement, 1, {offset: {top: headerOffset}});
-        }
-    }
-}
-
-//Jump(scroll) to the top of the current screen
-function jumpToTop() {
-    if (!usePortalForContext() || jQuery("#fancybox-frame", parent.document).length || !top.jQuery.scrollTo) {
-        jQuery.scrollTo(0);
-    }
-    else {
-        top.jQuery.scrollTo(0);
-    }
-}
-
-//Jump(scroll) to the bottom of the current screen
-function jumpToBottom() {
-    if (!usePortalForContext() || jQuery("#fancybox-frame", parent.document).length) {
-        jQuery.scrollTo("max", 1);
-    }
-    else {
-        top.jQuery.scrollTo("max", 1);
-    }
 }
 
 // The following javascript is intended to resize the route log iframe
@@ -883,7 +710,7 @@ function openHelpWindow(url) {
 
     /* chrome will not allow a open,close,open */
     var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-    if(!is_chrome) {
+    if (!is_chrome) {
         myWindow = window.open('', windowName);
         myWindow.close();
     }
@@ -1027,7 +854,7 @@ function collectionLineChanged(inputField, highlightItemClass) {
     var innerLayout = jQuery(inputField).parents('.' + kradVariables.TABLE_COLLECTION_LAYOUT_CLASS
             + ', .' + kradVariables.STACKED_COLLECTION_LAYOUT_CLASS).first().attr('class');
 
-    if (innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
+    if (innerLayout && innerLayout.indexOf(kradVariables.TABLE_COLLECTION_LAYOUT_CLASS) >= 0) {
         var row = jQuery(inputField).closest('tr');
         var enabled = row.find('.dirty').length > 0;
         var saveButton = row.find('.' + kradVariables.SAVE_LINE_ACTION_CLASS);
@@ -1089,11 +916,11 @@ function showLightboxComponent(componentId, overrideOptions, alwaysRefresh) {
         alwaysRefresh = false;
     }
 
-    // set renderedInLightBox indicator and remove it when lightbox is closed
-    if (jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val() != true) {
-        jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val(true);
+    // set renderedInDialog indicator and remove it when lightbox is closed
+    if (jQuery("input[name='" + kradVariables.RENDERED_IN_DIALOG + "']").val() != true) {
+        jQuery("input[name='" + kradVariables.RENDERED_IN_DIALOG + "']").val(true);
         _appendCallbackFunctions(overrideOptions, {afterClose: function () {
-            jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val(false);
+            jQuery("input[name='" + kradVariables.RENDERED_IN_DIALOG + "']").val(false);
         }});
     }
 
@@ -1135,9 +962,9 @@ function _showLightboxComponentHelper(componentId, overrideOptions) {
 
             // restore original display state and replace placeholder
             jQuery("#" + componentId).css("display", cssDisplay);
-            jQuery("#" + componentId + kradVariables.DIALOG_PLACEHOLDER).replaceWith(parent.jQuery("#" + componentId).detach());
+            jQuery("#" + componentId + kradVariables.DIALOG_PLACEHOLDER).replaceWith(parent.jQuery("#" + componentId));
 
-            jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val(false);
+            jQuery("input[name='" + kradVariables.RENDERED_IN_DIALOG + "']").val(false);
 
             activeDialogId = null;
         }});
@@ -1149,9 +976,9 @@ function _showLightboxComponentHelper(componentId, overrideOptions) {
 
             // restore original display state and replace placeholder
             jQuery("#" + componentId).css("display", cssDisplay);
-            jQuery("#" + componentId + kradVariables.DIALOG_PLACEHOLDER).replaceWith(parent.jQuery("#" + componentId).detach());
+            jQuery("#" + componentId + kradVariables.DIALOG_PLACEHOLDER).replaceWith(parent.jQuery("#" + componentId));
 
-            jQuery("input[name='" + kradVariables.RENDERED_IN_LIGHTBOX + "']").val(false);
+            jQuery("input[name='" + kradVariables.RENDERED_IN_DIALOG + "']").val(false);
 
             activeDialogId = null;
         }});
@@ -1810,16 +1637,24 @@ function coerceTableCellValue(element) {
     if (inputField.length > 0) {
         //TODO : use coerceValue()? would we do totals on other types of input
         inputFieldValue = inputField.val();
-    } else {
-        // This might be after sorting or just read only
-        if (tdObject.is("div[data-role='InputField']")) {
-            // readonly fields
-            inputFieldValue = getImmediateChildText(tdObject[0]).trim();
-        } else {
-            // after sorting
-            inputFieldValue = element;
+    } else if (tdObject.is(kradVariables.INPUT_FIELD_SELECTOR) || tdObject.is("." + kradVariables.FIELD_CLASS)) {
+        // readonly fields
+        if (tdObject.find(kradVariables.INLINE_EDIT.VIEW_CLASS).length) {
+            inputFieldValue = getImmediateChildText(tdObject.find(kradVariables.INLINE_EDIT.VIEW_CLASS)[0]).trim();
         }
+        else if (tdObject.find("> span").length) {
+            inputFieldValue = getImmediateChildText(tdObject.find("> span")[0]).trim();
+        }
+        else {
+            inputFieldValue = getImmediateChildText(tdObject[0]).trim();
+        }
+    } else if (tdObject.is("span")) {
+        inputFieldValue = getImmediateChildText(tdObject[0]).trim();
+    } else {
+        // after sorting
+        inputFieldValue = element;
     }
+
 
     // boolean matching
     if (inputFieldValue && inputFieldValue.toUpperCase() == "TRUE") {
@@ -1837,14 +1672,14 @@ function coerceTableCellValue(element) {
 }
 
 function getImmediateChildText(node) {
-  var text = "";
-  for (var child = node.firstChild; !!child; child = child.nextSibling) {
-    // nodeType 3 is a text node
-    if (child.nodeType === 3) {
-      text += child.nodeValue + " ";
+    var text = "";
+    for (var child = node.firstChild; !!child; child = child.nextSibling) {
+        // nodeType 3 is a text node
+        if (child.nodeType === 3) {
+            text += child.nodeValue + " ";
+        }
     }
-  }
-  return text;
+    return text;
 }
 
 /**
@@ -1993,6 +1828,60 @@ function invokeServerListener(methodToCall, params) {
     });
 
     return serverResponse;
+}
+
+/**
+ * Stores a key/value pair to local storage if available (if not an error is thrown).
+ *
+ * @param key key for the pair to store, which will be used for retrieving the value
+ * @param value value for the pair to store
+ */
+function storeToLocal(key, value) {
+    if (localStorage) {
+        localStorage[key] = value;
+    }
+    else {
+        throw Error("Local storage not supported");
+    }
+}
+
+/**
+ * Retrieves the value for a key from local storage.
+ *
+ * <p>If local storage is not enabled an error is thrown and if the key is not found a null value
+ * is returned</p>
+ *
+ * @param key key for the value to return
+ */
+function retrieveFromLocal(key) {
+    if (localStorage) {
+        if (localStorage[key]) {
+            return localStorage[key];
+        }
+
+        return null;
+    }
+    else {
+        throw Error("Local storage not supported");
+    }
+}
+
+/**
+ * Removes a key/value pair from local storage.
+ *
+ * <p>If session storage is not enabled an error is thrown</p>
+ *
+ * @param key key for the pair to remove
+ */
+function removeFromLocal(key) {
+    if (localStorage) {
+        if (localStorage[key]) {
+            delete localStorage[key];
+        }
+    }
+    else {
+        throw Error("Local storage not supported");
+    }
 }
 
 /**
@@ -2190,6 +2079,11 @@ function openDataTablePage(tableId, pageNumber) {
     if (oTable == null) {
         oTable = getDataTableHandle(jQuery('#' + tableId).find('.dataTable').attr('id'));
     }
+
+    if (oTable == null) {
+        return;
+    }
+
     if (pageNumber == "first" || pageNumber == "last") {
         oTable.fnPageChange(pageNumber);
     } else {
@@ -2344,7 +2238,7 @@ function initStickyContent(currentScroll) {
         currentScroll = jQuery(window).scrollTop();
     }
 
-    var topOffset = Math.round(stickyContentOffset.top);
+    var topOffset = Math.floor(stickyContentOffset.top);
 
     var totalHeight = 0;
     var margin = 0;
@@ -2357,7 +2251,7 @@ function initStickyContent(currentScroll) {
     stickyContent.each(function () {
         var height = jQuery(this).outerHeight();
         var thisOffset = jQuery(this).data("offset");
-        var thisOffsetTop = Math.round(thisOffset.top);
+        var thisOffsetTop = Math.floor(thisOffset.top);
         jQuery(this).addClass(kradVariables.STICKY_CLASS);
 
         if (thisOffsetTop < 1) {
@@ -2373,7 +2267,7 @@ function initStickyContent(currentScroll) {
         }
 
         //this means there is inner non-sticky content in the header
-        if (thisOffsetTop > topOffset) {
+        if (thisOffsetTop > topOffset + 1) {
             margin = margin + totalHeight;
             innerNonStickyCount++;
             topOffset = thisOffsetTop;
@@ -2409,7 +2303,7 @@ function initStickyContent(currentScroll) {
     // Determine which div to apply the margin to by figuring out the first applicable div that exists after all
     // the sticky content, in order to push down that content and content below it correctly
     var applyMarginToContent = jQuery("[data-role='View'] > .uif-sticky:last").next();
-    if (applyMarginToContent.length == 0){
+    if (applyMarginToContent.length == 0) {
         applyMarginToContent = jQuery("[data-role='View']");
     }
 
@@ -2431,7 +2325,7 @@ function handleStickyContent() {
         return;
     }
 
-    if (jQuery(window).scrollTop() >= Math.round(stickyContentOffset.top)) {
+    if (jQuery(window).scrollTop() >= Math.floor(stickyContentOffset.top)) {
         var topOffset = 0;
         var navAdjust = 0;
 
@@ -2440,7 +2334,7 @@ function handleStickyContent() {
             var height = jQuery(this).outerHeight();
 
             var thisOffset = jQuery(this).data("offset");
-            var thisOffsetTop = Math.round(thisOffset.top);
+            var thisOffsetTop = Math.floor(thisOffset.top);
             //content exist between this sticky and last sticky
             if (thisOffset && thisOffsetTop - jQuery(window).scrollTop() > topOffset) {
                 var diff = thisOffsetTop - jQuery(window).scrollTop();
@@ -2459,7 +2353,7 @@ function handleStickyContent() {
         //adjust the fixed nav position (if navigation exists)
         // TODO support both absolute and fixed
         /* jQuery("#" + kradVariables.NAVIGATION_ID).attr("style", "position:fixed; top: " +
-                (navAdjust) + "px;");*/
+         (navAdjust) + "px;");*/
         var nav = jQuery("#" + kradVariables.NAVIGATION_ID);
         if (nav.length && nav.has(".nav-tabs").length === 0) {
             nav.attr("style", "position:absolute;");
@@ -2468,7 +2362,7 @@ function handleStickyContent() {
         currentHeaderHeight = navAdjust;
 
     }
-    else if (jQuery(window).scrollTop() < Math.round(stickyContentOffset.top)) {
+    else if (jQuery(window).scrollTop() < Math.floor(stickyContentOffset.top)) {
         //the content is back to past the first sticky element (topmost)
         initStickyContent(jQuery(window).scrollTop());
     }
@@ -2501,11 +2395,12 @@ function initStickyFooterContent() {
     });
     currentFooterHeight = bottomOffset;
 
-    var contentWindowDiff = jQuery(window).height() - jQuery("#" + kradVariables.APP_ID).height();
+    var contentWindowDiff = jQuery(window).height() - jQuery("[data-role='View']").height();
     if (bottomOffset > contentWindowDiff) {
-        jQuery("#" + kradVariables.APP_ID).css("paddingBottom", bottomOffset + "px");
+        jQuery("[data-role='View']").css("paddingBottom", (bottomOffset) + "px");
     } else {
-        jQuery("#" + kradVariables.APP_ID).css("paddingBottom", contentWindowDiff + "px");
+        // 2px adjustment for some scenarios where mysterious pixels are added (unknown cause)
+        jQuery("[data-role='View']").css("paddingBottom", (contentWindowDiff - 2) + "px");
     }
 }
 
@@ -2526,8 +2421,8 @@ function handleStickyFooterContent() {
     var scrollTop = jQuery(window).scrollTop();
 
     //reposition elements when the scroll exceeds the footer's top (and footer content exists)
-    if (windowHeight + scrollTop >= Math.round(appFooterOffset.top) && scrollTop != 0 && applicationFooter.height() > 0) {
-        var bottomOffset = (windowHeight + scrollTop) - Math.round(appFooterOffset.top);
+    if (windowHeight + scrollTop >= Math.floor(appFooterOffset.top) && scrollTop != 0 && applicationFooter.height() > 0) {
+        var bottomOffset = (windowHeight + scrollTop) - Math.floor(appFooterOffset.top);
 
         jQuery(stickyFooterContent.get().reverse()).each(function () {
             var height = jQuery(this).outerHeight();
@@ -2550,8 +2445,11 @@ function handleStickyFooterContent() {
 function hideEmptyCells() {
     // get all the td elements
     jQuery('td.' + kradVariables.GRID_LAYOUT_CELL_CLASS).each(function () {
+        // check if this cell is part of a comparable action row
+        var isCompareFieldAction = jQuery(this).next("td." + kradVariables.COLLECTION_ACTION_CLASS).children().hasClass(kradVariables.ACTION_FIELD_CLASS);
+
         // check if the children is hidden (progressive) or if there is no content(render=false)
-        var cellEmpty = jQuery(this).children().is(".uif-placeholder") || jQuery(this).is(":empty");
+        var cellEmpty = (jQuery(this).children().is(".uif-placeholder") || jQuery(this).is(":empty")) && !isCompareFieldAction;
 
         // hide the header only if the cell and the header is empty
         if (cellEmpty) {
@@ -2677,14 +2575,13 @@ function formatHtml(html) {
         lastType = type;
         var padding = '';
 
-
         indent += transitions[fromTo];
         for (var j = 0; j < indent; j++) {
             padding += '   ';
         }
 
         if (fromTo == 'opening->closing')
-            // substr removes line break (\n) from prev loop
+        // substr removes line break (\n) from prev loop
             formatted = formatted.substr(0, formatted.length - 1) + ln + '\n';
         else
             formatted += padding + ln + '\n';
@@ -2694,7 +2591,78 @@ function formatHtml(html) {
 }
 
 function getGroupHeaderElement(groupId) {
+    // get the header wrapper element
     var headerWrapper = jQuery("[data-header_for='" + groupId + "']");
+
+    // get the header wrapper id, and if it exists, get the base id
     var wrapperId = headerWrapper.attr("id");
+    if (wrapperId) {
+        wrapperId = wrapperId.replace("_headerWrapper", "");
+    }
+
+    // get the header element
     return headerWrapper.find("#" + wrapperId + "_header");
+}
+
+/**
+ * Focus the control and place the cursor at the end of the content (when applicable).
+ *
+ * @param $control the control to be focused
+ */
+function focusEnd($control) {
+    var control = $control[0];
+    if (control != null && control.value.length != 0 && $control.is(":text,textarea")) {
+        if (control.createTextRange) {
+            var FieldRange = control.createTextRange();
+            FieldRange.moveStart('character', control.value.length);
+            FieldRange.collapse();
+            FieldRange.select();
+        } else if (control.selectionStart || control.selectionStart == '0') {
+            var elemLen = control.value.length;
+            control.selectionStart = elemLen;
+            control.selectionEnd = elemLen;
+            control.focus();
+        }
+    } else {
+        $control.focus();
+    }
+}
+
+/**
+ * Create truncate tooltips on elements with the uif-truncate css class.  The tooltips
+ * will display the full text of the table cell when the displayed text in the table cell
+ * has been truncated.
+ */
+function createTruncateTooltips() {
+    jQuery('.uif-truncate').each(function() {
+        jQuery(this).on("mouseover", function () {
+            if ((jQuery('#' + this.id + '_control').text().trim())
+                    && (this.offsetWidth < document.getElementById(this.id + "_control").offsetWidth)) {
+                var tooltipElement = jQuery(this);
+                var popoverData = tooltipElement.data(kradVariables.POPOVER_DATA);
+                if (!popoverData) {
+                    popoverData = initializeTooltip(tooltipElement);
+                }
+
+                if (!popoverData.shown) {
+                    popoverData.options.content = jQuery('#' + this.id + '_control').text();
+                    tooltipElement.popover("show");
+                    popoverData.shown = true;
+                }
+            }
+        });
+
+        jQuery(this).on("mouseout", function () {
+            if ((jQuery('#' + this.id + '_control').text().trim())
+                    && (this.offsetWidth < document.getElementById(this.id + "_control").offsetWidth)) {
+                var tooltipElement = jQuery(this);
+                var popoverData = tooltipElement.data(kradVariables.POPOVER_DATA);
+
+                if (popoverData && popoverData.shown) {
+                    tooltipElement.popover("hide");
+                    popoverData.shown = false;
+                }
+            }
+        });
+    });
 }
