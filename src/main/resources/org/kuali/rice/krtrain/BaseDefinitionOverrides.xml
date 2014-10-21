@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-    <bean id="Uif-View" parent="Uif-View-parentBean">
-        <property name="theme">
-            <bean parent="Uif-TrainingTheme"/>
-        </property>
-    </bean>
+	<bean id="Uif-View" parent="Uif-View-parentBean">
+		<property name="theme">
+			<bean parent="Uif-TrainingTheme" />
+		</property>
+	</bean>
 
-    <bean id="Uif-TrainingTheme" parent="Uif-KbootTheme">
-      <property name="cssFiles">
-        <list merge="true">
-          <value>bootflat/css/bootflat.css</value>
-          <value>css/krtrain-theme.css</value>
-        </list>
-      </property>
-    </bean>
+	<bean id="Uif-TrainingTheme" parent="Uif-KbootTheme">
+		<property name="cssFiles">
+			<list merge="true">
+				<value>bootflat/css/bootflat.css</value>
+				<value>css/krtrain-theme.css</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="DummyLoginView" parent="Uif-FormView">
 		<property name="title" value="LoginTitle" />
@@ -78,50 +78,51 @@
 		</property>
 	</bean>
 
-    <bean id="Uif-SectionBase" parent="Uif-GroupBase" scope="prototype">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-section</value>
-            </list>
-        </property>
-        <property name="header">
-            <bean parent="Uif-SectionHeader"/>
-        </property>
-    </bean>
+	<bean id="Uif-SectionBase" parent="Uif-GroupBase" scope="prototype">
+		<property name="cssClasses">
+			<list merge="true">
+				<value>uif-section</value>
+			</list>
+		</property>
+		<property name="header">
+			<bean parent="Uif-SectionHeader" />
+		</property>
+	</bean>
 
-    <bean id="Uif-SubSectionBase" parent="Uif-GroupBase" scope="prototype">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-subSection</value>
-            </list>
-        </property>
-        <property name="header">
-            <bean parent="Uif-SubSectionHeader"/>
-        </property>
-    </bean>
+	<bean id="Uif-SubSectionBase" parent="Uif-GroupBase" scope="prototype">
+		<property name="cssClasses">
+			<list merge="true">
+				<value>uif-subSection</value>
+			</list>
+		</property>
+		<property name="header">
+			<bean parent="Uif-SubSectionHeader" />
+		</property>
+	</bean>
 
-    <bean id="Uif-Disclosure-SectionBase" parent="Uif-SectionBase" scope="prototype">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-disclosure</value>
-            </list>
-        </property>
-        <property name="disclosure.render" value="true"/>
-    </bean>
+	<bean id="Uif-Disclosure-SectionBase" parent="Uif-SectionBase"
+		scope="prototype">
+		<property name="cssClasses">
+			<list merge="true">
+				<value>uif-disclosure</value>
+			</list>
+		</property>
+		<property name="disclosure.render" value="true" />
+	</bean>
 
-    <bean id="Uif-Disclosure-SubSectionBase" parent="Uif-SubSectionBase" scope="prototype">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-disclosure</value>
-            </list>
-        </property>
-        <property name="disclosure.render" value="true"/>
-    </bean>
+	<bean id="Uif-Disclosure-SubSectionBase" parent="Uif-SubSectionBase"
+		scope="prototype">
+		<property name="cssClasses">
+			<list merge="true">
+				<value>uif-disclosure</value>
+			</list>
+		</property>
+		<property name="disclosure.render" value="true" />
+	</bean>
 
-<!-- 	<bean id="Uif-Disclosure" parent="Uif-Disclosure-parentBean">
-		<property name="collapseImageSrc" value="/images/h4_expand.png" />
-		<property name="expandImageSrc" value="/images/h4_collapse.png" />
-	</bean> -->
+	<!-- <bean id="Uif-Disclosure" parent="Uif-Disclosure-parentBean"> <property 
+		name="collapseImageSrc" value="/images/h4_expand.png" /> <property name="expandImageSrc" 
+		value="/images/h4_collapse.png" /> </bean> -->
 
 	<bean id="Uif-CssGridFieldGroup" parent="Uif-CssGridFieldGroup-parentBean" />
 	<bean id="Uif-CssGridFieldGroup-parentBean" abstract="true"
@@ -143,10 +144,12 @@
 		</property>
 	</bean>
 
-    <bean id="Uif-GlobalApplicationHeader" parent="Training-AppHeader" p:render="@{!renderedInLightBox}"/>
+	<bean id="Uif-GlobalApplicationHeader" parent="Training-AppHeader"
+		p:render="@{!renderedInDialog}" />
 
-    <bean id="Uif-GlobalApplicationFooter" parent="Uif-FooterBase" p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
-          p:templateName="appfooter" p:render="@{!renderedInLightBox}"/>
+	<bean id="Uif-GlobalApplicationFooter" parent="Uif-FooterBase"
+		p:template="/WEB-INF/templates/ftl/applicationFooter.ftl"
+		p:templateName="appfooter" p:render="@{!renderedInDialog}" />
 
 	<bean id="Training-AppHeader" parent="Uif-ApplicationHeaderBase">
 		<property name="applicationNavigation.brandImage">
@@ -166,6 +169,10 @@
 					p:actionUrl.href="http://env14.rice.kuali.org/kr-krad/kradsampleapp?viewId=KradSampleAppHome&amp;methodToCall=start" />
 			</list>
 		</property>
-	</bean>	
-          
+
+		<property name="applicationToolbar">
+			<null />
+		</property>
+	</bean>
+
 </beans>
