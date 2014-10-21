@@ -10,7 +10,7 @@ import org.kuali.rice.krad.valuefinder.ValueFinder;
 public class DefaultBindingTypeValueFinder implements ValueFinder {
 
     public String getValue() {
-        // normally this would be querying the database or a servce
+        // normally this would be querying the database or a service
 
         return "SPIRAL";
     }
