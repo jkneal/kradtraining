@@ -11,8 +11,6 @@
   opacity: 0.4 !important;
 }
 
-
-
 .fancybox-skin {
   padding-left: 0 !important;
   padding-right: 0 !important;
@@ -20,11 +18,9 @@
   padding-bottom: 0px !important;
 }
 
-.fancybox-skin  .uif-header   {  background: green;
+.fancybox-skin  .uif-header   {
 
 }
-
-
 
 .fancybox-skin  .uif-header .uif-headerText   {
   background: @gray-lighter;
@@ -33,27 +29,44 @@
   font-size: 24px;
 }
 
-
 .uif-lightbox  .uif-viewHeader   {
   background: @gray-lighter;
   margin-bottom: 20px;
-
-
-
 }
 
+.uif-lightbox .uif-footer {
+  background: @gray-lighter;
+  margin-bottom: 0px;
+  padding-top: 6px
+}
 
-.uif-lightbox .uif-footer      {background: @gray-lighter; margin-bottom: 0px; padding-top: 6px}
+.uif-lightbox .uif-viewHeader .uif-headerText-span {
+  font-size: 24px;
+  padding-top: 0px;
+}
 
-.uif-lightbox .uif-viewHeader .uif-headerText-span {  font-size: 24px; padding-top: 0px}
+.fancybox-skin .uif-cssGridGroup, .fancybox-skin .uif-tableCollectionSection {
+  padding: 15px
+}
 
+.fancybox-skin .uif-footer {
+  margin-bottom: 0px
+}
 
+.modal-header, .modal-footer {
+  background: @gray-lighter
+}
 
+.modal-footer {
+  margin-top: 0;
+}
 
-.fancybox-skin .uif-cssGridGroup, .fancybox-skin .uif-tableCollectionSection    {padding: 15px}
+.modal-body:after {
+  content: "\00a0";
+}
 
-
-
-.fancybox-skin .uif-footer      {margin-bottom: 0px}
-
-
+@media (min-width: 768px) {
+  .modal-sm {
+    margin: auto;
+  }
+}
