@@ -163,7 +163,7 @@
 
 				<bean id="typeCode" parent="Uif-InputField" p:propertyName="typeCode"
 					p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.BookType" p:enableAutoQuickfinder="false"
-					p:propertyNamesForAdditionalDisplay="bookType.description">
+					>
 					<property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.krtrain.book.BookType"
                               p:fieldConversions="typeCode:typeCode"/>
@@ -337,7 +337,7 @@
                     <list>
                         <bean parent="Uif-Link" p:linkText="List of Publishers" p:target="_blank"
                               p:href="http://en.wikipedia.org/wiki/List_of_English-language_book_publishing_companies"
-                              p:openInLightbox="true"/>
+                              p:openInDialog="true"/>
                     </list>
                 </property>
             </bean>
@@ -350,7 +350,7 @@
                 <bean parent="Uif-InputField" p:propertyName="publisherCode"
                       p:minLength="1" p:constraintText="#xxx format"
                       p:dictionaryObjectEntry="org.kuali.rice.krtrain.book.PublisherCode"
-                      p:dictionaryAttributeName="code" p:propertyNamesForAdditionalDisplay="pubCode.name">
+                      p:dictionaryAttributeName="code">
                     <property name="attributeQuery">
                         <bean parent="Uif-AttributeQueryConfig"
                               p:queryMethodArgumentFieldList="publisherCode" p:returnFieldMapping="name:pubCode.name"
