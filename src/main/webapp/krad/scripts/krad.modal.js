@@ -78,6 +78,42 @@ function showDialog(dialogId, options) {
 }
 
 /**
+ * Retrieve and display the modal dialog for edit line.
+ *
+ * <p>This method is triggered to display the line fields of a given line in a collection to be able
+ * to edit the values of the fields.</p>
+ *
+ * @param dialogId the id of the modal dialog
+ * @param collectionPath the path to the collection that the line being edited belongs to
+ * @param lineIndex the index of the line being edited
+ *
+ * @see showDialog
+ */
+function showEditLineDialog(dialogId, collectionPath, lineIndex, options) {
+    jQuery.ajaxSetup({
+        cache: false
+    });
+
+    options = options || {};
+
+    var additionalData = { "actionParameters[selectedCollectionPath]" : collectionPath,
+        "actionParameters[selectedLineIndex]" : lineIndex };
+
+    if (options.resetDataOnRefresh) {
+        additionalData.resetDataOnRefresh = options.resetDataOnRefresh;
+    }
+
+    var $dialog = jQuery('#' + dialogId);
+    retrieveComponent(dialogId, "retrieveEditLineDialog", function() {
+        $dialog.bind(kradVariables.EVENTS.HIDDEN_MODAL, function (event) {
+            $dialog.remove();
+        });
+
+        showDialog(dialogId, additionalData);
+    }, additionalData);
+}
+
+/**
  * Invoked to dismiss a dialog that is currently being shown.
  *
  * <p>If a dialog if found with the given id, its hide method is invoked. If the optional action parameter
@@ -154,7 +190,7 @@ function confirmDialog(confirmText, headerText, options, protoDialogId) {
         return;
     }
 
-    var $dialog = $protoDialog.clone();
+    var $dialog = $protoDialog.clone(true, true);
 
     // adjust the id so it doesn't conflict with the proto dialog
     var dialogId = protoDialogId + 'tmp';
@@ -181,7 +217,7 @@ function confirmDialog(confirmText, headerText, options, protoDialogId) {
     jQuery('body').append($dialog);
 
     // handler to clear out the dialog after it is closed
-    $dialog.bind(kradVariables.EVENTS.HIDE_MODAL, function (event) {
+    $dialog.bind(kradVariables.EVENTS.HIDDEN_MODAL, function (event) {
         $dialog.remove();
     });
 
@@ -218,7 +254,7 @@ function _addDialogDataAttributeToActions(dialogId, $dialog) {
  */
 function _attachDialogResponseHandler(dialogId, $dialog, responseHandler, responseEventData) {
     // check for a response handler defined on the dialog group itself
-    if (!responseHandler && $dialog.is("[" + kradVariables.ATTRIBUTES.DATA_RESPONSE_HANDLER +"]")) {
+    if (!responseHandler && $dialog.is("[" + kradVariables.ATTRIBUTES.DATA_RESPONSE_HANDLER + "]")) {
         responseHandler = wrapAsHandler($dialog.attr(kradVariables.ATTRIBUTES.DATA_RESPONSE_HANDLER));
     }
 
@@ -269,7 +305,7 @@ function _bindShowDialogHandlers($dialog, showHandler) {
  */
 function _bindHideDialogHandlers($dialog, hideHandler) {
     // check for a show handler defined on the dialog group itself
-    if (!hideHandler && $dialog.is("[" + kradVariables.ATTRIBUTES.DATA_HIDE_HANDLER +"]")) {
+    if (!hideHandler && $dialog.is("[" + kradVariables.ATTRIBUTES.DATA_HIDE_HANDLER + "]")) {
         hideHandler = wrapAsHandler($dialog.attr(kradVariables.ATTRIBUTES.DATA_HIDE_HANDLER));
     }
 
@@ -311,4 +347,147 @@ function handleServerDialogResponse(event) {
     request.confirmDialogId = null;
 
     request.send();
+}
+
+/**
+ * Shows the dialog and resizes the iframe it contains; the dialog must only contain iframe content.
+ *
+ * <p>Adds show, hide, and message handlers which process the iframe dialog events.</p>
+ *
+ * @param url the url of the iframe
+ * @param dialogId id of dialog to use, if not set Uif-DialogGroup-Iframe will be used
+ */
+function openIframeDialog(url, dialogId) {
+    if (!dialogId) {
+        dialogId = kradVariables.MODAL.IFRAME_MODAL;
+    }
+
+    // Add handler to handle the close message event received fromt the iframe
+    jQuery(window).one("message." + kradVariables.MODAL.MODAL_NAMESPACE, function (event) {
+        switch (event.originalEvent.data) {
+            case kradVariables.MODAL.MODAL_CLOSE_DIALOG:
+                jQuery(kradVariables.MODAL.MODAL_CLASS).modal("hide");
+                break;
+        }
+    });
+
+    var dialogOptions = {
+        // Setting the source of the iframe and resizing it
+        showHandler: function (event) {
+            var $modal = jQuery(event.target);
+            var $iframe = $modal.find("iframe");
+
+            $iframe.attr("src", url);
+
+            iframeModalResize($modal, $iframe);
+
+            // Hide the modal footer temporarily get around a placement issue
+            $modal.find(kradVariables.MODAL.MODAL_FOOTER_CLASS).hide();
+
+            // Also resize on the shown event to make sure we have correct dimensions
+            $modal.on(kradVariables.EVENTS.SHOWN_MODAL, function () {
+                // Show the modal footer to get around a placement issue
+                $modal.find(kradVariables.MODAL.MODAL_FOOTER_CLASS).show();
+                iframeModalResize($modal, $iframe);
+            });
+
+            // Resize the iframe on a window.resize
+            jQuery(window).on("resize." + kradVariables.MODAL.MODAL_NAMESPACE, function () {
+                iframeModalResize($modal, $iframe);
+            });
+
+            // Destroy the modal to fix problem with showing old content and scroll bar issues
+            $modal.one(kradVariables.EVENTS.HIDDEN_MODAL, function () {
+                $modal.remove();
+            });
+
+            showLoading();
+
+            $iframe[0].onload = function () {
+                hideLoading();
+
+            };
+        },
+        // Removing the resize and message handlers
+        hideHandler: function (event) {
+            jQuery(window).unbind("resize." + kradVariables.MODAL.MODAL_NAMESPACE);
+            jQuery(window).unbind("message." + kradVariables.MODAL.MODAL_NAMESPACE);
+        }
+
+    };
+
+    showDialog(dialogId, dialogOptions);
+}
+
+/**
+ * Close an open iframe dialog by using post message to pass a message event.
+ */
+function closeIframeDialog() {
+    window.parent.postMessage(kradVariables.MODAL.MODAL_CLOSE_DIALOG, "*");
+}
+
+/**
+ * Resizes the iframe to 100% of the modal body
+ *
+ * @param $modal the modal element
+ * @param $iframe the iframe element
+ */
+function iframeModalResize($modal, $iframe) {
+    var height = jQuery(window).height() * 0.85;
+    var headerHeight = $modal.find(kradVariables.MODAL.MODAL_HEADER_CLASS).outerHeight();
+    var footerHeight = $modal.find(kradVariables.MODAL.MODAL_FOOTER_CLASS).outerHeight();
+    var $modalBody = $modal.find(kradVariables.MODAL.MODAL_BODY_CLASS);
+
+    $modal.find(kradVariables.MODAL.MODAL_CONTENT_CLASS).css("height", height);
+    $modalBody.css("height", height - headerHeight - footerHeight);
+    $modalBody.css("padding", 0);
+    $iframe.css("height", "100%");
+    $iframe.css("width", "100%");
+}
+
+/**
+ * Uses a modal to open a link's content in an iframe dialog.
+ *
+ * @param $link the link jQuery object
+ * @param dialogId(optional) the dialog to use by id, if not set a default iframe dialog will be used
+ */
+function openLinkInDialog($link, dialogId) {
+    var renderedInDialog = isCalledWithinDialog();
+
+    // first time content is brought up in lightbox we don't want to continue history
+    var flow = "start";
+    if (renderedInDialog) {
+        flow = jQuery("input[name='" + kradVariables.FLOW_KEY + "']").val();
+    }
+
+    var href = $link.attr("href");
+    // Set the renderedInDialog = true param
+    if (href.indexOf("&renderedInDialog=true") === -1 && href.indexOf("?") > 0) {
+
+        //set lightbox flag and continue flow
+        $link.attr("href", href + "&renderedInDialog=true&flow=" + flow);
+        href = $link.attr("href");
+    }
+
+    // Check if this is called within a light box
+    if (!renderedInDialog) {
+        // If this is not the top frame, then create the lightbox
+        // on the top frame to put overlay over whole window
+        openIframeDialog(href, dialogId);
+    } else {
+        window.location = href;
+    }
+}
+
+/**
+ *  Ensures the modal backdrop is removed incase a dialog was destroyed by a component refresh.
+ */
+function ensureDialogBackdropRemoved() {
+    var $backdrop = jQuery(kradVariables.MODAL.MODAL_BACKDROP_CLASS);
+
+    // If no dialog is currently shown and the modal backdrop still exists, remove it
+    if (jQuery(kradVariables.MODAL.MODAL_CLASS + ":visible").length === 0 && $backdrop.length === 1) {
+       jQuery("body").removeClass(kradVariables.MODAL.MODAL_OPEN);
+       $backdrop.remove();
+    }
 }

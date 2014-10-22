@@ -4,6 +4,9 @@ import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
 import java.util.Date;
 
+import org.kuali.rice.krad.web.bind.RequestAccessible;
+import org.kuali.rice.krad.web.form.UifFormBase;
+
 /**
  * Form class for the Book Entry View
  *
