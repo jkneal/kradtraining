@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -33,13 +34,14 @@ public class BookEntryController extends UifControllerBase {
     protected static final String SAVE_OVERRIDE_DIALOG = "saveOverrideDialog";
 
     @Override
-    protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
+    protected UifFormBase createInitialForm() {
         return new BookEntryForm();
     }
 
     /**
      * Hard codes sample data for testing the view
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=loadSampleData")
     public ModelAndView loadSampleData(@ModelAttribute("KualiForm") BookEntryForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
@@ -162,7 +164,7 @@ public class BookEntryController extends UifControllerBase {
 
         form.setBook(book);
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=saveBook")
@@ -178,7 +180,7 @@ public class BookEntryController extends UifControllerBase {
             GlobalVariables.getMessageMap().addGrowlMessage("Save Action", "book.saved", form.getBook().getTitle());
         }
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=viewRatings")
@@ -188,7 +190,7 @@ public class BookEntryController extends UifControllerBase {
         GlobalVariables.getMessageMap().putInfoForSectionId(KRADConstants.GLOBAL_MESSAGES,
                 "method.invoked", "viewRatings");
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=viewAuthorBooks")
@@ -201,7 +203,7 @@ public class BookEntryController extends UifControllerBase {
         Author author = form.getBook().getAuthor();
         author.setNumberWrittenBooks(author.getNumberWrittenBooks() + 1);
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=viewBookEntry")
@@ -211,7 +213,7 @@ public class BookEntryController extends UifControllerBase {
         GlobalVariables.getMessageMap().putInfoForSectionId(KRADConstants.GLOBAL_MESSAGES,
                 "method.invoked", "viewBookEntry");
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
     /**
@@ -231,6 +233,6 @@ public class BookEntryController extends UifControllerBase {
             // throw exception or default
         }
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 }

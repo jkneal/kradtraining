@@ -21,32 +21,27 @@
 <#macro uif_dialogGroup group>
 
     <@krad.wrap component=group renderAs="${group.wrapperTag}">
-        <div class="modal-dialog">
-            <#local size="modal-sm"/>
-            <#if group.modalLarge>
-                <#local size="modal-lg"/>
-            </#if>
+    <div class="modal-dialog ${group.dialogCssClass!}">
+        <div class="modal-content">
 
-            <div class="modal-content ${size}">
+            <@krad.template component=group.header/>
 
-                <@krad.template component=group.header/>
+            <@krad.template component=group.instructionalMessage/>
 
-                <@krad.template component=group.instructionalMessage/>
-
-                <#if group.items?has_content>
-                    <div class="modal-body">
-                        <#-- invoke layout manager -->
+            <#if group.items?has_content>
+                <div class="modal-body">
+                <#-- invoke layout manager -->
                         <#local templateName=".main.${group.layoutManager.templateName}"/>
                         <#local templateParms="items=group.items manager=group.layoutManager container=group"/>
 
                         <#dyncall templateName templateParms/>
-                    </div>
-                </#if>
+                </div>
+            </#if>
 
-                <@krad.template component=group.footer/>
+            <@krad.template component=group.footer/>
 
-            </div>
         </div>
+    </div>
     </@krad.wrap>
 
 </#macro>
