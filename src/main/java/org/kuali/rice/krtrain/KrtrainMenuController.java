@@ -22,7 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/menu")
 public class KrtrainMenuController extends UifControllerBase {
 
-    protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
+	@Override
+    protected UifFormBase createInitialForm() {
         return new KrtrainMenuForm();
     }
     
@@ -33,6 +34,6 @@ public class KrtrainMenuController extends UifControllerBase {
     	UserSession userSession = GlobalVariables.getUserSession();
     	userSession.setBackdoorUser(request.getParameter("backdoorId"));
         
-    	return getUIFModelAndView(form);
+    	return getModelAndView(form);
     }
 }
