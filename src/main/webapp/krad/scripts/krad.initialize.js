@@ -139,22 +139,36 @@ jQuery(document).ready(function () {
     // setup dirty field processing
     dirtyFormState.dirtyHandlerSetup();
 
+    // handler is for catching a fancybox close and re-enabling dirty checks because main use of fancybox is for
+    // lookup dialogs which turn them off temporarily
+    jQuery(document).on("afterClose.fancybox", function () {
+        dirtyFormState.skipDirtyChecks = false;
+    });
+
     // disclosure handler setup
     setupDisclosureHandler();
 
+    setupTabShownHandler();
+
     setupHelperTextHandler();
+
+    // setup document level handling of drag and drop for files
+    setupFileDragHandlers();
 
     // setup the various event handlers for fields - THIS IS IMPORTANT
     initFieldHandlers();
 
     jQuery(window).unbind("resize.tooltip");
-    jQuery(window).bind("resize.tooltip", function(){
+    jQuery(window).bind("resize.tooltip", function () {
         var visibleTooltips = jQuery(".popover:visible");
-        visibleTooltips.each(function(){
+        visibleTooltips.each(function () {
             // bug with popover plugin does not reposition tooltip on window resize, forcing it here
             jQuery(this).prev("[data-hasTooltip]").popover("show");
         });
     });
+
+    // setup the handler for inline field editing
+    initInlineEditFields();
 
     // setup the handler for enter key event actions
     initEnterKeyHandler();
@@ -164,10 +178,8 @@ jQuery(document).ready(function () {
 
     hideEmptyCells();
 
-    // focus on first field
     jQuery(document).on(kradVariables.PAGE_LOAD_EVENT, function () {
         initialViewLoad = false;
-        performFocus("FIRST");
     });
 
     time(false, "viewSetup-phase-2");
@@ -179,55 +191,60 @@ jQuery(document).ready(function () {
  * <p>This function determines which button/action should fire when the enter key is pressed while focus is on a configured input</p>
  *
  */
-function initEnterKeyHandler(){
-    jQuery(document).on("keyup", "[data-enter_key]", function(event) {
+function initEnterKeyHandler() {
+    jQuery(document).on("keyup", "[data-enter_key]", function (event) {
         // grab the keycode based on browser
         var keycode = (event.keyCode ? event.keyCode : event.which);
 
         // check for enter key
-        if(keycode !== 13) { return; }
-            event.preventDefault();
-            event.stopPropagation();
+        if (keycode !== 13) {
+            return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
 
-            // using event bubbling, we search for inner most element with data attribute kradVariables.ENTER_KEY_SUFFIX and assign it's value as an ID
-            var enterKeyId = jQuery(event.currentTarget).data(kradVariables.ENTER_KEY_SUFFIX);
+        // using event bubbling, we search for inner most element with data attribute kradVariables.ENTER_KEY_SUFFIX and assign it's value as an ID
+        var enterKeyId = jQuery(event.currentTarget).data(kradVariables.ENTER_KEY_SUFFIX);
 
-            // make sure the targeted action is a permitted element
-            if(jQuery(event.target).is(":not(a, button, submit, img[data-role='" + kradVariables.DATA_ROLES.ACTION +  "'], input[data-role='" + kradVariables.DATA_ROLES.ACTION +  "'] )")){
-                // check to see if primary enter key action button is targeted
-                if(enterKeyId === kradVariables.ENTER_KEY_DEFAULT){
-                    // find all primary action buttons on page with attribute data-default_enter_key_action='true'
-                    var primaryButtons = jQuery(event.currentTarget).find("[data-default_enter_key_action='true']");
+        // make sure the targeted action is a permitted element
+        if (jQuery(event.target).is(":not(a, button, submit, img[data-role='" + kradVariables.DATA_ROLES.ACTION + "'], input[data-role='" + kradVariables.DATA_ROLES.ACTION + "'] )")) {
+            // check to see if primary enter key action button is targeted
+            if (enterKeyId === kradVariables.ENTER_KEY_DEFAULT) {
+                // find all primary action buttons on page with attribute data-default_enter_key_action='true'
+                var primaryButtons = jQuery(event.currentTarget).find("[data-default_enter_key_action='true']");
 
-                    // filter the buttons only one parent section deep
-                    var primaryButton = primaryButtons.filter(function() {
-                        return jQuery(this).parents('[data-enter_key]').length < 2;
-                    });
+                // filter the buttons only one parent section deep
+                var primaryButton = primaryButtons.filter(function () {
+                    return jQuery(this).parents('[data-enter_key]').length < 2;
+                });
 
-                    // if the button exists get it's id
-                    if (primaryButton.length) {
-                        enterKeyId = primaryButton.attr("id");
-                    }
+                // if the button exists get it's id
+                if (primaryButton.length) {
+                    enterKeyId = primaryButton.attr("id");
                 }
+            }
 
-                // if enterKeyAction is still set to  ENTER_KEY_PRIMARY value, do nothing, button doesn't exist
-                if(enterKeyId === kradVariables.ENTER_KEY_DEFAULT){
-                     return false;
-                }
+            // if enterKeyAction is still set to  ENTER_KEY_PRIMARY value, do nothing, button doesn't exist
+            if (enterKeyId === kradVariables.ENTER_KEY_DEFAULT) {
+                return false;
+            }
 
-                // make sure action button is visible and not disabled before we fire it
-                if(jQuery('#' + enterKeyId).is(":visible") && jQuery('#' + enterKeyId).is(":disabled") === false){
-                    jQuery(document).find('#' + enterKeyId).click();
-                }
+            // make sure action button is visible and not disabled before we fire it
+            if (jQuery('#' + enterKeyId).is(":visible") && jQuery('#' + enterKeyId).is(":disabled") === false) {
+                jQuery(document).find('#' + enterKeyId).click();
+            }
         }
     });
 
     // a hack to capture the native browser enter key behavior..  keydown and keyup
-    jQuery(document).on("keydown", "[data-enter_key]", function(event){
+    jQuery(document).on("keydown", "[data-enter_key], [data-inline_edit] [data-role='Control']", function (event) {
+        // grab the keycode based on browser
         var keycode = (event.keyCode ? event.keyCode : event.which);
-        if(keycode === 13) {
+
+        // check for enter key
+        if (keycode === 13 && jQuery(event.target).is("[data-role='Control']") && !jQuery(event.target).is("textarea")) {
             event.preventDefault();
-            return;
+            return false;
         }
     });
 }
@@ -285,14 +302,14 @@ function initFieldHandlers() {
                 var action = jQuery(this);
 
                 // Disabled check
-                if(action.hasClass(kradVariables.DISABLED_CLASS)){
+                if (action.hasClass(kradVariables.DISABLED_CLASS)) {
                     return false;
                 }
 
                 initActionData(action);
 
                 // Dirty check (if enabled)
-                if (action.data(kradVariables.PERFORM_DIRTY_VALIDATION) ===  true && dirtyFormState.checkDirty(e)) {
+                if (action.data(kradVariables.PERFORM_DIRTY_VALIDATION) === true && dirtyFormState.checkDirty(e)) {
                     return;
                 }
 
@@ -306,7 +323,11 @@ function initFieldHandlers() {
     jQuery("[data-role='Page']").on("focus", "a[href], area[href], input:not([disabled]), "
             + "select:not([disabled]), textarea:not([disabled]), button:not([disabled]), "
             + "iframe, object, embed, *[tabindex], *[contenteditable]",
-            function () {
+            function (event) {
+                if (event.target !== event.currentTarget) {
+                    return true;
+                }
+
                 var element = jQuery(this);
                 var buffer = 10;
                 var elementHeight = element.outerHeight();
@@ -414,7 +435,9 @@ function initFieldHandlers() {
                     + "div[data-role='InputField'] option",
             function () {
                 var id = getAttributeId(jQuery(this).attr('id'));
-
+                if (!id) {
+                    return;
+                }
                 // keep track of what errors it had on initial focus
                 var data = getValidationData(jQuery("#" + id));
                 if (data && data.errors) {
@@ -435,6 +458,9 @@ function initFieldHandlers() {
                     + "div[data-role='InputField'] textarea",
             function (event) {
                 var id = getAttributeId(jQuery(this).attr('id'));
+                if (!id || isRelatedTarget(this.parentElement, event) === true) {
+                    return;
+                }
                 var data = getValidationData(jQuery("#" + id));
                 var hadError = false;
                 if (data && data.focusedErrors) {
@@ -483,6 +509,9 @@ function initFieldHandlers() {
                     + "div[data-role='InputField'] input:radio",
             function () {
                 var id = getAttributeId(jQuery(this).attr('id'));
+                if (!id) {
+                    return;
+                }
                 var field = jQuery("#" + id);
 
                 var data = getValidationData(field);
@@ -527,6 +556,9 @@ function initFieldHandlers() {
             function () {
                 var parent = jQuery(this).parent();
                 var id = getAttributeId(jQuery(this).attr('id'));
+                if (!id) {
+                    return;
+                }
                 var data = getValidationData(jQuery("#" + id));
                 //mouse in tooltip check
                 var mouseInTooltip = false;
@@ -604,7 +636,78 @@ function initFieldHandlers() {
         }, 300);
     });
 
+    // capture tabbing through widget elements to make sure we only validate the control field when we leave the entire
+    // widget
+    var buttonHovered = false;
+    var $currentControl;
+
+    // capture mousing over button of the widget if there is one
+    jQuery(document).on("mouseover", "div[data-role='InputField'] div.input-group div.input-group-btn a",function () {
+        buttonHovered = true;
+
+        // capture mousing out of button in the widget
+    }).on("mouseout", "div[data-role='InputField'] div.input-group div.input-group-btn a",function () {
+                buttonHovered = false;
+
+                // capture leaving the control field
+            }).on("focusout", "div[data-role='InputField'] div.input-group", function (event) {
+                $currentControl = jQuery(this).children("[data-role='Control']");
+                // determine whether we are still in the widget. If we are out of the widget and the field
+                // is not a radio button, then validate
+                    var radioButtons = jQuery(this).find('input:radio');
+                    if ($currentControl.length && isRelatedTarget(this, event) !== true && buttonHovered === false && radioButtons.length == 0) {
+                        validateFieldValue($currentControl);
+                    }
+
+            });
+
+    // capture datepicker widget button
+    jQuery(document).on("mouseover", ".ui-datepicker",function () {
+        buttonHovered = true;
+    }).on("mouseout", ".ui-datepicker", function () {
+                buttonHovered = false;
+            });
+
+    // capture leaving a text expand window and force focus back on the control
+    jQuery(document).on("focusout", ".fancybox-skin", function () {
+        buttonHovered = false;
+        $currentControl.focus();
+    });
+
     time(false, "field-handlers");
+}
+
+/**
+ * Test if an input field is part of a widget by examining event.currentTarget and event.target
+ *
+ */
+function isRelatedTarget(element, event) {
+    if (!event) return true;
+
+    try {
+
+        // test for lightbox widget by matching a fancy-box event property
+        for (var key in event.currentTarget) {
+            if (key.match(/fancy/g) && key !== undefined) {
+                console.log(key);
+                return true;
+            }
+        }
+
+        // here we check to see if the element we are focusing out of is nested in a input-group div or within
+        // input-group-btn div. If so then they are related to the widget
+        if (("relatedTarget" in event && event.relatedTarget !== null
+                && element === event.relatedTarget.parentElement.parentElement)
+                || ("relatedTarget" in event && event.relatedTarget !== null
+                && element === event.relatedTarget.parentElement)
+                ) {
+            return true;
+        }
+        return false;
+
+    } catch (e) {
+        return false;
+    }
 }
 
 /**
@@ -628,12 +731,20 @@ function setupDisclosureHandler() {
                 if (isOpen == "true") {
                     disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, false);
 
-                    disclosureContent.slideUp(animationSpeed);
+                    var options = {
+                        duration: animationSpeed,
+                        step: function () {
+                            disclosureContent.trigger(kradVariables.EVENTS.ADJUST_STICKY);
+                        }
+                    };
+
+                    disclosureContent.slideUp(options);
 
                     link.find("#" + linkId + "_exp").hide();
                     link.find("#" + linkId + "_col").show();
 
                     setComponentState(widgetId, 'open', false);
+                    disclosureContent.trigger(kradVariables.EVENTS.ADJUST_STICKY);
                 }
                 else {
                     disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, true);
@@ -650,23 +761,44 @@ function setupDisclosureHandler() {
                         // If there is a placeholder present, retrieve the new content
                         showLoading("Loading...", disclosureContent, true);
                         disclosureContent.show();
+                        disclosureContent.trigger(kradVariables.EVENTS.ADJUST_STICKY);
 
                         // This a specialized methodToCall passed in for retrieving the originally generated component
                         retrieveComponent(linkId.replace("_toggle", ""), null, null, null, true);
                     }
-                    else{
+                    else {
                         // If no ajax retrieval, slide down animationg
-                        disclosureContent.slideDown(animationSpeed);
+                        var options = {
+                            duration: animationSpeed,
+                            step: function () {
+                                disclosureContent.trigger(kradVariables.EVENTS.ADJUST_STICKY);
+                            }
+                        };
+                        disclosureContent.slideDown(options);
+
                     }
                 }
             });
 }
 
 /**
+ * Sets up a handler that will be invoked when any TabGroup's tab is shown.
+ *
+ * <p>This handler saves the component state of the active tab.</p>
+ */
+function setupTabShownHandler() {
+    jQuery(document).on("shown.bs.tab", "[data-type='Uif-TabGroup']", function(event) {
+        var tabGroupId = jQuery(event.currentTarget).attr("id");
+        var tabId = jQuery(event.target).attr("id").replace("_tab", "");
+        setComponentState(tabGroupId, "activeTab", tabId);
+    });
+}
+
+/**
  * Sets up focus and blur events for inputs with helper text.
  */
 function setupHelperTextHandler() {
-    jQuery(document).on(kradVariables.EVENTS.UPDATE_CONTENT + " ready", function() {
+    jQuery(document).on(kradVariables.EVENTS.UPDATE_CONTENT + " ready", function () {
         if (jQuery('.uif-helperText').length) {
             jQuery('.uif-helperText').slideUp();
         }
@@ -681,6 +813,43 @@ function setupHelperTextHandler() {
             if (jQuery(this).parent().find('.uif-helperText')) {
                 jQuery(this).parent().find('.uif-helperText').slideUp();
             }
+        });
+    });
+}
+
+/**
+ * Setup document level dragover, drop, and dragleave events to handle file drops and indication when dropping a
+ * file into appropriate elements
+ */
+function setupFileDragHandlers() {
+    // Prevent drag and drop events on the document to support file drags into upload widget
+    jQuery(document).on("dragover", function (e) {
+        e.preventDefault();
+        var $fileCollections = jQuery(".uif-fileUploadCollection");
+        $fileCollections.each(function () {
+            var $fileCollection = jQuery(this);
+            var id = $fileCollection.attr("id");
+            var drop = $fileCollection.find(".uif-drop");
+            if (!drop.length) {
+                drop = jQuery("<div class='uif-drop uif-dropBlock'></div>");
+                drop = drop.add("<span class='uif-drop uif-dropText'><span class='icon-plus'/> Drop Files to Add...</span>");
+                drop.bind("drop", function () {
+                    e.preventDefault();
+                    jQuery("#" + id).trigger("drop");
+                    jQuery(this).hide();
+                });
+                $fileCollection.append(drop);
+            } else {
+                drop.show();
+            }
+        });
+    });
+
+    jQuery(document).on("drop dragleave", function (e) {
+        e.preventDefault();
+        var fileCollections = jQuery(".uif-drop");
+        fileCollections.each(function () {
+            jQuery(this).hide();
         });
     });
 }
@@ -734,7 +903,7 @@ function setupPage(validate) {
     setupImages();
 
     // reinitialize sticky footer content because page footer can be sticky
-    jQuery("[data-role='Page']").on(kradVariables.EVENTS.ADJUST_STICKY, function(){
+    jQuery(document).on(kradVariables.EVENTS.ADJUST_STICKY, function () {
         stickyFooterContent = jQuery("[data-sticky_footer='true']");
         initStickyFooterContent();
         handleStickyFooterContent();
@@ -765,8 +934,10 @@ function setupPage(validate) {
     updateRequestUrl(pageId);
 
     prevPageMessageTotal = 0;
+
+    var page = jQuery("[data-role='Page']");
     // skip input field iteration and validation message writing, if no server messages
-    var hasServerMessagesData = jQuery("[data-role='Page']").data(kradVariables.SERVER_MESSAGES);
+    var hasServerMessagesData = page.data(kradVariables.SERVER_MESSAGES);
     if (hasServerMessagesData) {
         pageValidationPhase = true;
         // Handle messages at field, if any
@@ -780,7 +951,7 @@ function setupPage(validate) {
         messageSummariesShown = true;
         pageValidationPhase = false;
     }
-
+    //TODO: Looks like this class is not being used anywhere  - Remove?
     // focus on pageValidation header if there are messages on this page
     if (jQuery(".uif-pageValidationHeader").length) {
         jQuery(".uif-pageValidationHeader").focus();
@@ -799,6 +970,15 @@ function setupPage(validate) {
     jQuery(document).trigger(kradVariables.PAGE_LOAD_EVENT);
 
     jQuery.watermark.showAll();
+
+    // If no focusId is specified through data attribute, default to FIRST input on the page
+    var focusId = page.data(kradVariables.FOCUS_ID);
+    if (!focusId) {
+        focusId = "FIRST";
+    }
+
+    // Perform focus and jumpTo based on the data attributes
+    performFocusAndJumpTo(true, focusId, page.data(kradVariables.JUMP_TO_ID), page.data(kradVariables.JUMP_TO_NAME));
 
     time(false, "page-setup");
 }
@@ -841,13 +1021,19 @@ function getConfigParam(paramName) {
 
 jQuery.validator.setDefaults({
     onsubmit: false,
-    ignore: ".ignoreValid",
+    errorClass: kradVariables.ERROR_CLASS,
+    validClass: kradVariables.VALID_CLASS,
+    ignore: "." + kradVariables.IGNORE_VALIDATION_CLASS + ", ." + kradVariables.IGNORE_VALIDATION_TEMP_CLASS
+            + ", " + kradVariables.DIALOG_SELECTOR + ":hidden [data-role='Control']",
     wrapper: "",
     onfocusout: false,
     onclick: false,
     onkeyup: function (element) {
         if (validateClient) {
             var id = getAttributeId(jQuery(element).attr('id'));
+            if (!id) {
+                return;
+            }
             var data = getValidationData(jQuery("#" + id));
 
             // if this field previously had errors validate on key up
@@ -864,30 +1050,7 @@ jQuery.validator.setDefaults({
         jQuery(element).attr("aria-invalid", "true");
     },
     unhighlight: function (element, errorClass, validClass) {
-        jQuery(element).removeClass(errorClass).addClass(validClass);
-        jQuery(element).removeAttr("aria-invalid");
-
-        var id = getAttributeId(jQuery(element).attr("id"));
-        var field = jQuery("#" + id);
-        var data = getValidationData(field);
-
-        if (data) {
-            data.errors = [];
-            field.data(kradVariables.VALIDATION_MESSAGES, data);
-
-            if (messageSummariesShown) {
-                handleMessagesAtField(id);
-            }
-            else {
-                writeMessagesAtField(id);
-            }
-
-            // force hide of tooltip if no messages present
-            if (!(data.warnings.length || data.info.length || data.serverErrors.length
-                    || data.serverWarnings.length || data.serverInfo.length)) {
-                hideMessageTooltip(id);
-            }
-        }
+        removeClientValidationError(element);
     },
     errorPlacement: function (error, element) {
     },
@@ -898,6 +1061,9 @@ jQuery.validator.setDefaults({
             var element = elementObjectList[i].element;
             var message = elementObjectList[i].message;
             var id = getAttributeId(jQuery(element).attr('id'));
+            if (!id) {
+                return;
+            }
             var field = jQuery("#" + id);
             var data = getValidationData(field);
 
@@ -936,10 +1102,16 @@ jQuery.validator.setDefaults({
         var id = "";
         if (htmlFor.indexOf("_control") >= 0) {
             id = getAttributeId(htmlFor);
+            if (!id) {
+                return;
+            }
         }
         else {
             id = jQuery("[name='" + escapeName(htmlFor) + "']:first").attr("id");
             id = getAttributeId(id);
+            if (!id) {
+                return;
+            }
         }
 
         var field = jQuery("#" + id);
@@ -1084,8 +1256,12 @@ jQuery.fn.dataTableExt.oSort['kuali_currency-asc'] = function (a, b) {
     var x = a == "-" ? 0 : a.replace(/,/g, "");
     var y = b == "-" ? 0 : b.replace(/,/g, "");
     /* Remove the currency sign */
-    x = x.substring(1);
-    y = y.substring(1);
+    if (x.charAt(0) == '$') {
+        x = x.substring(1);
+    }
+    if (y.charAt(0) == '$') {
+        y = y.substring(1);
+    }
     /* Parse and return */
     x = parseFloat(x);
     y = parseFloat(y);
@@ -1112,8 +1288,12 @@ jQuery.fn.dataTableExt.oSort['kuali_currency-desc'] = function (a, b) {
     var x = a == "-" ? 0 : a.replace(/,/g, "");
     var y = b == "-" ? 0 : b.replace(/,/g, "");
     /* Remove the currency sign */
-    x = x.substring(1);
-    y = y.substring(1);
+    if (x.charAt(0) == '$') {
+        x = x.substring(1);
+    }
+    if (y.charAt(0) == '$') {
+        y = y.substring(1);
+    }
     /* Parse and return */
     x = parseFloat(x);
     y = parseFloat(y);
@@ -1151,7 +1331,11 @@ jQuery.fn.dataTableExt.afnSortData['dom-text'] = function (oSettings, iColumn, i
                     value = jQuery.trim(inputField.text());
                 } else {
                     // just use the text within the cell
-                    value = jQuery(td).text();
+                    value = jQuery(td).text().trim();
+                    // strip leading $ if present
+                    if (value.charAt(0) == '$') {
+                        value = value.substring(1);
+                    }
                 }
             }
         }
