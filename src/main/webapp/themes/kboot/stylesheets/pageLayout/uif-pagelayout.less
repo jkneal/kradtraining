@@ -1,6 +1,3 @@
-
-
-
 .uif-viewContentWrapper.has-navigation {
 	background-image: url(../images/nav-back.png);
 	background-repeat: repeat-y;
@@ -27,7 +24,6 @@
 	width: auto;
 	background-image: none;
 	padding-top: 0px;
-
 }
 
 .container.leftnav {
@@ -42,19 +38,16 @@
 	border-bottom-color: #ddd;
 }
 
-
-
-
-
 /** Header related styles *********************************************************************/
-
 
 .uif-pageHeader, .uif-sectionHeader {
   position: relative;
+  min-height: 30px;
 }
+
 .uif-header-rightGroup {
   float: right;
-  right: 20px;
+  right: 0px;
   top: 0;
   position: absolute;
 }
@@ -62,12 +55,29 @@
 #Uif-TopGroupWrapper > div {
   padding-left: 0px;
 }
+
 #Uif-ApplicationHeader-Wrapper, #Uif-ApplicationFooter-Wrapper, #Uif-TopGroupWrapper {
   width: 100%;
 }
+
 #Uif-ApplicationFooter-Wrapper {
   position: absolute;
 }
+
+#Uif-BuildFooter {
+  background: #383838;
+  clear: both;
+  float: none;
+  height: 50px;
+  padding: 8px 100px 8px 100px;
+  box-shadow: inset 0 1px 0 2px rgba(0, 0, 0, 0.1);
+  margin-bottom: -1.5em;
+}
+
+#Uif-BuildFooter > .uif-message {
+  color: #7f7f7f;
+}
+
 /* DocumentView header custom styling */
 .uif-documentView .uif-viewHeader h1.uif-headerText {
   float: left;
@@ -91,8 +101,9 @@ img.uif-disclosure-image {
   margin-bottom: 1em;
 }
 
-
-
+.uif-header-contentWrapper {
+  margin-bottom: 15px;
+}
 
 /* Document header info *******************************************************************************/
 .uif-viewHeader div.uif-docheader table {
@@ -101,12 +112,12 @@ img.uif-disclosure-image {
 .uif-viewHeader div.uif-docheader td {
   background-color: #FFFFFF;
 }
-.uif-maintenanceView .uif-viewHeader-contentWrapper {
-  min-height: 75px;
-}
 
 .uif-maintenanceView .uif-viewHeader {
   min-height: 75px;
 }
 
-
+.uif-pagetools {
+  margin-top:12px;
+  //.text-right;
+}

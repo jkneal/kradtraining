@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.kuali.rice.krad.web.controller.TransactionalDocumentControllerBase;
@@ -34,13 +35,14 @@ public class BookEntryController extends TransactionalDocumentControllerBase {
     protected static final String SAVE_OVERRIDE_DIALOG = "saveOverrideDialog";
 
     @Override
-    protected DocumentFormBase createInitialForm(HttpServletRequest httpServletRequest) {
+    protected DocumentFormBase createInitialForm() {
         return new BookEntryForm();
     }
 
     /**
      * Hard codes sample data for testing the view
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=loadSampleData")
     public ModelAndView loadSampleData(@ModelAttribute("KualiForm") BookEntryForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
@@ -163,7 +165,7 @@ public class BookEntryController extends TransactionalDocumentControllerBase {
 
         ((BookEntryDocument) form.getDocument()).setBook(book);
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=saveBook")
@@ -179,7 +181,7 @@ public class BookEntryController extends TransactionalDocumentControllerBase {
             GlobalVariables.getMessageMap().addGrowlMessage("Save Action", "book.saved", ((BookEntryDocument) form.getDocument()).getBook().getTitle());
         }
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=viewRatings")
@@ -189,7 +191,7 @@ public class BookEntryController extends TransactionalDocumentControllerBase {
         GlobalVariables.getMessageMap().putInfoForSectionId(KRADConstants.GLOBAL_MESSAGES,
                 "method.invoked", "viewRatings");
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=viewAuthorBooks")
@@ -202,7 +204,7 @@ public class BookEntryController extends TransactionalDocumentControllerBase {
         Author author = ((BookEntryDocument) form.getDocument()).getBook().getAuthor();
         author.setNumberWrittenBooks(author.getNumberWrittenBooks() + 1);
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=viewBookEntry")
@@ -212,7 +214,7 @@ public class BookEntryController extends TransactionalDocumentControllerBase {
         GlobalVariables.getMessageMap().putInfoForSectionId(KRADConstants.GLOBAL_MESSAGES,
                 "method.invoked", "viewBookEntry");
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 
     /**
@@ -232,6 +234,6 @@ public class BookEntryController extends TransactionalDocumentControllerBase {
             // throw exception or default
         }
 
-        return getUIFModelAndView(form);
+        return getModelAndView(form);
     }
 }
